@@ -4,8 +4,6 @@ import {
   SchoolIcon,
   ClipboardIcon,
   BookIcon,
-  FileTextIcon,
-  CheckSquareIcon,
   DollarSignIcon,
 } from "lucide-react";
 
