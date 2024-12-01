@@ -15,15 +15,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import useAuthStore from "@/hooks/use-auth";
 
 export default function LoginPage() {
+  const { login } = useAuthStore();
   const [role, setRole] = useState<"admin" | "teacher" | "student">("admin");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -32,12 +28,7 @@ export default function LoginPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(
-      "Logging in as",
-      role,
-      "with",
-      role === "admin" ? "username and password" : "number"
-    );
+    login(role);
     router.push("/dashboard");
   };
 
@@ -52,27 +43,20 @@ export default function LoginPage() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin}>
-            <div className="grid w-full items-center gap-4">
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="role">Sebagai</Label>
-                <Select
-                  value={role}
-                  onValueChange={(value: "admin" | "teacher" | "student") =>
-                    setRole(value)
-                  }
-                >
-                  <SelectTrigger id="role">
-                    <SelectValue placeholder="Select your role" />
-                  </SelectTrigger>
-                  <SelectContent position="popper">
-                    <SelectItem value="admin">Admin</SelectItem>
-                    <SelectItem value="teacher">Guru</SelectItem>
-                    <SelectItem value="student">Murid</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              {role === "admin" ? (
-                <>
+            <Tabs
+              defaultValue="admin"
+              value={role}
+              onValueChange={(value) =>
+                setRole(value as "admin" | "teacher" | "student")
+              }
+            >
+              <TabsList className="flex justify-around">
+                <TabsTrigger value="admin">Admin</TabsTrigger>
+                <TabsTrigger value="teacher">Guru</TabsTrigger>
+                <TabsTrigger value="student">Murid</TabsTrigger>
+              </TabsList>
+              <div className="mt-4">
+                <TabsContent value="admin">
                   <div className="flex flex-col space-y-1.5">
                     <Label htmlFor="username">Username</Label>
                     <Input
@@ -82,7 +66,7 @@ export default function LoginPage() {
                       onChange={(e) => setUsername(e.target.value)}
                     />
                   </div>
-                  <div className="flex flex-col space-y-1.5">
+                  <div className="flex flex-col space-y-1.5 mt-4">
                     <Label htmlFor="password">Password</Label>
                     <Input
                       id="password"
@@ -92,19 +76,31 @@ export default function LoginPage() {
                       onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
-                </>
-              ) : (
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="number">Nomor Identitas</Label>
-                  <Input
-                    id="number"
-                    placeholder="Masukkan nomor identitas"
-                    value={number}
-                    onChange={(e) => setNumber(e.target.value)}
-                  />
-                </div>
-              )}
-            </div>
+                </TabsContent>
+                <TabsContent value="teacher">
+                  <div className="flex flex-col space-y-1.5">
+                    <Label htmlFor="number">Nomor Identitas</Label>
+                    <Input
+                      id="number"
+                      placeholder="Masukkan nomor identitas"
+                      value={number}
+                      onChange={(e) => setNumber(e.target.value)}
+                    />
+                  </div>
+                </TabsContent>
+                <TabsContent value="student">
+                  <div className="flex flex-col space-y-1.5">
+                    <Label htmlFor="number">Nomor Identitas</Label>
+                    <Input
+                      id="number"
+                      placeholder="Masukkan nomor identitas"
+                      value={number}
+                      onChange={(e) => setNumber(e.target.value)}
+                    />
+                  </div>
+                </TabsContent>
+              </div>
+            </Tabs>
           </form>
         </CardContent>
         <CardFooter>
