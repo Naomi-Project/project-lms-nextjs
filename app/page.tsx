@@ -38,7 +38,12 @@ export default function LoginPage() {
       "with",
       role === "admin" ? "username and password" : "number"
     );
-    router.push("/dashboard");
+    if (role === "admin") {
+      router.push("/dashboard");
+    } else if (role === "teacher") {
+      router.push("/teacher");
+    } else {
+      router.push("/student");}
   };
 
   return (
