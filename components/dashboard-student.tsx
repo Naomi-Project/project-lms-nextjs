@@ -25,6 +25,7 @@ import {
   GraduationCap,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Link from "next/link";
 
 interface Assignment {
   id: number;
@@ -192,39 +193,41 @@ export default function DashboardStudent() {
           <div className="grid gap-4 md:grid-cols-2">
             {assignments.map((assignment) => (
               <Card key={assignment.id}>
-                <CardContent className="pt-6">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <Badge
-                        variant={
-                          assignment.status === "completed"
-                            ? "default"
+                <Link href="/managements/student/task">
+                  <CardContent className="pt-6">
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <Badge
+                          variant={
+                            assignment.status === "completed"
+                              ? "default"
+                              : assignment.status === "pending"
+                              ? "secondary"
+                              : "destructive"
+                          }
+                        >
+                          {assignment.status === "completed"
+                            ? "Selesai"
                             : assignment.status === "pending"
-                            ? "secondary"
-                            : "destructive"
-                        }
-                      >
-                        {assignment.status === "completed"
-                          ? "Selesai"
-                          : assignment.status === "pending"
-                          ? "Pending"
-                          : "Terlambat"}
-                      </Badge>
-                      <h3 className="font-semibold mt-2 mb-1">
-                        {assignment.title}
-                      </h3>
-                      <p className="text-sm text-muted-foreground mb-4">
-                        {assignment.subject}
-                      </p>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Clock className="h-4 w-4" />
-                        <span>
-                          Kumpulkan 3 hari lagi • {assignment.dueDate}
-                        </span>
+                            ? "Pending"
+                            : "Terlambat"}
+                        </Badge>
+                        <h3 className="font-semibold mt-2 mb-1">
+                          {assignment.title}
+                        </h3>
+                        <p className="text-sm text-muted-foreground mb-4">
+                          {assignment.subject}
+                        </p>
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <Clock className="h-4 w-4" />
+                          <span>
+                            Kumpulkan 3 hari lagi • {assignment.dueDate}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </CardContent>
+                  </CardContent>
+                </Link>
               </Card>
             ))}
           </div>
