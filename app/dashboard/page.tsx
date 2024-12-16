@@ -1,4 +1,5 @@
 "use client";
+
 import useAuthStore from "@/hooks/use-auth";
 import DashboardAdmin from "@/components/dashboard-admin";
 import DashboardStudent from "@/components/dashboard-student";
