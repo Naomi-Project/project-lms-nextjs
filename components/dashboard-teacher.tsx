@@ -29,7 +29,7 @@ interface Class {
   nextLesson: string;
 }
 
-export default function TeacherDashboard() {
+export default function DashboardTeacher() {
   const [classes, setClasses] = useState<Class[]>([
     {
       id: 1,
