@@ -9,8 +9,18 @@ import {
 
 export const AppMenu = [
   {
-    title: "Dashboard",
-    href: "/dashboard",
+    title: "Dashboard Admin",
+    href: "/dashboard/admins",
+    icon: HomeIcon,
+  },
+  {
+    title: "Dashboard Teacher",
+    href: "/dashboard/teachers",
+    icon: HomeIcon,
+  },
+  {
+    title: "Dashboard Student",
+    href: "/dashboard/students",
     icon: HomeIcon,
   },
   {
