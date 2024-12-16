@@ -22,6 +22,7 @@ import { Button } from "./ui/button";
 import { Command } from "./ui/command";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { AppMenu } from "@/lib/constants";
+import Link from "next/link";
 
 export function AppSidebar() {
   return (
@@ -86,8 +87,10 @@ export function AppSidebar() {
                   <span>Profile</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <LinkIcon className="mr-2 h-4 w-4" />
-                  <span>Keluar</span>
+                  <Link href="/logout">
+                    <LinkIcon className="mr-2 h-4 w-4" />
+                    <span>Logout</span>
+                  </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
