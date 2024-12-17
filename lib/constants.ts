@@ -6,6 +6,8 @@ import {
   BookIcon,
   DollarSignIcon,
   Clock,
+  CalendarDays,
+  Library,
 } from "lucide-react";
 
 export const AppMenu = [
@@ -33,6 +35,16 @@ export const AppMenu = [
     title: "Presence Student",
     href: "/managements/student/presence",
     icon: Clock,
+  },
+  {
+    title: "Schedule Student",
+    href: "/managements/student/schedule",
+    icon: CalendarDays,
+  },
+  {
+    title: "Library Digital Student",
+    href: "/managements/student/library",
+    icon: Library,
   },
   {
     title: "Pengumuman",

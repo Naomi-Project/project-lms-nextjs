@@ -83,13 +83,29 @@ export function AppSidebar() {
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56">
                 <DropdownMenuItem>
-                  <User2 className="mr-2 h-4 w-4" />
-                  <span>Profile</span>
+                  <Link href="/managements/student/profile" className="w-full">
+                    <div className="grid grid-cols-10 gap-4">
+                      <div className="col-span-1">
+                        <User2 className="mr-2 h-4 w-4" />
+                      </div>
+
+                      <div className="col-span-9">
+                        <p>Profile</p>
+                      </div>
+                    </div>
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Link href="/logout">
-                    <LinkIcon className="mr-2 h-4 w-4" />
-                    <span>Logout</span>
+                  <Link href="/logout" className="w-full">
+                    <div className="grid grid-cols-10 gap-4">
+                      <div className="col-span-1">
+                        <LinkIcon className="mr-2 h-4 w-4" />
+                      </div>
+
+                      <div className="col-span-9">
+                        <p>Logout</p>
+                      </div>
+                    </div>
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
