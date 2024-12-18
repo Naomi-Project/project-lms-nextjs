@@ -1,28 +1,31 @@
+"use client";
+
+import React from "react";
 import {
   CalendarCheck2,
+  CalendarIcon,
   CalendarOff,
   Hourglass,
   Thermometer,
 } from "lucide-react";
-import React from "react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import Link from "next/link";
 
 const chartData = [
   { month: "January", desktop: 186, mobile: 80 },
@@ -34,8 +37,8 @@ const chartData = [
 ];
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
+  dekstop: {
+    label: "Dekstop",
     color: "#2563eb",
   },
   mobile: {
@@ -65,7 +68,9 @@ export default function StudentProfilePresence() {
             value="strikethrough"
             aria-label="Toggle strikethrough"
           >
-            <p className="text-sm text-slate-400">Laporan Nilai</p>
+            <Link href="/managements/student/profile-value">
+              <p className="text-sm text-slate-400">Laporan Nilai</p>
+            </Link>
           </ToggleGroupItem>
           <ToggleGroupItem
             value="strikethrough"
@@ -76,96 +81,62 @@ export default function StudentProfilePresence() {
         </ToggleGroup>
       </div>
 
-      <div className="grid grid-cols-4 gap-4 mt-4">
-        <div className="col-span-1 border-2 rounded-lg justify-items-center content-center py-2">
-          <div className="grid grid-cols-4 gap-2 ">
-            <div className="col-span-1 bg-green-100 border-green-100 border-2 p-2 rounded-lg flex items-center justify-center">
+      <div className="grid grid-cols-4 gap-4 mt-6">
+        <div className="col-span-1 border-2 rounded-lg py-2">
+          <div className="grid grid-cols-5 gap-2 ml-5">
+            <div className="col-span-1 bg-green-100 p-2 rounded-lg flex items-center justify-center">
               <CalendarCheck2 className="w-9 h-9 text-green-400" />
             </div>
-
-            <div className="col-span-3 grid content-center">
-              <div className="grid grid-rows-2">
-                <div className="row-span-1">
-                  <p className="text-base text-stone-400">Kehadiran</p>
-                </div>
-
-                <div className="row-span-1">
-                  <p className="text-base">8</p>
-                </div>
-              </div>
+            <div className="col-span-4">
+              <p className="text-base text-stone-400">Kehadiran</p>
+              <p className="text-base">8</p>
             </div>
           </div>
         </div>
 
-        <div className="col-span-1 border-2 rounded-lg justify-items-center content-center py-2">
-          <div className="grid grid-cols-4 gap-2">
-            <div className="col-span-1 bg-orange-100 border-orange-100 border-2 p-2 rounded-lg flex items-center justify-center">
+        <div className="col-span-1 border-2 rounded-lg py-2">
+          <div className="grid grid-cols-5 gap-2 ml-5">
+            <div className="col-span-1 bg-orange-100 rounded-lg flex items-center justify-center">
               <Hourglass className="w-9 h-9 text-orange-400" />
             </div>
-
-            <div className="col-span-3">
-              <div className="grid grid-rows-2">
-                <div className="row-span-1">
-                  <p className="text-base text-stone-400">Izin</p>
-                </div>
-
-                <div className="row-span-1">
-                  <p className="text-base">24</p>
-                </div>
-              </div>
+            <div className="col-span-1">
+              <p className="text-base text-stone-400">Izin</p>
+              <p className="text-base">24</p>
             </div>
           </div>
         </div>
 
-        <div className="col-span-1 border-2 rounded-lg justify-items-center content-center py-2">
-          <div className="grid grid-cols-4 gap-2">
-            <div className="col-span-1 bg-orange-100 border-orange-100 border-2 p-2 rounded-lg flex items-center justify-center">
+        <div className="col-span-1 border-2 rounded-lg py-2">
+          <div className="grid grid-cols-5 gap-2 ml-5">
+            <div className="col-span-1 bg-orange-100 p-2 rounded-lg flex items-center justify-center">
               <Thermometer className="w-9 h-9 text-orange-400" />
             </div>
-
-            <div className="col-span-3">
-              <div className="grid grid-rows-2">
-                <div className="row-span-1">
-                  <p className="text-base text-stone-400">Sakit</p>
-                </div>
-
-                <div className="row-span-1">
-                  <p className="text-base">12</p>
-                </div>
-              </div>
+            <div className="col-span-4">
+              <p className="text-base text-stone-400">Sakit</p>
+              <p className="text-base">12</p>
             </div>
           </div>
         </div>
 
-        <div className="col-span-1 border-2 rounded-lg justify-items-center content-center py-2">
-          <div className="grid grid-cols-4 gap-2">
-            <div className="col-span-1 bg-red-100 border-red-100 border-2 p-2 rounded-lg flex items-center justify-center">
+        <div className="col-span-1 border-2 rounded-lg py-2">
+          <div className="grid grid-cols-5 gap-2 ml-5">
+            <div className="col-span-1 bg-red-100 p-2 rounded-lg flex items-center justify-center">
               <CalendarOff className="w-9 h-9 text-red-400" />
             </div>
-
-            <div className="col-span-3">
-              <div className="grid grid-rows-2">
-                <div className="row-span-1">
-                  <p className="text-base text-stone-400">Absen</p>
-                </div>
-
-                <div className="row-span-1">
-                  <p className="text-base">2</p>
-                </div>
-              </div>
+            <div className="col-span-4">
+              <p className="text-base text-stone-400">Absen</p>
+              <p className="text-base">2</p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="border-2 rounded-lg mt-6">
-        <div className="grid grid-cols-10 gap-4">
+      <div className="border-2 rounded-lg mt-10">
+        <div className="grid grid-cols-10 gap-4 p-4 border-b-4">
           <div className="col-span-8">
             <h1 className="text-base font-bold">Tanpa Keterangan</h1>
-
             <p>Riwayat Absen Siswa Tanpa Keterangan Selama Setahun</p>
           </div>
-
           <div className="col-span-2">
             <Popover>
               <PopoverTrigger asChild>
@@ -192,7 +163,7 @@ export default function StudentProfilePresence() {
           </div>
         </div>
 
-        <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+        <ChartContainer config={chartConfig} className="w-full h-80">
           <BarChart accessibilityLayer data={chartData}>
             <CartesianGrid vertical={false} />
             <XAxis
