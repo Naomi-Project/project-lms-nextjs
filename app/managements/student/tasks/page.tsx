@@ -163,7 +163,7 @@ export default function TaskStudent() {
 
             <div className="col-span-2 grid justify-items-end">
               <Button variant="default">
-                <Link href="/managements/student/task-detail">
+                <Link href="/managements/student/tasks-detail">
                   <div className="grid grid-cols-3 gap-2">
                     <div className="col-span-1">
                       <PenBox />

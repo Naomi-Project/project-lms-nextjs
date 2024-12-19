@@ -1,13 +1,11 @@
 import {
-  DatabaseIcon,
   HomeIcon,
   SchoolIcon,
-  ClipboardIcon,
-  BookIcon,
-  DollarSignIcon,
   Clock,
   CalendarDays,
   Library,
+  Fence,
+  BookMarked,
 } from "lucide-react";
 
 export const AppMenu = [
@@ -29,7 +27,7 @@ export const AppMenu = [
   {
     title: "Materi Student",
     href: "/managements/student/material",
-    icon: HomeIcon,
+    icon: Fence ,
   },
   {
     title: "Presence Student",
@@ -49,36 +47,11 @@ export const AppMenu = [
   {
     title: "Pengumuman",
     href: "/dashboard/announcements",
-    icon: HomeIcon,
+    icon: BookMarked ,
   },
   {
     title: "Sekolah",
     href: "/dashboard/schools",
     icon: SchoolIcon,
-  },
-  {
-    title: "Manajemen Guru",
-    href: "/dashboard/teachers",
-    icon: DatabaseIcon,
-  },
-  {
-    title: "Manajemen Siswa",
-    href: "/dashboard/students",
-    icon: DatabaseIcon,
-  },
-  {
-    title: "Manajemen Kelas",
-    href: "/dashboard/batches",
-    icon: ClipboardIcon,
-  },
-  {
-    title: "Manajemen Mata Pelajaran",
-    href: "/dashboard/courses",
-    icon: BookIcon,
-  },
-  {
-    title: "Keuangan",
-    href: "/dashboard/finances",
-    icon: DollarSignIcon,
   },
 ];
