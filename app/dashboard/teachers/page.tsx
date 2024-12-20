@@ -197,7 +197,7 @@ export default function DashboardTeacher() {
           <div className="grid gap-4 md:grid-cols-2">
             {assignments.map((assignment) => (
               <Card key={assignment.id}>
-                <Link href="/managements/student/tasks">
+                <Link href="/managements/teacher/tasks">
                   <CardContent className="pt-6">
                     <div className="flex items-start justify-between">
                       <div>
