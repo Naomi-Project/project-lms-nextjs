@@ -95,7 +95,7 @@ export default function TaksTeacher() {
 
         <div className="col-span-1 content-center">
           <Button variant="default">
-            <Link href="#">
+            <Link href="/managements/teacher/tasks-create">
               <div className="grid grid-cols-4 gap-2">
                 <div className="col-span-1">
                   <Pencil />
