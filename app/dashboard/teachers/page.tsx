@@ -165,7 +165,7 @@ export default function DashboardTeacher() {
 
       <div className="flex justify-between items-center mt-6">
         <Button className="gap-2">
-          <Plus className="h-4 w-4" /> Buat Materi
+          <Plus className="h-4 w-4" /> Buat Tugas
         </Button>
         <div className="flex gap-4">
           <div className="bg-white rounded-lg">

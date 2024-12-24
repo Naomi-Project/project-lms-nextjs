@@ -6,6 +6,9 @@ import {
   Library,
   Fence,
   BookMarked,
+  Building2,
+  UserPen,
+  BookCheck,
 } from "lucide-react";
 
 export const AppMenu = [
@@ -20,6 +23,41 @@ export const AppMenu = [
     icon: HomeIcon,
   },
   {
+    title: "Materi Teacher",
+    href: "/managements/teacher/material",
+    icon: Fence,
+  },
+  {
+    title: "Class Teacher",
+    href: "/managements/teacher/class",
+    icon: Building2,
+  },
+  {
+    title: "Presence Teacher",
+    href: "/managements/teacher/presence",
+    icon: Clock,
+  },
+  {
+    title: "Schedule Teacher",
+    href: "/managements/teacher/schedule",
+    icon: CalendarDays,
+  },
+  {
+    title: "Library Digital Teacher",
+    href: "/managements/teacher/library",
+    icon: Library,
+  },
+  {
+    title: "Profile Teacher",
+    href: "/managements/teacher/profile",
+    icon: UserPen,
+  },
+  {
+    title: "Exam Teacher",
+    href: "/managements/teacher/exam",
+    icon: BookCheck,
+  },
+  {
     title: "Dashboard Student",
     href: "/dashboard/students",
     icon: HomeIcon,
@@ -27,7 +65,7 @@ export const AppMenu = [
   {
     title: "Materi Student",
     href: "/managements/student/material",
-    icon: Fence ,
+    icon: Fence,
   },
   {
     title: "Presence Student",
@@ -47,7 +85,7 @@ export const AppMenu = [
   {
     title: "Pengumuman",
     href: "/dashboard/announcements",
-    icon: BookMarked ,
+    icon: BookMarked,
   },
   {
     title: "Sekolah",
