@@ -9,6 +9,9 @@ import {
   Building2,
   UserPen,
   BookCheck,
+  Wallet,
+  Database,
+  BellRing,
 } from "lucide-react";
 
 export const AppMenu = [
@@ -16,6 +19,36 @@ export const AppMenu = [
     title: "Dashboard Admin",
     href: "/dashboard/admins",
     icon: HomeIcon,
+  },
+  {
+    title: "Sekolah Admin",
+    href: "/managements/admin/school",
+    icon: SchoolIcon,
+  },
+  {
+    title: "Keuangan Admin",
+    href: "/managements/admin/keuangan",
+    icon: Wallet,
+  },
+  {
+    title: "Data Siswa Admin",
+    href: "/managements/admin/student",
+    icon: Database,
+  },
+  {
+    title: "Data Guru Admin",
+    href: "/managements/admin/teacher",
+    icon: Database,
+  },
+  {
+    title: "Pengumuman Admin",
+    href: "/managements/admin/pengumuman",
+    icon: BellRing,
+  },
+  {
+    title: "Library Digital Admin",
+    href: "/managements/admin/library",
+    icon: Library,
   },
   {
     title: "Dashboard Teacher",
