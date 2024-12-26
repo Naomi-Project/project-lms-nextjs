@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,

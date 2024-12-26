@@ -16,6 +16,11 @@ import {
 
 export const AppMenu = [
   {
+    title: "Dashboard Manager",
+    href: "/dashboard/managers",
+    icon: HomeIcon,
+  },
+  {
     title: "Dashboard Admin",
     href: "/dashboard/admins",
     icon: HomeIcon,
