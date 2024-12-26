@@ -91,11 +91,11 @@ export default function DashboardTeacher() {
             <div className="col-span-3 grid content-center">
               <div className="grid grid-rows-2">
                 <div className="row-span-1">
-                  <p className="text-base text-stone-400">Belum Diselesaikan</p>
+                  <p className="text-sm text-stone-400">Belum Diselesaikan</p>
                 </div>
 
                 <div className="row-span-1">
-                  <p className="text-base">8 Tugas</p>
+                  <p className="text-base font-bold">8 Tugas</p>
                 </div>
               </div>
             </div>
@@ -111,11 +111,11 @@ export default function DashboardTeacher() {
             <div className="col-span-3">
               <div className="grid grid-rows-2">
                 <div className="row-span-1">
-                  <p className="text-base text-stone-400">Tugas</p>
+                  <p className="text-sm text-stone-400">Tugas</p>
                 </div>
 
                 <div className="row-span-1">
-                  <p className="text-base">24</p>
+                  <p className="text-base font-bold">24</p>
                 </div>
               </div>
             </div>
@@ -131,11 +131,11 @@ export default function DashboardTeacher() {
             <div className="col-span-3">
               <div className="grid grid-rows-2">
                 <div className="row-span-1">
-                  <p className="text-base text-stone-400">Materi</p>
+                  <p className="text-sm text-stone-400">Materi</p>
                 </div>
 
                 <div className="row-span-1">
-                  <p className="text-base">18 Materi</p>
+                  <p className="text-base font-bold">18 Materi</p>
                 </div>
               </div>
             </div>
@@ -151,11 +151,11 @@ export default function DashboardTeacher() {
             <div className="col-span-3">
               <div className="grid grid-rows-2">
                 <div className="row-span-1">
-                  <p className="text-base text-stone-400">Absen</p>
+                  <p className="text-sm text-stone-400">Absen</p>
                 </div>
 
                 <div className="row-span-1">
-                  <p className="text-base">2</p>
+                  <p className="text-base font-bold">2</p>
                 </div>
               </div>
             </div>
@@ -165,7 +165,7 @@ export default function DashboardTeacher() {
 
       <div className="flex justify-between items-center mt-6">
         <Button className="gap-2">
-          <Plus className="h-4 w-4" /> Buat Materi
+          <Plus className="h-4 w-4" /> Buat Tugas
         </Button>
         <div className="flex gap-4">
           <div className="bg-white rounded-lg">
@@ -183,7 +183,7 @@ export default function DashboardTeacher() {
           </div>
           <div className="relative bg-white rounded-lg">
             <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input placeholder="Cari Kelas" className="pl-8 w-[300px]" />
+            <Input placeholder="Cari Tugas" className="pl-8 w-[300px]" />
           </div>
         </div>
       </div>

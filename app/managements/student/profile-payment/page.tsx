@@ -16,6 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { CalendarDays, Wallet } from "lucide-react";
+import Link from "next/link";
 
 const invoices = [
   {
@@ -60,29 +61,46 @@ export default function StudentProfilePayment() {
     <div className="min-h-screen">
       <div className="flex justify-start">
         <ToggleGroup type="multiple" variant="outline">
-          <ToggleGroupItem value="bold" aria-label="Toggle bold">
-            <p className="text-sm text-slate-400">Profileku</p>
+          <ToggleGroupItem
+            value="bold"
+            aria-label="Toggle bold"
+            className="bg-white"
+          >
+            <Link href="/managements/student/profile">
+              <p className="text-sm text-slate-400">Profileku</p>
+            </Link>
           </ToggleGroupItem>
-          <ToggleGroupItem value="italic" aria-label="Toggle italic">
-            <p className="text-sm text-slate-400">Laporan Presensi</p>
+          <ToggleGroupItem
+            value="italic"
+            aria-label="Toggle italic"
+            className="bg-white"
+          >
+            <Link href="/managements/student/profile-presence">
+              <p className="text-sm text-slate-400">Laporan Presensi</p>
+            </Link>
           </ToggleGroupItem>
           <ToggleGroupItem
             value="strikethrough"
             aria-label="Toggle strikethrough"
+            className="bg-white"
           >
-            <p className="text-sm text-slate-400">Laporan Nilai</p>
+            <Link href="/managements/student/profile-value">
+              <p className="text-sm text-slate-400">Laporan Nilai</p>
+            </Link>
           </ToggleGroupItem>
           <ToggleGroupItem
             value="strikethrough"
             aria-label="Toggle strikethrough"
             className="bg-blue-100 border-blue-100 rounded-lg"
           >
-            <p className="text-sm text-blue-400">Pembayaran SPP</p>
+            <Link href="/managements/student/profile-payment">
+              <p className="text-sm text-blue-500">Pembayaran SPP</p>
+            </Link>
           </ToggleGroupItem>
         </ToggleGroup>
       </div>
 
-      <div className="border-2 rounded-lg p-4 mt-6">
+      <div className="border-2 rounded-lg p-4 mt-6 bg-white">
         <div className="grid grid-cols-2 gap-4">
           <div className="col-span-1">
             <h1 className="text-base text-slate-400">Tagihan SPP Bulan Ini</h1>
@@ -160,32 +178,34 @@ export default function StudentProfilePayment() {
         </Accordion>
       </div>
 
-      <Table className="mt-10 border-2 rounded-md">
-        <TableHeader className="bg-slate-200">
-          <TableRow>
-            <TableHead className="w-6/12 font-bold text-black">
-              RIWAYAT PEMBAYARAN
-            </TableHead>
-            <TableHead className="w-2/12 font-bold text-black border-l-2 border-slate-300">
-              STATUS
-            </TableHead>
-            <TableHead className="w-4/12 font-bold text-black border-l-2 border-slate-300">
-              JUMLAH PEMBAYARAN
-            </TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {invoices.map((invoice) => (
-            <TableRow key={invoice.invoice}>
-              <TableCell>{invoice.invoice}</TableCell>
-              <TableCell className="text-green-400 border-l-2">
-                {invoice.status}
-              </TableCell>
-              <TableCell>{invoice.amount}</TableCell>
+      <div className="border-2 rounded-lg bg-white mt-10">
+        <Table>
+          <TableHeader className="bg-slate-200">
+            <TableRow>
+              <TableHead className="w-6/12 font-bold text-black">
+                RIWAYAT PEMBAYARAN
+              </TableHead>
+              <TableHead className="w-2/12 font-bold text-black border-l-2 border-slate-300">
+                STATUS
+              </TableHead>
+              <TableHead className="w-4/12 font-bold text-black border-l-2 border-slate-300">
+                JUMLAH PEMBAYARAN
+              </TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {invoices.map((invoice) => (
+              <TableRow key={invoice.invoice}>
+                <TableCell>{invoice.invoice}</TableCell>
+                <TableCell className="text-green-400 border-l-2">
+                  {invoice.status}
+                </TableCell>
+                <TableCell>{invoice.amount}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 }

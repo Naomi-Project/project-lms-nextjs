@@ -1,5 +1,3 @@
-// /dashboard
-
 "use client";
 
 import { useState } from "react";
@@ -20,7 +18,9 @@ import useAuthStore from "@/hooks/use-auth";
 
 export default function LoginPage() {
   const { login } = useAuthStore();
-  const [role, setRole] = useState<"admin" | "teacher" | "student">("admin");
+  const [role, setRole] = useState<"manager" | "admin" | "teacher" | "student">(
+    "manager"
+  );
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [number, setNumber] = useState("");
@@ -44,18 +44,40 @@ export default function LoginPage() {
         <CardContent>
           <form onSubmit={handleLogin}>
             <Tabs
-              defaultValue="admin"
+              defaultValue="manager"
               value={role}
               onValueChange={(value) =>
-                setRole(value as "admin" | "teacher" | "student")
+                setRole(value as "manager" | "admin" | "teacher" | "student")
               }
             >
               <TabsList className="flex justify-around">
+                <TabsTrigger value="manager">Manager</TabsTrigger>
                 <TabsTrigger value="admin">Admin</TabsTrigger>
                 <TabsTrigger value="teacher">Guru</TabsTrigger>
                 <TabsTrigger value="student">Murid</TabsTrigger>
               </TabsList>
               <div className="mt-4">
+                <TabsContent value="manager">
+                  <div className="flex flex-col space-y-1.5">
+                    <Label htmlFor="username">Username</Label>
+                    <Input
+                      id="username"
+                      placeholder="Enter your username"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex flex-col space-y-1.5 mt-4">
+                    <Label htmlFor="password">Password</Label>
+                    <Input
+                      id="password"
+                      type="password"
+                      placeholder="Enter your password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  </div>
+                </TabsContent>
                 <TabsContent value="admin">
                   <div className="flex flex-col space-y-1.5">
                     <Label htmlFor="username">Username</Label>

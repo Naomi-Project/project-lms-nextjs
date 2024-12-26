@@ -1,43 +1,22 @@
-import { Button } from "@/components/ui/button";
+import React from "react";
 import {
   BookOpen,
-  BookText,
-  BrickWall,
-  CalendarCheck,
   DatabaseIcon,
   LibraryBig,
   Link2Icon,
-  PenBox,
-  TableRowsSplit,
   User2Icon,
 } from "lucide-react";
-import Link from "next/link";
-import React from "react";
 
-export default function TaskStudent() {
+export default function TeacherMaterialDetail() {
   return (
     <div className="min-h-screen">
       <div className="border-2 rounded-lg py-5 px-10 bg-white">
-        <div className="w-40 text-center bg-red-200 rounded-lg px-2 py-2 mb-5">
-          <p className="text-sm text-red-600">Belum DIkerjakan</p>
-        </div>
+        <h1 className="text-xl font-bold">
+          Materi Matematika Faktorial dan Aljabar
+        </h1>
 
-        <h1 className="text-xl font-bold">Tugas Matematika Perkalian Ganda</h1>
-
-        <div className="w-7/12 mt-4">
-          <div className="grid grid-cols-4 gap-4">
-            <div className="col-span-1 border-r-2 border-slate-400">
-              <div className="grid grid-cols-5 gap-2">
-                <div className="col-span-1 grid justify-items-end">
-                  <CalendarCheck className="h-4 w-4 text-slate-400" />
-                </div>
-
-                <div className="col-span-4">
-                  <p className="text-sm text-slate-400">1 July 2024</p>
-                </div>
-              </div>
-            </div>
-
+        <div className="w-5/12 mt-4">
+          <div className="grid grid-cols-3 gap-4">
             <div className="col-span-1 border-r-2 border-slate-400">
               <div className="grid grid-cols-5 gap-2">
                 <div className="col-span-1 grid justify-items-end">
@@ -53,7 +32,7 @@ export default function TaskStudent() {
             <div className="col-span-1 border-r-2 border-slate-400">
               <div className="grid grid-cols-5 gap-2">
                 <div className="col-span-1 grid justify-items-end">
-                  <BookText className="h-4 w-4 text-slate-400" />
+                  <DatabaseIcon className="h-4 w-4 text-slate-400" />
                 </div>
 
                 <div className="col-span-4">
@@ -86,7 +65,7 @@ export default function TaskStudent() {
           </div>
 
           <div className="col-span-8 my-auto">
-            <h2 className="text-lg">Deskripsi Tugas</h2>
+            <h2 className="text-lg">Deskripsi Materi</h2>
           </div>
         </div>
 
@@ -151,101 +130,9 @@ export default function TaskStudent() {
             </div>
           </div>
         </div>
-
-        <div className="mt-5 border-2 rounded-md bg-slate-200">
-          <div className="grid grid-cols-12 gap-4">
-            <div className="col-span-1 my-auto grid justify-items-end">
-              <TableRowsSplit />
-            </div>
-
-            <div className="col-span-9 my-auto">
-              <p>Soal Pilihan Ganda</p>
-            </div>
-
-            <div className="col-span-2 grid justify-items-end">
-              <Button variant="default">
-                <Link href="/managements/student/tasks-detail">
-                  <div className="grid grid-cols-3 gap-2">
-                    <div className="col-span-1">
-                      <PenBox />
-                    </div>
-
-                    <div className="col-span-2">
-                      <p>Kerjakan</p>
-                    </div>
-                  </div>
-                </Link>
-              </Button>
-            </div>
-          </div>
-        </div>
       </div>
 
       <div className="border-2 rounded-lg py-5 px-10 mt-10 bg-white">
-        <div className="grid grid-cols-10 gap-4">
-          <div className="col-span-1 grid justify-items-center border-r-2 border-slate-400">
-            <div className="p-2 border-2 rounded-full border-slate-400">
-              <BrickWall />
-            </div>
-          </div>
-
-          <div className="col-span-8 my-auto">
-            <h2 className="text-lg">Referensi Materi</h2>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-4 gap-6 mt-5">
-          <div className="col-span-1 border px-3 rounded-md bg-slate-100">
-            <div className="grid grid-cols-4 gap-2">
-              <div className="col-span-3 grid justify-items-center">
-                <p>Matematika Dasar</p>
-              </div>
-
-              <div className="col-span-1 grid justify-items-end">
-                <Link2Icon />
-              </div>
-            </div>
-          </div>
-
-          <div className="col-span-1 border px-3 rounded-md bg-slate-100">
-            <div className="grid grid-cols-4 gap-2">
-              <div className="col-span-3 grid justify-items-center">
-                <p>Matematika Dasar</p>
-              </div>
-
-              <div className="col-span-1 grid justify-items-end">
-                <Link2Icon />
-              </div>
-            </div>
-          </div>
-
-          <div className="col-span-1 border px-3 rounded-md bg-slate-100">
-            <div className="grid grid-cols-4 gap-2">
-              <div className="col-span-3 grid justify-items-center">
-                <p>Matematika Dasar</p>
-              </div>
-
-              <div className="col-span-1 grid justify-items-end">
-                <Link2Icon />
-              </div>
-            </div>
-          </div>
-
-          <div className="col-span-1 border px-3 rounded-md bg-slate-100">
-            <div className="grid grid-cols-4 gap-2">
-              <div className="col-span-3 grid justify-items-center">
-                <p>Matematika Dasar</p>
-              </div>
-
-              <div className="col-span-1 grid justify-items-end">
-                <Link2Icon />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="border-2 rounded-lg py-5 px-10 mt-10 mb-20 bg-white">
         <div className="grid grid-cols-10 gap-4">
           <div className="col-span-1 grid justify-items-center border-r-2 border-slate-400">
             <div className="p-2 border-2 rounded-full border-slate-400">

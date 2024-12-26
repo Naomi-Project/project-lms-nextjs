@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  BookIcon,
+  BookOpen,
   BrickWall,
   CalendarCheck,
   Check,
@@ -78,7 +78,7 @@ export default function TaksTeacher() {
                 </div>
               </div>
 
-              <div className="col-span-1 border-r-2 border-slate-400">
+              <div className="col-span-1">
                 <div className="grid grid-cols-5 gap-2">
                   <div className="col-span-1 grid justify-items-end">
                     <DatabaseIcon className="h-4 w-4 text-slate-400" />
@@ -113,9 +113,9 @@ export default function TaksTeacher() {
       <div className="grid grid-cols-12 gap-4 mt-8">
         <div className="col-span-9 border-2 rounded-lg bg-white py-5 px-10">
           <div className="grid grid-cols-10 gap-4">
-            <div className="col-span-1 grid justify-items-center border-r-2 border-slate-700">
-              <div className="p-2 border-2 rounded-full">
-                <BookIcon />
+            <div className="col-span-1 grid justify-items-center border-r-2 border-slate-400">
+              <div className="p-2 border-2 rounded-full border-slate-400">
+                <BookOpen />
               </div>
             </div>
 
@@ -138,7 +138,7 @@ export default function TaksTeacher() {
           <h2 className="text-lg mt-5 mb-3">Referensi</h2>
 
           <div className="grid grid-cols-2 gap-4">
-            <div className="col-span-1 border px-3 rounded-md bg-slate-200">
+            <div className="col-span-1 border px-3 rounded-md bg-slate-100">
               <div className="grid grid-cols-4 gap-2">
                 <div className="col-span-3 grid justify-items-center">
                   <p>You Tube 1</p>
@@ -150,7 +150,7 @@ export default function TaksTeacher() {
               </div>
             </div>
 
-            <div className="col-span-1 border px-3 rounded-md bg-slate-200">
+            <div className="col-span-1 border px-3 rounded-md bg-slate-100">
               <div className="grid grid-cols-4 gap-2">
                 <div className="col-span-3 grid justify-items-center">
                   <p>You Tube 1</p>
@@ -164,7 +164,7 @@ export default function TaksTeacher() {
           </div>
 
           <div className="grid grid-cols-2 gap-4 mt-4">
-            <div className="col-span-1 border px-3 rounded-md bg-slate-200">
+            <div className="col-span-1 border px-3 rounded-md bg-slate-100">
               <div className="grid grid-cols-4 gap-2">
                 <div className="col-span-3 grid justify-items-center">
                   <p>You Tube 1</p>
@@ -176,7 +176,7 @@ export default function TaksTeacher() {
               </div>
             </div>
 
-            <div className="col-span-1 border px-3 rounded-md bg-slate-200">
+            <div className="col-span-1 border px-3 rounded-md bg-slate-100">
               <div className="grid grid-cols-4 gap-2">
                 <div className="col-span-3 grid justify-items-center">
                   <p>You Tube 1</p>
@@ -201,7 +201,7 @@ export default function TaksTeacher() {
 
               <div className="col-span-2 grid justify-items-end">
                 <Button variant="default">
-                  <Link href="/managements/student/tasks-detail">
+                  <Link href="#">
                     <div className="grid grid-cols-3 gap-2">
                       <div className="col-span-1">
                         <PenBox />
@@ -284,8 +284,8 @@ export default function TaksTeacher() {
 
       <div className="border-2 rounded-lg py-5 px-10 mt-10 w-9/12 bg-white">
         <div className="grid grid-cols-10 gap-4">
-          <div className="col-span-1 grid justify-items-center border-r-2 border-slate-700">
-            <div className="p-2 border-2 rounded-full">
+          <div className="col-span-1 grid justify-items-center border-r-2 border-slate-400">
+            <div className="p-2 border-2 rounded-full border-slate-400">
               <BrickWall />
             </div>
           </div>
@@ -296,7 +296,7 @@ export default function TaksTeacher() {
         </div>
 
         <div className="grid grid-cols-2 gap-4 mt-6">
-          <div className="col-span-1 border px-3 rounded-md bg-slate-200">
+          <div className="col-span-1 border px-3 rounded-md bg-slate-100">
             <div className="grid grid-cols-4 gap-2">
               <div className="col-span-3 grid justify-items-center">
                 <p>Matematika Dasar</p>
@@ -308,7 +308,7 @@ export default function TaksTeacher() {
             </div>
           </div>
 
-          <div className="col-span-1 border px-3 rounded-md bg-slate-200">
+          <div className="col-span-1 border px-3 rounded-md bg-slate-100">
             <div className="grid grid-cols-4 gap-2">
               <div className="col-span-3 grid justify-items-center">
                 <p>Matematika Dasar</p>
@@ -322,7 +322,7 @@ export default function TaksTeacher() {
         </div>
 
         <div className="grid grid-cols-2 gap-4 mt-4">
-          <div className="col-span-1 border px-3 rounded-md bg-slate-200">
+          <div className="col-span-1 border px-3 rounded-md bg-slate-100">
             <div className="grid grid-cols-4 gap-2">
               <div className="col-span-3 grid justify-items-center">
                 <p>Matematika Dasar</p>
@@ -334,7 +334,7 @@ export default function TaksTeacher() {
             </div>
           </div>
 
-          <div className="col-span-1 border px-3 rounded-md bg-slate-200">
+          <div className="col-span-1 border px-3 rounded-md bg-slate-100">
             <div className="grid grid-cols-4 gap-2">
               <div className="col-span-3 grid justify-items-center">
                 <p>Matematika Dasar</p>

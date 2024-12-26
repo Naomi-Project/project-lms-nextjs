@@ -14,9 +14,15 @@ export default function ProfileStudent() {
             aria-label="Toggle bold"
             className="bg-blue-100 border-blue-100 rounded-lg"
           >
-            <p className="text-sm text-blue-400">Profileku</p>
+            <Link href="/managements/student/profile">
+              <p className="text-sm text-blue-500">Profileku</p>
+            </Link>
           </ToggleGroupItem>
-          <ToggleGroupItem value="italic" aria-label="Toggle italic">
+          <ToggleGroupItem
+            value="italic"
+            aria-label="Toggle italic"
+            className="bg-white"
+          >
             <Link href="/managements/student/profile-presence">
               <p className="text-sm text-slate-400">Laporan Presensi</p>
             </Link>
@@ -24,19 +30,25 @@ export default function ProfileStudent() {
           <ToggleGroupItem
             value="strikethrough"
             aria-label="Toggle strikethrough"
+            className="bg-white"
           >
-            <p className="text-sm text-slate-400">Laporan Nilai</p>
+            <Link href="/managements/student/profile-value">
+              <p className="text-sm text-slate-400">Laporan Nilai</p>
+            </Link>
           </ToggleGroupItem>
           <ToggleGroupItem
             value="strikethrough"
             aria-label="Toggle strikethrough"
+            className="bg-white"
           >
-            <p className="text-sm text-slate-400">Pembayaran SPP</p>
+            <Link href="/managements/student/profile-payment">
+              <p className="text-sm text-slate-400">Pembayaran SPP</p>
+            </Link>
           </ToggleGroupItem>
         </ToggleGroup>
       </div>
 
-      <div className="border-2 rounded-lg mt-8">
+      <div className="border-2 rounded-lg mt-8 bg-white">
         <div className="grid grid-cols-12 p-4">
           <div className="col-span-1">
             <Image
@@ -56,7 +68,7 @@ export default function ProfileStudent() {
         </div>
       </div>
 
-      <div className="border-2 rounded-lg mt-4 p-4">
+      <div className="border-2 rounded-lg mt-4 p-4 bg-white">
         <h1 className="text-base font-bold">Data Siswa</h1>
 
         <div className="grid grid-cols-2 gap-4 mt-5">

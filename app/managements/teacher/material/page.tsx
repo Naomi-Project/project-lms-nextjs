@@ -13,38 +13,49 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Search } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 import Image from "next/image";
 import poster from "../../../../image/poster-materi.jpeg";
 import Link from "next/link";
 import React from "react";
+import { Button } from "@/components/ui/button";
 
-export default function MaterialStudent() {
+export default function MaterialTeacher() {
   return (
     <div className="min-h-screen">
       <div className="flex justify-between items-center">
-        <div className="bg-white rounded-lg">
-          <Select defaultValue="global">
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Filter" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="global">Global</SelectItem>
-              <SelectItem value="matematika">Matematika</SelectItem>
-              <SelectItem value="bahasa">Bahasa Indonesia</SelectItem>
-              <SelectItem value="fisika">Fisika</SelectItem>
-            </SelectContent>
-          </Select>
+        <div className="">
+          <Link href="/managements/teacher/material-create">
+            <Button className="gap-2">
+              <Plus className="h-4 w-4" /> Buat Materi
+            </Button>
+          </Link>
         </div>
-        <div className="relative bg-white">
-          <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input placeholder="Cari Materi" className="pl-8 w-[300px]" />
+
+        <div className="grid grid-cols-3 gap-4">
+          <div className="col-span-1 bg-white rounded-lg">
+            <Select defaultValue="global">
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Filter" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="global">Global</SelectItem>
+                <SelectItem value="matematika">Matematika</SelectItem>
+                <SelectItem value="bahasa">Bahasa Indonesia</SelectItem>
+                <SelectItem value="fisika">Fisika</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="col-span-2 relative bg-white rounded-lg">
+            <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input placeholder="Cari Tugas" className="pl-8 w-full" />
+          </div>
         </div>
       </div>
 
       <div className="grid grid-cols-4 gap-4 mt-10">
         <div className="col-span-1">
-          <Link href="/managements/student/material-detail">
+          <Link href="/managements/teacher/material-detail">
             <Card className="w-full">
               <Image
                 src={poster}
@@ -64,7 +75,7 @@ export default function MaterialStudent() {
         </div>
 
         <div className="col-span-1">
-          <Link href="/managements/student/material-detail">
+          <Link href="/managements/teacher/material-detail">
             <Card className="w-full">
               <Image
                 src={poster}
@@ -84,7 +95,7 @@ export default function MaterialStudent() {
         </div>
 
         <div className="col-span-1">
-          <Link href="/managements/student/material-detail">
+          <Link href="/managements/teacher/material-detail">
             <Card className="w-full">
               <Image
                 src={poster}
@@ -104,7 +115,7 @@ export default function MaterialStudent() {
         </div>
 
         <div className="col-span-1">
-          <Link href="/managements/student/material-detail">
+          <Link href="/managements/teacher/material-detail">
             <Card className="w-full">
               <Image
                 src={poster}
@@ -126,7 +137,7 @@ export default function MaterialStudent() {
 
       <div className="grid grid-cols-4 gap-4 mt-10">
         <div className="col-span-1">
-          <Link href="/managements/student/material-detail">
+          <Link href="/managements/teacher/material-detail">
             <Card className="w-full">
               <Image
                 src={poster}
@@ -146,7 +157,7 @@ export default function MaterialStudent() {
         </div>
 
         <div className="col-span-1">
-          <Link href="/managements/student/material-detail">
+          <Link href="/managements/teacher/material-detail">
             <Card className="w-full">
               <Image
                 src={poster}
@@ -166,7 +177,7 @@ export default function MaterialStudent() {
         </div>
 
         <div className="col-span-1">
-          <Link href="/managements/student/material-detail">
+          <Link href="/managements/teacher/material-detail">
             <Card className="w-full">
               <Image
                 src={poster}
@@ -186,7 +197,7 @@ export default function MaterialStudent() {
         </div>
 
         <div className="col-span-1">
-          <Link href="/managements/student/material-detail">
+          <Link href="/managements/teacher/material-detail">
             <Card className="w-full">
               <Image
                 src={poster}
