@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
 import {
-  BookIcon,
   BookOpen,
+  BookText,
   BrickWall,
   CalendarCheck,
   DatabaseIcon,
+  LibraryBig,
   Link2Icon,
   PenBox,
   TableRowsSplit,
@@ -16,59 +17,59 @@ import React from "react";
 export default function TaskStudent() {
   return (
     <div className="min-h-screen">
-      <div className="border-2 rounded-lg py-5 px-10">
+      <div className="border-2 rounded-lg py-5 px-10 bg-white">
         <div className="w-40 text-center bg-red-200 rounded-lg px-2 py-2 mb-5">
-          <p className="text-sm text-red-600">Belum diselesaikan</p>
+          <p className="text-sm text-red-600">Belum DIkerjakan</p>
         </div>
 
         <h1 className="text-xl font-bold">Tugas Matematika Perkalian Ganda</h1>
 
         <div className="w-7/12 mt-4">
           <div className="grid grid-cols-4 gap-4">
-            <div className="col-span-1 border-r-2 border-slate-700">
+            <div className="col-span-1 border-r-2 border-slate-400">
               <div className="grid grid-cols-5 gap-2">
                 <div className="col-span-1 grid justify-items-end">
-                  <CalendarCheck className="h-4 w-4" />
+                  <CalendarCheck className="h-4 w-4 text-slate-400" />
                 </div>
 
                 <div className="col-span-4">
-                  <p className="text-sm">1 July 2024</p>
+                  <p className="text-sm text-slate-400">1 July 2024</p>
                 </div>
               </div>
             </div>
 
-            <div className="col-span-1 border-r-2 border-slate-700">
+            <div className="col-span-1 border-r-2 border-slate-400">
               <div className="grid grid-cols-5 gap-2">
                 <div className="col-span-1 grid justify-items-end">
-                  <User2Icon className="h-4 w-4" />
+                  <User2Icon className="h-4 w-4 text-slate-400" />
                 </div>
 
                 <div className="col-span-4">
-                  <p className="text-sm">Demi He</p>
+                  <p className="text-sm text-slate-400">Demi He</p>
                 </div>
               </div>
             </div>
 
-            <div className="col-span-1 border-r-2 border-slate-700">
+            <div className="col-span-1 border-r-2 border-slate-400">
               <div className="grid grid-cols-5 gap-2">
                 <div className="col-span-1 grid justify-items-end">
-                  <DatabaseIcon className="h-4 w-4" />
+                  <BookText className="h-4 w-4 text-slate-400" />
                 </div>
 
                 <div className="col-span-4">
-                  <p className="text-sm">Matematika</p>
+                  <p className="text-sm text-slate-400">Matematika</p>
                 </div>
               </div>
             </div>
 
-            <div className="col-span-1 border-r-2 border-slate-700">
+            <div className="col-span-1">
               <div className="grid grid-cols-5 gap-2">
                 <div className="col-span-1 grid justify-items-end">
-                  <DatabaseIcon className="h-4 w-4" />
+                  <DatabaseIcon className="h-4 w-4 text-slate-400" />
                 </div>
 
                 <div className="col-span-4">
-                  <p className="text-sm">Semester 1</p>
+                  <p className="text-sm text-slate-400">Semester 1</p>
                 </div>
               </div>
             </div>
@@ -76,11 +77,11 @@ export default function TaskStudent() {
         </div>
       </div>
 
-      <div className="border-2 rounded-lg py-5 px-10 mt-10">
+      <div className="border-2 rounded-lg py-5 px-10 mt-10 bg-white">
         <div className="grid grid-cols-10 gap-4">
-          <div className="col-span-1 grid justify-items-center border-r-2 border-slate-700">
-            <div className="p-2 border-2 rounded-full">
-              <BookIcon />
+          <div className="col-span-1 grid justify-items-center border-r-2 border-slate-400">
+            <div className="p-2 border-2 rounded-full border-slate-400">
+              <BookOpen />
             </div>
           </div>
 
@@ -102,7 +103,7 @@ export default function TaskStudent() {
         <h2 className="text-lg mt-5 mb-3">Referensi</h2>
 
         <div className="grid grid-cols-4 gap-6">
-          <div className="col-span-1 border px-3 rounded-md bg-slate-200">
+          <div className="col-span-1 border px-3 rounded-md bg-slate-100">
             <div className="grid grid-cols-4 gap-2">
               <div className="col-span-3 grid justify-items-center">
                 <p>You Tube 1</p>
@@ -114,7 +115,7 @@ export default function TaskStudent() {
             </div>
           </div>
 
-          <div className="col-span-1 border px-3 rounded-md bg-slate-200">
+          <div className="col-span-1 border px-3 rounded-md bg-slate-100">
             <div className="grid grid-cols-4 gap-2">
               <div className="col-span-3 grid justify-items-center">
                 <p>You Tube 1</p>
@@ -126,7 +127,7 @@ export default function TaskStudent() {
             </div>
           </div>
 
-          <div className="col-span-1 border px-3 rounded-md bg-slate-200">
+          <div className="col-span-1 border px-3 rounded-md bg-slate-100">
             <div className="grid grid-cols-4 gap-2">
               <div className="col-span-3 grid justify-items-center">
                 <p>You Tube 1</p>
@@ -138,7 +139,7 @@ export default function TaskStudent() {
             </div>
           </div>
 
-          <div className="col-span-1 border px-3 rounded-md bg-slate-200">
+          <div className="col-span-1 border px-3 rounded-md bg-slate-100">
             <div className="grid grid-cols-4 gap-2">
               <div className="col-span-3 grid justify-items-center">
                 <p>You Tube 1</p>
@@ -180,10 +181,10 @@ export default function TaskStudent() {
         </div>
       </div>
 
-      <div className="border-2 rounded-lg py-5 px-10 mt-10">
+      <div className="border-2 rounded-lg py-5 px-10 mt-10 bg-white">
         <div className="grid grid-cols-10 gap-4">
-          <div className="col-span-1 grid justify-items-center border-r-2 border-slate-700">
-            <div className="p-2 border-2 rounded-full">
+          <div className="col-span-1 grid justify-items-center border-r-2 border-slate-400">
+            <div className="p-2 border-2 rounded-full border-slate-400">
               <BrickWall />
             </div>
           </div>
@@ -194,7 +195,7 @@ export default function TaskStudent() {
         </div>
 
         <div className="grid grid-cols-4 gap-6 mt-5">
-          <div className="col-span-1 border px-3 rounded-md bg-slate-200">
+          <div className="col-span-1 border px-3 rounded-md bg-slate-100">
             <div className="grid grid-cols-4 gap-2">
               <div className="col-span-3 grid justify-items-center">
                 <p>Matematika Dasar</p>
@@ -206,7 +207,7 @@ export default function TaskStudent() {
             </div>
           </div>
 
-          <div className="col-span-1 border px-3 rounded-md bg-slate-200">
+          <div className="col-span-1 border px-3 rounded-md bg-slate-100">
             <div className="grid grid-cols-4 gap-2">
               <div className="col-span-3 grid justify-items-center">
                 <p>Matematika Dasar</p>
@@ -218,7 +219,7 @@ export default function TaskStudent() {
             </div>
           </div>
 
-          <div className="col-span-1 border px-3 rounded-md bg-slate-200">
+          <div className="col-span-1 border px-3 rounded-md bg-slate-100">
             <div className="grid grid-cols-4 gap-2">
               <div className="col-span-3 grid justify-items-center">
                 <p>Matematika Dasar</p>
@@ -230,7 +231,7 @@ export default function TaskStudent() {
             </div>
           </div>
 
-          <div className="col-span-1 border px-3 rounded-md bg-slate-200">
+          <div className="col-span-1 border px-3 rounded-md bg-slate-100">
             <div className="grid grid-cols-4 gap-2">
               <div className="col-span-3 grid justify-items-center">
                 <p>Matematika Dasar</p>
@@ -244,11 +245,11 @@ export default function TaskStudent() {
         </div>
       </div>
 
-      <div className="border-2 rounded-lg py-5 px-10 mt-10 mb-20">
+      <div className="border-2 rounded-lg py-5 px-10 mt-10 mb-20 bg-white">
         <div className="grid grid-cols-10 gap-4">
-          <div className="col-span-1 grid justify-items-center border-r-2 border-slate-700">
-            <div className="p-2 border-2 rounded-full">
-              <BookOpen />
+          <div className="col-span-1 grid justify-items-center border-r-2 border-slate-400">
+            <div className="p-2 border-2 rounded-full border-slate-400">
+              <LibraryBig />
             </div>
           </div>
 
@@ -258,7 +259,7 @@ export default function TaskStudent() {
         </div>
 
         <div className="grid grid-cols-4 gap-6 mt-5">
-          <div className="col-span-1 border px-3 rounded-md bg-slate-200">
+          <div className="col-span-1 border px-3 rounded-md bg-slate-100">
             <div className="grid grid-cols-4 gap-2">
               <div className="col-span-3 grid justify-items-center">
                 <p>Matematika Dasar</p>
@@ -270,7 +271,7 @@ export default function TaskStudent() {
             </div>
           </div>
 
-          <div className="col-span-1 border px-3 rounded-md bg-slate-200">
+          <div className="col-span-1 border px-3 rounded-md bg-slate-100">
             <div className="grid grid-cols-4 gap-2">
               <div className="col-span-3 grid justify-items-center">
                 <p>Matematika Dasar</p>
@@ -282,7 +283,7 @@ export default function TaskStudent() {
             </div>
           </div>
 
-          <div className="col-span-1 border px-3 rounded-md bg-slate-200">
+          <div className="col-span-1 border px-3 rounded-md bg-slate-100">
             <div className="grid grid-cols-4 gap-2">
               <div className="col-span-3 grid justify-items-center">
                 <p>Matematika Dasar</p>
@@ -294,7 +295,7 @@ export default function TaskStudent() {
             </div>
           </div>
 
-          <div className="col-span-1 border px-3 rounded-md bg-slate-200">
+          <div className="col-span-1 border px-3 rounded-md bg-slate-100">
             <div className="grid grid-cols-4 gap-2">
               <div className="col-span-3 grid justify-items-center">
                 <p>Matematika Dasar</p>

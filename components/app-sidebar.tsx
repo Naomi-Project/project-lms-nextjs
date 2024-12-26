@@ -28,7 +28,7 @@ import user from "../image/user.jpeg";
 export function AppSidebar() {
   return (
     <div className="bg-white">
-      <Sidebar>
+      <Sidebar className="bg-white">
         <SidebarHeader>
           <SidebarMenu>
             <SidebarMenuItem>

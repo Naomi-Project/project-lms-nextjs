@@ -130,13 +130,15 @@ export default function ClassTeacher() {
             </div>
 
             <div className="row-span-1">
-              <div className="grid grid-cols-12">
-                <div className="col-span-1">
-                  <User2Icon className="h-5 w-5 text-slate-400" />
-                </div>
+              <div className="w-3/12">
+                <div className="grid grid-cols-2">
+                  <div className="col-span-1">
+                    <User2Icon className="h-5 w-5 text-slate-400" />
+                  </div>
 
-                <div className="col-span-11">
-                  <p className="text-sm text-slate-400">Demi He</p>
+                  <div className="col-span-1">
+                    <p className="text-sm text-slate-400">Demi He</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -160,7 +162,7 @@ export default function ClassTeacher() {
 
             <div className="relative bg-white">
               <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input placeholder="Cari E-Book" className="pl-8 w-full" />
+              <Input placeholder="Cari Siswa" className="pl-8 w-full" />
             </div>
           </TabsList>
           <TabsContent value="active">

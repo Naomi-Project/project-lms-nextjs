@@ -142,33 +142,35 @@ export default function KeuanganAdmin() {
 
           <p className="font-bold text-3xl mt-2">Rp. 150.000.000</p>
 
-          <div className="grid grid-cols-4 gap-4 mt-6">
-            <div className="col-span-2">
-              <Select defaultValue="januari">
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Filter" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="januari">Januari</SelectItem>
-                  <SelectItem value="februari">Februari</SelectItem>
-                  <SelectItem value="maret">Maret</SelectItem>
-                  <SelectItem value="april">April</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+          <div className="w-8/12 mt-7">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="col-span-1">
+                <Select defaultValue="januari">
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Filter" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="januari">Januari</SelectItem>
+                    <SelectItem value="februari">Februari</SelectItem>
+                    <SelectItem value="maret">Maret</SelectItem>
+                    <SelectItem value="april">April</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
 
-            <div className="col-span-2">
-              <Select defaultValue="2024">
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Filter" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="2024">2024</SelectItem>
-                  <SelectItem value="2023">2023</SelectItem>
-                  <SelectItem value="2022">2022</SelectItem>
-                  <SelectItem value="2021">2021</SelectItem>
-                </SelectContent>
-              </Select>
+              <div className="col-span-1">
+                <Select defaultValue="2024">
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Filter" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="2024">2024</SelectItem>
+                    <SelectItem value="2023">2023</SelectItem>
+                    <SelectItem value="2022">2022</SelectItem>
+                    <SelectItem value="2021">2021</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </div>
         </div>
@@ -176,7 +178,9 @@ export default function KeuanganAdmin() {
         <div className="col-span-1 bg-white rounded-lg p-4">
           <p className="text-base text-slate-400">SPP Belum Terbayar</p>
 
-          <p className="font-bold text-3xl text-red-500 mt-2">Rp. 21.000.000</p>
+          <p className="font-bold text-3xl text-red-500 mt-2">
+            Rp. -21.000.000
+          </p>
 
           <p className="text-sm mt-6">123 Siswa</p>
         </div>

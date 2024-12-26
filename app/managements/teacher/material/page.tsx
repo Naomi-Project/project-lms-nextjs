@@ -33,7 +33,7 @@ export default function MaterialTeacher() {
         </div>
 
         <div className="grid grid-cols-3 gap-4">
-          <div className="col-span-1">
+          <div className="col-span-1 bg-white rounded-lg">
             <Select defaultValue="global">
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Filter" />
@@ -46,9 +46,9 @@ export default function MaterialTeacher() {
               </SelectContent>
             </Select>
           </div>
-          <div className="col-span-2 relative">
+          <div className="col-span-2 relative bg-white rounded-lg">
             <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input placeholder="Cari Tugas" className="pl-8 w-[300px]" />
+            <Input placeholder="Cari Tugas" className="pl-8 w-full" />
           </div>
         </div>
       </div>
@@ -63,8 +63,12 @@ export default function MaterialTeacher() {
                 className="rounded-lg w-full h-full"
               />
               <CardHeader>
-                <CardTitle>Matematika</CardTitle>
-                <CardDescription>Materi faktorial dan aljabar</CardDescription>
+                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
+                  Matematika
+                </CardTitle>
+                <CardDescription className="font-bold text-base text-black">
+                  Materi faktorial dan aljabar
+                </CardDescription>
               </CardHeader>
             </Card>
           </Link>
@@ -79,8 +83,12 @@ export default function MaterialTeacher() {
                 className="rounded-lg w-full h-full"
               />
               <CardHeader>
-                <CardTitle>Matematika</CardTitle>
-                <CardDescription>Materi faktorial dan aljabar</CardDescription>
+                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
+                  Matematika
+                </CardTitle>
+                <CardDescription className="font-bold text-base text-black">
+                  Materi faktorial dan aljabar
+                </CardDescription>
               </CardHeader>
             </Card>
           </Link>
@@ -95,8 +103,12 @@ export default function MaterialTeacher() {
                 className="rounded-lg w-full h-full"
               />
               <CardHeader>
-                <CardTitle>Matematika</CardTitle>
-                <CardDescription>Materi faktorial dan aljabar</CardDescription>
+                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
+                  Matematika
+                </CardTitle>
+                <CardDescription className="font-bold text-base text-black">
+                  Materi faktorial dan aljabar
+                </CardDescription>
               </CardHeader>
             </Card>
           </Link>
@@ -111,8 +123,12 @@ export default function MaterialTeacher() {
                 className="rounded-lg w-full h-full"
               />
               <CardHeader>
-                <CardTitle>Matematika</CardTitle>
-                <CardDescription>Materi faktorial dan aljabar</CardDescription>
+                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
+                  Matematika
+                </CardTitle>
+                <CardDescription className="font-bold text-base text-black">
+                  Materi faktorial dan aljabar
+                </CardDescription>
               </CardHeader>
             </Card>
           </Link>
@@ -129,8 +145,12 @@ export default function MaterialTeacher() {
                 className="rounded-lg w-full h-full"
               />
               <CardHeader>
-                <CardTitle>Matematika</CardTitle>
-                <CardDescription>Materi faktorial dan aljabar</CardDescription>
+                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
+                  Matematika
+                </CardTitle>
+                <CardDescription className="font-bold text-base text-black">
+                  Materi faktorial dan aljabar
+                </CardDescription>
               </CardHeader>
             </Card>
           </Link>
@@ -145,8 +165,12 @@ export default function MaterialTeacher() {
                 className="rounded-lg w-full h-full"
               />
               <CardHeader>
-                <CardTitle>Matematika</CardTitle>
-                <CardDescription>Materi faktorial dan aljabar</CardDescription>
+                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
+                  Matematika
+                </CardTitle>
+                <CardDescription className="font-bold text-base text-black">
+                  Materi faktorial dan aljabar
+                </CardDescription>
               </CardHeader>
             </Card>
           </Link>
@@ -161,8 +185,12 @@ export default function MaterialTeacher() {
                 className="rounded-lg w-full h-full"
               />
               <CardHeader>
-                <CardTitle>Matematika</CardTitle>
-                <CardDescription>Materi faktorial dan aljabar</CardDescription>
+                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
+                  Matematika
+                </CardTitle>
+                <CardDescription className="font-bold text-base text-black">
+                  Materi faktorial dan aljabar
+                </CardDescription>
               </CardHeader>
             </Card>
           </Link>
@@ -177,8 +205,12 @@ export default function MaterialTeacher() {
                 className="rounded-lg w-full h-full"
               />
               <CardHeader>
-                <CardTitle>Matematika</CardTitle>
-                <CardDescription>Materi faktorial dan aljabar</CardDescription>
+                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
+                  Matematika
+                </CardTitle>
+                <CardDescription className="font-bold text-base text-black">
+                  Materi faktorial dan aljabar
+                </CardDescription>
               </CardHeader>
             </Card>
           </Link>

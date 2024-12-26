@@ -54,19 +54,28 @@ export default function StudentProfilePresence() {
     <div className="min-h-screen">
       <div className="flex justify-start">
         <ToggleGroup type="multiple" variant="outline">
-          <ToggleGroupItem value="bold" aria-label="Toggle bold">
-            <p className="text-sm text-slate-400">Profileku</p>
+          <ToggleGroupItem
+            value="bold"
+            aria-label="Toggle bold"
+            className="bg-white"
+          >
+            <Link href="/managements/student/profile">
+              <p className="text-sm text-slate-400">Profileku</p>
+            </Link>
           </ToggleGroupItem>
           <ToggleGroupItem
             value="italic"
             aria-label="Toggle italic"
             className="bg-blue-100 border-blue-100 rounded-lg"
           >
-            <p className="text-sm text-blue-400">Laporan Presensi</p>
+            <Link href="/managements/student/profile-presence">
+              <p className="text-sm text-blue-500">Laporan Presensi</p>
+            </Link>
           </ToggleGroupItem>
           <ToggleGroupItem
             value="strikethrough"
             aria-label="Toggle strikethrough"
+            className="bg-white"
           >
             <Link href="/managements/student/profile-value">
               <p className="text-sm text-slate-400">Laporan Nilai</p>
@@ -75,64 +84,67 @@ export default function StudentProfilePresence() {
           <ToggleGroupItem
             value="strikethrough"
             aria-label="Toggle strikethrough"
+            className="bg-white"
           >
-            <p className="text-sm text-slate-400">Pembayaran SPP</p>
+            <Link href="/managements/student/profile-payment">
+              <p className="text-sm text-slate-400">Pembayaran SPP</p>
+            </Link>
           </ToggleGroupItem>
         </ToggleGroup>
       </div>
 
       <div className="grid grid-cols-4 gap-4 mt-6">
-        <div className="col-span-1 border-2 rounded-lg py-2">
+        <div className="col-span-1 border-2 rounded-lg py-2 bg-white">
           <div className="grid grid-cols-5 gap-2 ml-5">
             <div className="col-span-1 bg-green-100 p-2 rounded-lg flex items-center justify-center">
               <CalendarCheck2 className="w-9 h-9 text-green-400" />
             </div>
             <div className="col-span-4">
-              <p className="text-base text-stone-400">Kehadiran</p>
-              <p className="text-base">8</p>
+              <p className="text-sm text-stone-400">Kehadiran</p>
+              <p className="text-base font-bold">8</p>
             </div>
           </div>
         </div>
 
-        <div className="col-span-1 border-2 rounded-lg py-2">
+        <div className="col-span-1 border-2 rounded-lg py-2 bg-white">
           <div className="grid grid-cols-5 gap-2 ml-5">
             <div className="col-span-1 bg-orange-100 rounded-lg flex items-center justify-center">
               <Hourglass className="w-9 h-9 text-orange-400" />
             </div>
             <div className="col-span-1">
-              <p className="text-base text-stone-400">Izin</p>
-              <p className="text-base">24</p>
+              <p className="text-sm text-stone-400">Izin</p>
+              <p className="text-base font-bold">24</p>
             </div>
           </div>
         </div>
 
-        <div className="col-span-1 border-2 rounded-lg py-2">
+        <div className="col-span-1 border-2 rounded-lg py-2 bg-white">
           <div className="grid grid-cols-5 gap-2 ml-5">
             <div className="col-span-1 bg-orange-100 p-2 rounded-lg flex items-center justify-center">
               <Thermometer className="w-9 h-9 text-orange-400" />
             </div>
             <div className="col-span-4">
-              <p className="text-base text-stone-400">Sakit</p>
-              <p className="text-base">12</p>
+              <p className="text-sm text-stone-400">Sakit</p>
+              <p className="text-base font-bold">12</p>
             </div>
           </div>
         </div>
 
-        <div className="col-span-1 border-2 rounded-lg py-2">
+        <div className="col-span-1 border-2 rounded-lg py-2 bg-white">
           <div className="grid grid-cols-5 gap-2 ml-5">
             <div className="col-span-1 bg-red-100 p-2 rounded-lg flex items-center justify-center">
               <CalendarOff className="w-9 h-9 text-red-400" />
             </div>
             <div className="col-span-4">
-              <p className="text-base text-stone-400">Absen</p>
-              <p className="text-base">2</p>
+              <p className="text-sm text-stone-400">Absen</p>
+              <p className="text-base font-bold">2</p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="border-2 rounded-lg mt-10">
-        <div className="grid grid-cols-10 gap-4 p-4 border-b-4">
+      <div className="border-2 rounded-lg mt-10 bg-white">
+        <div className="grid grid-cols-10 gap-4 p-4">
           <div className="col-span-8">
             <h1 className="text-base font-bold">Tanpa Keterangan</h1>
             <p>Riwayat Absen Siswa Tanpa Keterangan Selama Setahun</p>
@@ -143,7 +155,7 @@ export default function StudentProfilePresence() {
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-[240px] justify-start text-left font-normal",
+                    "w-[130px] justify-start text-left font-normal",
                     !date && "text-muted-foreground"
                   )}
                 >

@@ -5,7 +5,7 @@ import {
   CalendarDays,
   Library,
   Fence,
-  BookMarked,
+  // BookMarked,
   Building2,
   UserPen,
   BookCheck,
@@ -115,14 +115,14 @@ export const AppMenu = [
     href: "/managements/student/library",
     icon: Library,
   },
-  {
-    title: "Pengumuman",
-    href: "/dashboard/announcements",
-    icon: BookMarked,
-  },
-  {
-    title: "Sekolah",
-    href: "/dashboard/schools",
-    icon: SchoolIcon,
-  },
+  // {
+  //   title: "Pengumuman",
+  //   href: "/dashboard/announcements",
+  //   icon: BookMarked,
+  // },
+  // {
+  //   title: "Sekolah",
+  //   href: "/dashboard/schools",
+  //   icon: SchoolIcon,
+  // },
 ];

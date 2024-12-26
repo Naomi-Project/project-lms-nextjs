@@ -11,7 +11,7 @@ export default function ProfileTeacher() {
         aria-label="Toggle bold"
         className="bg-blue-100 border-blue-100 rounded-lg"
       >
-        <p className="text-sm text-blue-400">Profileku</p>
+        <p className="text-sm text-blue-500">Profileku</p>
       </Toggle>
 
       <div className="border-2 rounded-lg mt-8 bg-white">

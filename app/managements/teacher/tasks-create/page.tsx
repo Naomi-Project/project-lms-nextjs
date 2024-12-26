@@ -19,6 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon, Search, User } from "lucide-react";
@@ -148,12 +149,7 @@ export default function TeacherTasksCreate() {
 
       <div className="border-2 rounded-lg bg-white p-5 mt-8">
         <Label htmlFor="title">Deskripsi Tugas</Label>
-        <Input
-          type="title"
-          id="title"
-          placeholder="Isi Deskripsi"
-          className="mt-2"
-        />
+        <Textarea placeholder="Isi Deskripsi Disini" />
       </div>
 
       <div className="border-2 rounded-lg bg-white p-5 mt-8">
@@ -206,17 +202,17 @@ export default function TeacherTasksCreate() {
         />
 
         <div className="mt-3">
-          <RadioGroup defaultValue="comfortable">
+          <RadioGroup>
             <div className="flex items-center space-x-2">
-              <RadioGroupItem value="default" id="r1" />
+              <RadioGroupItem value="6" id="r1" />
               <Label htmlFor="r1">6</Label>
             </div>
             <div className="flex items-center space-x-2">
-              <RadioGroupItem value="comfortable" id="r2" />
+              <RadioGroupItem value="4" id="r2" />
               <Label htmlFor="r2">4</Label>
             </div>
             <div className="flex items-center space-x-2">
-              <RadioGroupItem value="compact" id="r3" />
+              <RadioGroupItem value="8" id="r3" />
               <Label htmlFor="r3">8</Label>
             </div>
           </RadioGroup>
@@ -227,8 +223,8 @@ export default function TeacherTasksCreate() {
         </Button>
       </div>
 
-      <div className="z-50 flex justify-center">
-        <Button variant="default" className="mt-3">
+      <div className="flex justify-center mt-3">
+        <Button variant="default" className="w-3/12">
           Selesai
         </Button>
       </div>

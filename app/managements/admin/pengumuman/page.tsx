@@ -106,7 +106,7 @@ export default function PengumumanAdmin() {
                 </DialogTitle>
               </DialogHeader>
               <div className="">
-                <Label htmlFor="title">Nama Sekolah</Label>
+                <Label htmlFor="title">Pengumuman</Label>
                 <Textarea placeholder="Isi Pengumuman Disini" />
               </div>
               <DialogFooter>

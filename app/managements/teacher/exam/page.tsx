@@ -27,6 +27,18 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { PencilLine } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const data1 = [
   {
@@ -136,7 +148,7 @@ export default function ExamTeacher() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="font-bold">No.</TableHead>
+              <TableHead className="font-bold">NO.</TableHead>
               <TableHead className="font-bold">NAMA SISWA</TableHead>
               <TableHead className="font-bold">SEMESTER 1</TableHead>
               <TableHead className="font-bold">SEMESTER 2</TableHead>
@@ -155,7 +167,239 @@ export default function ExamTeacher() {
                   {invoice.semester2}
                 </TableCell>
                 <TableCell>
-                  <PencilLine />
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="outline">
+                        <PencilLine />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[525px]">
+                      <DialogHeader>
+                        <DialogTitle className="text-center">
+                          Update Nilai Ujian
+                        </DialogTitle>
+                      </DialogHeader>
+                      <Tabs defaultValue="semester1" className="w-full mt-5">
+                        <TabsList className="grid w-full grid-cols-2">
+                          <TabsTrigger value="semester1">
+                            Semester 1
+                          </TabsTrigger>
+                          <TabsTrigger value="semester2">
+                            Semester 2
+                          </TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="semester1">
+                          <div className="grid grid-cols-2 gap-4">
+                            <div className="col-span-1">
+                              <div className="">
+                                <Label htmlFor="matematika">Matematika</Label>
+                                <Input
+                                  type="text"
+                                  id="matematika"
+                                  placeholder="Isi Nilai Matematika Disini"
+                                />
+                              </div>
+
+                              <div className="mt-3">
+                                <Label htmlFor="matematika">Matematika</Label>
+                                <Input
+                                  type="text"
+                                  id="matematika"
+                                  placeholder="Isi Nilai Matematika Disini"
+                                />
+                              </div>
+
+                              <div className="mt-3">
+                                <Label htmlFor="matematika">Matematika</Label>
+                                <Input
+                                  type="text"
+                                  id="matematika"
+                                  placeholder="Isi Nilai Matematika Disini"
+                                />
+                              </div>
+
+                              <div className="mt-3">
+                                <Label htmlFor="matematika">Matematika</Label>
+                                <Input
+                                  type="text"
+                                  id="matematika"
+                                  placeholder="Isi Nilai Matematika Disini"
+                                />
+                              </div>
+
+                              <div className="mt-3">
+                                <Label htmlFor="matematika">Matematika</Label>
+                                <Input
+                                  type="text"
+                                  id="matematika"
+                                  placeholder="Isi Nilai Matematika Disini"
+                                />
+                              </div>
+                            </div>
+
+                            <div className="col-span-1">
+                              <div className="">
+                                <Label htmlFor="matematika">
+                                  Bahasa Indonesia
+                                </Label>
+                                <Input
+                                  type="text"
+                                  id="matematika"
+                                  placeholder="Isi Nilai Bahasa Indonesia Disini"
+                                />
+                              </div>
+
+                              <div className="mt-3">
+                                <Label htmlFor="matematika">
+                                  Bahasa Indonesia
+                                </Label>
+                                <Input
+                                  type="text"
+                                  id="matematika"
+                                  placeholder="Isi Nilai Bahasa Indonesia Disini"
+                                />
+                              </div>
+
+                              <div className="mt-3">
+                                <Label htmlFor="matematika">
+                                  Bahasa Indonesia
+                                </Label>
+                                <Input
+                                  type="text"
+                                  id="matematika"
+                                  placeholder="Isi Nilai Bahasa Indonesia Disini"
+                                />
+                              </div>
+
+                              <div className="mt-3">
+                                <Label htmlFor="matematika">
+                                  Bahasa Indonesia
+                                </Label>
+                                <Input
+                                  type="text"
+                                  id="matematika"
+                                  placeholder="Isi Nilai Bahasa Indonesia Disini"
+                                />
+                              </div>
+
+                              <div className="mt-3">
+                                <Label htmlFor="matematika">
+                                  Bahasa Indonesia
+                                </Label>
+                                <Input
+                                  type="text"
+                                  id="matematika"
+                                  placeholder="Isi Nilai Bahasa Indonesia Disini"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </TabsContent>
+                        <TabsContent value="semester2">
+                          <div className="grid grid-cols-2 gap-4">
+                            <div className="col-span-1">
+                              <div className="">
+                                <Label htmlFor="matematika">Kimia</Label>
+                                <Input
+                                  type="text"
+                                  id="matematika"
+                                  placeholder="Isi Nilai Kimia Disini"
+                                />
+                              </div>
+
+                              <div className="mt-3">
+                                <Label htmlFor="matematika">Kimia</Label>
+                                <Input
+                                  type="text"
+                                  id="matematika"
+                                  placeholder="Isi Nilai Kimia Disini"
+                                />
+                              </div>
+
+                              <div className="mt-3">
+                                <Label htmlFor="matematika">Kimia</Label>
+                                <Input
+                                  type="text"
+                                  id="matematika"
+                                  placeholder="Isi Nilai Kimia Disini"
+                                />
+                              </div>
+
+                              <div className="mt-3">
+                                <Label htmlFor="matematika">Kimia</Label>
+                                <Input
+                                  type="text"
+                                  id="matematika"
+                                  placeholder="Isi Nilai Kimia Disini"
+                                />
+                              </div>
+
+                              <div className="mt-3">
+                                <Label htmlFor="matematika">Kimia</Label>
+                                <Input
+                                  type="text"
+                                  id="matematika"
+                                  placeholder="Isi Nilai Kimia Disini"
+                                />
+                              </div>
+                            </div>
+
+                            <div className="col-span-1">
+                              <div className="">
+                                <Label htmlFor="matematika">Fisika</Label>
+                                <Input
+                                  type="text"
+                                  id="matematika"
+                                  placeholder="Isi Nilai Fisika Disini"
+                                />
+                              </div>
+
+                              <div className="mt-3">
+                                <Label htmlFor="matematika">Fisika</Label>
+                                <Input
+                                  type="text"
+                                  id="matematika"
+                                  placeholder="Isi Nilai Fisika Disini"
+                                />
+                              </div>
+
+                              <div className="mt-3">
+                                <Label htmlFor="matematika">Fisika</Label>
+                                <Input
+                                  type="text"
+                                  id="matematika"
+                                  placeholder="Isi Nilai Fisika Disini"
+                                />
+                              </div>
+
+                              <div className="mt-3">
+                                <Label htmlFor="matematika">Fisika</Label>
+                                <Input
+                                  type="text"
+                                  id="matematika"
+                                  placeholder="Isi Nilai Fisika Disini"
+                                />
+                              </div>
+
+                              <div className="mt-3">
+                                <Label htmlFor="matematika">Fisika</Label>
+                                <Input
+                                  type="text"
+                                  id="matematika"
+                                  placeholder="Isi Nilai Fisika Disini"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </TabsContent>
+                      </Tabs>
+                      <DialogFooter className="mt-5">
+                        <Button type="submit" className="w-full">
+                          Update
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
                 </TableCell>
               </TableRow>
             ))}
