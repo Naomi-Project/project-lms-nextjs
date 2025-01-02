@@ -139,7 +139,7 @@ export default function ManagerClassDetail() {
         </ToggleGroup>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 mt-8">
+      <div className="Md:grid grid-cols-2 gap-4 mt-8">
         <div className="col-span-1 border-2 bg-white rounded-lg p-5">
           <div className="grid grid-rows-2 gap-4">
             <div className="row-span-1">
@@ -170,7 +170,7 @@ export default function ManagerClassDetail() {
           </div>
         </div>
 
-        <div className="col-span-1 border-2 bg-white rounded-lg p-5">
+        <div className="md:mt-0 mt-4 col-span-1 border-2 bg-white rounded-lg p-5">
           <h1 className="text-slate-400 text-base">Nilai Rata-Rata Kelas</h1>
 
           <p className="text-3xl font-bold mt-6">70</p>
@@ -195,7 +195,7 @@ export default function ManagerClassDetail() {
               <TableHeader className="bg-slate-100">
                 <TableRow>
                   <TableHead className="font-bold">No.</TableHead>
-                  <TableHead className="font-bold">NAMA SISWA</TableHead>
+                  <TableHead className="font-bold w-10">NAMA SISWA</TableHead>
                   <TableHead className="font-bold">NISN</TableHead>
                   <TableHead className="font-bold">KONTAK</TableHead>
                 </TableRow>

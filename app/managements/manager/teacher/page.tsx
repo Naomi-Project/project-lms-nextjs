@@ -171,7 +171,7 @@ export default function ManagerTeacher() {
                     <Plus /> Tambah Guru
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
+                <DialogContent className="md:w-4/12 w-96 rounded-lg">
                   <DialogHeader>
                     <DialogTitle className="text-center">
                       Tambah Guru

@@ -162,7 +162,7 @@ const data2 = [
 export default function ManagerStudent() {
   return (
     <div className="min-h-screen">
-      <div className="grid grid-cols-2 gap-4 mt-6">
+      <div className="md:grid grid-cols-2 gap-4 mt-6">
         <div className="col-span-1">
           <div className="grid grid-cols-2 gap-4 h-full">
             <div className="col-span-1 bg-white p-2 rounded-lg">
@@ -221,7 +221,7 @@ export default function ManagerStudent() {
           </div>
         </div>
 
-        <div className="col-span-1">
+        <div className="md:mt-0 mt-4 col-span-1">
           <div className="grid grid-rows-2 gap-4">
             <div className="row-span-1 bg-white p-2 rounded-lg">
               <p className="text-base">Siswa Lulus Tahun Ini</p>
@@ -248,7 +248,7 @@ export default function ManagerStudent() {
                     <Plus /> Tambah Siswa
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
+                <DialogContent className="md:w-4/12 w-96 rounded-lg">
                   <DialogHeader>
                     <DialogTitle className="text-center">
                       Tambah Siswa

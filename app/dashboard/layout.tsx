@@ -12,7 +12,9 @@ export default function DashboardLayout({
       <AppSidebar />
       <SidebarInset>
         <Header />
-        <main className="bg-gray-100 p-4">{children}</main>
+        <body className="overflow-x-hidden">
+          <main className="bg-gray-100 p-4">{children}</main>
+        </body>
       </SidebarInset>
     </SidebarProvider>
   );

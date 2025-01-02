@@ -112,7 +112,7 @@ export default function ManagerClassManagement() {
       </div>
 
       <div className="mt-6 bg-white rounded-lg p-5">
-        <div className="flex justify-between">
+        <div className="md:flex justify-between">
           <div className="grid grid-cols-2 gap-4">
             <div className="col-span-1">
               <Button variant="outline">
@@ -127,7 +127,7 @@ export default function ManagerClassManagement() {
                     <SlidersHorizontal /> Pindah Kelas
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
+                <DialogContent className="md:w-5/12 w-96 rounded-lg">
                   <DialogHeader>
                     <DialogTitle className="text-center">
                       Buat Cabang Kelas
@@ -203,7 +203,7 @@ export default function ManagerClassManagement() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="md:mt-0 mt-2 grid grid-cols-2 gap-4">
             <div className="col-span-1 bg-white rounded-lg">
               <Select>
                 <SelectTrigger className="w-full">

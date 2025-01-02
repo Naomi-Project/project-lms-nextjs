@@ -16,8 +16,8 @@ export default function ManagerProfileTeacher() {
   return (
     <div className="min-h-screen">
       <div className="border-2 rounded-lg mt-8 bg-white">
-        <div className="grid grid-cols-12 p-4">
-          <div className="col-span-1">
+        <div className="grid md:grid-cols-12 grid-cols-12 p-4">
+          <div className="col-span-2 md:col-span-1">
             <Image
               src={user}
               alt="user"
@@ -26,14 +26,14 @@ export default function ManagerProfileTeacher() {
             />
           </div>
 
-          <div className="col-span-10 my-auto">
+          <div className="col-span-8 md:col-span-10 my-auto">
             <h1 className="font-bold text-sm">Muhammad Zulfikri</h1>
             <p className="w-10 text-center mt-1 bg-blue-100 text-blue-400 p-1 border-blue-100 rounded-lg text-xs">
               Guru
             </p>
           </div>
 
-          <div className="col-span-1">
+          <div className="md:mt-0 mt-4 md:col-span-1 col-span-2">
             <Button variant="default">
               <Pencil /> Edit
             </Button>
@@ -44,7 +44,7 @@ export default function ManagerProfileTeacher() {
       <div className="border-2 rounded-lg bg-white p-5 mt-10">
         <h1 className="text-base font-bold">Data Guru</h1>
 
-        <div className="grid grid-cols-2 gap-4 mt-6">
+        <div className="md:grid grid-cols-2 gap-4 mt-6">
           <div className="col-span-1">
             <div className="">
               <p className="text-slate-400 text-sm">Nama Lengkap</p>
@@ -85,7 +85,7 @@ export default function ManagerProfileTeacher() {
             </div>
           </div>
 
-          <div className="col-span-1">
+          <div className="md:mt-0 mt-3 col-span-1">
             <div className="">
               <p className="text-slate-400 text-sm">Jabatan</p>
 
@@ -136,7 +136,7 @@ export default function ManagerProfileTeacher() {
               <span>Nonaktifkan Guru</span>
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="md:w-5/12 w-8/12 rounded-lg">
             <DialogHeader className="border-b-2">
               <DialogTitle className="text-center mb-2">
                 Apakah Anda Yakin ?
@@ -154,7 +154,11 @@ export default function ManagerProfileTeacher() {
               </div>
             </div>
             <DialogFooter>
-              <Button type="reset" variant="outline" className="w-full">
+              <Button
+                type="reset"
+                variant="outline"
+                className="w-full md:mt-0 mt-2"
+              >
                 Tidak
               </Button>
               <Button type="submit" variant="destructive" className="w-full">
