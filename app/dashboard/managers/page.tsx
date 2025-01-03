@@ -51,7 +51,7 @@ const chartConfig = {
 
 export default function ManagerDashboard() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-x-hidden">
       <div className="flex justify-between rounded-lg bg-white p-4">
         <div className="">
           <h1 className="text-slate-400 text-base">Tahun Akademik</h1>

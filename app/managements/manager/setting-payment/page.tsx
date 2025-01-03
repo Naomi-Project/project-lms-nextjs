@@ -48,7 +48,7 @@ export default function ManagerSettingPayment() {
         </ToggleGroup>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 mt-4">
+      <div className="md:grid grid-cols-2 gap-4 mt-4">
         <div className="col-span-1 border-2 rounded-lg bg-white p-5">
           <div className="flex justify-between">
             <div className="">
@@ -62,7 +62,7 @@ export default function ManagerSettingPayment() {
                 <DialogTrigger asChild>
                   <Button variant="default">Edit</Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
+                <DialogContent className="md:w-3/12 w-96 rounded-lg">
                   <DialogHeader>
                     <DialogTitle className="text-center">
                       Tagihan SPP Perbulan
@@ -85,7 +85,7 @@ export default function ManagerSettingPayment() {
           </div>
         </div>
 
-        <div className="col-span-1 border-2 rounded-lg bg-white p-5">
+        <div className="md:mt-0 mt-4 col-span-1 border-2 rounded-lg bg-white p-5">
           <div className="flex justify-between">
             <div className="">
               <h1 className="text-slate-400 text-base">Tagihan Jatuh Tempo</h1>
@@ -98,7 +98,7 @@ export default function ManagerSettingPayment() {
                 <DialogTrigger asChild>
                   <Button variant="default">Edit</Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
+                <DialogContent className="md:w-3/12 w-96 rounded-lg">
                   <DialogHeader>
                     <DialogTitle className="text-center">
                       Tangal Jatuh Tempo

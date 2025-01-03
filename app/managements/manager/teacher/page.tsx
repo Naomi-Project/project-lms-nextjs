@@ -39,6 +39,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const data1 = [
   {
@@ -172,63 +173,67 @@ export default function ManagerTeacher() {
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="md:w-4/12 w-96 rounded-lg">
-                  <DialogHeader>
-                    <DialogTitle className="text-center">
-                      Tambah Guru
-                    </DialogTitle>
-                  </DialogHeader>
-                  <div className="">
-                    <Label htmlFor="name" className="text-right">
-                      Nama Lengkap
-                    </Label>
-                    <Input type="text" placeholder="Nama Lengkap Siswa" />
-                  </div>
+                  <ScrollArea className="h-96">
+                    <DialogHeader>
+                      <DialogTitle className="text-center">
+                        Tambah Guru
+                      </DialogTitle>
+                    </DialogHeader>
+                    <div className="">
+                      <Label htmlFor="name" className="text-right">
+                        Nama Lengkap
+                      </Label>
+                      <Input type="text" placeholder="Nama Lengkap Siswa" />
+                    </div>
 
-                  <div className="mt-3">
-                    <Label htmlFor="name" className="text-right">
-                      NIK
-                    </Label>
-                    <Input type="text" placeholder="NIK" />
-                  </div>
+                    <div className="mt-3">
+                      <Label htmlFor="name" className="text-right">
+                        NIK
+                      </Label>
+                      <Input type="text" placeholder="NIK" />
+                    </div>
 
-                  <div className="mt-3">
-                    <Label htmlFor="name" className="text-right">
-                      Kompetensi
-                    </Label>
-                    <Input type="text" placeholder="Kompetensi" />
-                  </div>
+                    <div className="mt-3">
+                      <Label htmlFor="name" className="text-right">
+                        Kompetensi
+                      </Label>
+                      <Input type="text" placeholder="Kompetensi" />
+                    </div>
 
-                  <div className="mt-3">
-                    <Label htmlFor="name" className="text-right">
-                      Status
-                    </Label>
-                    <Select>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Status" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectItem value="pegawai">Pegawai Tetap</SelectItem>
-                          <SelectItem value="honorer">Honorer</SelectItem>
-                          <SelectItem value="magang">Magang</SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  </div>
+                    <div className="mt-3">
+                      <Label htmlFor="name" className="text-right">
+                        Status
+                      </Label>
+                      <Select>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectItem value="pegawai">
+                              Pegawai Tetap
+                            </SelectItem>
+                            <SelectItem value="honorer">Honorer</SelectItem>
+                            <SelectItem value="magang">Magang</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </div>
 
-                  <div className="mt-3">
-                    <Label htmlFor="name" className="text-right">
-                      Kontak
-                    </Label>
-                    <Input type="text" placeholder="+62xxxxxxxxx" />
-                  </div>
+                    <div className="mt-3">
+                      <Label htmlFor="name" className="text-right">
+                        Kontak
+                      </Label>
+                      <Input type="text" placeholder="+62xxxxxxxxx" />
+                    </div>
 
-                  <div className="mt-3">
-                    <Checkbox id="terms" />
-                    <label htmlFor="terms" className="ml-2 text-sm">
-                      Guru Pindahaan
-                    </label>
-                  </div>
+                    <div className="mt-3">
+                      <Checkbox id="terms" />
+                      <label htmlFor="terms" className="ml-2 text-sm">
+                        Guru Pindahaan
+                      </label>
+                    </div>
+                  </ScrollArea>
                   <DialogFooter className="mt-5">
                     <Button type="submit" variant="default" className="w-full">
                       Selesai
@@ -240,7 +245,7 @@ export default function ManagerTeacher() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="col-span-1 flex justify-end">
-                <div className="w-8/12">
+                <div className="md:w-8/12 w-full">
                   <TabsTrigger value="aktif">Aktif</TabsTrigger>
                   <TabsTrigger value="nonAktif">Non Aktif</TabsTrigger>
                 </div>

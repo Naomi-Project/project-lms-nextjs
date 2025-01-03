@@ -27,20 +27,20 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-// interface Assignment {
-//   id: number;
-//   subject: string;
-//   title: string;
-//   dueDate: string;
-//   status: "pending" | "completed" | "overdue";
-// }
+interface Assignment {
+  id: number;
+  subject: string;
+  title: string;
+  dueDate: string;
+  status: "pending" | "completed" | "overdue";
+}
 
-// interface Exam {
-//   id: number;
-//   subject: string;
-//   date: string;
-//   time: string;
-// }
+interface Exam {
+  id: number;
+  subject: string;
+  date: string;
+  time: string;
+}
 
 export default function DashboardStudent() {
   const [assignments, setAssignments] = useState<Assignment[]>([

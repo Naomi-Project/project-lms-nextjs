@@ -69,7 +69,7 @@ export default function ManagerProfile() {
                   <span>Edit</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
+              <DialogContent className="md:w-3/12 w-96 rounded-lg">
                 <DialogHeader>
                   <DialogTitle className="text-center">
                     Tagihan SPP Perbulan
@@ -105,7 +105,7 @@ export default function ManagerProfile() {
       <div className="border-2 bg-white rounded-lg p-5 mt-8">
         <h1 className="text-xl font-bold">Data Sekolah</h1>
 
-        <div className="grid grid-cols-2 gap-4 mt-4">
+        <div className="md:grid grid-cols-2 gap-4 mt-4">
           <div className="col-span-1">
             <div className="">
               <p className="text-slate-400 text-sm">Nama Sekolah</p>
@@ -126,7 +126,7 @@ export default function ManagerProfile() {
             </div>
           </div>
 
-          <div className="col-span-1">
+          <div className="md:mt-0 mt-2 col-span-1">
             <div className="">
               <p className="text-slate-400 text-sm">Tingkatan Sekolah</p>
 

@@ -51,16 +51,20 @@ export function AppSidebar() {
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {AppMenu.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <a href={item.href}>
-                        <item.icon className="mr-2 h-4 w-4" />
-                        {item.title}
-                      </a>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
+                {AppMenu.map((item) =>
+                  item.visibility == true ? (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton asChild>
+                        <a href={item.href}>
+                          <item.icon className="mr-2 h-4 w-4" />
+                          {item.title}
+                        </a>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ) : (
+                    <></>
+                  )
+                )}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
