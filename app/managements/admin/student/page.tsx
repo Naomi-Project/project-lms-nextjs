@@ -151,7 +151,7 @@ const data2 = [
 export default function StudentAdmin() {
   return (
     <div className="min-h-screen">
-      <div className="grid grid-cols-2 gap-4 mt-6">
+      <div className="md:grid grid-cols-2 gap-4 mt-6">
         <div className="col-span-1">
           <div className="grid grid-cols-2 gap-4 h-full">
             <div className="col-span-1 bg-white p-2 rounded-lg">
@@ -210,7 +210,7 @@ export default function StudentAdmin() {
           </div>
         </div>
 
-        <div className="col-span-1">
+        <div className="md:mt-0 mt-4 col-span-1">
           <div className="grid grid-rows-2 gap-4">
             <div className="row-span-1 bg-white p-2 rounded-lg">
               <p className="text-base">Siswa Lulus Tahun Ini</p>
@@ -229,13 +229,13 @@ export default function StudentAdmin() {
 
       <div className="border-2 rounded-lg bg-white p-5 mt-10">
         <Tabs defaultValue="aktif" className="w-full">
-          <TabsList className="w-full flex justify-between bg-white">
-            <div className="bg-slate-200 rounded-lg">
+          <TabsList className="w-full md:flex justify-between grid grid-rows-2 gap-4 bg-white">
+            <div className="bg-slate-200 rounded-lg row-span-1 w-[131.5px]">
               <TabsTrigger value="aktif">Aktif</TabsTrigger>
               <TabsTrigger value="nonAktif">Non Aktif</TabsTrigger>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4 row-span-1 md:mt-0 mt-12">
               <div className="col-span-1">
                 <Select>
                   <SelectTrigger className="w-full">
@@ -261,16 +261,21 @@ export default function StudentAdmin() {
               </div>
             </div>
           </TabsList>
-          <TabsContent value="aktif">
+          <TabsContent
+            value="aktif"
+            className="md:mt-4 mt-16 border-2 rounded-lg"
+          >
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="font-bold">No.</TableHead>
-                  <TableHead className="font-bold">NAMA SISWA</TableHead>
-                  <TableHead className="font-bold">NISN</TableHead>
-                  <TableHead className="font-bold">KELAS</TableHead>
-                  <TableHead className="font-bold">WALI</TableHead>
-                  <TableHead className="font-bold">KONTAK</TableHead>
+                  <TableHead className="font-bold text-black">No.</TableHead>
+                  <TableHead className="font-bold text-black">
+                    NAMA SISWA
+                  </TableHead>
+                  <TableHead className="font-bold text-black">NISN</TableHead>
+                  <TableHead className="font-bold text-black">KELAS</TableHead>
+                  <TableHead className="font-bold text-black">WALI</TableHead>
+                  <TableHead className="font-bold text-black">KONTAK</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -318,16 +323,21 @@ export default function StudentAdmin() {
               </TableFooter>
             </Table>
           </TabsContent>
-          <TabsContent value="nonAktif">
+          <TabsContent
+            value="nonAktif"
+            className="md:mt-4 mt-16 border-2 rounded-lg"
+          >
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="font-bold">No.</TableHead>
-                  <TableHead className="font-bold">NAMA SISWA</TableHead>
-                  <TableHead className="font-bold">NISN</TableHead>
-                  <TableHead className="font-bold">KELAS</TableHead>
-                  <TableHead className="font-bold">WALI</TableHead>
-                  <TableHead className="font-bold">KONTAK</TableHead>
+                  <TableHead className="font-bold text-black">No.</TableHead>
+                  <TableHead className="font-bold text-black">
+                    NAMA SISWA
+                  </TableHead>
+                  <TableHead className="font-bold text-black">NISN</TableHead>
+                  <TableHead className="font-bold text-black">KELAS</TableHead>
+                  <TableHead className="font-bold text-black">WALI</TableHead>
+                  <TableHead className="font-bold text-black">KONTAK</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

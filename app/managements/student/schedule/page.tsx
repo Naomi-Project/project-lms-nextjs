@@ -4,7 +4,7 @@ import React from "react";
 export default function ScheduleStudent() {
   return (
     <div className="min-h-screen">
-      <div className="grid grid-cols-3 gap-4">
+      <div className="md:grid grid-cols-3 gap-4">
         <div className="col-span-1 border-2 rounded-lg p-8 bg-white">
           <h1 className="text-lg font-bold">Senin</h1>
 
@@ -85,7 +85,7 @@ export default function ScheduleStudent() {
           </div>
         </div>
 
-        <div className="col-span-1 border-2 rounded-lg p-8 bg-white">
+        <div className="col-span-1 border-2 rounded-lg p-8 bg-white md:mt-0 mt-3">
           <h1 className="text-lg font-bold">Selasa</h1>
 
           <div className="mt-3">
@@ -165,7 +165,7 @@ export default function ScheduleStudent() {
           </div>
         </div>
 
-        <div className="col-span-1 border-2 rounded-lg p-8 bg-white">
+        <div className="col-span-1 border-2 rounded-lg p-8 bg-white md:mt-0 mt-3">
           <h1 className="text-lg font-bold">Rabu</h1>
 
           <div className="mt-3">
@@ -246,7 +246,7 @@ export default function ScheduleStudent() {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-4 mt-6">
+      <div className="md:grid grid-cols-3 gap-4 md:mt-6 mt-3">
         <div className="col-span-1 border-2 rounded-lg p-8 bg-white">
           <h1 className="text-lg font-bold">Kamis</h1>
 
@@ -327,7 +327,7 @@ export default function ScheduleStudent() {
           </div>
         </div>
 
-        <div className="col-span-1 border-2 rounded-lg p-8 bg-white">
+        <div className="col-span-1 border-2 rounded-lg p-8 bg-white md:mt-0 mt-3">
           <h1 className="text-lg font-bold">Jumat</h1>
 
           <div className="mt-3">
@@ -407,7 +407,7 @@ export default function ScheduleStudent() {
           </div>
         </div>
 
-        <div className="col-span-1 border-2 rounded-lg p-8 bg-white">
+        <div className="col-span-1 border-2 rounded-lg p-8 bg-white md:mt-0 mt-3">
           <h1 className="text-lg font-bold">Sabtu</h1>
 
           <div className="mt-3">

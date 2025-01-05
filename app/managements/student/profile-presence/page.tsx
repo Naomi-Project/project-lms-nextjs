@@ -93,8 +93,8 @@ export default function StudentProfilePresence() {
         </ToggleGroup>
       </div>
 
-      <div className="grid grid-cols-4 gap-4 mt-6">
-        <div className="col-span-1 border-2 rounded-lg py-2 bg-white">
+      <div className="md:grid grid-cols-4 gap-4 mt-6">
+        <div className="col-span-1 md:w-full w-6/12 border-2 rounded-lg py-2 bg-white">
           <div className="grid grid-cols-5 gap-2 ml-5">
             <div className="col-span-1 bg-green-100 p-2 rounded-lg flex items-center justify-center">
               <CalendarCheck2 className="w-9 h-9 text-green-400" />
@@ -106,7 +106,7 @@ export default function StudentProfilePresence() {
           </div>
         </div>
 
-        <div className="col-span-1 border-2 rounded-lg py-2 bg-white">
+        <div className="col-span-1 md:w-full w-6/12 md:mt-0 mt-3 border-2 rounded-lg py-2 bg-white">
           <div className="grid grid-cols-5 gap-2 ml-5">
             <div className="col-span-1 bg-orange-100 rounded-lg flex items-center justify-center">
               <Hourglass className="w-9 h-9 text-orange-400" />
@@ -118,7 +118,7 @@ export default function StudentProfilePresence() {
           </div>
         </div>
 
-        <div className="col-span-1 border-2 rounded-lg py-2 bg-white">
+        <div className="col-span-1 md:w-full w-6/12 md:mt-0 mt-3 border-2 rounded-lg py-2 bg-white">
           <div className="grid grid-cols-5 gap-2 ml-5">
             <div className="col-span-1 bg-orange-100 p-2 rounded-lg flex items-center justify-center">
               <Thermometer className="w-9 h-9 text-orange-400" />
@@ -130,7 +130,7 @@ export default function StudentProfilePresence() {
           </div>
         </div>
 
-        <div className="col-span-1 border-2 rounded-lg py-2 bg-white">
+        <div className="col-span-1 md:w-full w-6/12 md:mt-0 mt-3 border-2 rounded-lg py-2 bg-white">
           <div className="grid grid-cols-5 gap-2 ml-5">
             <div className="col-span-1 bg-red-100 p-2 rounded-lg flex items-center justify-center">
               <CalendarOff className="w-9 h-9 text-red-400" />
@@ -145,17 +145,17 @@ export default function StudentProfilePresence() {
 
       <div className="border-2 rounded-lg mt-10 bg-white">
         <div className="grid grid-cols-10 gap-4 p-4">
-          <div className="col-span-8">
+          <div className="md:col-span-8 col-span-7">
             <h1 className="text-base font-bold">Tanpa Keterangan</h1>
             <p>Riwayat Absen Siswa Tanpa Keterangan Selama Setahun</p>
           </div>
-          <div className="col-span-2">
+          <div className="md:col-span-2 col-span-3">
             <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-[130px] justify-start text-left font-normal",
+                    "md:w-[130px] w-full justify-start text-left font-normal",
                     !date && "text-muted-foreground"
                   )}
                 >

@@ -40,6 +40,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const data1 = [
   {
@@ -162,7 +163,7 @@ const data2 = [
 export default function ManagerStudent() {
   return (
     <div className="min-h-screen">
-      <div className="grid grid-cols-2 gap-4 mt-6">
+      <div className="md:grid grid-cols-2 gap-4 mt-6">
         <div className="col-span-1">
           <div className="grid grid-cols-2 gap-4 h-full">
             <div className="col-span-1 bg-white p-2 rounded-lg">
@@ -221,7 +222,7 @@ export default function ManagerStudent() {
           </div>
         </div>
 
-        <div className="col-span-1">
+        <div className="md:mt-0 mt-4 col-span-1">
           <div className="grid grid-rows-2 gap-4">
             <div className="row-span-1 bg-white p-2 rounded-lg">
               <p className="text-base">Siswa Lulus Tahun Ini</p>
@@ -248,92 +249,105 @@ export default function ManagerStudent() {
                     <Plus /> Tambah Siswa
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
-                  <DialogHeader>
-                    <DialogTitle className="text-center">
-                      Tambah Siswa
-                    </DialogTitle>
-                  </DialogHeader>
-                  <div className="">
-                    <Label htmlFor="name" className="text-right">
-                      Nama Lengkap
-                    </Label>
-                    <Input type="text" placeholder="Nama Lengkap Siswa" />
-                  </div>
+                <DialogContent className="md:w-4/12 w-96 rounded-lg">
+                  <ScrollArea className="h-96">
+                    <DialogHeader>
+                      <DialogTitle className="text-center">
+                        Tambah Siswa
+                      </DialogTitle>
+                    </DialogHeader>
+                    <div className="">
+                      <Label htmlFor="name" className="text-right">
+                        Nama Lengkap
+                      </Label>
+                      <Input type="text" placeholder="Nama Lengkap Siswa" />
+                    </div>
 
-                  <div className="mt-3">
-                    <Label htmlFor="name" className="text-right">
-                      NISN
-                    </Label>
-                    <Input type="text" placeholder="NISN" />
-                  </div>
+                    <div className="mt-3">
+                      <Label htmlFor="name" className="text-right">
+                        NISN
+                      </Label>
+                      <Input type="text" placeholder="NISN" />
+                    </div>
 
-                  <div className="mt-3">
-                    <Label htmlFor="name" className="text-right">
-                      Nama Orang Tua/Wali
-                    </Label>
-                    <Input type="text" placeholder="Nama Orang Tua/Wali" />
-                  </div>
+                    <div className="mt-3">
+                      <Label htmlFor="name" className="text-right">
+                        Nama Orang Tua/Wali
+                      </Label>
+                      <Input type="text" placeholder="Nama Orang Tua/Wali" />
+                    </div>
 
-                  <div className="mt-3">
-                    <Label htmlFor="name" className="text-right">
-                      No. Telfon Orang Tua/Wali
-                    </Label>
-                    <Input type="text" placeholder="+62xxxxxxxxxxx" />
-                  </div>
+                    <div className="mt-3">
+                      <Label htmlFor="name" className="text-right">
+                        No. Telfon Orang Tua/Wali
+                      </Label>
+                      <Input type="text" placeholder="+62xxxxxxxxxxx" />
+                    </div>
 
-                  <div className="mt-3">
-                    <Label htmlFor="name" className="text-right">
-                      Alamat Tempat Tinggal
-                    </Label>
-                    <Input type="text" placeholder="Alamat" />
-                  </div>
+                    <div className="mt-3">
+                      <Label htmlFor="name" className="text-right">
+                        Alamat Tempat Tinggal
+                      </Label>
+                      <Input type="text" placeholder="Alamat" />
+                    </div>
 
-                  <div className="mt-3">
-                    <Label htmlFor="name" className="text-right">
-                      Pilih Kelas Tujuan
-                    </Label>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="col-span-1">
-                        <Select>
-                          <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Pilih Induk Kelas" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectItem value="kelas7">Kelas 7</SelectItem>
-                              <SelectItem value="kelas8">Kelas 8</SelectItem>
-                              <SelectItem value="kelas9">Kelas 9</SelectItem>
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                      </div>
+                    <div className="mt-3">
+                      <Label htmlFor="name" className="text-right">
+                        Pilih Kelas Tujuan
+                      </Label>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="col-span-1">
+                          <Select>
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Pilih Induk Kelas" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectGroup>
+                                <SelectItem value="kelas7">Kelas 7</SelectItem>
+                                <SelectItem value="kelas8">Kelas 8</SelectItem>
+                                <SelectItem value="kelas9">Kelas 9</SelectItem>
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
+                        </div>
 
-                      <div className="col-span-1">
-                        <Select>
-                          <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Cabang Kelas" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectItem value="kelas7a">Kelas 7A</SelectItem>
-                              <SelectItem value="kelas7b">Kelas 7B</SelectItem>
-                              <SelectItem value="kelas7c">Kelas 7C</SelectItem>
-                              <SelectItem value="kelas7d">Kelas 7D</SelectItem>
-                              <SelectItem value="kelas7e">Kelas 7E</SelectItem>
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
+                        <div className="col-span-1">
+                          <Select>
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Cabang Kelas" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectGroup>
+                                <SelectItem value="kelas7a">
+                                  Kelas 7A
+                                </SelectItem>
+                                <SelectItem value="kelas7b">
+                                  Kelas 7B
+                                </SelectItem>
+                                <SelectItem value="kelas7c">
+                                  Kelas 7C
+                                </SelectItem>
+                                <SelectItem value="kelas7d">
+                                  Kelas 7D
+                                </SelectItem>
+                                <SelectItem value="kelas7e">
+                                  Kelas 7E
+                                </SelectItem>
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="mt-3">
-                    <Checkbox id="terms" />
-                    <label htmlFor="terms" className="ml-2 text-sm">
-                      Siswa Pindahaan
-                    </label>
-                  </div>
+                    <div className="mt-3">
+                      <Checkbox id="terms" />
+                      <label htmlFor="terms" className="ml-2 text-sm">
+                        Siswa Pindahaan
+                      </label>
+                    </div>
+                  </ScrollArea>
+
                   <DialogFooter className="mt-5">
                     <Button type="submit" variant="default" className="w-full">
                       Selesai
@@ -343,9 +357,9 @@ export default function ManagerStudent() {
               </Dialog>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 md:gap-4">
               <div className="col-span-1 flex justify-end">
-                <div className="w-8/12">
+                <div className="md:w-8/12 w-full">
                   <TabsTrigger value="aktif">Aktif</TabsTrigger>
                   <TabsTrigger value="nonAktif">Non Aktif</TabsTrigger>
                 </div>

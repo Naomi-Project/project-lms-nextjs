@@ -91,16 +91,16 @@ const data = [
 export default function ManagerPengumuman() {
   return (
     <div className="min-h-screen">
-      <div className="min-h-screen">
-        <div className="flex justify-between items-center">
-          <div className="rounded-lg bg-white">
+      <div className="bg-white rounded-lg p-5">
+        <div className="md:flex justify-between items-center">
+          <div className="">
             <Dialog>
               <DialogTrigger asChild>
                 <Button variant="default">
                   <Plus className="h-4 w-4" /> Buat Pengumuman
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
+              <DialogContent className="md:w-4/12 w-96 rounded-lg">
                 <DialogHeader>
                   <DialogTitle className="text-center">
                     Buat Pengumuman
@@ -111,7 +111,11 @@ export default function ManagerPengumuman() {
                   <Textarea placeholder="Isi Pengumuman Disini" />
                 </div>
                 <DialogFooter>
-                  <Button type="reset" variant="destructive">
+                  <Button
+                    type="reset"
+                    variant="destructive"
+                    className="md:mt-0 mt-2"
+                  >
                     Cancel
                   </Button>
                   <Button type="submit">Save</Button>
@@ -120,7 +124,7 @@ export default function ManagerPengumuman() {
             </Dialog>
           </div>
 
-          <div className="grid grid-cols-3 gap-4">
+          <div className="md:mt-0 mt-2 grid grid-cols-3 gap-4">
             <div className="col-span-1 rounded-lg bg-white">
               <Select>
                 <SelectTrigger className="w-full">
@@ -144,11 +148,15 @@ export default function ManagerPengumuman() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="font-bold">No.</TableHead>
-                <TableHead className="font-bold">JUDUL PENGUMUMAN</TableHead>
-                <TableHead className="font-bold">TANGGAL DIUMUMKAN</TableHead>
-                <TableHead className="font-bold">TARGET</TableHead>
-                <TableHead className="font-bold"></TableHead>
+                <TableHead className="font-bold text-black">No.</TableHead>
+                <TableHead className="font-bold text-black">
+                  JUDUL PENGUMUMAN
+                </TableHead>
+                <TableHead className="font-bold text-black">
+                  TANGGAL DIUMUMKAN
+                </TableHead>
+                <TableHead className="font-bold text-black">TARGET</TableHead>
+                <TableHead className="font-bold text-black"></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

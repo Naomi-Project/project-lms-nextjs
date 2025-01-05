@@ -64,12 +64,12 @@ export default function LibraryStudent() {
           </AccordionTrigger>
           <AccordionContent className="mt-3">
             <div className="grid grid-cols-12 gap-4 border-b border-slate-300 pb-2">
-              <div className="col-span-11 pl-4">
+              <div className="md:col-span-11 col-span-10 pl-4">
                 <h1 className="text-base">
                   Aritmatika: Penjumlahan, Pengurangan, Pembagian, Perkalian
                 </h1>
 
-                <div className="w-3/12 mt-4">
+                <div className="md:w-3/12 w-7/12 mt-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="col-span-1 border-r-2 border-slate-400">
                       <div className="grid grid-cols-5 gap-2">
@@ -98,7 +98,7 @@ export default function LibraryStudent() {
                 </div>
               </div>
 
-              <div className="col-span-1 my-auto">
+              <div className="md:col-span-1 col-span-2 my-auto">
                 <div className="w-7/12 mx-auto bg-blue-100 border-blue-100 rounded-lg p-2">
                   <Download className="text-blue-400 mx-auto" />
                 </div>
@@ -106,12 +106,12 @@ export default function LibraryStudent() {
             </div>
 
             <div className="grid grid-cols-12 gap-4 mt-3">
-              <div className="col-span-11 pl-4">
+              <div className="md:col-span-11 col-span-10 pl-4">
                 <h1 className="text-base">
                   Aritmatika: Penjumlahan, Pengurangan, Pembagian, Perkalian
                 </h1>
 
-                <div className="w-3/12 mt-4">
+                <div className="md:w-3/12 w-7/12 mt-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="col-span-1 border-r-2 border-slate-400">
                       <div className="grid grid-cols-5 gap-2">
@@ -140,7 +140,7 @@ export default function LibraryStudent() {
                 </div>
               </div>
 
-              <div className="col-span-1 my-auto">
+              <div className="md:col-span-1 col-span-2 my-auto">
                 <div className="w-7/12 mx-auto bg-blue-100 border-blue-100 rounded-lg p-2">
                   <Download className="text-blue-400 mx-auto" />
                 </div>
@@ -167,12 +167,12 @@ export default function LibraryStudent() {
           </AccordionTrigger>
           <AccordionContent className="mt-3">
             <div className="grid grid-cols-12 gap-4 border-b border-slate-300 pb-2">
-              <div className="col-span-11 pl-4">
+              <div className="md:col-span-11 col-span-10 pl-4">
                 <h1 className="text-base">
                   Aritmatika: Penjumlahan, Pengurangan, Pembagian, Perkalian
                 </h1>
 
-                <div className="w-3/12 mt-4">
+                <div className="md:w-3/12 w-7/12 mt-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="col-span-1 border-r-2 border-slate-400">
                       <div className="grid grid-cols-5 gap-2">
@@ -201,7 +201,7 @@ export default function LibraryStudent() {
                 </div>
               </div>
 
-              <div className="col-span-1 my-auto">
+              <div className="md:col-span-1 col-span-2 my-auto">
                 <div className="w-7/12 mx-auto bg-blue-100 border-blue-100 rounded-lg p-2">
                   <Download className="text-blue-400 mx-auto" />
                 </div>
@@ -209,12 +209,12 @@ export default function LibraryStudent() {
             </div>
 
             <div className="grid grid-cols-12 gap-4 mt-3">
-              <div className="col-span-11 pl-4">
+              <div className="md:col-span-11 col-span-10 pl-4">
                 <h1 className="text-base">
                   Aritmatika: Penjumlahan, Pengurangan, Pembagian, Perkalian
                 </h1>
 
-                <div className="w-3/12 mt-4">
+                <div className="md:w-3/12 w-7/12 mt-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="col-span-1 border-r-2 border-slate-400">
                       <div className="grid grid-cols-5 gap-2">
@@ -243,7 +243,7 @@ export default function LibraryStudent() {
                 </div>
               </div>
 
-              <div className="col-span-1 my-auto">
+              <div className="md:col-span-1 col-span-2 my-auto">
                 <div className="w-7/12 mx-auto bg-blue-100 border-blue-100 rounded-lg p-2">
                   <Download className="text-blue-400 mx-auto" />
                 </div>
@@ -270,12 +270,12 @@ export default function LibraryStudent() {
           </AccordionTrigger>
           <AccordionContent className="mt-3">
             <div className="grid grid-cols-12 gap-4 border-b border-slate-300 pb-2">
-              <div className="col-span-11 pl-4">
+              <div className="md:col-span-11 col-span-10 pl-4">
                 <h1 className="text-base">
                   Aritmatika: Penjumlahan, Pengurangan, Pembagian, Perkalian
                 </h1>
 
-                <div className="w-3/12 mt-4">
+                <div className="md:w-3/12 w-7/12 mt-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="col-span-1 border-r-2 border-slate-400">
                       <div className="grid grid-cols-5 gap-2">
@@ -304,7 +304,7 @@ export default function LibraryStudent() {
                 </div>
               </div>
 
-              <div className="col-span-1 my-auto">
+              <div className="md:col-span-1 col-span-2 my-auto">
                 <div className="w-7/12 mx-auto bg-blue-100 border-blue-100 rounded-lg p-2">
                   <Download className="text-blue-400 mx-auto" />
                 </div>
@@ -312,12 +312,12 @@ export default function LibraryStudent() {
             </div>
 
             <div className="grid grid-cols-12 gap-4 mt-3">
-              <div className="col-span-11 pl-4">
+              <div className="md:col-span-11 col-span-10 pl-4">
                 <h1 className="text-base">
                   Aritmatika: Penjumlahan, Pengurangan, Pembagian, Perkalian
                 </h1>
 
-                <div className="w-3/12 mt-4">
+                <div className="md:w-3/12 w-7/12 mt-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="col-span-1 border-r-2 border-slate-400">
                       <div className="grid grid-cols-5 gap-2">
@@ -346,7 +346,7 @@ export default function LibraryStudent() {
                 </div>
               </div>
 
-              <div className="col-span-1 my-auto">
+              <div className="md:col-span-1 col-span-2 my-auto">
                 <div className="w-7/12 mx-auto bg-blue-100 border-blue-100 rounded-lg p-2">
                   <Download className="text-blue-400 mx-auto" />
                 </div>

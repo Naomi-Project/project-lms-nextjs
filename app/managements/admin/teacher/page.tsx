@@ -152,13 +152,13 @@ export default function TeacherAdmin() {
     <div className="min-h-screen">
       <div className="border-2 rounded-lg bg-white p-5 mt-10">
         <Tabs defaultValue="aktif" className="w-full">
-          <TabsList className="w-full flex justify-between bg-white">
-            <div className="bg-slate-200 rounded-lg">
+          <TabsList className="w-full md:flex justify-between grid grid-rows-2 gap-4 bg-white">
+            <div className="bg-slate-200 rounded-lg row-span-1 w-[131.5px]">
               <TabsTrigger value="aktif">Aktif</TabsTrigger>
               <TabsTrigger value="nonAktif">Non Aktif</TabsTrigger>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4 row-span-1 md:mt-0 mt-12">
               <div className="col-span-1">
                 <Select>
                   <SelectTrigger className="w-full">
@@ -184,16 +184,23 @@ export default function TeacherAdmin() {
               </div>
             </div>
           </TabsList>
-          <TabsContent value="aktif">
+          <TabsContent
+            value="aktif"
+            className="md:mt-4 mt-16 border-2 rounded-lg"
+          >
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="font-bold">No.</TableHead>
-                  <TableHead className="font-bold">NAMA SISWA</TableHead>
-                  <TableHead className="font-bold">NIK</TableHead>
-                  <TableHead className="font-bold">KOMPETENSI</TableHead>
-                  <TableHead className="font-bold">STATUS</TableHead>
-                  <TableHead className="font-bold">KONTAK</TableHead>
+                  <TableHead className="font-bold text-black">No.</TableHead>
+                  <TableHead className="font-bold text-black">
+                    NAMA SISWA
+                  </TableHead>
+                  <TableHead className="font-bold text-black">NIK</TableHead>
+                  <TableHead className="font-bold text-black">
+                    KOMPETENSI
+                  </TableHead>
+                  <TableHead className="font-bold text-black">STATUS</TableHead>
+                  <TableHead className="font-bold text-black">KONTAK</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -243,16 +250,23 @@ export default function TeacherAdmin() {
               </TableFooter>
             </Table>
           </TabsContent>
-          <TabsContent value="nonAktif">
+          <TabsContent
+            value="nonAktif"
+            className="md:mt-4 mt-16 border-2 rounded-lg"
+          >
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="font-bold">No.</TableHead>
-                  <TableHead className="font-bold">NAMA SISWA</TableHead>
-                  <TableHead className="font-bold">NIK</TableHead>
-                  <TableHead className="font-bold">KOMPETENSI</TableHead>
-                  <TableHead className="font-bold">STATUS</TableHead>
-                  <TableHead className="font-bold">KONTAK</TableHead>
+                  <TableHead className="font-bold text-black">No.</TableHead>
+                  <TableHead className="font-bold text-black">
+                    NAMA SISWA
+                  </TableHead>
+                  <TableHead className="font-bold text-black">NIK</TableHead>
+                  <TableHead className="font-bold text-black">
+                    KOMPETENSI
+                  </TableHead>
+                  <TableHead className="font-bold text-black">STATUS</TableHead>
+                  <TableHead className="font-bold text-black">KONTAK</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

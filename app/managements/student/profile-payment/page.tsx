@@ -111,7 +111,7 @@ export default function StudentProfilePayment() {
           <div className="col-span-1 flex justify-end">
             <div className="border-2 rounded-lg p-2">
               <div className="grid grid-cols-5 gap-2 ml-5">
-                <div className="col-span-1 bg-red-100 p-2 rounded-lg flex items-center justify-center">
+                <div className="col-span-1 bg-red-100 md:p-2 p-1 rounded-lg flex items-center justify-center">
                   <CalendarDays className="w-9 h-9 text-red-400" />
                 </div>
                 <div className="col-span-4 grid content-center">
@@ -123,7 +123,7 @@ export default function StudentProfilePayment() {
           </div>
         </div>
 
-        <div className="grid grid-cols-8 gap-4 mt-2">
+        <div className="grid grid-cols-2 gap-4 mt-2 md:w-3/12 w-7/12">
           <div className="col-span-1">
             <Button variant="default">
               <Wallet />
@@ -131,7 +131,7 @@ export default function StudentProfilePayment() {
             </Button>
           </div>
 
-          <div className="col-span-7">
+          <div className="col-span-1">
             <Button variant="destructive">Hubungi Admin</Button>
           </div>
         </div>

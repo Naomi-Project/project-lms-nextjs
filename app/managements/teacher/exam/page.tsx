@@ -88,10 +88,10 @@ const data1 = [
 export default function ExamTeacher() {
   return (
     <div className="min-h-screen">
-      <div className="flex justify-between">
-        <div className="bg-white rounded-lg">
+      <div className="md:flex justify-between">
+        <div className="">
           <Select>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="md:w-full w-5/12 bg-white rounded-lg">
               <SelectValue placeholder="PTS" />
             </SelectTrigger>
             <SelectContent>
@@ -107,10 +107,10 @@ export default function ExamTeacher() {
           </Select>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 md:mt-0 mt-3">
           <div className="col-span-1 bg-white rounded-lg">
             <Select>
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Kelas Berapa" />
               </SelectTrigger>
               <SelectContent>
@@ -126,7 +126,7 @@ export default function ExamTeacher() {
 
           <div className="col-span-1 bg-white rounded-lg">
             <Select>
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Jenis Kelas" />
               </SelectTrigger>
               <SelectContent>
@@ -148,11 +148,11 @@ export default function ExamTeacher() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="font-bold">NO.</TableHead>
-              <TableHead className="font-bold">NAMA SISWA</TableHead>
-              <TableHead className="font-bold">SEMESTER 1</TableHead>
-              <TableHead className="font-bold">SEMESTER 2</TableHead>
-              <TableHead className="font-bold"></TableHead>
+              <TableHead className="font-bold text-black">NO.</TableHead>
+              <TableHead className="font-bold text-black">NAMA SISWA</TableHead>
+              <TableHead className="font-bold text-black">SEMESTER 1</TableHead>
+              <TableHead className="font-bold text-black">SEMESTER 2</TableHead>
+              <TableHead className="font-bold text-black"></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -173,7 +173,7 @@ export default function ExamTeacher() {
                         <PencilLine />
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="sm:max-w-[525px]">
+                    <DialogContent className="md:w-4/12 w-96 rounded-lg">
                       <DialogHeader>
                         <DialogTitle className="text-center">
                           Update Nilai Ujian

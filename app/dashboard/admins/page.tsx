@@ -40,7 +40,7 @@ const chartConfig = {
 export default function DashboardAdmin() {
   return (
     <div className="min-h-screen">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="md:grid grid-cols-2 gap-4">
         <div className="col-span-1 bg-white rounded-lg p-4">
           <p className="text-base text-slate-400">Pemasukan</p>
 
@@ -50,7 +50,7 @@ export default function DashboardAdmin() {
             <div className="grid grid-cols-2 gap-4">
               <div className="col-span-1">
                 <Select defaultValue="januari">
-                  <SelectTrigger className="w-[180px]">
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Filter" />
                   </SelectTrigger>
                   <SelectContent>
@@ -64,7 +64,7 @@ export default function DashboardAdmin() {
 
               <div className="col-span-1">
                 <Select defaultValue="2024">
-                  <SelectTrigger className="w-[180px]">
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Filter" />
                   </SelectTrigger>
                   <SelectContent>
@@ -79,7 +79,7 @@ export default function DashboardAdmin() {
           </div>
         </div>
 
-        <div className="col-span-1 bg-white rounded-lg p-4">
+        <div className="md:mt-0 mt-4 col-span-1 bg-white rounded-lg p-4">
           <p className="text-base text-slate-400">SPP Belum Terbayar</p>
 
           <p className="font-bold text-3xl text-red-500 mt-2">
@@ -90,7 +90,7 @@ export default function DashboardAdmin() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 mt-6">
+      <div className="md:grid grid-cols-2 gap-4 mt-6">
         <div className="col-span-1">
           <div className="grid grid-cols-2 gap-4 h-full">
             <div className="col-span-1 bg-white p-2 rounded-lg">
@@ -149,7 +149,7 @@ export default function DashboardAdmin() {
           </div>
         </div>
 
-        <div className="col-span-1">
+        <div className="md:mt-0 mt-4 col-span-1">
           <div className="grid grid-rows-2 gap-4">
             <div className="row-span-1 bg-white p-2 rounded-lg">
               <p className="text-base">Siswa Lulus Tahun Ini</p>

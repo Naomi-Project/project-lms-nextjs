@@ -204,7 +204,7 @@ export default function ManagerKeuangan() {
 
   return (
     <div className="min-h-screen">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="md:grid grid-cols-2 gap-4">
         <div className="col-span-1 bg-white rounded-lg p-4">
           <p className="text-base text-slate-400">Pemasukan</p>
 
@@ -243,7 +243,7 @@ export default function ManagerKeuangan() {
           </div>
         </div>
 
-        <div className="col-span-1 bg-white rounded-lg p-4">
+        <div className="md:mt-0 mt-4 col-span-1 bg-white rounded-lg p-4">
           <p className="text-base text-slate-400">SPP Belum Terbayar</p>
 
           <p className="font-bold text-3xl text-red-500 mt-2">
@@ -271,12 +271,16 @@ export default function ManagerKeuangan() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="font-bold">No.</TableHead>
-                  <TableHead className="font-bold">NAMA SISWA</TableHead>
-                  <TableHead className="font-bold">NISN</TableHead>
-                  <TableHead className="font-bold">KELAS</TableHead>
-                  <TableHead className="font-bold">JUMLAH TAGIHAN</TableHead>
-                  <TableHead className="font-bold"></TableHead>
+                  <TableHead className="font-bold text-black">No.</TableHead>
+                  <TableHead className="font-bold text-black">
+                    NAMA SISWA
+                  </TableHead>
+                  <TableHead className="font-bold text-black">NISN</TableHead>
+                  <TableHead className="font-bold text-black">KELAS</TableHead>
+                  <TableHead className="font-bold text-black">
+                    JUMLAH TAGIHAN
+                  </TableHead>
+                  <TableHead className="font-bold text-black"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -292,7 +296,7 @@ export default function ManagerKeuangan() {
                         <DialogTrigger asChild>
                           <Button variant="default">Detail Tagihan</Button>
                         </DialogTrigger>
-                        <DialogContent className="w-10/12 h-[600px]">
+                        <DialogContent className="w-10/12 md:h-[600px] h-[530px] rounded-lg">
                           <DialogHeader>
                             <DialogTitle className="text-center">
                               Detail Tagihan
@@ -362,7 +366,7 @@ export default function ManagerKeuangan() {
                                       <span>Bayar Manual</span>
                                     </Button>
                                   </DialogTrigger>
-                                  <DialogContent className="sm:max-w-[425px]">
+                                  <DialogContent className="md:w-3/12 rounded-lg">
                                     <DialogHeader>
                                       <DialogTitle className="text-center">
                                         Detail Tagihan
@@ -573,16 +577,22 @@ export default function ManagerKeuangan() {
               </TableFooter>
             </Table>
           </TabsContent>
+
+          {/* TABLE BELUM LUNAK */}
           <TabsContent value="belum">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="font-bold">No.</TableHead>
-                  <TableHead className="font-bold">NAMA SISWA</TableHead>
-                  <TableHead className="font-bold">NISN</TableHead>
-                  <TableHead className="font-bold">KELAS</TableHead>
-                  <TableHead className="font-bold">JUMLAH TAGIHAN</TableHead>
-                  <TableHead className="font-bold"></TableHead>
+                  <TableHead className="font-bold text-black">No.</TableHead>
+                  <TableHead className="font-bold text-black">
+                    NAMA SISWA
+                  </TableHead>
+                  <TableHead className="font-bold text-black">NISN</TableHead>
+                  <TableHead className="font-bold text-black">KELAS</TableHead>
+                  <TableHead className="font-bold text-black">
+                    JUMLAH TAGIHAN
+                  </TableHead>
+                  <TableHead className="font-bold text-black"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -598,7 +608,7 @@ export default function ManagerKeuangan() {
                         <DialogTrigger asChild>
                           <Button variant="default">Detail Tagihan</Button>
                         </DialogTrigger>
-                        <DialogContent className="sm:max-w-[550px]">
+                        <DialogContent className="w-10/12 md:h-[600px] h-[530px] rounded-lg">
                           <DialogHeader>
                             <DialogTitle className="text-center">
                               Detail Tagihan
@@ -668,7 +678,7 @@ export default function ManagerKeuangan() {
                                       <span>Bayar Manual</span>
                                     </Button>
                                   </DialogTrigger>
-                                  <DialogContent className="sm:max-w-[425px]">
+                                  <DialogContent className="md:w-3/12 rounded-lg">
                                     <DialogHeader>
                                       <DialogTitle className="text-center">
                                         Detail Tagihan

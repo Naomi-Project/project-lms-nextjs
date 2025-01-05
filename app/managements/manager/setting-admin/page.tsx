@@ -188,7 +188,7 @@ export default function ManagerSettingAdmin() {
                 <DialogTrigger asChild>
                   <Button variant="default">Edit</Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
+                <DialogContent className="md:w-3/12 w-96 rounded-lg">
                   <DialogHeader>
                     <DialogTitle className="text-center">
                       Edit Pengurus Cabang
@@ -233,7 +233,7 @@ export default function ManagerSettingAdmin() {
                 <DialogTrigger asChild>
                   <Button variant="default">Edit</Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
+                <DialogContent className="md:w-3/12 w-96 rounded-lg">
                   <DialogHeader>
                     <DialogTitle className="text-center">
                       Edit Kepala Sekolah
@@ -274,7 +274,7 @@ export default function ManagerSettingAdmin() {
                     <Plus /> Buat Administrasi
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
+                <DialogContent className="md:w-3/12 w-96 rounded-lg">
                   <DialogHeader>
                     <DialogTitle className="text-center">
                       Buat Administrasi
@@ -317,8 +317,8 @@ export default function ManagerSettingAdmin() {
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <div className="col-span-1 flex justify-end">
-                <div className="w-8/12">
+              <div className="ml-1 col-span-1 flex justify-end">
+                <div className="md:w-8/12 w-full">
                   <TabsTrigger value="aktif">Aktif</TabsTrigger>
                   <TabsTrigger value="nonAktif">Non Aktif</TabsTrigger>
                 </div>
@@ -363,7 +363,7 @@ export default function ManagerSettingAdmin() {
                         <DialogTrigger asChild>
                           <Button variant="default">Edit</Button>
                         </DialogTrigger>
-                        <DialogContent className="sm:max-w-[425px]">
+                        <DialogContent className="md:w-4/12 w-96 rounded-lg">
                           <DialogHeader>
                             <DialogTitle className="text-center">
                               Buat Administrasi
@@ -453,14 +453,16 @@ export default function ManagerSettingAdmin() {
                 <TableRow>
                   <TableHead className="font-bold text-black">No.</TableHead>
                   <TableHead className="font-bold text-black">
-                    NAMA GURU
+                    NAMA KARYAWAN
                   </TableHead>
-                  <TableHead className="font-bold text-black">NIK</TableHead>
                   <TableHead className="font-bold text-black">
-                    KOMPETENSI
+                    USERNAME
                   </TableHead>
-                  <TableHead className="font-bold text-black">STATUS</TableHead>
+                  <TableHead className="font-bold text-black">
+                    PASSWORD
+                  </TableHead>
                   <TableHead className="font-bold text-black">KONTAK</TableHead>
+                  <TableHead className="font-bold text-black"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -474,7 +476,57 @@ export default function ManagerSettingAdmin() {
                     </TableCell>
                     <TableCell>{invoice.contact}</TableCell>
                     <TableCell>
-                      <Button variant="default">Edit</Button>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button variant="default">Edit</Button>
+                        </DialogTrigger>
+                        <DialogContent className="md:w-4/12 w-96 rounded-lg">
+                          <DialogHeader>
+                            <DialogTitle className="text-center">
+                              Buat Administrasi
+                            </DialogTitle>
+                          </DialogHeader>
+                          <div className="">
+                            <Label htmlFor="name" className="text-right">
+                              Nama Admin
+                            </Label>
+                            <Input
+                              type="text"
+                              placeholder="Nama Lengkap Siswa"
+                            />
+                          </div>
+
+                          <div className="mt-3">
+                            <Label htmlFor="name" className="text-right">
+                              Username
+                            </Label>
+                            <Input type="text" placeholder="Username" />
+                          </div>
+
+                          <div className="mt-3">
+                            <Label htmlFor="name" className="text-right">
+                              Password Baru
+                            </Label>
+                            <Input type="password" placeholder="Password" />
+                          </div>
+
+                          <div className="mt-3">
+                            <Label htmlFor="name" className="text-right">
+                              Kontak
+                            </Label>
+                            <Input type="text" placeholder="+62xxxxxxxxx" />
+                          </div>
+                          <DialogFooter className="mt-5">
+                            <Button
+                              type="submit"
+                              variant="default"
+                              className="w-full"
+                            >
+                              Selesai
+                            </Button>
+                          </DialogFooter>
+                        </DialogContent>
+                      </Dialog>
                     </TableCell>
                   </TableRow>
                 ))}

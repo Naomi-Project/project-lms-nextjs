@@ -23,7 +23,7 @@ import { Button } from "@/components/ui/button";
 export default function MaterialTeacher() {
   return (
     <div className="min-h-screen">
-      <div className="flex justify-between items-center">
+      <div className="md:flex justify-between items-center">
         <div className="">
           <Link href="/managements/teacher/material-create">
             <Button className="gap-2">
@@ -32,10 +32,10 @@ export default function MaterialTeacher() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="md:mt-0 mt-3 grid grid-cols-3 gap-4">
           <div className="col-span-1 bg-white rounded-lg">
             <Select defaultValue="global">
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Filter" />
               </SelectTrigger>
               <SelectContent>
@@ -53,7 +53,7 @@ export default function MaterialTeacher() {
         </div>
       </div>
 
-      <div className="grid grid-cols-4 gap-4 mt-10">
+      <div className="md:grid grid-cols-4 gap-4 mt-10">
         <div className="col-span-1">
           <Link href="/managements/teacher/material-detail">
             <Card className="w-full">
@@ -74,7 +74,7 @@ export default function MaterialTeacher() {
           </Link>
         </div>
 
-        <div className="col-span-1">
+        <div className="md:mt-0 mt-4 col-span-1">
           <Link href="/managements/teacher/material-detail">
             <Card className="w-full">
               <Image
@@ -94,7 +94,7 @@ export default function MaterialTeacher() {
           </Link>
         </div>
 
-        <div className="col-span-1">
+        <div className="md:mt-0 mt-4 col-span-1">
           <Link href="/managements/teacher/material-detail">
             <Card className="w-full">
               <Image
@@ -114,7 +114,7 @@ export default function MaterialTeacher() {
           </Link>
         </div>
 
-        <div className="col-span-1">
+        <div className="md:mt-0 mt-4 col-span-1">
           <Link href="/managements/teacher/material-detail">
             <Card className="w-full">
               <Image
@@ -135,7 +135,7 @@ export default function MaterialTeacher() {
         </div>
       </div>
 
-      <div className="grid grid-cols-4 gap-4 mt-10">
+      <div className="md:grid grid-cols-4 gap-4 md:mt-10 mt-4">
         <div className="col-span-1">
           <Link href="/managements/teacher/material-detail">
             <Card className="w-full">
@@ -156,7 +156,7 @@ export default function MaterialTeacher() {
           </Link>
         </div>
 
-        <div className="col-span-1">
+        <div className="md:mt-0 mt-4 col-span-1">
           <Link href="/managements/teacher/material-detail">
             <Card className="w-full">
               <Image
@@ -176,7 +176,7 @@ export default function MaterialTeacher() {
           </Link>
         </div>
 
-        <div className="col-span-1">
+        <div className="md:mt-0 mt-4 col-span-1">
           <Link href="/managements/teacher/material-detail">
             <Card className="w-full">
               <Image
@@ -196,7 +196,7 @@ export default function MaterialTeacher() {
           </Link>
         </div>
 
-        <div className="col-span-1">
+        <div className="md:mt-0 mt-4 col-span-1">
           <Link href="/managements/teacher/material-detail">
             <Card className="w-full">
               <Image

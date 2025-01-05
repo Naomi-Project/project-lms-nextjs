@@ -51,10 +51,12 @@ export default function ClassManager() {
         <div className="col-span-1">
           <Button className="w-full h-full border-0" variant="outline">
             <div className="w-full h-full p-2">
-              <div className="flex justify-between">
-                <h1 className="text-lg font-bold">Kelas 7</h1>
+              <div className="md:flex justify-between">
+                <h1 className="md:text-lg text-base text-left font-bold">
+                  Kelas 7
+                </h1>
 
-                <div className="w-20 rounded-lg flex items-center justify-center bg-blue-100 p-1">
+                <div className="md:mt-0 mt-1 w-20 rounded-lg flex items-center justify-center bg-blue-100 p-1">
                   <p className="text-xs text-blue-500">Kelas Awal</p>
                 </div>
               </div>
@@ -77,10 +79,12 @@ export default function ClassManager() {
         <div className="col-span-1">
           <Button className="w-full h-full border-0" variant="outline">
             <div className="w-full h-full p-2">
-              <div className="flex justify-between">
-                <h1 className="text-lg font-bold">Kelas 8</h1>
+              <div className="md:flex justify-between">
+                <h1 className="md:text-lg text-base text-left font-bold">
+                  Kelas 8
+                </h1>
 
-                <div className="w-20 rounded-lg flex items-center justify-center bg-blue-100 p-1">
+                <div className="md:mt-0 mt-1 w-20 rounded-lg flex items-center justify-center bg-blue-100 p-1">
                   <p className="text-xs text-blue-500">Kelas Awal</p>
                 </div>
               </div>
@@ -103,10 +107,12 @@ export default function ClassManager() {
         <div className="col-span-1">
           <Button className="w-full h-full border-0" variant="outline">
             <div className="w-full h-full p-2">
-              <div className="flex justify-between">
-                <h1 className="text-lg font-bold">Kelas 9</h1>
+              <div className="md:flex justify-between">
+                <h1 className="md:text-lg text-base text-left font-bold">
+                  Kelas 9
+                </h1>
 
-                <div className="w-20 rounded-lg flex items-center justify-center bg-blue-100 p-1">
+                <div className="md:mt-0 mt-1 w-20 rounded-lg flex items-center justify-center bg-blue-100 p-1">
                   <p className="text-xs text-blue-500">Kelas Awal</p>
                 </div>
               </div>
@@ -134,7 +140,7 @@ export default function ClassManager() {
               <Plus /> Buat Cabang Kelas
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="md:w-5/12 w-96 rounded-lg">
             <DialogHeader>
               <DialogTitle className="text-center">
                 Buat Cabang Kelas
@@ -209,7 +215,7 @@ export default function ClassManager() {
         </Dialog>
       </div>
 
-      <div className="grid grid-cols-4 gap-4 mt-8">
+      <div className="md:grid grid-cols-4 gap-4 mt-8">
         <div className="col-span-1">
           <Link href="/managements/manager/class-detail">
             <Button className="w-full h-full border-0" variant="outline">
@@ -254,7 +260,7 @@ export default function ClassManager() {
           </Link>
         </div>
 
-        <div className="col-span-1">
+        <div className="md:mt-0 mt-4 col-span-1">
           <Link href="/managements/manager/class-detail">
             <Button className="w-full h-full border-0" variant="outline">
               <div className="w-full h-full p-2">
@@ -298,7 +304,7 @@ export default function ClassManager() {
           </Link>
         </div>
 
-        <div className="col-span-1">
+        <div className="md:mt-0 mt-4 col-span-1">
           <Link href="/managements/manager/class-detail">
             <Button className="w-full h-full border-0" variant="outline">
               <div className="w-full h-full p-2">
@@ -342,7 +348,7 @@ export default function ClassManager() {
           </Link>
         </div>
 
-        <div className="col-span-1">
+        <div className="md:mt-0 mt-4 col-span-1">
           <Link href="/managements/manager/class-detail">
             <Button className="w-full h-full border-0" variant="outline">
               <div className="w-full h-full p-2">
@@ -387,7 +393,7 @@ export default function ClassManager() {
         </div>
       </div>
 
-      <div className="grid grid-cols-4 gap-4 mt-3">
+      <div className="md:grid grid-cols-4 gap-4 mt-3">
         <div className="col-span-1">
           <Link href="/managements/manager/class-detail">
             <Button className="w-full h-full border-0" variant="outline">
@@ -432,7 +438,7 @@ export default function ClassManager() {
           </Link>
         </div>
 
-        <div className="col-span-1">
+        <div className="md:mt-0 mt-4 col-span-1">
           <Link href="/managements/manager/class-detail">
             <Button className="w-full h-full border-0" variant="outline">
               <div className="w-full h-full p-2">
@@ -476,7 +482,7 @@ export default function ClassManager() {
           </Link>
         </div>
 
-        <div className="col-span-1">
+        <div className="md:mt-0 mt-4 col-span-1">
           <Link href="/managements/manager/class-detail">
             <Button className="w-full h-full border-0" variant="outline">
               <div className="w-full h-full p-2">
@@ -520,7 +526,7 @@ export default function ClassManager() {
           </Link>
         </div>
 
-        <div className="col-span-1">
+        <div className="md:mt-0 mt-4 col-span-1">
           <Link href="/managements/manager/class-detail">
             <Button className="w-full h-full border-0" variant="outline">
               <div className="w-full h-full p-2">

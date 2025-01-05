@@ -15,8 +15,8 @@ export default function ProfileTeacher() {
       </Toggle>
 
       <div className="border-2 rounded-lg mt-8 bg-white">
-        <div className="grid grid-cols-12 p-4">
-          <div className="col-span-1">
+        <div className="grid grid-cols-12 gap-4 p-4">
+          <div className="md:col-span-1 col-span-2">
             <Image
               src={user}
               alt="user"
@@ -25,7 +25,7 @@ export default function ProfileTeacher() {
             />
           </div>
 
-          <div className="col-span-11 my-auto">
+          <div className="md:col-span-11 col-span-10 my-auto">
             <h1 className="font-bold text-sm">Jonathan Lian Li</h1>
             <p className="w-10 text-center mt-1 bg-blue-100 text-blue-400 p-1 border-blue-100 rounded-lg text-xs">
               Guru
@@ -37,7 +37,7 @@ export default function ProfileTeacher() {
       <div className="border-2 rounded-lg bg-white p-5 mt-10">
         <h1 className="text-base font-bold">Data Guru</h1>
 
-        <div className="grid grid-cols-2 gap-4 mt-6">
+        <div className="md:grid grid-cols-2 gap-4 mt-6">
           <div className="col-span-1">
             <div className="">
               <p className="text-slate-400 text-sm">Nama Lengkap</p>
@@ -78,7 +78,7 @@ export default function ProfileTeacher() {
             </div>
           </div>
 
-          <div className="col-span-1">
+          <div className="col-span-1 md:mt-0 mt-3">
             <div className="">
               <p className="text-slate-400 text-sm">Jabatan</p>
 

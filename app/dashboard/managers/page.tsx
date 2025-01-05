@@ -16,6 +16,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Select,
   SelectContent,
@@ -50,7 +51,7 @@ const chartConfig = {
 
 export default function ManagerDashboard() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-x-hidden">
       <div className="flex justify-between rounded-lg bg-white p-4">
         <div className="">
           <h1 className="text-slate-400 text-base">Tahun Akademik</h1>
@@ -62,12 +63,14 @@ export default function ManagerDashboard() {
 
         <div className="">
           <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="default">
-                <Plus /> Buat Tahun Akademik
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <div className="md:mr-0 flex items-center h-full mr-4">
+              <DialogTrigger asChild>
+                <Button variant="default">
+                  <Plus /> Buat Tahun Akademik
+                </Button>
+              </DialogTrigger>
+            </div>
+            <DialogContent className="md:w-3/12 w-96 rounded-lg">
               <DialogHeader>
                 <DialogTitle className="text-center">
                   Buat Tahun Akademik
@@ -84,18 +87,20 @@ export default function ManagerDashboard() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectItem value="januari">Januari</SelectItem>
-                      <SelectItem value="februari">Februari</SelectItem>
-                      <SelectItem value="maret">Maret</SelectItem>
-                      <SelectItem value="april">April</SelectItem>
-                      <SelectItem value="mei">Mei</SelectItem>
-                      <SelectItem value="juni">Juni</SelectItem>
-                      <SelectItem value="juli">Juli</SelectItem>
-                      <SelectItem value="agustus">Agustus</SelectItem>
-                      <SelectItem value="september">September</SelectItem>
-                      <SelectItem value="oktober">Oktober</SelectItem>
-                      <SelectItem value="november">November</SelectItem>
-                      <SelectItem value="desember">Desember</SelectItem>
+                      <ScrollArea className="h-40">
+                        <SelectItem value="januari">Januari</SelectItem>
+                        <SelectItem value="februari">Februari</SelectItem>
+                        <SelectItem value="maret">Maret</SelectItem>
+                        <SelectItem value="april">April</SelectItem>
+                        <SelectItem value="mei">Mei</SelectItem>
+                        <SelectItem value="juni">Juni</SelectItem>
+                        <SelectItem value="juli">Juli</SelectItem>
+                        <SelectItem value="agustus">Agustus</SelectItem>
+                        <SelectItem value="september">September</SelectItem>
+                        <SelectItem value="oktober">Oktober</SelectItem>
+                        <SelectItem value="november">November</SelectItem>
+                        <SelectItem value="desember">Desember</SelectItem>
+                      </ScrollArea>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -112,18 +117,20 @@ export default function ManagerDashboard() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectItem value="januari">Januari</SelectItem>
-                      <SelectItem value="februari">Februari</SelectItem>
-                      <SelectItem value="maret">Maret</SelectItem>
-                      <SelectItem value="april">April</SelectItem>
-                      <SelectItem value="mei">Mei</SelectItem>
-                      <SelectItem value="juni">Juni</SelectItem>
-                      <SelectItem value="juli">Juli</SelectItem>
-                      <SelectItem value="agustus">Agustus</SelectItem>
-                      <SelectItem value="september">September</SelectItem>
-                      <SelectItem value="oktober">Oktober</SelectItem>
-                      <SelectItem value="november">November</SelectItem>
-                      <SelectItem value="desember">Desember</SelectItem>
+                      <ScrollArea className="h-40">
+                        <SelectItem value="januari">Januari</SelectItem>
+                        <SelectItem value="februari">Februari</SelectItem>
+                        <SelectItem value="maret">Maret</SelectItem>
+                        <SelectItem value="april">April</SelectItem>
+                        <SelectItem value="mei">Mei</SelectItem>
+                        <SelectItem value="juni">Juni</SelectItem>
+                        <SelectItem value="juli">Juli</SelectItem>
+                        <SelectItem value="agustus">Agustus</SelectItem>
+                        <SelectItem value="september">September</SelectItem>
+                        <SelectItem value="oktober">Oktober</SelectItem>
+                        <SelectItem value="november">November</SelectItem>
+                        <SelectItem value="desember">Desember</SelectItem>
+                      </ScrollArea>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -138,7 +145,7 @@ export default function ManagerDashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 mt-6">
+      <div className="md:grid grid-cols-2 gap-4 mt-6">
         <div className="col-span-1 bg-white rounded-lg p-4">
           <p className="text-base text-slate-400">Pemasukan</p>
 
@@ -148,7 +155,7 @@ export default function ManagerDashboard() {
             <div className="grid grid-cols-2 gap-4">
               <div className="col-span-1">
                 <Select defaultValue="januari">
-                  <SelectTrigger className="w-[180px]">
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Filter" />
                   </SelectTrigger>
                   <SelectContent>
@@ -162,7 +169,7 @@ export default function ManagerDashboard() {
 
               <div className="col-span-1">
                 <Select defaultValue="2024">
-                  <SelectTrigger className="w-[180px]">
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Filter" />
                   </SelectTrigger>
                   <SelectContent>
@@ -177,7 +184,7 @@ export default function ManagerDashboard() {
           </div>
         </div>
 
-        <div className="col-span-1 bg-white rounded-lg p-4">
+        <div className="md:mt-0 col-span-1 bg-white rounded-lg p-4 mt-4">
           <p className="text-base text-slate-400">SPP Belum Terbayar</p>
 
           <p className="font-bold text-3xl text-red-500 mt-2">
@@ -188,7 +195,7 @@ export default function ManagerDashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 mt-6">
+      <div className="md:grid grid-cols-2 gap-4 mt-6">
         <div className="col-span-1">
           <div className="grid grid-cols-2 gap-4 h-full">
             <div className="col-span-1 bg-white p-2 rounded-lg">
@@ -247,7 +254,7 @@ export default function ManagerDashboard() {
           </div>
         </div>
 
-        <div className="col-span-1">
+        <div className="md:mt-0 mt-4 col-span-1">
           <div className="grid grid-rows-2 gap-4">
             <div className="row-span-1 bg-white p-2 rounded-lg">
               <p className="text-base">Siswa Lulus Tahun Ini</p>

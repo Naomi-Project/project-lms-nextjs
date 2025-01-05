@@ -13,7 +13,7 @@ export default function Header() {
         {AppMenu.find((item) => item.href === pathname)?.title}
       </h1>
 
-      <div className="flex justify-end w-9/12">
+      <div className="flex justify-end md:w-9/12 w-7/12">
         <div className="grid grid-cols-2 gap-2">
           <div className="col-span-1">
             <Bell className="w-6 h-6 " />
