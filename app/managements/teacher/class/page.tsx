@@ -114,7 +114,7 @@ const data2 = [
 export default function ClassTeacher() {
   return (
     <div className="min-h-screen">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="md:grid grid-cols-2 gap-4">
         <div className="col-span-1 border-2 bg-white rounded-lg p-5">
           <div className="grid grid-rows-2 gap-4">
             <div className="row-span-1">
@@ -145,7 +145,7 @@ export default function ClassTeacher() {
           </div>
         </div>
 
-        <div className="col-span-1 border-2 bg-white rounded-lg p-5">
+        <div className="md:mt-0 mt-3 col-span-1 border-2 bg-white rounded-lg p-5">
           <h1 className="text-slate-400 text-base">Nilai Rata-Rata Kelas</h1>
 
           <p className="text-3xl font-bold mt-6">70</p>
@@ -169,10 +169,12 @@ export default function ClassTeacher() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="font-bold">No.</TableHead>
-                  <TableHead className="font-bold">NAMA SISWA</TableHead>
-                  <TableHead className="font-bold">NISN</TableHead>
-                  <TableHead className="font-bold">KONTAK</TableHead>
+                  <TableHead className="font-bold text-black">No.</TableHead>
+                  <TableHead className="font-bold text-black">
+                    NAMA SISWA
+                  </TableHead>
+                  <TableHead className="font-bold text-black">NISN</TableHead>
+                  <TableHead className="font-bold text-black">KONTAK</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -222,10 +224,12 @@ export default function ClassTeacher() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="font-bold">No.</TableHead>
-                  <TableHead className="font-bold">NAMA SISWA</TableHead>
-                  <TableHead className="font-bold">NISN</TableHead>
-                  <TableHead className="font-bold">KONTAK</TableHead>
+                  <TableHead className="font-bold text-black">No.</TableHead>
+                  <TableHead className="font-bold text-black">
+                    NAMA SISWA
+                  </TableHead>
+                  <TableHead className="font-bold text-black">NISN</TableHead>
+                  <TableHead className="font-bold text-black">KONTAK</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

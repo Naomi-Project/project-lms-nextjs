@@ -28,7 +28,7 @@ export default function TeacherMaterialCreate() {
           className="mt-2"
         />
 
-        <div className="w-7/12">
+        <div className="md:w-7/12 w-full">
           <div className="grid grid-cols-3 gap-4 mt-3">
             <div className="col-span-1 border-r-2">
               <div className="w-10/12">
@@ -37,7 +37,7 @@ export default function TeacherMaterialCreate() {
                     <User className="text-slate-400 w-6 h-6" />
                   </div>
 
-                  <div className="col-span-4 my-auto">
+                  <div className="col-span-4 content-end">
                     <p className="text-slate-400 text-sm">Mochtar</p>
                   </div>
                 </div>

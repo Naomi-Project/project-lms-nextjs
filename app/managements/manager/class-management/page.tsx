@@ -230,10 +230,12 @@ export default function ManagerClassManagement() {
           <Table>
             <TableHeader className="bg-slate-100">
               <TableRow>
-                <TableHead className="font-bold">No.</TableHead>
-                <TableHead className="font-bold">NAMA SISWA</TableHead>
-                <TableHead className="font-bold">NISN</TableHead>
-                <TableHead className="font-bold">KELAS</TableHead>
+                <TableHead className="font-bold text-black">No.</TableHead>
+                <TableHead className="font-bold text-black">
+                  NAMA SISWA
+                </TableHead>
+                <TableHead className="font-bold text-black">NISN</TableHead>
+                <TableHead className="font-bold text-black">KELAS</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

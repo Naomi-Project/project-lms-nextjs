@@ -54,7 +54,7 @@ export default function StudentProfileValue() {
         </ToggleGroup>
       </div>
 
-      <div className="w-3/12">
+      <div className="md:w-3/12 w-full">
         <div className="grid grid-cols-2 gap-4 mt-6">
           <div className="col-span-1 bg-white rounded-lg">
             <Select defaultValue="semester1">
@@ -88,13 +88,13 @@ export default function StudentProfileValue() {
 
       <div className="mt-4 border-2 rounded-lg p-4 bg-white">
         <div className="grid grid-cols-10 gap-4">
-          <div className="col-span-1 grid justify-items-center border-r-2 border-slate-400">
+          <div className="md:col-span-1 col-span-2 grid justify-items-center border-r-2 border-slate-400">
             <div className="p-2 border-2 rounded-full border-slate-400">
               <BookOpen />
             </div>
           </div>
 
-          <div className="col-span-8 my-auto">
+          <div className="md:col-span-9 col-span-8 my-auto">
             <h2 className="text-lg">Rata - Rata Nilai Tugas</h2>
           </div>
         </div>
@@ -134,13 +134,13 @@ export default function StudentProfileValue() {
 
       <div className="mt-4 border-2 rounded-lg p-4 bg-white">
         <div className="grid grid-cols-10 gap-4">
-          <div className="col-span-1 grid justify-items-center border-r-2 border-slate-400">
+          <div className="md:col-span-1 col-span-2 grid justify-items-center border-r-2 border-slate-400">
             <div className="p-2 border-2 rounded-full border-slate-400">
               <BookOpen />
             </div>
           </div>
 
-          <div className="col-span-8 my-auto">
+          <div className="md:col-span-9 col-span-8 my-auto">
             <h2 className="text-lg">Nilai UTS</h2>
           </div>
         </div>
@@ -180,13 +180,13 @@ export default function StudentProfileValue() {
 
       <div className="mt-4 border-2 rounded-lg p-4 bg-white">
         <div className="grid grid-cols-10 gap-4">
-          <div className="col-span-1 grid justify-items-center border-r-2 border-slate-400">
+          <div className="md:col-span-1 col-span-2 grid justify-items-center border-r-2 border-slate-400">
             <div className="p-2 border-2 rounded-full border-slate-400">
               <BookOpen />
             </div>
           </div>
 
-          <div className="col-span-8 my-auto">
+          <div className="md:col-span-8 col-span-8 my-auto">
             <h2 className="text-lg">Nilai UAS</h2>
           </div>
         </div>

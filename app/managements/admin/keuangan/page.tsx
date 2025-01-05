@@ -136,7 +136,7 @@ const data2 = [
 export default function KeuanganAdmin() {
   return (
     <div className="min-h-screen">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="md:grid grid-cols-2 gap-4">
         <div className="col-span-1 bg-white rounded-lg p-4">
           <p className="text-base text-slate-400">Pemasukan</p>
 
@@ -146,7 +146,7 @@ export default function KeuanganAdmin() {
             <div className="grid grid-cols-2 gap-4">
               <div className="col-span-1">
                 <Select defaultValue="januari">
-                  <SelectTrigger className="w-[180px]">
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Filter" />
                   </SelectTrigger>
                   <SelectContent>
@@ -160,7 +160,7 @@ export default function KeuanganAdmin() {
 
               <div className="col-span-1">
                 <Select defaultValue="2024">
-                  <SelectTrigger className="w-[180px]">
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Filter" />
                   </SelectTrigger>
                   <SelectContent>
@@ -175,7 +175,7 @@ export default function KeuanganAdmin() {
           </div>
         </div>
 
-        <div className="col-span-1 bg-white rounded-lg p-4">
+        <div className="md:mt-0 mt-4 col-span-1 bg-white rounded-lg p-4">
           <p className="text-base text-slate-400">SPP Belum Terbayar</p>
 
           <p className="font-bold text-3xl text-red-500 mt-2">
@@ -188,13 +188,13 @@ export default function KeuanganAdmin() {
 
       <div className="border-2 rounded-lg bg-white p-5 mt-10">
         <Tabs defaultValue="lunas" className="w-full">
-          <TabsList className="w-full flex justify-between bg-white">
-            <div className="bg-slate-200 rounded-lg">
+          <TabsList className="w-full md:flex justify-between grid grid-rows-2 gap-4 bg-white">
+            <div className="bg-slate-200 rounded-lg row-span-1 w-[168px]">
               <TabsTrigger value="lunas">Lunas</TabsTrigger>
               <TabsTrigger value="belum">Belum Lunas</TabsTrigger>
             </div>
 
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-4 row-span-1 md:mt-0 mt-12">
               <div className="col-span-1">
                 <Select>
                   <SelectTrigger className="w-full">
@@ -235,15 +235,24 @@ export default function KeuanganAdmin() {
               </div>
             </div>
           </TabsList>
-          <TabsContent value="lunas">
+          <TabsContent
+            value="lunas"
+            className="md:mt-4 mt-16 border-2 rounded-lg"
+          >
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="font-bold">No.</TableHead>
-                  <TableHead className="font-bold">NAMA SISWA</TableHead>
-                  <TableHead className="font-bold">NISN</TableHead>
-                  <TableHead className="font-bold">SEKOLAH</TableHead>
-                  <TableHead className="font-bold">JUMLAH TAGIHAN</TableHead>
+                  <TableHead className="font-bold text-black">No.</TableHead>
+                  <TableHead className="font-bold text-black">
+                    NAMA SISWA
+                  </TableHead>
+                  <TableHead className="font-bold text-black">NISN</TableHead>
+                  <TableHead className="font-bold text-black">
+                    SEKOLAH
+                  </TableHead>
+                  <TableHead className="font-bold text-black">
+                    JUMLAH TAGIHAN
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -290,15 +299,24 @@ export default function KeuanganAdmin() {
               </TableFooter>
             </Table>
           </TabsContent>
-          <TabsContent value="belum">
+          <TabsContent
+            value="belum"
+            className="md:mt-4 mt-16 border-2 rounded-lg"
+          >
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="font-bold">No.</TableHead>
-                  <TableHead className="font-bold">NAMA SISWA</TableHead>
-                  <TableHead className="font-bold">NISN</TableHead>
-                  <TableHead className="font-bold">SEKOLAH</TableHead>
-                  <TableHead className="font-bold">JUMLAH TAGIHAN</TableHead>
+                  <TableHead className="font-bold text-black">No.</TableHead>
+                  <TableHead className="font-bold text-black">
+                    NAMA SISWA
+                  </TableHead>
+                  <TableHead className="font-bold text-black">NISN</TableHead>
+                  <TableHead className="font-bold text-black">
+                    SEKOLAH
+                  </TableHead>
+                  <TableHead className="font-bold text-black">
+                    JUMLAH TAGIHAN
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

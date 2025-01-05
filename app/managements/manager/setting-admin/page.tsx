@@ -363,7 +363,7 @@ export default function ManagerSettingAdmin() {
                         <DialogTrigger asChild>
                           <Button variant="default">Edit</Button>
                         </DialogTrigger>
-                        <DialogContent className="sm:max-w-[425px]">
+                        <DialogContent className="md:w-4/12 w-96 rounded-lg">
                           <DialogHeader>
                             <DialogTitle className="text-center">
                               Buat Administrasi
@@ -476,7 +476,57 @@ export default function ManagerSettingAdmin() {
                     </TableCell>
                     <TableCell>{invoice.contact}</TableCell>
                     <TableCell>
-                      <Button variant="default">Edit</Button>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button variant="default">Edit</Button>
+                        </DialogTrigger>
+                        <DialogContent className="md:w-4/12 w-96 rounded-lg">
+                          <DialogHeader>
+                            <DialogTitle className="text-center">
+                              Buat Administrasi
+                            </DialogTitle>
+                          </DialogHeader>
+                          <div className="">
+                            <Label htmlFor="name" className="text-right">
+                              Nama Admin
+                            </Label>
+                            <Input
+                              type="text"
+                              placeholder="Nama Lengkap Siswa"
+                            />
+                          </div>
+
+                          <div className="mt-3">
+                            <Label htmlFor="name" className="text-right">
+                              Username
+                            </Label>
+                            <Input type="text" placeholder="Username" />
+                          </div>
+
+                          <div className="mt-3">
+                            <Label htmlFor="name" className="text-right">
+                              Password Baru
+                            </Label>
+                            <Input type="password" placeholder="Password" />
+                          </div>
+
+                          <div className="mt-3">
+                            <Label htmlFor="name" className="text-right">
+                              Kontak
+                            </Label>
+                            <Input type="text" placeholder="+62xxxxxxxxx" />
+                          </div>
+                          <DialogFooter className="mt-5">
+                            <Button
+                              type="submit"
+                              variant="default"
+                              className="w-full"
+                            >
+                              Selesai
+                            </Button>
+                          </DialogFooter>
+                        </DialogContent>
+                      </Dialog>
                     </TableCell>
                   </TableRow>
                 ))}

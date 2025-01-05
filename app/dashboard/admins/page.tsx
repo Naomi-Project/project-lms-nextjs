@@ -50,7 +50,7 @@ export default function DashboardAdmin() {
             <div className="grid grid-cols-2 gap-4">
               <div className="col-span-1">
                 <Select defaultValue="januari">
-                  <SelectTrigger className="w-[180px]">
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Filter" />
                   </SelectTrigger>
                   <SelectContent>
@@ -64,7 +64,7 @@ export default function DashboardAdmin() {
 
               <div className="col-span-1">
                 <Select defaultValue="2024">
-                  <SelectTrigger className="w-[180px]">
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Filter" />
                   </SelectTrigger>
                   <SelectContent>

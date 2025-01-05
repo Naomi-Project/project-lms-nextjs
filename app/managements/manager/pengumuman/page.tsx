@@ -91,7 +91,7 @@ const data = [
 export default function ManagerPengumuman() {
   return (
     <div className="min-h-screen">
-      <div className="min-h-screen">
+      <div className="bg-white rounded-lg p-5">
         <div className="md:flex justify-between items-center">
           <div className="">
             <Dialog>
@@ -148,11 +148,15 @@ export default function ManagerPengumuman() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="font-bold">No.</TableHead>
-                <TableHead className="font-bold">JUDUL PENGUMUMAN</TableHead>
-                <TableHead className="font-bold">TANGGAL DIUMUMKAN</TableHead>
-                <TableHead className="font-bold">TARGET</TableHead>
-                <TableHead className="font-bold"></TableHead>
+                <TableHead className="font-bold text-black">No.</TableHead>
+                <TableHead className="font-bold text-black">
+                  JUDUL PENGUMUMAN
+                </TableHead>
+                <TableHead className="font-bold text-black">
+                  TANGGAL DIUMUMKAN
+                </TableHead>
+                <TableHead className="font-bold text-black">TARGET</TableHead>
+                <TableHead className="font-bold text-black"></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

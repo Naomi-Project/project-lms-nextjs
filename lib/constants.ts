@@ -137,10 +137,34 @@ export const AppMenu = [
     visibility: true,
   },
   {
+    title: "Edit Tugas Teacher",
+    href: "/managements/teacher/tasks",
+    icon: HomeIcon,
+    visibility: false,
+  },
+  {
+    title: "Create Tugas Teacher",
+    href: "/managements/teacher/tasks-create",
+    icon: HomeIcon,
+    visibility: false,
+  },
+  {
     title: "Materi Teacher",
     href: "/managements/teacher/material",
     icon: Fence,
     visibility: true,
+  },
+  {
+    title: "Create Materi Teacher",
+    href: "/managements/teacher/material-create",
+    icon: Fence,
+    visibility: false,
+  },
+  {
+    title: "Detail Materi Teacher",
+    href: "/managements/teacher/material-detail",
+    icon: Fence,
+    visibility: false,
   },
   {
     title: "Class Teacher",
@@ -185,10 +209,28 @@ export const AppMenu = [
     visibility: true,
   },
   {
+    title: "Tugas Student",
+    href: "/managements/student/tasks",
+    icon: Fence,
+    visibility: false,
+  },
+  {
+    title: "Tugas Detail Student",
+    href: "/managements/student/tasks-detail",
+    icon: Fence,
+    visibility: false,
+  },
+  {
     title: "Materi Student",
     href: "/managements/student/material",
     icon: Fence,
     visibility: true,
+  },
+  {
+    title: "Materi Detail Student",
+    href: "/managements/student/material-detail",
+    icon: Fence,
+    visibility: false,
   },
   {
     title: "Presence Student",
@@ -207,6 +249,30 @@ export const AppMenu = [
     href: "/managements/student/library",
     icon: Library,
     visibility: true,
+  },
+  {
+    title: "Profile Student",
+    href: "/managements/student/profile",
+    icon: UserPen,
+    visibility: false,
+  },
+  {
+    title: "Laporan Presensi Student",
+    href: "/managements/student/profile-presence",
+    icon: UserPen,
+    visibility: false,
+  },
+  {
+    title: "Laporan Nilai Student",
+    href: "/managements/student/profile-value",
+    icon: UserPen,
+    visibility: false,
+  },
+  {
+    title: "Pembayaran SPP Student",
+    href: "/managements/student/profile-payment",
+    icon: UserPen,
+    visibility: false,
   },
   // {
   //   title: "Pengumuman",

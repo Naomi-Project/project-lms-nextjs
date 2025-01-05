@@ -14,8 +14,8 @@ export default function StudentTaskDetail() {
               Tugas Matematika Perkalian Ganda
             </h1>
 
-            <div className="w-7/12 mt-4">
-              <div className="grid grid-cols-4 gap-4">
+            <div className="md:w-7/12 w-full mt-4">
+              <div className="md:grid grid-cols-4 gap-4">
                 <div className="col-span-1 border-r-2 border-slate-400">
                   <div className="grid grid-cols-5 gap-2">
                     <div className="col-span-1 grid justify-items-end">
@@ -28,7 +28,7 @@ export default function StudentTaskDetail() {
                   </div>
                 </div>
 
-                <div className="col-span-1 border-r-2 border-slate-400">
+                <div className="col-span-1 md:mt-0 mt-2 border-r-2 border-slate-400">
                   <div className="grid grid-cols-5 gap-2">
                     <div className="col-span-1 grid justify-items-end">
                       <User2Icon className="h-4 w-4 text-slate-400" />
@@ -40,7 +40,7 @@ export default function StudentTaskDetail() {
                   </div>
                 </div>
 
-                <div className="col-span-1 border-r-2 border-slate-400">
+                <div className="col-span-1 md:mt-0 mt-2 border-r-2 border-slate-400">
                   <div className="grid grid-cols-5 gap-2">
                     <div className="col-span-1 grid justify-items-end">
                       <BookText className="h-4 w-4 text-slate-400" />
@@ -52,7 +52,7 @@ export default function StudentTaskDetail() {
                   </div>
                 </div>
 
-                <div className="col-span-1">
+                <div className="col-span-1 md:mt-0 mt-2 md:border-r-0 border-r-2 border-slate-400">
                   <div className="grid grid-cols-5 gap-2">
                     <div className="col-span-1 grid justify-items-end">
                       <DatabaseIcon className="h-4 w-4 text-slate-400" />
@@ -68,7 +68,7 @@ export default function StudentTaskDetail() {
           </div>
 
           <div className="col-span-2 my-auto">
-            <Button variant="default" className="w-10/12">
+            <Button variant="default" className="md:w-10/12 w-full">
               Selesai
             </Button>
           </div>

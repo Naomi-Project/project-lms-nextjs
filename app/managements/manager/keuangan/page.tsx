@@ -271,12 +271,16 @@ export default function ManagerKeuangan() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="font-bold">No.</TableHead>
-                  <TableHead className="font-bold">NAMA SISWA</TableHead>
-                  <TableHead className="font-bold">NISN</TableHead>
-                  <TableHead className="font-bold">KELAS</TableHead>
-                  <TableHead className="font-bold">JUMLAH TAGIHAN</TableHead>
-                  <TableHead className="font-bold"></TableHead>
+                  <TableHead className="font-bold text-black">No.</TableHead>
+                  <TableHead className="font-bold text-black">
+                    NAMA SISWA
+                  </TableHead>
+                  <TableHead className="font-bold text-black">NISN</TableHead>
+                  <TableHead className="font-bold text-black">KELAS</TableHead>
+                  <TableHead className="font-bold text-black">
+                    JUMLAH TAGIHAN
+                  </TableHead>
+                  <TableHead className="font-bold text-black"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -579,12 +583,16 @@ export default function ManagerKeuangan() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="font-bold">No.</TableHead>
-                  <TableHead className="font-bold">NAMA SISWA</TableHead>
-                  <TableHead className="font-bold">NISN</TableHead>
-                  <TableHead className="font-bold">KELAS</TableHead>
-                  <TableHead className="font-bold">JUMLAH TAGIHAN</TableHead>
-                  <TableHead className="font-bold"></TableHead>
+                  <TableHead className="font-bold text-black">No.</TableHead>
+                  <TableHead className="font-bold text-black">
+                    NAMA SISWA
+                  </TableHead>
+                  <TableHead className="font-bold text-black">NISN</TableHead>
+                  <TableHead className="font-bold text-black">KELAS</TableHead>
+                  <TableHead className="font-bold text-black">
+                    JUMLAH TAGIHAN
+                  </TableHead>
+                  <TableHead className="font-bold text-black"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

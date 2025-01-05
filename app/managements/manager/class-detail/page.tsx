@@ -139,7 +139,7 @@ export default function ManagerClassDetail() {
         </ToggleGroup>
       </div>
 
-      <div className="Md:grid grid-cols-2 gap-4 mt-8">
+      <div className="md:grid grid-cols-2 gap-4 mt-8">
         <div className="col-span-1 border-2 bg-white rounded-lg p-5">
           <div className="grid grid-rows-2 gap-4">
             <div className="row-span-1">
@@ -194,10 +194,12 @@ export default function ManagerClassDetail() {
             <Table>
               <TableHeader className="bg-slate-100">
                 <TableRow>
-                  <TableHead className="font-bold">No.</TableHead>
-                  <TableHead className="font-bold w-10">NAMA SISWA</TableHead>
-                  <TableHead className="font-bold">NISN</TableHead>
-                  <TableHead className="font-bold">KONTAK</TableHead>
+                  <TableHead className="font-bold text-black">No.</TableHead>
+                  <TableHead className="font-bold text-black">
+                    NAMA SISWA
+                  </TableHead>
+                  <TableHead className="font-bold text-black">NISN</TableHead>
+                  <TableHead className="font-bold text-black">KONTAK</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -247,10 +249,12 @@ export default function ManagerClassDetail() {
             <Table>
               <TableHeader className="bg-slate-100">
                 <TableRow>
-                  <TableHead className="font-bold">No.</TableHead>
-                  <TableHead className="font-bold">NAMA SISWA</TableHead>
-                  <TableHead className="font-bold">NISN</TableHead>
-                  <TableHead className="font-bold">KONTAK</TableHead>
+                  <TableHead className="font-bold text-black">No.</TableHead>
+                  <TableHead className="font-bold text-black">
+                    NAMA SISWA
+                  </TableHead>
+                  <TableHead className="font-bold text-black">NISN</TableHead>
+                  <TableHead className="font-bold text-black">KONTAK</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

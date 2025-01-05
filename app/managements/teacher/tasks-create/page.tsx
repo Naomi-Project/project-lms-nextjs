@@ -39,9 +39,9 @@ export default function TeacherTasksCreate() {
           className="mt-2"
         />
 
-        <div className="grid grid-cols-5 gap-4 mt-3">
-          <div className="col-span-1 border-r-2 ">
-            <div className="w-10/12">
+        <div className="md:grid grid-cols-5 gap-4 mt-3">
+          <div className="col-span-1 md:border-r-2 border-r-0 ">
+            <div className="md:w-10/12 w-full">
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
@@ -71,22 +71,22 @@ export default function TeacherTasksCreate() {
             </div>
           </div>
 
-          <div className="col-span-1 border-r-2">
-            <div className="w-10/12">
-              <div className="grid grid-cols-5 gap-4">
+          <div className="col-span-1 md:border-r-2 border-r-0 md:mt-0 mt-3">
+            <div className="md:w-10/12 w-full">
+              <div className="grid md:grid-cols-5 grid-cols-12 gap-4">
                 <div className="col-span-1">
                   <User className="text-slate-400 w-6 h-6" />
                 </div>
 
-                <div className="col-span-4 my-auto">
+                <div className="md:col-span-4 col-span-11 content-end">
                   <p className="text-slate-400 text-sm">Mochtar</p>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="col-span-1 border-r-2">
-            <div className="w-10/12">
+          <div className="col-span-1 md:border-r-2 border-r-0 md:mt-0 mt-3">
+            <div className="md:w-10/12 w-full">
               <Select>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Mata Pelajaran" />
@@ -105,8 +105,8 @@ export default function TeacherTasksCreate() {
             </div>
           </div>
 
-          <div className="col-span-1 border-r-2">
-            <div className="w-10/12">
+          <div className="col-span-1 md:border-r-2 border-r-0 md:mt-0 mt-3">
+            <div className="md:w-10/12 w-full">
               <Select>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Semester" />
@@ -125,8 +125,8 @@ export default function TeacherTasksCreate() {
             </div>
           </div>
 
-          <div className="col-span-1">
-            <div className="w-10/12">
+          <div className="col-span-1 md:mt-0 mt-3">
+            <div className="md:w-10/12 w-full">
               <Select>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Kelas" />
