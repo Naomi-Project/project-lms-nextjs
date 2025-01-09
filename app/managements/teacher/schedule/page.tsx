@@ -12,7 +12,7 @@ import React from "react";
 export default function ScheduleTeacher() {
   return (
     <div className="min-h-screen">
-      <div className="md:grid grid-cols-3 gap-4">
+      <div className="grid md:grid-cols-3 grid-cols-2 gap-4">
         <div className="col-span-1 border-2 rounded-lg p-8 bg-white">
           <div className="flex justify-between">
             <h1 className="text-lg font-bold">Senin</h1>
@@ -110,7 +110,7 @@ export default function ScheduleTeacher() {
           </div>
         </div>
 
-        <div className="col-span-1 border-2 rounded-lg p-8 bg-white md:mt-0 mt-3">
+        <div className="col-span-1 border-2 rounded-lg p-8 bg-white">
           <div className="flex justify-between">
             <h1 className="text-lg font-bold">Selasa</h1>
 
@@ -207,7 +207,7 @@ export default function ScheduleTeacher() {
           </div>
         </div>
 
-        <div className="col-span-1 border-2 rounded-lg p-8 bg-white md:mt-0 mt-3">
+        <div className="col-span-1 border-2 rounded-lg p-8 bg-white">
           <div className="flex justify-between">
             <h1 className="text-lg font-bold">Rabu</h1>
 
@@ -303,10 +303,8 @@ export default function ScheduleTeacher() {
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="md:grid grid-cols-3 gap-4  md:mt-6 mt-3">
-        <div className="col-span-1 border-2 rounded-lg p-8 bg-white md:mt-0 mt-3">
+        <div className="col-span-1 border-2 rounded-lg p-8 bg-white">
           <div className="flex justify-between">
             <h1 className="text-lg font-bold">Kamis</h1>
 
@@ -403,7 +401,7 @@ export default function ScheduleTeacher() {
           </div>
         </div>
 
-        <div className="col-span-1 border-2 rounded-lg p-8 bg-white md:mt-0 mt-3">
+        <div className="col-span-1 border-2 rounded-lg p-8 bg-white">
           <div className="flex justify-between">
             <h1 className="text-lg font-bold">Jumat</h1>
 
@@ -500,7 +498,7 @@ export default function ScheduleTeacher() {
           </div>
         </div>
 
-        <div className="col-span-1 border-2 rounded-lg p-8 bg-white md:mt-0 mt-3">
+        <div className="col-span-1 border-2 rounded-lg p-8 bg-white">
           <div className="flex justify-between">
             <h1 className="text-lg font-bold">Sabtu</h1>
 

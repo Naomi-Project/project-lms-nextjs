@@ -24,7 +24,7 @@ export default function ManagerSettingPayment() {
             className="bg-white"
           >
             <Link href="/managements/manager/setting-admin">
-              <p className="text-sm text-blue-500">Manajemen Admin</p>
+              <p className="text-sm text-slate-400">Manajemen Admin</p>
             </Link>
           </ToggleGroupItem>
           <ToggleGroupItem

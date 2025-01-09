@@ -9,6 +9,14 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Pencil } from "lucide-react";
 import Link from "next/link";
@@ -25,7 +33,7 @@ export default function ManagerProfile() {
             className="bg-white"
           >
             <Link href="/managements/manager/setting-admin">
-              <p className="text-sm text-blue-500">Manajemen Admin</p>
+              <p className="text-sm text-slate-400">Manajemen Admin</p>
             </Link>
           </ToggleGroupItem>
           <ToggleGroupItem
@@ -34,7 +42,7 @@ export default function ManagerProfile() {
             className="bg-white"
           >
             <Link href="/managements/manager/setting-payment">
-              <p className="text-sm text-blue-500">Pembayaran Sekolah</p>
+              <p className="text-sm text-slate-400">Pembayaran Sekolah</p>
             </Link>
           </ToggleGroupItem>
           <ToggleGroupItem
@@ -86,10 +94,23 @@ export default function ManagerProfile() {
                   <Label htmlFor="name" className="text-right">
                     Tingkatan Sekolah
                   </Label>
-                  <Input
-                    type="text"
-                    placeholder="Isi Tingkatan Sekolah Disini"
-                  />
+
+                  <Select>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Tingkatan Sekolah" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value="kelas7a">Sekolah Dasar</SelectItem>
+                        <SelectItem value="kelas7b">
+                          Sekolah Menengah Pertama
+                        </SelectItem>
+                        <SelectItem value="kelas7c">
+                          Sekolah Menengah Atas
+                        </SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
                 </div>
                 <DialogFooter className="mt-5">
                   <Button type="submit" variant="default" className="w-full">

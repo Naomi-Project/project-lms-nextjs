@@ -81,8 +81,8 @@ export default function DashboardTeacher() {
 
   return (
     <div className="min-h-screen">
-      <div className="md:grid grid-cols-4 gap-4">
-        <div className="col-span-1 w-6/12 md:w-full bg-white border-2 rounded-lg justify-items-center content-center py-2">
+      <div className="grid md:grid-cols-4 grid-cols-2 gap-4">
+        <div className="col-span-1 bg-white border-2 rounded-lg justify-items-center content-center py-2">
           <div className="grid grid-cols-4 gap-2 ">
             <div className="col-span-1 bg-orange-100 border-orange-100 border-2 p-2 rounded-lg flex items-center justify-center">
               <BookText className="w-9 h-9 text-orange-400" />
@@ -102,7 +102,7 @@ export default function DashboardTeacher() {
           </div>
         </div>
 
-        <div className="md:mt-0 mt-4 w-6/12 md:w-full col-span-1 bg-white border-2 rounded-lg justify-items-center content-center py-2">
+        <div className="col-span-1 bg-white border-2 rounded-lg justify-items-center content-center py-2">
           <div className="grid grid-cols-4 gap-2">
             <div className="col-span-1 bg-green-100 border-green-100 border-2 p-2 rounded-lg flex items-center justify-center">
               <ClipboardList className="w-9 h-9 text-green-400" />
@@ -122,7 +122,7 @@ export default function DashboardTeacher() {
           </div>
         </div>
 
-        <div className="col-span-1 md:mt-0 mt-4 w-6/12 md:w-full bg-white border-2 rounded-lg justify-items-center content-center py-2">
+        <div className="col-span-1 bg-white border-2 rounded-lg justify-items-center content-center py-2">
           <div className="grid grid-cols-4 gap-2">
             <div className="col-span-1 bg-blue-100 border-blue-100 border-2 p-2 rounded-lg flex items-center justify-center">
               <Fence className="w-9 h-9 text-blue-400" />
@@ -142,7 +142,7 @@ export default function DashboardTeacher() {
           </div>
         </div>
 
-        <div className="col-span-1 md:mt-0 mt-4 w-6/12 md:w-full bg-white border-2 rounded-lg justify-items-center content-center py-2">
+        <div className="col-span-1 bg-white border-2 rounded-lg justify-items-center content-center py-2">
           <div className="grid grid-cols-4 gap-2">
             <div className="col-span-1 bg-red-100 border-red-100 border-2 p-2 rounded-lg flex items-center justify-center">
               <CalendarOff className="w-9 h-9 text-red-400" />
