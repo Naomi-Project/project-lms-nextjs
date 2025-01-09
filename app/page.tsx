@@ -101,7 +101,9 @@ export default function LoginPage() {
                 </TabsContent>
                 <TabsContent value="teacher">
                   <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="number">Nomor Identitas</Label>
+                    <Label htmlFor="number">
+                      Nomor Identitas Pegawai Negeri Sipil (NIP)
+                    </Label>
                     <Input
                       id="number"
                       placeholder="Masukkan nomor identitas"
@@ -112,7 +114,7 @@ export default function LoginPage() {
                 </TabsContent>
                 <TabsContent value="student">
                   <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="number">Nomor Identitas</Label>
+                    <Label htmlFor="number">Nomor Induk Siswa Nasional</Label>
                     <Input
                       id="number"
                       placeholder="Masukkan nomor identitas"

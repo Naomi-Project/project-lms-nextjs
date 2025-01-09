@@ -11,6 +11,16 @@ import {
 } from "@/components/ui/dialog";
 import { CircleAlert, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function ManagerProfileTeacher() {
   return (
@@ -33,10 +43,50 @@ export default function ManagerProfileTeacher() {
             </p>
           </div>
 
-          <div className="md:mt-0 mt-4 md:col-span-1 col-span-2">
-            <Button variant="default">
-              <Pencil /> Edit
-            </Button>
+          <div className="md:mt-0 my-auto md:col-span-1 col-span-2">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="default">
+                  <Pencil /> Edit
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="md:w-3/12 w-96 rounded-lg">
+                <DialogHeader>
+                  <DialogTitle className="text-center">
+                    Nama Lengkap
+                  </DialogTitle>
+                </DialogHeader>
+                <div className="">
+                  <Label htmlFor="name" className="text-right">
+                    Nama Lengkap
+                  </Label>
+                  <Input type="text" placeholder="Isi Nama Lengkap" />
+                </div>
+
+                <div className="mt-3">
+                  <Label htmlFor="name" className="text-right">
+                    Status
+                  </Label>
+
+                  <Select>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value="kelas7a">Guru</SelectItem>
+                        <SelectItem value="kelas7b">Pegawai</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <DialogFooter className="mt-5">
+                  <Button type="submit" variant="default" className="w-full">
+                    Selesai
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
       </div>

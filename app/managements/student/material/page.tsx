@@ -42,7 +42,7 @@ export default function MaterialStudent() {
         </div>
       </div>
 
-      <div className="md:grid grid-cols-4 gap-4 mt-10">
+      <div className="grid md:grid-cols-4 grid-cols-2 gap-4 mt-10">
         <div className="col-span-1">
           <Link href="/managements/student/material-detail">
             <Card className="w-full">
@@ -63,7 +63,7 @@ export default function MaterialStudent() {
           </Link>
         </div>
 
-        <div className="col-span-1 md:mt-0 mt-4">
+        <div className="col-span-1">
           <Link href="/managements/student/material-detail">
             <Card className="w-full">
               <Image
@@ -83,7 +83,7 @@ export default function MaterialStudent() {
           </Link>
         </div>
 
-        <div className="col-span-1 md:mt-0 mt-4">
+        <div className="col-span-1">
           <Link href="/managements/student/material-detail">
             <Card className="w-full">
               <Image
@@ -103,7 +103,7 @@ export default function MaterialStudent() {
           </Link>
         </div>
 
-        <div className="col-span-1 md:mt-0 mt-4">
+        <div className="col-span-1">
           <Link href="/managements/student/material-detail">
             <Card className="w-full">
               <Image
@@ -124,7 +124,7 @@ export default function MaterialStudent() {
         </div>
       </div>
 
-      <div className="md:grid grid-cols-4 gap-4 md:mt-10 mt-4">
+      <div className="grid md:grid-cols-4 grid-cols-2 gap-4 md:mt-10 mt-4">
         <div className="col-span-1">
           <Link href="/managements/student/material-detail">
             <Card className="w-full">
@@ -145,7 +145,7 @@ export default function MaterialStudent() {
           </Link>
         </div>
 
-        <div className="col-span-1 md:mt-0 mt-4">
+        <div className="col-span-1">
           <Link href="/managements/student/material-detail">
             <Card className="w-full">
               <Image
@@ -165,7 +165,7 @@ export default function MaterialStudent() {
           </Link>
         </div>
 
-        <div className="col-span-1 md:mt-0 mt-4">
+        <div className="col-span-1">
           <Link href="/managements/student/material-detail">
             <Card className="w-full">
               <Image
@@ -185,7 +185,7 @@ export default function MaterialStudent() {
           </Link>
         </div>
 
-        <div className="col-span-1 md:mt-0 mt-4">
+        <div className="col-span-1">
           <Link href="/managements/student/material-detail">
             <Card className="w-full">
               <Image

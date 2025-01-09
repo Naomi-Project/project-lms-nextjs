@@ -93,8 +93,8 @@ export default function StudentProfilePresence() {
         </ToggleGroup>
       </div>
 
-      <div className="md:grid grid-cols-4 gap-4 mt-6">
-        <div className="col-span-1 md:w-full w-6/12 border-2 rounded-lg py-2 bg-white">
+      <div className="grid md:grid-cols-4 grid-cols-2 gap-4 mt-6">
+        <div className="col-span-1 border-2 rounded-lg py-2 bg-white">
           <div className="grid grid-cols-5 gap-2 ml-5">
             <div className="col-span-1 bg-green-100 p-2 rounded-lg flex items-center justify-center">
               <CalendarCheck2 className="w-9 h-9 text-green-400" />
@@ -106,7 +106,7 @@ export default function StudentProfilePresence() {
           </div>
         </div>
 
-        <div className="col-span-1 md:w-full w-6/12 md:mt-0 mt-3 border-2 rounded-lg py-2 bg-white">
+        <div className="col-span-1 border-2 rounded-lg py-2 bg-white">
           <div className="grid grid-cols-5 gap-2 ml-5">
             <div className="col-span-1 bg-orange-100 rounded-lg flex items-center justify-center">
               <Hourglass className="w-9 h-9 text-orange-400" />
@@ -118,7 +118,7 @@ export default function StudentProfilePresence() {
           </div>
         </div>
 
-        <div className="col-span-1 md:w-full w-6/12 md:mt-0 mt-3 border-2 rounded-lg py-2 bg-white">
+        <div className="col-span-1 border-2 rounded-lg py-2 bg-white">
           <div className="grid grid-cols-5 gap-2 ml-5">
             <div className="col-span-1 bg-orange-100 p-2 rounded-lg flex items-center justify-center">
               <Thermometer className="w-9 h-9 text-orange-400" />
@@ -130,7 +130,7 @@ export default function StudentProfilePresence() {
           </div>
         </div>
 
-        <div className="col-span-1 md:w-full w-6/12 md:mt-0 mt-3 border-2 rounded-lg py-2 bg-white">
+        <div className="col-span-1 border-2 rounded-lg py-2 bg-white">
           <div className="grid grid-cols-5 gap-2 ml-5">
             <div className="col-span-1 bg-red-100 p-2 rounded-lg flex items-center justify-center">
               <CalendarOff className="w-9 h-9 text-red-400" />

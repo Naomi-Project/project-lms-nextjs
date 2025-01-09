@@ -358,8 +358,8 @@ export default function ManagerStudent() {
             </div>
 
             <div className="grid grid-cols-2 md:gap-4">
-              <div className="col-span-1 flex justify-end">
-                <div className="md:w-8/12 w-full">
+              <div className="col-span-1 ml-1">
+                <div className="w-[132px] bg-slate-200 rounded-lg">
                   <TabsTrigger value="aktif">Aktif</TabsTrigger>
                   <TabsTrigger value="nonAktif">Non Aktif</TabsTrigger>
                 </div>
