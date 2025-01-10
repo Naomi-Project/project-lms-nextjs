@@ -25,27 +25,30 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Plus, TrendingDown, TrendingUp } from "lucide-react";
+import { Plus, TrendingDown } from "lucide-react";
 import React from "react";
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import { TrendingUp } from "lucide-react";
+import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
+  { month: "January", payment: 186 },
+  { month: "February", payment: 305 },
+  { month: "March", payment: 237 },
+  { month: "April", payment: 73 },
+  { month: "May", payment: 209 },
+  { month: "June", payment: 214 },
 ];
-
 const chartConfig = {
-  dekstop: {
-    label: "Dekstop",
-    color: "#2563eb",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "#60a5fa",
+  payment: {
+    label: "Pemasukan Dalam Rp (Juta): ",
+    color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig;
 
@@ -272,21 +275,80 @@ export default function ManagerDashboard() {
       </div>
 
       <div className="rounded-lg bg-white mt-10">
-        <ChartContainer config={chartConfig} className="w-full h-80">
-          <BarChart accessibilityLayer data={chartData}>
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
-            />
-            <ChartTooltip content={<ChartTooltipContent />} />
-            <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
-            <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
-          </BarChart>
-        </ChartContainer>
+        <Card>
+          <CardHeader>
+            <div className="flex justify-between">
+              <div className="">
+                <CardTitle>
+                  <Select>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Histori Total Pemasukan" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="jakarta">
+                        SMP Negeri 1 Jakarta
+                      </SelectItem>
+                      <SelectItem value="semarang">
+                        SMP Negeri 1 Semarang
+                      </SelectItem>
+                      <SelectItem value="yogyakarta">
+                        SMP Negeri 1 Yogyakarta
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </CardTitle>
+                <CardDescription className="mt-2">
+                  Histori dari semua pemasukan cabang setiap bulan
+                </CardDescription>
+              </div>
+
+              <div className="">
+                <Select>
+                  <SelectTrigger className="w-full font-bold">
+                    <SelectValue placeholder="2025" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="2025">2025</SelectItem>
+                    <SelectItem value="2024">2024</SelectItem>
+                    <SelectItem value="2023">2023</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="h-96">
+            <ChartContainer config={chartConfig} className="w-full h-full">
+              <LineChart
+                accessibilityLayer
+                data={chartData}
+                margin={{
+                  left: 12,
+                  right: 12,
+                }}
+              >
+                <CartesianGrid vertical={true} />
+                <XAxis
+                  dataKey="month"
+                  tickLine={false}
+                  axisLine={false}
+                  tickMargin={8}
+                  tickFormatter={(value) => value.slice(0, 3)}
+                />
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent hideLabel />}
+                />
+                <Line
+                  dataKey="payment"
+                  type="linear"
+                  stroke="var(--color-payment)"
+                  strokeWidth={2}
+                  dot={false}
+                />
+              </LineChart>
+            </ChartContainer>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

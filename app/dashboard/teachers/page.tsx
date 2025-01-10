@@ -1,9 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -12,73 +16,30 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   BookText,
-  Calendar,
   CalendarOff,
+  CalendarRange,
   ClipboardList,
-  Clock,
   Fence,
   Plus,
   Search,
 } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import poster from "../../../image/poster-materi.jpeg";
+import Image from "next/image";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
 
 export default function DashboardTeacher() {
-  const [assignments, setAssignments] = useState<Assignment[]>([
-    {
-      id: 1,
-      subject: "Matematika",
-      title: "Selesaikan 5 Soal Persamaan Kuadrat Dengan Metode Faktor",
-      dueDate: "24 Oktober 2024",
-      status: "pending",
-    },
-    {
-      id: 2,
-      subject: "Bahasa Indonesia",
-      title: "Buatlah Sebuah Teks Deskripsi Tentang Tempat Wisata",
-      dueDate: "24 Oktober 2024",
-      status: "completed",
-    },
-    {
-      id: 3,
-      subject: "Fisika",
-      title: "Jelaskan Aplikasi Hukum Newton Dalam Kehidupan Sehari-hari",
-      dueDate: "22 Oktober 2024",
-      status: "overdue",
-    },
-    {
-      id: 4,
-      subject: "Sejarah",
-      title: "Buatlah Esai Singkat Mengenai Peristiwa Proklamasi Kemerdekaan",
-      dueDate: "26 Oktober 2024",
-      status: "pending",
-    },
-  ]);
-
-  const [exams, setExams] = useState<Exam[]>([
-    {
-      id: 1,
-      subject: "Matematika",
-      date: "30 Oktober 2024",
-      time: "08:00 - 10:00",
-    },
-    {
-      id: 2,
-      subject: "Bahasa Indonesia",
-      date: "1 November 2024",
-      time: "10:30 - 12:30",
-    },
-    {
-      id: 3,
-      subject: "Fisika",
-      date: "3 November 2024",
-      time: "13:00 - 15:00",
-    },
-  ]);
-
   return (
     <div className="min-h-screen">
       <div className="grid md:grid-cols-4 grid-cols-2 gap-4">
@@ -164,106 +125,411 @@ export default function DashboardTeacher() {
       </div>
 
       <div className="md:flex justify-between items-center mt-6">
-        <Button className="gap-2">
-          <Plus className="h-4 w-4" /> Buat Tugas
-        </Button>
+        <div className="">
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="default">
+                <Plus className="h-4 w-4" /> Buat Tugas
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="md:w-3/12 w-96 rounded-lg">
+              <DialogHeader>
+                <DialogTitle className="text-center">
+                  Buat Tugas Sekolah
+                </DialogTitle>
+              </DialogHeader>
+              <div className="">
+                <Label htmlFor="name" className="text-right">
+                  Mata Pelajaran
+                </Label>
+
+                <Select>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Mata Pelajaran" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="matematika">Matematika</SelectItem>
+                    <SelectItem value="indonesia">Bahasa Indonesia</SelectItem>
+                    <SelectItem value="fisika">Fiska</SelectItem>
+                    <SelectItem value="kimia">Kimia</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="mt-3">
+                <Label htmlFor="name" className="text-right">
+                  Judul Tugas
+                </Label>
+
+                <Input type="text" placeholder="Isi Judul Tugas" />
+              </div>
+
+              <div className="mt-3">
+                <Label htmlFor="name" className="text-right">
+                  Judul Tugas
+                </Label>
+
+                <Input type="text" placeholder="Isi Judul Tugas" />
+              </div>
+
+              <div className="mt-3">
+                <Label htmlFor="name" className="text-right">
+                  Batas Waktu
+                </Label>
+
+                <Input type="date" placeholder="Isi Judul Tugas" />
+              </div>
+              <DialogFooter className="mt-5">
+                <Button type="submit" variant="default" className="w-full">
+                  Selesai
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </div>
 
         <div className="flex gap-4 md:mt-0 mt-3">
           <div className="bg-white rounded-lg">
-            <Select defaultValue="all">
-              <SelectTrigger className="w-[180px]">
+            <Select defaultValue="global">
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Filter Kelas" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Semua Kelas</SelectItem>
-                <SelectItem value="7a">Kelas 7A</SelectItem>
-                <SelectItem value="7b">Kelas 7B</SelectItem>
-                <SelectItem value="7c">Kelas 7C</SelectItem>
+                <SelectItem value="global">Global</SelectItem>
+                <SelectItem value="matematika">Matematika</SelectItem>
+                <SelectItem value="fisika">Fiska</SelectItem>
+                <SelectItem value="kimia">Kimia</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="relative bg-white rounded-lg">
             <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input placeholder="Cari Tugas" className="pl-8 w-[300px]" />
+            <Input placeholder="Cari Tugas" className="pl-8 w-full" />
           </div>
         </div>
       </div>
 
-      <Tabs defaultValue="assignments" className="space-y-4 mt-6">
-        <TabsList>
-          <TabsTrigger value="assignments">Tugas</TabsTrigger>
-          <TabsTrigger value="exams">Ujian</TabsTrigger>
-        </TabsList>
-        <TabsContent value="assignments" className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2">
-            {assignments.map((assignment) => (
-              <Card key={assignment.id}>
-                <Link href="/managements/teacher/tasks">
-                  <CardContent className="pt-6">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <Badge
-                          variant={
-                            assignment.status === "completed"
-                              ? "default"
-                              : assignment.status === "pending"
-                              ? "secondary"
-                              : "destructive"
-                          }
-                        >
-                          {assignment.status === "completed"
-                            ? "Selesai"
-                            : assignment.status === "pending"
-                            ? "Pending"
-                            : "Terlambat"}
-                        </Badge>
-                        <h3 className="font-semibold mt-2 mb-1">
-                          {assignment.title}
-                        </h3>
-                        <p className="text-sm text-muted-foreground mb-4">
-                          {assignment.subject}
-                        </p>
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <Clock className="h-4 w-4" />
-                          <span>
-                            Kumpulkan 3 hari lagi • {assignment.dueDate}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Link>
-              </Card>
-            ))}
-          </div>
-        </TabsContent>
-        <TabsContent value="exams" className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2">
-            {exams.map((exam) => (
-              <Card key={exam.id}>
-                <CardContent className="pt-6">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h3 className="font-semibold mb-1">{exam.subject}</h3>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
-                        <Calendar className="h-4 w-4" />
-                        <span>{exam.date}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Clock className="h-4 w-4" />
-                        <span>{exam.time}</span>
-                      </div>
-                    </div>
-                    <Button variant="outline" size="sm">
-                      Persiapan
-                    </Button>
+      <div className="grid md:grid-cols-4 grid-cols-2 gap-4 mt-10">
+        <div className="col-span-1">
+          <Link href="/managements/student/tasks">
+            <Card>
+              <Image
+                src={poster}
+                alt="matematika"
+                className="rounded-lg w-full h-full"
+              />
+              <CardHeader>
+                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
+                  Matematika
+                </CardTitle>
+                <CardDescription>
+                  <p className="font-bold text-sm text-black">
+                    Selesaikan 5 soal persamaan kuadrat dengan metode
+                    faktorisasi.
+                  </p>
+                </CardDescription>
+              </CardHeader>
+              <CardFooter>
+                <div className="grid grid-cols-7">
+                  <div className="col-span-1">
+                    <CalendarRange className="w-5 h-5 text-blue-500" />
                   </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </TabsContent>
-      </Tabs>
+
+                  <div className="col-span-3">
+                    <p className="text-xs text-slate-400">
+                      Kumpulkan 3 Hari Lagi
+                    </p>
+                  </div>
+
+                  <div className="col-span-3">
+                    <p className="text-xs text-blue-500">24 Oktober 2025</p>
+                  </div>
+                </div>
+              </CardFooter>
+            </Card>
+          </Link>
+        </div>
+
+        <div className="col-span-1">
+          <Link href="/managements/student/tasks">
+            <Card>
+              <Image
+                src={poster}
+                alt="matematika"
+                className="rounded-lg w-full h-full"
+              />
+              <CardHeader>
+                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-28 rounded-full text-center text-slate-400">
+                  Bahasa Indonesia
+                </CardTitle>
+                <CardDescription>
+                  <p className="font-bold text-sm text-black">
+                    Buatlah sebuah teks deskripsi tentang tempat wisata yang
+                    pernah kamu kunjungi.
+                  </p>
+                </CardDescription>
+              </CardHeader>
+              <CardFooter>
+                <div className="grid grid-cols-7">
+                  <div className="col-span-1">
+                    <CalendarRange className="w-5 h-5 text-blue-500" />
+                  </div>
+
+                  <div className="col-span-3">
+                    <p className="text-xs text-slate-400">
+                      Kumpulkan 3 Hari Lagi
+                    </p>
+                  </div>
+
+                  <div className="col-span-3">
+                    <p className="text-xs text-blue-500">24 Oktober 2025</p>
+                  </div>
+                </div>
+              </CardFooter>
+            </Card>
+          </Link>
+        </div>
+
+        <div className="col-span-1">
+          <Link href="/managements/student/tasks">
+            <Card>
+              <Image
+                src={poster}
+                alt="matematika"
+                className="rounded-lg w-full h-full"
+              />
+              <CardHeader>
+                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
+                  Fisika
+                </CardTitle>
+                <CardDescription>
+                  <p className="font-bold text-sm text-black">
+                    Jelaskan aplikasi Hukum Newton dalam kehidupan sehari-hari
+                    dan berikan contoh.
+                  </p>
+                </CardDescription>
+              </CardHeader>
+              <CardFooter>
+                <div className="grid grid-cols-7">
+                  <div className="col-span-1">
+                    <CalendarRange className="w-5 h-5 text-blue-500" />
+                  </div>
+
+                  <div className="col-span-3">
+                    <p className="text-xs text-slate-400">
+                      Kumpulkan 3 Hari Lagi
+                    </p>
+                  </div>
+
+                  <div className="col-span-3">
+                    <p className="text-xs text-blue-500">24 Oktober 2025</p>
+                  </div>
+                </div>
+              </CardFooter>
+            </Card>
+          </Link>
+        </div>
+
+        <div className="col-span-1">
+          <Link href="/managements/student/tasks">
+            <Card>
+              <Image
+                src={poster}
+                alt="matematika"
+                className="rounded-lg w-full h-full"
+              />
+              <CardHeader>
+                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
+                  Sejarah
+                </CardTitle>
+                <CardDescription>
+                  <p className="font-bold text-sm text-black">
+                    Buatlah esai singkat mengenai peristiwa Proklamasi
+                    Kemerdekaan Indonesia.
+                  </p>
+                </CardDescription>
+              </CardHeader>
+              <CardFooter>
+                <div className="grid grid-cols-7">
+                  <div className="col-span-1">
+                    <CalendarRange className="w-5 h-5 text-blue-500" />
+                  </div>
+
+                  <div className="col-span-3">
+                    <p className="text-xs text-slate-400">
+                      Kumpulkan 3 Hari Lagi
+                    </p>
+                  </div>
+
+                  <div className="col-span-3">
+                    <p className="text-xs text-blue-500">24 Oktober 2025</p>
+                  </div>
+                </div>
+              </CardFooter>
+            </Card>
+          </Link>
+        </div>
+
+        <div className="col-span-1">
+          <Link href="/managements/student/tasks">
+            <Card>
+              <Image
+                src={poster}
+                alt="matematika"
+                className="rounded-lg w-full h-full"
+              />
+              <CardHeader>
+                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
+                  Ekonomi
+                </CardTitle>
+                <CardDescription>
+                  <p className="font-bold text-sm text-black">
+                    Berikan contoh nyata dari hukum permintaan dan penawaran
+                    yang terjadi di pasar Indonesia.
+                  </p>
+                </CardDescription>
+              </CardHeader>
+              <CardFooter>
+                <div className="grid grid-cols-7">
+                  <div className="col-span-1">
+                    <CalendarRange className="w-5 h-5 text-blue-500" />
+                  </div>
+
+                  <div className="col-span-3">
+                    <p className="text-xs text-slate-400">
+                      Kumpulkan 3 Hari Lagi
+                    </p>
+                  </div>
+
+                  <div className="col-span-3">
+                    <p className="text-xs text-blue-500">24 Oktober 2025</p>
+                  </div>
+                </div>
+              </CardFooter>
+            </Card>
+          </Link>
+        </div>
+
+        <div className="col-span-1">
+          <Link href="/managements/student/tasks">
+            <Card>
+              <Image
+                src={poster}
+                alt="matematika"
+                className="rounded-lg w-full h-full"
+              />
+              <CardHeader>
+                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
+                  PPKN
+                </CardTitle>
+                <CardDescription>
+                  <p className="font-bold text-sm text-black">
+                    Jelaskan bagaimana penerapan nilai-nilai Demokrasi Pancasila
+                    dalam sistem pemerintahan Indonesia.
+                  </p>
+                </CardDescription>
+              </CardHeader>
+              <CardFooter>
+                <div className="grid grid-cols-7">
+                  <div className="col-span-1">
+                    <CalendarRange className="w-5 h-5 text-blue-500" />
+                  </div>
+
+                  <div className="col-span-3">
+                    <p className="text-xs text-slate-400">
+                      Kumpulkan 3 Hari Lagi
+                    </p>
+                  </div>
+
+                  <div className="col-span-3">
+                    <p className="text-xs text-blue-500">24 Oktober 2025</p>
+                  </div>
+                </div>
+              </CardFooter>
+            </Card>
+          </Link>
+        </div>
+
+        <div className="col-span-1">
+          <Link href="/managements/student/tasks">
+            <Card>
+              <Image
+                src={poster}
+                alt="matematika"
+                className="rounded-lg w-full h-full"
+              />
+              <CardHeader>
+                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
+                  Geografi
+                </CardTitle>
+                <CardDescription>
+                  <p className="font-bold text-sm text-black">
+                    Jelaskan jenis-jenis bencana alam di Indonesia dan faktor
+                    penyebabnya.
+                  </p>
+                </CardDescription>
+              </CardHeader>
+              <CardFooter>
+                <div className="grid grid-cols-7">
+                  <div className="col-span-1">
+                    <CalendarRange className="w-5 h-5 text-blue-500" />
+                  </div>
+
+                  <div className="col-span-3">
+                    <p className="text-xs text-slate-400">
+                      Kumpulkan 3 Hari Lagi
+                    </p>
+                  </div>
+
+                  <div className="col-span-3">
+                    <p className="text-xs text-blue-500">24 Oktober 2025</p>
+                  </div>
+                </div>
+              </CardFooter>
+            </Card>
+          </Link>
+        </div>
+
+        <div className="col-span-1">
+          <Link href="/managements/student/tasks">
+            <Card>
+              <Image
+                src={poster}
+                alt="matematika"
+                className="rounded-lg w-full h-full"
+              />
+              <CardHeader>
+                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
+                  Biologi
+                </CardTitle>
+                <CardDescription>
+                  <p className="font-bold text-sm text-black">
+                    Gambarkan dan jelaskan fungsi organ-organ dalam sistem
+                    pencernaan manusia.
+                  </p>
+                </CardDescription>
+              </CardHeader>
+              <CardFooter>
+                <div className="grid grid-cols-7">
+                  <div className="col-span-1">
+                    <CalendarRange className="w-5 h-5 text-blue-500" />
+                  </div>
+
+                  <div className="col-span-3">
+                    <p className="text-xs text-slate-400">
+                      Kumpulkan 3 Hari Lagi
+                    </p>
+                  </div>
+
+                  <div className="col-span-3">
+                    <p className="text-xs text-blue-500">24 Oktober 2025</p>
+                  </div>
+                </div>
+              </CardFooter>
+            </Card>
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }
