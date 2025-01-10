@@ -25,7 +25,7 @@ export default function MaterialStudent() {
       <div className="flex justify-between items-center">
         <div className="bg-white rounded-lg">
           <Select defaultValue="global">
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-full">
               <SelectValue placeholder="Filter" />
             </SelectTrigger>
             <SelectContent>
@@ -38,7 +38,7 @@ export default function MaterialStudent() {
         </div>
         <div className="relative bg-white">
           <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input placeholder="Cari Materi" className="pl-8 w-[300px]" />
+          <Input placeholder="Cari Materi" className="pl-8 w-full" />
         </div>
       </div>
 
