@@ -101,7 +101,7 @@ export function AppSidebar() {
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
-                    <Link href="/logout" className="w-full">
+                    <Link href="/" className="w-full">
                       <div className="grid grid-cols-10 gap-4">
                         <div className="col-span-1">
                           <LinkIcon className="mr-2 h-4 w-4" />
