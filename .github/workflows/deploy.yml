@@ -23,4 +23,4 @@ jobs:
       # Step 3: Deploy Files to Server
       - name: Deploy to Server
         run: |
-          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" ./ root@147.93.97.44:/frontend
+          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" ./ root@147.93.97.44:/home/ubuntu/projects/frontend
