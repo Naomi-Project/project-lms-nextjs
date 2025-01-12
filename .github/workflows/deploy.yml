@@ -1,0 +1,22 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - main  # Trigger hanya untuk branch `main`
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Upload to Server
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y rsync sshpass
+          rsync -avz --delete ./ root@147.93.97.44:/frontend
+        env:
+          RSYNC_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
