@@ -21,6 +21,7 @@ import {
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
@@ -34,7 +35,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Plus,
   Search,
@@ -107,8 +107,32 @@ export default function ManagerPengumuman() {
                   </DialogTitle>
                 </DialogHeader>
                 <div className="">
-                  <Label htmlFor="title">Pengumuman</Label>
-                  <Textarea placeholder="Isi Pengumuman Disini" />
+                  <Label htmlFor="title">Judul Pengumuman</Label>
+                  <Input type="text" id="title" placeholder="judul" />
+                </div>
+
+                <div className="">
+                  <Label htmlFor="title">Tanggal Diumumkan</Label>
+                  <Input type="date" id="title" placeholder="tanggal" />
+                </div>
+
+                <div className="">
+                  <Label htmlFor="title">Target</Label>
+                  <Select>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Target" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value="guru">Guru</SelectItem>
+                        <SelectItem value="pegawai">Pegawai</SelectItem>
+                        <SelectItem value="siswa">Siswa</SelectItem>
+                        <SelectItem value="all">
+                          Guru || Pegawai || Siswa
+                        </SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
                 </div>
                 <DialogFooter>
                   <Button

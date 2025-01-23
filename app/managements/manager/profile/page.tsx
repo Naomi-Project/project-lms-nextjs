@@ -79,9 +79,7 @@ export default function ManagerProfile() {
               </DialogTrigger>
               <DialogContent className="md:w-3/12 w-96 rounded-lg">
                 <DialogHeader>
-                  <DialogTitle className="text-center">
-                    Tagihan SPP Perbulan
-                  </DialogTitle>
+                  <DialogTitle className="text-center">SEKOLAH</DialogTitle>
                 </DialogHeader>
                 <div className="">
                   <Label htmlFor="name" className="text-right">
