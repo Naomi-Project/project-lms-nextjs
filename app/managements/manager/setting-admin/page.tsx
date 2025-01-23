@@ -274,7 +274,7 @@ export default function ManagerSettingAdmin() {
                     <Plus /> Buat Administrasi
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="md:w-3/12 w-96 rounded-lg">
+                <DialogContent className="md:w-4/12 w-96 rounded-lg">
                   <DialogHeader>
                     <DialogTitle className="text-center">
                       Buat Administrasi

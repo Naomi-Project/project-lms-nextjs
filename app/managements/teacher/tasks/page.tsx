@@ -359,7 +359,7 @@ export default function TaksTeacher() {
 
             <div className="md:col-span-2 col-span-3 grid justify-items-end">
               <Button variant="default">
-                <Link href="/managements/student/tasks-detail">
+                <Link href="#">
                   <div className="grid grid-cols-3 gap-2">
                     <div className="col-span-1">
                       <PenBox />

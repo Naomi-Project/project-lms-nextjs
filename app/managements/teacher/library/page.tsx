@@ -47,7 +47,7 @@ export default function LibraryTeacher() {
             </DialogTrigger>
             <DialogContent className="md:w-4/12 w-96 rounded-lg">
               <DialogHeader>
-                <DialogTitle>Tambah E-Book</DialogTitle>
+                <DialogTitle className="text-center">Tambah E-Book</DialogTitle>
               </DialogHeader>
               <div className="">
                 <Label htmlFor="name" className="text-right">
@@ -86,15 +86,13 @@ export default function LibraryTeacher() {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          <SelectItem value="matematika">Matematika</SelectItem>
+                          <SelectItem value="matematika">Arimatika</SelectItem>
                           <SelectItem value="indonesia">
-                            Bahasa Indonesia
+                            Trigonometri
                           </SelectItem>
-                          <SelectItem value="inggris">
-                            Bahasa Inggris
-                          </SelectItem>
-                          <SelectItem value="fisika">Fisika</SelectItem>
-                          <SelectItem value="kimia">Kimia</SelectItem>
+                          <SelectItem value="inggris">Kalkulus</SelectItem>
+                          <SelectItem value="fisika">Tenses</SelectItem>
+                          <SelectItem value="kimia">Perhitungan</SelectItem>
                         </SelectGroup>
                       </SelectContent>
                     </Select>
