@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import useAuthStore from "@/hooks/use-auth";
+// import { loginPage } from "@/lib/apiservice/authservice";
 
 export default function LoginPage() {
   const { login } = useAuthStore();
@@ -25,11 +26,24 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [number, setNumber] = useState("");
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
+
+    setIsLoading(true);
+
+    // loginPage(username, password)
+    //   .then((token) => {
+    //     console.log("Login successful, token:", token);
     login(role);
+    setIsLoading(false);
     router.push("/dashboard");
+    //   })
+    //   .catch((err) => {
+    //     setIsLoading(false);
+    //     console.error("Login failed:", err);
+    //   });
   };
 
   return (
@@ -128,8 +142,30 @@ export default function LoginPage() {
           </form>
         </CardContent>
         <CardFooter>
-          <Button className="w-full" onClick={handleLogin}>
-            Masuk
+          <Button disabled={isLoading} className="w-full" onClick={handleLogin}>
+            {isLoading && (
+              <svg
+                className="w-5 h-5 mr-2 text-white animate-spin"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C6.48 0 0 6.48 0 12h4z"
+                ></path>
+              </svg>
+            )}
+            {isLoading ? "Processing..." : "Masuk"}
           </Button>
         </CardFooter>
       </Card>
