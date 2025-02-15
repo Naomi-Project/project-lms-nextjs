@@ -30,10 +30,10 @@ interface AppTableProps<T> {
   columns: Column<T>[];
   onAdd?: () => void;
   onEdit?: (row: T) => void;
-  onDelete?: (id: any) => void; // ID is assumed to be a property in T
+  onDelete?: (id: string) => void; // ID is assumed to be a property in T
 }
 
-function AppTable<T extends { id: any }>({
+function AppTable<T extends { id: string }>({
   title,
   description,
   data,

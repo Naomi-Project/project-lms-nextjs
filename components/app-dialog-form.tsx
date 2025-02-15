@@ -54,7 +54,7 @@ export default function AppDialogForm<T>({
     }
   }, [open, initialValues]);
 
-  const handleChange = (field: keyof T, value: any) => {
+  const handleChange = (field: keyof T, value: unknown) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 

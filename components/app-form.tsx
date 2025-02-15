@@ -46,7 +46,7 @@ function AppForm<T>({
 }: AppFormProps<T>) {
   const [formData, setFormData] = useState<T>(initialValues);
 
-  const handleChange = (field: keyof T, value: any) => {
+  const handleChange = (field: keyof T, value: unknown) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
