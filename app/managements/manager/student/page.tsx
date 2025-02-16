@@ -1,13 +1,6 @@
-import React from "react";
-import { Plus, TrendingDown, TrendingUp } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import AddStudent from "@/components/managerStudent/AddStudent";
+import RowStudentGet from "@/components/managerStudent/GetStudent";
+import { Input } from "@/components/ui/input";
 import {
   Pagination,
   PaginationContent,
@@ -24,143 +17,11 @@ import {
   TableFooter,
   TableHead,
   TableHeader,
-  TableRow,
+  TableRow
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Search } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import RowStudentGet from "@/components/managerStudent/GetStudent";
-import AddStudent from "@/components/managerStudent/AddStudent";
+import { Search, TrendingDown, TrendingUp } from "lucide-react";
 
-const data1 = [
-  {
-    no: "1",
-    name: "Fu Xuan Test",
-    nisn: "676678",
-    class: "7A",
-    guardian: "Johan",
-    contact: "08212384823",
-  },
-  {
-    no: "2",
-    name: "Fu Xuan",
-    nisn: "676678",
-    class: "7A",
-    guardian: "Johan",
-    contact: "08212384823",
-  },
-  {
-    no: "3",
-    name: "Fu Xuan",
-    nisn: "676678",
-    class: "7A",
-    guardian: "Johan",
-    contact: "08212384823",
-  },
-  {
-    no: "4",
-    name: "Fu Xuan",
-    nisn: "676678",
-    class: "7A",
-    guardian: "Johan",
-    contact: "08212384823",
-  },
-  {
-    no: "5",
-    name: "Fu Xuan",
-    nisn: "676678",
-    class: "7A",
-    guardian: "Johan",
-    contact: "08212384823",
-  },
-  {
-    no: "6",
-    name: "Fu Xuan",
-    nisn: "676678",
-    class: "7A",
-    guardian: "Johan",
-    contact: "08212384823",
-  },
-  {
-    no: "7",
-    name: "Fu Xuan",
-    nisn: "676678",
-    class: "7A",
-    guardian: "Johan",
-    contact: "08212384823",
-  },
-];
-
-const data2 = [
-  {
-    no: "1",
-    name: "Fulan",
-    nisn: "676678",
-    class: "7A",
-    guardian: "Johan",
-    contact: "08212384823",
-  },
-  {
-    no: "2",
-    name: "Fulan",
-    nisn: "676678",
-    class: "7A",
-    guardian: "Johan",
-    contact: "08212384823",
-  },
-  {
-    no: "3",
-    name: "Fulan",
-    nisn: "676678",
-    class: "7A",
-    guardian: "Johan",
-    contact: "08212384823",
-  },
-  {
-    no: "4",
-    name: "Fulan",
-    nisn: "676678",
-    class: "7A",
-    guardian: "Johan",
-    contact: "08212384823",
-  },
-  {
-    no: "5",
-    name: "Fulan",
-    nisn: "676678",
-    class: "7A",
-    guardian: "Johan",
-    contact: "08212384823",
-  },
-  {
-    no: "6",
-    name: "Fulan",
-    nisn: "676678",
-    class: "7A",
-    guardian: "Johan",
-    contact: "08212384823",
-  },
-  {
-    no: "7",
-    name: "Fulan",
-    nisn: "676678",
-    class: "7A",
-    guardian: "Johan",
-    contact: "08212384823",
-  },
-];
 
 export default function ManagerStudent() {
   return (
@@ -245,7 +106,7 @@ export default function ManagerStudent() {
         <Tabs defaultValue="aktif" className="w-full">
           <TabsList className="w-full flex justify-between bg-white">
             {/* dialogue form add student component  */}
-              <AddStudent />
+            <AddStudent />
             {/* dialogue form add student component  */}
             <div className="grid grid-cols-2 md:gap-4">
               <div className="col-span-1 ml-1">
@@ -269,16 +130,15 @@ export default function ManagerStudent() {
                   <TableHead className="font-bold text-black">
                     NAMA SISWA
                   </TableHead>
-                  <TableHead className="font-bold text-black">NISN</TableHead>
                   <TableHead className="font-bold text-black">KELAS</TableHead>
-                  <TableHead className="font-bold text-black">WALI</TableHead>
-                  <TableHead className="font-bold text-black">KONTAK</TableHead>
+                  <TableHead className="font-bold text-black">ALAMAT</TableHead>
+                  <TableHead className="font-bold text-black">Nomor</TableHead>
                   <TableHead className="font-bold text-black">AKSI</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {/* get student in row table */}
-                  <RowStudentGet /> 
+                <RowStudentGet />
                 {/* get student in row table */}
               </TableBody>
               <TableFooter>
@@ -319,27 +179,13 @@ export default function ManagerStudent() {
               <TableHeader className="bg-slate-100">
                 <TableRow>
                   <TableHead className="font-bold text-black">No.</TableHead>
-                  <TableHead className="font-bold text-black">
-                    NAMA SISWA
-                  </TableHead>
-                  <TableHead className="font-bold text-black">NISN</TableHead>
+                  <TableHead className="font-bold text-black">NAMA SISWA</TableHead>
                   <TableHead className="font-bold text-black">KELAS</TableHead>
-                  <TableHead className="font-bold text-black">WALI</TableHead>
+                  <TableHead className="font-bold text-black">Alamat</TableHead>
                   <TableHead className="font-bold text-black">KONTAK</TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody>
-                {data2.map((invoice) => (
-                  <TableRow key={invoice.no}>
-                    <TableCell>{invoice.no}</TableCell>
-                    <TableCell>{invoice.name}</TableCell>
-                    <TableCell>{invoice.nisn}</TableCell>
-                    <TableCell>{invoice.class}</TableCell>
-                    <TableCell>{invoice.guardian}</TableCell>
-                    <TableCell>{invoice.contact}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
+
               <TableFooter>
                 <TableRow className="bg-white">
                   <TableCell colSpan={3}></TableCell>

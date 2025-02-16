@@ -1,4 +1,9 @@
-import { ChevronDown, LinkIcon, User2 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Sidebar,
   SidebarContent,
@@ -11,19 +16,14 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "./ui/button";
-import { Avatar } from "./ui/avatar";
-import { AppMenu } from "@/lib/constants";
+import { HeadofficeMenu, ManagerMenu, StudentMenu, TeacherMenu } from "@/lib/constants";
+import { ChevronDown, LinkIcon, User2 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import logo from "../image/logo.png";
-import Image from "next/image";
 import user from "../image/user.jpeg";
+import { Avatar } from "./ui/avatar";
+import { Button } from "./ui/button";
 
 export function AppSidebar() {
   return (
@@ -45,13 +45,89 @@ export function AppSidebar() {
           </SidebarMenu>
         </SidebarHeader>
         <SidebarContent>
+          {/* administration menu */}
           <SidebarGroup>
             <SidebarGroupLabel className="font-bold">
-              MAIN MENU
+              Administrasi
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {AppMenu.map((item) =>
+                {ManagerMenu.map((item) =>
+                  item.visibility == true ? (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton asChild>
+                        <a href={item.href}>
+                          <item.icon className="mr-2 h-4 w-4" />
+                          {item.title}
+                        </a>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ) : (
+                    <></>
+                  )
+                )}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+
+          {/* main menu */}
+          <SidebarGroup>
+            <SidebarGroupLabel className="font-bold">
+              Headoffice
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {HeadofficeMenu.map((item) =>
+                  item.visibility == true ? (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton asChild>
+                        <a href={item.href}>
+                          <item.icon className="mr-2 h-4 w-4" />
+                          {item.title}
+                        </a>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ) : (
+                    <></>
+                  )
+                )}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+
+          {/* main menu */}
+          <SidebarGroup>
+            <SidebarGroupLabel className="font-bold">
+              Guru
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {TeacherMenu.map((item) =>
+                  item.visibility == true ? (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton asChild>
+                        <a href={item.href}>
+                          <item.icon className="mr-2 h-4 w-4" />
+                          {item.title}
+                        </a>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ) : (
+                    <></>
+                  )
+                )}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+
+          {/* main menu */}
+          <SidebarGroup>
+            <SidebarGroupLabel className="font-bold">
+              Murid
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {StudentMenu.map((item) =>
                   item.visibility == true ? (
                     <SidebarMenuItem key={item.title}>
                       <SidebarMenuButton asChild>
@@ -79,7 +155,7 @@ export function AppSidebar() {
                     <Avatar className="mr-2 h-8 w-8">
                       <Image src={user} alt="user" />
                     </Avatar>
-                    <span className="truncate">John Lennon</span>
+                    <span className="truncate">Pengguna</span>
                     <ChevronDown className="ml-auto h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>

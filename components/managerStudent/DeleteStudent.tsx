@@ -2,7 +2,7 @@ import { useDeleteUserMutation } from "@/graphql/generated"; // Import auto-gene
 import { Button } from "../ui/button";
 
 const DeleteStudent: React.FC<{ userId: string }> = ({ userId }) => {
-  const [deleteUser, { loading, error }] = useDeleteUserMutation();
+  const [deleteUser, { loading }] = useDeleteUserMutation();
 
   const handleDelete = async () => {
     if (!confirm("Apakah Anda yakin ingin menghapus pengguna ini?")) return;

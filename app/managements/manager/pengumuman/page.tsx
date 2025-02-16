@@ -35,13 +35,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Plus,
   Search,
   SlidersHorizontal,
   SquareArrowOutUpRight,
 } from "lucide-react";
-import React from "react";
 
 const data = [
   {
@@ -109,6 +109,11 @@ export default function ManagerPengumuman() {
                 <div className="">
                   <Label htmlFor="title">Judul Pengumuman</Label>
                   <Input type="text" id="title" placeholder="judul" />
+                </div>
+
+                <div className="">
+                  <Label htmlFor="title">Isi</Label>
+                  <Textarea placeholder="Isi pengumuman disini" />
                 </div>
 
                 <div className="">

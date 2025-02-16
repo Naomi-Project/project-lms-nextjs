@@ -1,15 +1,14 @@
 "use client";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Gender, Role, useCreateUserMutation } from "@/graphql/generated";
+import { Plus } from "lucide-react";
 import { useState } from "react";
 import { z } from "zod";
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectItem } from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Plus } from "lucide-react";
-import { useCreateUserMutation } from "@/graphql/generated";
 
 // Schema validasi dengan Zod
 const studentSchema = z.object({
@@ -58,11 +57,11 @@ const AddStudent: React.FC = () => {
   };
 
   // Handle submit form
-  const [createUser, { data, loading, error }] = useCreateUserMutation();
+  const [createUser,] = useCreateUserMutation();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     // Validasi form menggunakan Zod
     const validation = studentSchema.safeParse(formData);
 
@@ -81,12 +80,12 @@ const AddStudent: React.FC = () => {
           data: {
             username: formData.name,
             password: "",
-            role: "STUDENT",
+            role: Role.Student,
             nik: "1234567890",
             nuptk: "",
             nisn: formData.nisn,
             dateOfBirth: 20050101,
-            gender: "MALE",
+            gender: Gender.Male,
             address: formData.address,
             phone: formData.contact,
           },

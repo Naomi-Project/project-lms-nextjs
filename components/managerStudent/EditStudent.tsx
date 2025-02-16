@@ -1,14 +1,14 @@
 "use client";
-import { useEffect, useState } from "react";
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useUpdateUserMutation } from "@/graphql/generated";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Role, useUpdateUserMutation } from "@/graphql/generated";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 // Schema Validation
 const studentSchema = z.object({
@@ -48,7 +48,7 @@ const EditStudent: React.FC<{ studentData: StudentForm & { id: string } }> = ({ 
           data: {
             id: studentData.id, // ID dari siswa yang diedit
             username: data.username,
-            role: "STUDENT",
+            role: Role.Student,
             nisn: data.nisn,
             address: data.address,
             phone: data.phone,

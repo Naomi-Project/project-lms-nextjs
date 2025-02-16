@@ -1,10 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Card,
   CardContent,
@@ -13,9 +9,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import useAuthStore from "@/hooks/use-auth";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLoginMutation } from "@/graphql/generated";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 // import { loginPage } from "@/lib/apiservice/authservice";
 
 export default function LoginPage() {
@@ -27,19 +26,18 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [number, setNumber] = useState("");
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  
-  const [login, { loading, error }] = useLoginMutation();
 
- 
+  const [login, { loading }] = useLoginMutation();
+
+
   // new code from react auth login
   const handleLogin = async () => {
     try {
       const response = await login({
-        variables:{
+        variables: {
           data: {
             username: username,
-            password: password, 
+            password: password,
           }
         }
       })
@@ -151,8 +149,8 @@ export default function LoginPage() {
           </form>
         </CardContent>
         <CardFooter>
-          <Button disabled={isLoading} className="w-full" onClick={handleLogin}>
-            {isLoading && (
+          <Button disabled={loading} className="w-full" onClick={handleLogin}>
+            {loading && (
               <svg
                 className="w-5 h-5 mr-2 text-white animate-spin"
                 xmlns="http://www.w3.org/2000/svg"
@@ -174,7 +172,7 @@ export default function LoginPage() {
                 ></path>
               </svg>
             )}
-            {isLoading ? "Processing..." : "Masuk"}
+            {loading ? "Processing..." : "Masuk"}
           </Button>
         </CardFooter>
       </Card>

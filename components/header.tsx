@@ -1,10 +1,16 @@
 "use client";
+import { HeadofficeMenu, ManagerMenu, StudentMenu, TeacherMenu } from "@/lib/constants";
+import { Bell } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { SidebarTrigger } from "./ui/sidebar";
-import { AppMenu } from "@/lib/constants";
-import { Bell } from "lucide-react";
 
 export default function Header() {
+  const AppMenu = [
+    ...ManagerMenu,
+    ...HeadofficeMenu,
+    ...StudentMenu,
+    ...TeacherMenu,
+  ]
   const pathname = usePathname();
   return (
     <header className="flex items-center gap-4 border-b p-4">
