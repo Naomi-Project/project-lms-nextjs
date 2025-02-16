@@ -61,7 +61,7 @@ export const ManagerMenu = [
     visibility: true,
   },
   {
-    title: "Pengaturan Headoffice Staff",
+    title: "Pengaturan Sekolah Staff",
     href: "/managements/manager/setting-admin",
     icon: Settings,
     visibility: true,

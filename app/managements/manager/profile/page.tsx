@@ -17,10 +17,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Pencil } from "lucide-react";
 import Link from "next/link";
-import React from "react";
 
 export default function ManagerProfile() {
   return (
@@ -90,6 +90,12 @@ export default function ManagerProfile() {
 
                 <div className="">
                   <Label htmlFor="name" className="text-right">
+                    Nama Sekolah
+                  </Label>
+                  <Input type="text" placeholder="Isi Nama Sekolah Disini" />
+                </div>
+                <div className="">
+                  <Label htmlFor="name" className="text-right">
                     Tingkatan Sekolah
                   </Label>
 
@@ -105,6 +111,60 @@ export default function ManagerProfile() {
                         </SelectItem>
                         <SelectItem value="kelas7c">
                           Sekolah Menengah Atas
+                        </SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="">
+                  <Label htmlFor="name" className="text-right">
+                    Cabang Sekolah
+                  </Label>
+                  <Select>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Tingkatan Sekolah" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value="kelas7a">
+                          Cabang Jakarta
+                        </SelectItem>
+                        <SelectItem value="kelas7b">
+                          Cabang Surabaya
+                        </SelectItem>
+                        <SelectItem value="kelas7c">
+                          Cabang Malang
+                        </SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="">
+                  <Label htmlFor="name" className="text-right">
+                    Alamat
+                  </Label>
+                  <Textarea placeholder="Isi Nama Sekolah Disini" />
+                </div>
+
+                <div className="">
+                  <Label htmlFor="name" className="text-right">
+                    Akreditasi
+                  </Label>
+                  <Select>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Tingkatan Sekolah" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value="kelas7a">
+                          A
+                        </SelectItem>
+                        <SelectItem value="kelas7b">
+                          B
+                        </SelectItem>
+                        <SelectItem value="kelas7c">
+                          C
                         </SelectItem>
                       </SelectGroup>
                     </SelectContent>
