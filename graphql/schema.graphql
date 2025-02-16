@@ -1,0 +1,539 @@
+### Authentication region
+mutation Login($data: LoginInput!) {
+  login(data: $data) {
+    authToken
+  }
+}
+
+query CurrentUser {
+  me {
+    id
+    username
+    role
+    nik
+    nuptk
+    nisn
+    dateOfBirth
+    gender
+    address
+    phone
+  }
+}
+### Authentication endregion
+
+### User region
+query GetUser($data: String!) {
+  user(id: $data) {
+    id
+    username
+    role
+    nik
+    nuptk
+    nisn
+    dateOfBirth
+    gender
+    address
+    phone
+    families {
+      id
+      name
+      contact
+      relationship
+      createdAt
+      updatedAt
+    }
+  }
+}
+
+query GetUsers {
+  users {
+    id
+    username
+    role
+    nik
+    nuptk
+    nisn
+    dateOfBirth
+    gender
+    address
+    phone
+  }
+}
+
+mutation CreateUser($data: CreateUserInput!) {
+  createUser(data: $data) {
+    id
+    username
+    role
+    nik
+    nuptk
+    nisn
+    dateOfBirth
+    gender
+    address
+    phone
+  }
+}
+
+mutation UpdateUser($data: UpdateUserInput!) {
+  updateUser(data: $data) {
+    id
+    username
+    role
+    nik
+    nuptk
+    nisn
+    dateOfBirth
+    gender
+    address
+    phone
+  }
+}
+
+mutation DeleteUser($data: String!) {
+  deleteUser(id: $data) {
+    id
+    username
+    role
+    nik
+    nuptk
+    nisn
+    dateOfBirth
+    gender
+    address
+    phone
+  }
+}
+### User endregion
+
+### Family region
+query GetFamily($data: String!) {
+  family(id: $data) {
+    id
+    name
+    contact
+    relationship
+    user {
+      id
+      username
+      role
+      nik
+      nuptk
+      nisn
+      dateOfBirth
+      gender
+      address
+      phone
+    }
+    createdAt
+    updatedAt
+  }
+}
+
+query GetFamilies {
+  families {
+    id
+    name
+    contact
+    relationship
+    createdAt
+    updatedAt
+  }
+}
+
+mutation CreateFamily($data: CreateFamilyInput!) {
+  createFamily(data: $data) {
+    id
+    name
+    contact
+    relationship
+    createdAt
+    updatedAt
+  }
+}
+
+mutation UpdateFamily($data: UpdateFamilyInput!) {
+  updateFamily(data: $data) {
+    id
+    name
+    contact
+    relationship
+    createdAt
+    updatedAt
+  }
+}
+
+mutation DeleteFamily($data: String!) {
+  deleteFamily(id: $data) {
+    id
+    name
+    contact
+    relationship
+    createdAt
+    updatedAt
+  }
+}
+### Family endregion
+
+### School region
+query GetSchool($data: String!) {
+  school(id: $data) {
+    id
+    name
+    npsn
+    accreditation
+    address
+    phone
+    email
+    foundAt
+    createdAt
+    updatedAt
+    terms {
+      id
+      name
+      startDate
+      endDate
+      schoolId
+      curriculumId
+      createdAt
+      updatedAt
+    }
+    users {
+      id
+      username
+      role
+      nik
+      nuptk
+      nisn
+      dateOfBirth
+      gender
+      address
+      phone
+    }
+  }
+}
+
+query GetSchools {
+  schools {
+    id
+    name
+    npsn
+    accreditation
+    address
+    phone
+    email
+    foundAt
+    createdAt
+    updatedAt
+  }
+}
+
+mutation CreateSchool($data: CreateSchoolInput!) {
+  createSchool(data: $data) {
+    id
+    name
+    npsn
+    accreditation
+    address
+    phone
+    email
+    foundAt
+    createdAt
+    updatedAt
+  }
+}
+
+mutation UpdateSchool($data: UpdateSchoolInput!) {
+  updateSchool(data: $data) {
+    id
+    name
+    npsn
+    accreditation
+    address
+    phone
+    email
+    foundAt
+    createdAt
+    updatedAt
+  }
+}
+
+mutation DeleteSchool($data: String!) {
+  deleteSchool(id: $data) {
+    id
+    name
+    npsn
+    accreditation
+    address
+    phone
+    email
+    foundAt
+    createdAt
+    updatedAt
+  }
+}
+### School endregion
+
+### Term region
+query GetTerm($data: String!) {
+  term(id: $data) {
+    id
+    name
+    startDate
+    endDate
+    schoolId
+    curriculumId
+    createdAt
+    updatedAt
+  }
+}
+
+query GetTerms {
+  terms {
+    id
+    name
+    startDate
+    endDate
+    schoolId
+    curriculumId
+    createdAt
+    updatedAt
+  }
+}
+
+mutation CreateTerm($data: CreateTermInput!) {
+  createTerm(data: $data) {
+    id
+    name
+    startDate
+    endDate
+    schoolId
+    curriculumId
+    createdAt
+    updatedAt
+  }
+}
+
+mutation UpdateTerm($data: UpdateTermInput!) {
+  updateTerm(data: $data) {
+    id
+    name
+    startDate
+    endDate
+    schoolId
+    curriculumId
+    createdAt
+    updatedAt
+  }
+}
+
+mutation DeleteTerm($data: String!) {
+  deleteTerm(id: $data) {
+    id
+    name
+    startDate
+    endDate
+    schoolId
+    curriculumId
+    createdAt
+    updatedAt
+  }
+}
+### Term endregion
+
+### Curriculum region
+query GetCurriculum($data: String!) {
+  curriculum(id: $data) {
+    id
+    name
+    createdAt
+    updatedAt
+  }
+}
+
+query GetCurriculums {
+  curriculums {
+    id
+    name
+    createdAt
+    updatedAt
+  }
+}
+
+mutation CreateCurriculum($data: CreateCurriculumInput!) {
+  createCurriculum(data: $data) {
+    id
+    name
+    createdAt
+    updatedAt
+  }
+}
+
+mutation UpdateCurriculum($data: UpdateCurriculumInput!) {
+  updateCurriculum(data: $data) {
+    id
+    name
+    createdAt
+    updatedAt
+  }
+}
+
+mutation DeleteCurriculum($data: String!) {
+  deleteCurriculum(id: $data) {
+    id
+    name
+    createdAt
+    updatedAt
+  }
+}
+### Curriculum endregion
+
+### Subject region
+query GetSubject($data: String!) {
+  subject(id: $data) {
+    id
+    name
+    code
+    description
+    teachers {
+      id
+      username
+      role
+      nik
+      nuptk
+      nisn
+      dateOfBirth
+      gender
+      address
+      phone
+    }
+  }
+}
+
+query GetSubjects {
+  subjects {
+    id
+    name
+    code
+    description
+  }
+}
+
+mutation CreateSubject($data: CreateSubjectInput!) {
+  createSubject(data: $data) {
+    id
+    name
+    code
+    description
+  }
+}
+
+mutation UpdateSubject($data: UpdateSubjectInput!) {
+  updateSubject(data: $data) {
+    id
+    name
+    code
+    description
+  }
+}
+
+mutation DeleteSubject($data: String!) {
+  deleteSubject(id: $data) {
+    id
+    name
+    code
+    description
+  }
+}
+### Subject endregion
+
+### Grade region
+query GetGrade($data: String!) {
+  grade(id: $data) {
+    id
+    name
+    classrooms {
+      id
+      name
+    }
+    subjects {
+      id
+      name
+    }
+  }
+}
+
+query GetGrades {
+  grades {
+    id
+    name
+  }
+}
+
+mutation CreateGrade($data: CreateGradeInput!) {
+  createGrade(data: $data) {
+    id
+    name
+  }
+}
+
+mutation UpdateGrade($data: UpdateGradeInput!) {
+  updateGrade(data: $data) {
+    id
+    name
+  }
+}
+
+mutation DeleteGrade($data: String!) {
+  deleteGrade(id: $data) {
+    id
+    name
+  }
+}
+### Grade endregion
+
+### Classroom region
+query GetClassroom($data: String!) {
+  classroom(id: $data) {
+    id
+    name
+    enrollments {
+      id
+    }
+    schedules {
+      id
+      day
+      startTime
+      endTime
+    }
+  }
+}
+
+query GetClassrooms {
+  classrooms {
+    id
+    name
+  }
+}
+
+mutation CreateClassroom($data: CreateClassroomInput!) {
+  createClassroom(data: $data) {
+    id
+    name
+  }
+}
+
+mutation UpdateClassroom($data: UpdateClassroomInput!) {
+  updateClassroom(data: $data) {
+    id
+    name
+  }
+}
+
+mutation DeleteClassroom($data: String!) {
+  deleteClassroom(id: $data) {
+    id
+    name
+  }
+}
+### Classroom endregion
