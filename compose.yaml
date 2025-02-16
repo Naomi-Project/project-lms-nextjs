@@ -3,7 +3,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    environment:
     labels:
       - 'traefik.enable=true'
       - 'traefik.http.routers.frontend.rule=Host(`frontend.zerobase.tech`)'
