@@ -45,7 +45,7 @@ export default function ProfileTeacher() {
         title="Test"
         name={data.name}
         jobdesk={"Guru"}
-        image={user}
+        image={user.src}
         data={data}
         sections={sections}
       ></CommonDetailPage>

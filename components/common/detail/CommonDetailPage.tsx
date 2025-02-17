@@ -1,5 +1,7 @@
+import { Button } from "@/components/ui/button";
 import { Toggle } from "@/components/ui/toggle";
 import { getValueByPath } from "@/lib/getter";
+import { Pencil } from "lucide-react";
 import Image from "next/image";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface CommonSectionField<T extends Record<any, any>> {
@@ -34,7 +36,7 @@ export function CommonDetailPage<T extends Record<any, any>>(
             >
                 <p className="text-sm text-blue-500">{props.title}</p>
             </Toggle>
-            <div className="border-2 rounded-lg mt-8 bg-white">
+            <div className="border-2 rounded-lg flex row items-center relative mt-8 bg-white">
                 <div className="grid grid-cols-12 gap-4 p-4">
                     <div className="md:col-span-1 col-span-2">
                         <Image
@@ -49,10 +51,13 @@ export function CommonDetailPage<T extends Record<any, any>>(
 
                     <div className="md:col-span-11 col-span-10 my-auto">
                         <h1 className="font-bold text-sm">{props.name}</h1>
-                        <p className="w-10 text-center mt-1 bg-blue-100 text-blue-400 p-1 border-blue-100 rounded-lg text-xs">
+                        <p className="w-20 text-center mt-1 bg-blue-100 text-blue-400 p-1 border-blue-100 rounded-lg text-xs">
                             {props.jobdesk}
                         </p>
                     </div>
+                </div>
+                <div className="absolute right-10">
+                    <Button className="bg-blue-400 bg-opacity-30 shadow-none text-blue-400 hover:text-white"><Pencil /> Edit</Button>
                 </div>
             </div>
             <div>
