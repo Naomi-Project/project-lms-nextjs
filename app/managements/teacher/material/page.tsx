@@ -2,6 +2,7 @@
 import {
   Card,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -13,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Plus, Search } from "lucide-react";
+import { Calendar, Plus, Search } from "lucide-react";
 import Image from "next/image";
 import poster from "../../../../image/poster-materi.jpeg";
 import Link from "next/link";
@@ -56,162 +57,89 @@ export default function MaterialTeacher() {
       <div className="grid md:grid-cols-4 grid-cols-2 gap-4 mt-10">
         <div className="col-span-1">
           <Link href="/managements/teacher/material-detail">
-            <Card className="w-full">
-              <Image
-                src={poster}
-                alt="matematika"
-                className="rounded-lg w-full h-full"
-              />
-              <CardHeader>
+            <Card className="w-full h-[230px]">
+              <CardHeader className="flex gap-3">
                 <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
                   Matematika
                 </CardTitle>
                 <CardDescription className="font-bold text-base text-black">
-                  Materi faktorial dan aljabar
+                  Selesaikan 5 Soal Persamaan kuadrat dengan motede faktorisasi
                 </CardDescription>
               </CardHeader>
+              <CardFooter>
+                <CardDescription className="flex gap-2">
+                  <Calendar /> {' '}
+                  <p>
+                  Kumpulkan 3 hari lagi - 24 Okt 2025
+                  </p>
+                </CardDescription>
+              </CardFooter>
             </Card>
           </Link>
         </div>
-
         <div className="col-span-1">
           <Link href="/managements/teacher/material-detail">
-            <Card className="w-full">
-              <Image
-                src={poster}
-                alt="matematika"
-                className="rounded-lg w-full h-full"
-              />
-              <CardHeader>
+            <Card className="w-full h-[230px]">
+              <CardHeader className="flex gap-3">
                 <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
                   Matematika
                 </CardTitle>
                 <CardDescription className="font-bold text-base text-black">
-                  Materi faktorial dan aljabar
+                  Selesaikan 5 Soal Persamaan kuadrat dengan motede faktorisasi
                 </CardDescription>
               </CardHeader>
+              <CardFooter>
+                <CardDescription className="flex gap-2">
+                  <Calendar /> {' '}
+                  <p>
+                  Kumpulkan 3 hari lagi - 24 Okt 2025
+                  </p>
+                </CardDescription>
+              </CardFooter>
             </Card>
           </Link>
         </div>
-
         <div className="col-span-1">
           <Link href="/managements/teacher/material-detail">
-            <Card className="w-full">
-              <Image
-                src={poster}
-                alt="matematika"
-                className="rounded-lg w-full h-full"
-              />
-              <CardHeader>
+            <Card className="w-full h-[230px]">
+              <CardHeader className="flex gap-3">
                 <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
                   Matematika
                 </CardTitle>
                 <CardDescription className="font-bold text-base text-black">
-                  Materi faktorial dan aljabar
+                  Selesaikan 5 Soal Persamaan kuadrat dengan motede faktorisasi
                 </CardDescription>
               </CardHeader>
+              <CardFooter>
+                <CardDescription className="flex gap-2">
+                  <Calendar /> {' '}
+                  <p>
+                  Kumpulkan 3 hari lagi - 24 Okt 2025
+                  </p>
+                </CardDescription>
+              </CardFooter>
             </Card>
           </Link>
         </div>
-
         <div className="col-span-1">
           <Link href="/managements/teacher/material-detail">
-            <Card className="w-full">
-              <Image
-                src={poster}
-                alt="matematika"
-                className="rounded-lg w-full h-full"
-              />
-              <CardHeader>
+            <Card className="w-full h-[230px]">
+              <CardHeader className="flex gap-3">
                 <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
                   Matematika
                 </CardTitle>
                 <CardDescription className="font-bold text-base text-black">
-                  Materi faktorial dan aljabar
+                  Selesaikan 5 Soal Persamaan kuadrat dengan motede faktorisasi
                 </CardDescription>
               </CardHeader>
-            </Card>
-          </Link>
-        </div>
-      </div>
-
-      <div className="grid md:grid-cols-4 grid-cols-2 gap-4 md:mt-10 mt-4">
-        <div className="col-span-1">
-          <Link href="/managements/teacher/material-detail">
-            <Card className="w-full">
-              <Image
-                src={poster}
-                alt="matematika"
-                className="rounded-lg w-full h-full"
-              />
-              <CardHeader>
-                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
-                  Matematika
-                </CardTitle>
-                <CardDescription className="font-bold text-base text-black">
-                  Materi faktorial dan aljabar
+              <CardFooter>
+                <CardDescription className="flex gap-2">
+                  <Calendar /> {' '}
+                  <p>
+                  Kumpulkan 3 hari lagi - 24 Okt 2025
+                  </p>
                 </CardDescription>
-              </CardHeader>
-            </Card>
-          </Link>
-        </div>
-
-        <div className="col-span-1">
-          <Link href="/managements/teacher/material-detail">
-            <Card className="w-full">
-              <Image
-                src={poster}
-                alt="matematika"
-                className="rounded-lg w-full h-full"
-              />
-              <CardHeader>
-                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
-                  Matematika
-                </CardTitle>
-                <CardDescription className="font-bold text-base text-black">
-                  Materi faktorial dan aljabar
-                </CardDescription>
-              </CardHeader>
-            </Card>
-          </Link>
-        </div>
-
-        <div className="col-span-1">
-          <Link href="/managements/teacher/material-detail">
-            <Card className="w-full">
-              <Image
-                src={poster}
-                alt="matematika"
-                className="rounded-lg w-full h-full"
-              />
-              <CardHeader>
-                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
-                  Matematika
-                </CardTitle>
-                <CardDescription className="font-bold text-base text-black">
-                  Materi faktorial dan aljabar
-                </CardDescription>
-              </CardHeader>
-            </Card>
-          </Link>
-        </div>
-
-        <div className="col-span-1">
-          <Link href="/managements/teacher/material-detail">
-            <Card className="w-full">
-              <Image
-                src={poster}
-                alt="matematika"
-                className="rounded-lg w-full h-full"
-              />
-              <CardHeader>
-                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
-                  Matematika
-                </CardTitle>
-                <CardDescription className="font-bold text-base text-black">
-                  Materi faktorial dan aljabar
-                </CardDescription>
-              </CardHeader>
+              </CardFooter>
             </Card>
           </Link>
         </div>

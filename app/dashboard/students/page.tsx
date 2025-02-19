@@ -22,6 +22,7 @@ import {
   ClipboardList,
   BookText,
   CalendarRange,
+  Calendar,
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -29,7 +30,7 @@ import poster from "../../../image/poster-materi.jpeg";
 
 export default function DashboardStudent() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 h-full">
       <div className="grid md:grid-cols-4 grid-cols-2 gap-4">
         <div className="col-span-1 bg-white border-2 rounded-lg justify-items-center content-center py-2">
           <div className="grid grid-cols-4 gap-2 ">
@@ -135,320 +136,179 @@ export default function DashboardStudent() {
 
       <div className="grid md:grid-cols-4 grid-cols-2 gap-4 mt-10">
         <div className="col-span-1">
-          <Link href="/managements/student/tasks">
-            <Card>
-              <Image
-                src={poster}
-                alt="matematika"
-                className="rounded-lg w-full h-full"
-              />
-              <CardHeader>
+          <Link href="/managements/student/material-detail">
+            <Card className="w-full h-[230px]">
+              <CardHeader className="flex gap-3">
                 <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
                   Matematika
                 </CardTitle>
-                <CardDescription>
-                  <p className="font-bold text-sm text-black">
-                    Selesaikan 5 soal persamaan kuadrat dengan metode
-                    faktorisasi.
-                  </p>
+                <CardDescription className="font-bold text-base text-black">
+                  Selesaikan 5 Soal Persamaan kuadrat dengan motede faktorisasi
                 </CardDescription>
               </CardHeader>
               <CardFooter>
-                <div className="grid grid-cols-7">
-                  <div className="col-span-1">
-                    <CalendarRange className="w-5 h-5 text-blue-500" />
-                  </div>
-
-                  <div className="col-span-3">
-                    <p className="text-xs text-slate-400">
-                      Kumpulkan 3 Hari Lagi
-                    </p>
-                  </div>
-
-                  <div className="col-span-3">
-                    <p className="text-xs text-blue-500">24 Oktober 2025</p>
-                  </div>
-                </div>
+                <CardDescription className="flex gap-2">
+                  <Calendar /> {' '}
+                  <p>
+                  Kumpulkan 3 hari lagi - 24 Okt 2025
+                  </p>
+                </CardDescription>
               </CardFooter>
             </Card>
           </Link>
         </div>
-
         <div className="col-span-1">
-          <Link href="/managements/student/tasks">
-            <Card>
-              <Image
-                src={poster}
-                alt="matematika"
-                className="rounded-lg w-full h-full"
-              />
-              <CardHeader>
-                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-2 rounded-full text-center text-slate-400">
-                  Bahasa Indonesia
-                </CardTitle>
-                <CardDescription>
-                  <p className="font-bold text-sm text-black">
-                    Buatlah sebuah teks deskripsi tentang tempat wisata yang
-                    pernah kamu kunjungi.
-                  </p>
-                </CardDescription>
-              </CardHeader>
-              <CardFooter>
-                <div className="grid grid-cols-7">
-                  <div className="col-span-1">
-                    <CalendarRange className="w-5 h-5 text-blue-500" />
-                  </div>
-
-                  <div className="col-span-3">
-                    <p className="text-xs text-slate-400">
-                      Kumpulkan 3 Hari Lagi
-                    </p>
-                  </div>
-
-                  <div className="col-span-3">
-                    <p className="text-xs text-blue-500">24 Oktober 2025</p>
-                  </div>
-                </div>
-              </CardFooter>
-            </Card>
-          </Link>
-        </div>
-
-        <div className="col-span-1">
-          <Link href="/managements/student/tasks">
-            <Card>
-              <Image
-                src={poster}
-                alt="matematika"
-                className="rounded-lg w-full h-full"
-              />
-              <CardHeader>
+          <Link href="/managements/student/material-detail">
+            <Card className="w-full h-[230px]">
+              <CardHeader className="flex gap-3">
                 <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
-                  Fisika
+                  Matematika
                 </CardTitle>
-                <CardDescription>
-                  <p className="font-bold text-sm text-black">
-                    Jelaskan aplikasi Hukum Newton dalam kehidupan sehari-hari
-                    dan berikan contoh.
-                  </p>
+                <CardDescription className="font-bold text-base text-black">
+                  Selesaikan 5 Soal Persamaan kuadrat dengan motede faktorisasi
                 </CardDescription>
               </CardHeader>
               <CardFooter>
-                <div className="grid grid-cols-7">
-                  <div className="col-span-1">
-                    <CalendarRange className="w-5 h-5 text-blue-500" />
-                  </div>
-
-                  <div className="col-span-3">
-                    <p className="text-xs text-slate-400">
-                      Kumpulkan 3 Hari Lagi
-                    </p>
-                  </div>
-
-                  <div className="col-span-3">
-                    <p className="text-xs text-blue-500">24 Oktober 2025</p>
-                  </div>
-                </div>
+                <CardDescription className="flex gap-2">
+                  <Calendar /> {' '}
+                  <p>
+                  Kumpulkan 3 hari lagi - 24 Okt 2025
+                  </p>
+                </CardDescription>
               </CardFooter>
             </Card>
           </Link>
         </div>
-
         <div className="col-span-1">
-          <Link href="/managements/student/tasks">
-            <Card>
-              <Image
-                src={poster}
-                alt="matematika"
-                className="rounded-lg w-full h-full"
-              />
-              <CardHeader>
+          <Link href="/managements/student/material-detail">
+            <Card className="w-full h-[230px]">
+              <CardHeader className="flex gap-3">
                 <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
-                  Sejarah
+                  Matematika
                 </CardTitle>
-                <CardDescription>
-                  <p className="font-bold text-sm text-black">
-                    Buatlah esai singkat mengenai peristiwa Proklamasi
-                    Kemerdekaan Indonesia.
-                  </p>
+                <CardDescription className="font-bold text-base text-black">
+                  Selesaikan 5 Soal Persamaan kuadrat dengan motede faktorisasi
                 </CardDescription>
               </CardHeader>
               <CardFooter>
-                <div className="grid grid-cols-7">
-                  <div className="col-span-1">
-                    <CalendarRange className="w-5 h-5 text-blue-500" />
-                  </div>
-
-                  <div className="col-span-3">
-                    <p className="text-xs text-slate-400">
-                      Kumpulkan 3 Hari Lagi
-                    </p>
-                  </div>
-
-                  <div className="col-span-3">
-                    <p className="text-xs text-blue-500">24 Oktober 2025</p>
-                  </div>
-                </div>
+                <CardDescription className="flex gap-2">
+                  <Calendar /> {' '}
+                  <p>
+                  Kumpulkan 3 hari lagi - 24 Okt 2025
+                  </p>
+                </CardDescription>
               </CardFooter>
             </Card>
           </Link>
         </div>
-
         <div className="col-span-1">
-          <Link href="/managements/student/tasks">
-            <Card>
-              <Image
-                src={poster}
-                alt="matematika"
-                className="rounded-lg w-full h-full"
-              />
-              <CardHeader>
+          <Link href="/managements/student/material-detail">
+            <Card className="w-full h-[230px]">
+              <CardHeader className="flex gap-3">
                 <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
-                  Ekonomi
+                  Matematika
                 </CardTitle>
-                <CardDescription>
-                  <p className="font-bold text-sm text-black">
-                    Berikan contoh nyata dari hukum permintaan dan penawaran
-                    yang terjadi di pasar Indonesia.
-                  </p>
+                <CardDescription className="font-bold text-base text-black">
+                  Selesaikan 5 Soal Persamaan kuadrat dengan motede faktorisasi
                 </CardDescription>
               </CardHeader>
               <CardFooter>
-                <div className="grid grid-cols-7">
-                  <div className="col-span-1">
-                    <CalendarRange className="w-5 h-5 text-blue-500" />
-                  </div>
-
-                  <div className="col-span-3">
-                    <p className="text-xs text-slate-400">
-                      Kumpulkan 3 Hari Lagi
-                    </p>
-                  </div>
-
-                  <div className="col-span-3">
-                    <p className="text-xs text-blue-500">24 Oktober 2025</p>
-                  </div>
-                </div>
+                <CardDescription className="flex gap-2">
+                  <Calendar /> {' '}
+                  <p>
+                  Kumpulkan 3 hari lagi - 24 Okt 2025
+                  </p>
+                </CardDescription>
               </CardFooter>
             </Card>
           </Link>
         </div>
-
+      </div>
+      <div className="grid md:grid-cols-4 grid-cols-2 gap-4 mt-10">
         <div className="col-span-1">
-          <Link href="/managements/student/tasks">
-            <Card>
-              <Image
-                src={poster}
-                alt="matematika"
-                className="rounded-lg w-full h-full"
-              />
-              <CardHeader>
+          <Link href="/managements/student/material-detail">
+            <Card className="w-full h-[230px]">
+              <CardHeader className="flex gap-3">
                 <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
-                  PPKN
+                  Matematika
                 </CardTitle>
-                <CardDescription>
-                  <p className="font-bold text-sm text-black">
-                    Jelaskan bagaimana penerapan nilai-nilai Demokrasi Pancasila
-                    dalam sistem pemerintahan Indonesia.
-                  </p>
+                <CardDescription className="font-bold text-base text-black">
+                  Selesaikan 5 Soal Persamaan kuadrat dengan motede faktorisasi
                 </CardDescription>
               </CardHeader>
               <CardFooter>
-                <div className="grid grid-cols-7">
-                  <div className="col-span-1">
-                    <CalendarRange className="w-5 h-5 text-blue-500" />
-                  </div>
-
-                  <div className="col-span-3">
-                    <p className="text-xs text-slate-400">
-                      Kumpulkan 3 Hari Lagi
-                    </p>
-                  </div>
-
-                  <div className="col-span-3">
-                    <p className="text-xs text-blue-500">24 Oktober 2025</p>
-                  </div>
-                </div>
+                <CardDescription className="flex gap-2">
+                  <Calendar /> {' '}
+                  <p>
+                  Kumpulkan 3 hari lagi - 24 Okt 2025
+                  </p>
+                </CardDescription>
               </CardFooter>
             </Card>
           </Link>
         </div>
-
         <div className="col-span-1">
-          <Link href="/managements/student/tasks">
-            <Card>
-              <Image
-                src={poster}
-                alt="matematika"
-                className="rounded-lg w-full h-full"
-              />
-              <CardHeader>
+          <Link href="/managements/student/material-detail">
+            <Card className="w-full h-[230px]">
+              <CardHeader className="flex gap-3">
                 <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
-                  Geografi
+                  Matematika
                 </CardTitle>
-                <CardDescription>
-                  <p className="font-bold text-sm text-black">
-                    Jelaskan jenis-jenis bencana alam di Indonesia dan faktor
-                    penyebabnya.
-                  </p>
+                <CardDescription className="font-bold text-base text-black">
+                  Selesaikan 5 Soal Persamaan kuadrat dengan motede faktorisasi
                 </CardDescription>
               </CardHeader>
               <CardFooter>
-                <div className="grid grid-cols-7">
-                  <div className="col-span-1">
-                    <CalendarRange className="w-5 h-5 text-blue-500" />
-                  </div>
-
-                  <div className="col-span-3">
-                    <p className="text-xs text-slate-400">
-                      Kumpulkan 3 Hari Lagi
-                    </p>
-                  </div>
-
-                  <div className="col-span-3">
-                    <p className="text-xs text-blue-500">24 Oktober 2025</p>
-                  </div>
-                </div>
+                <CardDescription className="flex gap-2">
+                  <Calendar /> {' '}
+                  <p>
+                  Kumpulkan 3 hari lagi - 24 Okt 2025
+                  </p>
+                </CardDescription>
               </CardFooter>
             </Card>
           </Link>
         </div>
-
         <div className="col-span-1">
-          <Link href="/managements/student/tasks">
-            <Card>
-              <Image
-                src={poster}
-                alt="matematika"
-                className="rounded-lg w-full h-full"
-              />
-              <CardHeader>
+          <Link href="/managements/student/material-detail">
+            <Card className="w-full h-[230px]">
+              <CardHeader className="flex gap-3">
                 <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
-                  Biologi
+                  Matematika
                 </CardTitle>
-                <CardDescription>
-                  <p className="font-bold text-sm text-black">
-                    Gambarkan dan jelaskan fungsi organ-organ dalam sistem
-                    pencernaan manusia.
-                  </p>
+                <CardDescription className="font-bold text-base text-black">
+                  Selesaikan 5 Soal Persamaan kuadrat dengan motede faktorisasi
                 </CardDescription>
               </CardHeader>
               <CardFooter>
-                <div className="grid grid-cols-7">
-                  <div className="col-span-1">
-                    <CalendarRange className="w-5 h-5 text-blue-500" />
-                  </div>
-
-                  <div className="col-span-3">
-                    <p className="text-xs text-slate-400">
-                      Kumpulkan 3 Hari Lagi
-                    </p>
-                  </div>
-
-                  <div className="col-span-3">
-                    <p className="text-xs text-blue-500">24 Oktober 2025</p>
-                  </div>
-                </div>
+                <CardDescription className="flex gap-2">
+                  <Calendar /> {' '}
+                  <p>
+                  Kumpulkan 3 hari lagi - 24 Okt 2025
+                  </p>
+                </CardDescription>
+              </CardFooter>
+            </Card>
+          </Link>
+        </div>
+        <div className="col-span-1">
+          <Link href="/managements/student/material-detail">
+            <Card className="w-full h-[230px]">
+              <CardHeader className="flex gap-3">
+                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
+                  Matematika
+                </CardTitle>
+                <CardDescription className="font-bold text-base text-black">
+                  Selesaikan 5 Soal Persamaan kuadrat dengan motede faktorisasi
+                </CardDescription>
+              </CardHeader>
+              <CardFooter>
+                <CardDescription className="flex gap-2">
+                  <Calendar /> {' '}
+                  <p>
+                  Kumpulkan 3 hari lagi - 24 Okt 2025
+                  </p>
+                </CardDescription>
               </CardFooter>
             </Card>
           </Link>
