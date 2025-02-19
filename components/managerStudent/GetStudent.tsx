@@ -20,7 +20,7 @@ const RowStudentGet = () => {
           <TableCell className="flex gap-3">
             {/* <EditStudent studentData={{ ...data, nisn: data.nisn ?? "" }} /> */}
             <ButtonEdit endpoint="/managements/manager/student/edit" id={data.id} />
-            <DeleteStudent userId={data.id} />
+            <DeleteStudent id={data.id} />
           </TableCell>
           {/* <TableCell>{data.class}</TableCell>
         <TableCell>{data.guardian}</TableCell>

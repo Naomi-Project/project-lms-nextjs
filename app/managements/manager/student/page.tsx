@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Search, TrendingDown, TrendingUp } from "lucide-react";
+import StudentTable from "./datatable";
 
 
 export default function ManagerStudent() {
@@ -108,7 +109,7 @@ export default function ManagerStudent() {
             {/* direct to page */}
             <ButtonAdd endpoint="/managements/manager/student/create" />
             {/* direct to page */}
-            <div className="grid grid-cols-2 md:gap-4">
+            <div className="grid grid-cols-1 md:gap-4">
               <div className="col-span-1 ml-1">
                 <div className="w-[132px] bg-slate-200 rounded-lg">
                   <TabsTrigger value="aktif">Aktif</TabsTrigger>
@@ -116,108 +117,21 @@ export default function ManagerStudent() {
                 </div>
               </div>
 
-              <div className="col-span-1 relative">
+              {/* <div className="col-span-1 relative">
                 <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input placeholder="Cari Siswa" className="pl-8 w-full" />
-              </div>
+              </div> */}
             </div>
           </TabsList>
-          <TabsContent value="aktif" className="border-2 rounded-lg mt-4">
-            <Table>
-              <TableHeader className="bg-slate-100">
-                <TableRow>
-                  <TableHead className="font-bold text-black">No.</TableHead>
-                  <TableHead className="font-bold text-black">
-                    NAMA SISWA
-                  </TableHead>
-                  <TableHead className="font-bold text-black">KELAS</TableHead>
-                  <TableHead className="font-bold text-black">ALAMAT</TableHead>
-                  <TableHead className="font-bold text-black">Nomor</TableHead>
-                  <TableHead className="font-bold text-black">AKSI</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {/* get student in row table */}
-                <RowStudentGet />
-                {/* get student in row table */}
-              </TableBody>
-              <TableFooter>
-                <TableRow className="bg-white">
-                  <TableCell colSpan={3}></TableCell>
-                  <TableCell className="">
-                    <Pagination>
-                      <PaginationContent>
-                        <PaginationItem>
-                          <PaginationPrevious href="#" />
-                        </PaginationItem>
-                        <PaginationItem>
-                          <PaginationLink href="#">1</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                          <PaginationLink href="#" isActive>
-                            2
-                          </PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                          <PaginationLink href="#">3</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                          <PaginationEllipsis />
-                        </PaginationItem>
-                        <PaginationItem>
-                          <PaginationNext href="#" />
-                        </PaginationItem>
-                      </PaginationContent>
-                    </Pagination>
-                  </TableCell>
-                </TableRow>
-              </TableFooter>
-            </Table>
+          <TabsContent value="aktif" className=" rounded-lg mt-4">
+            {/* new data table */}
+              <StudentTable />
+            {/* new data table */}
           </TabsContent>
-          <TabsContent value="nonAktif" className="border-2 rounded-lg mt-4">
-            <Table>
-              <TableHeader className="bg-slate-100">
-                <TableRow>
-                  <TableHead className="font-bold text-black">No.</TableHead>
-                  <TableHead className="font-bold text-black">NAMA SISWA</TableHead>
-                  <TableHead className="font-bold text-black">KELAS</TableHead>
-                  <TableHead className="font-bold text-black">Alamat</TableHead>
-                  <TableHead className="font-bold text-black">KONTAK</TableHead>
-                </TableRow>
-              </TableHeader>
-
-              <TableFooter>
-                <TableRow className="bg-white">
-                  <TableCell colSpan={3}></TableCell>
-                  <TableCell className="">
-                    <Pagination>
-                      <PaginationContent>
-                        <PaginationItem>
-                          <PaginationPrevious href="#" />
-                        </PaginationItem>
-                        <PaginationItem>
-                          <PaginationLink href="#">1</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                          <PaginationLink href="#" isActive>
-                            2
-                          </PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                          <PaginationLink href="#">3</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                          <PaginationEllipsis />
-                        </PaginationItem>
-                        <PaginationItem>
-                          <PaginationNext href="#" />
-                        </PaginationItem>
-                      </PaginationContent>
-                    </Pagination>
-                  </TableCell>
-                </TableRow>
-              </TableFooter>
-            </Table>
+          <TabsContent value="nonAktif" className=" rounded-lg mt-4">
+            {/* new data table */}
+              <StudentTable />
+            {/* new data table */}
           </TabsContent>
         </Tabs>
       </div>
