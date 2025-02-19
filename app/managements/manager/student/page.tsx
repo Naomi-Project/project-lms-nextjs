@@ -1,5 +1,5 @@
-import AddStudent from "@/components/managerStudent/AddStudent";
 import RowStudentGet from "@/components/managerStudent/GetStudent";
+import ButtonAdd from "@/components/ui/buttonAdd";
 import { Input } from "@/components/ui/input";
 import {
   Pagination,
@@ -105,9 +105,9 @@ export default function ManagerStudent() {
       <div className="border-2 rounded-lg bg-white p-5 mt-10">
         <Tabs defaultValue="aktif" className="w-full">
           <TabsList className="w-full flex justify-between bg-white">
-            {/* dialogue form add student component  */}
-            <AddStudent />
-            {/* dialogue form add student component  */}
+            {/* direct to page */}
+            <ButtonAdd endpoint="/managements/manager/student/create" />
+            {/* direct to page */}
             <div className="grid grid-cols-2 md:gap-4">
               <div className="col-span-1 ml-1">
                 <div className="w-[132px] bg-slate-200 rounded-lg">

@@ -2,7 +2,7 @@
 import { useGetUsersQuery } from "@/graphql/generated";
 import { TableCell, TableRow } from "../ui/table";
 import DeleteStudent from "./DeleteStudent";
-import EditStudent from "./EditStudent";
+import ButtonEdit from "../ui/buttonEdit";
 
 const RowStudentGet = () => {
   const { data } = useGetUsersQuery();
@@ -18,7 +18,8 @@ const RowStudentGet = () => {
           <TableCell>{data.address}</TableCell>
           <TableCell>{data.phone}</TableCell>
           <TableCell className="flex gap-3">
-            <EditStudent studentData={{ ...data, nisn: data.nisn ?? "" }} />
+            {/* <EditStudent studentData={{ ...data, nisn: data.nisn ?? "" }} /> */}
+            <ButtonEdit endpoint="/managements/manager/student/edit" id={data.id} />
             <DeleteStudent userId={data.id} />
           </TableCell>
           {/* <TableCell>{data.class}</TableCell>
