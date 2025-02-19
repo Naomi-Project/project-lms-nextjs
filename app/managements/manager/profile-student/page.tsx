@@ -67,7 +67,7 @@ export default function ManagerProfileStudent() { const data: Student = {
   return (
     <div className="min-h-screen">
       <CommonDetailPage
-        title="Test"
+        title="Student Profile"
         name={data.name}
         jobdesk={"Student"}
         image={user.src}

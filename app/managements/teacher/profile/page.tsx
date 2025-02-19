@@ -42,7 +42,7 @@ export default function ProfileTeacher() {
   return (
     <div className="min-h-screen">
       <CommonDetailPage
-        title="Test"
+        title="Teacher Profile"
         name={data.name}
         jobdesk={"Guru"}
         image={user.src}

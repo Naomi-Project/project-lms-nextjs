@@ -1,18 +1,49 @@
 import React from "react";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { CommonDetailPage } from "@/components/common/detail/CommonDetailPage";
-// import user from "../../../../image/user.jpeg";
-// import Image from "next/image";
-// import Link from "next/link";
+import type { CommonDetailSection, CommonSectionField } from "@/components/common/detail/CommonDetailPage";
+import user from "../../../../image/user.jpeg";
+
+interface Student {
+  name: string
+  address: string
+  phone: number
+}
 
 export default function ProfileStudent() {
+  const data: Student = {
+    name: "Pak Budi",
+    address: "jakarta",
+    phone: 123,
+  }
+  const sections: CommonDetailSection<Student>[] = [
+    {
+      label: "Data Siswa",
+      fields: [
+        {
+          key: "name",
+          label: "Nama Lengkap",
+          emptyValue: "-",
+        },
+        {
+          key: "address",
+          label: "Alamat",
+          emptyValue: "-",
+        },
+        {
+          key: "phone",
+          label: "Telepon",
+          emptyValue: "-",
+        },
+      ] satisfies CommonSectionField<Student>[],
+    },
+  ];
   return (
     <div className="min-h-screen">
       <CommonDetailPage
-        title="Test"
+        title="Student Profile"
         name={data.name}
         jobdesk={"Guru"}
-        image="https://sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png"
+        image={user.src}
         data={data}
         sections={sections}
       ></CommonDetailPage>
