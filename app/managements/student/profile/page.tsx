@@ -1,5 +1,6 @@
 import React from "react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { CommonDetailPage } from "@/components/common/detail/CommonDetailPage";
 // import user from "../../../../image/user.jpeg";
 // import Image from "next/image";
 // import Link from "next/link";
