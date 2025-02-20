@@ -3,7 +3,7 @@ import {
   CommonFormAdd
 } from "@/components/common/form/CommonFormAdd";
 import { Gender, Role, useCreateUserMutation } from "@/graphql/generated";
-import { sections, studentSchema } from "@/helpers/FormStudents";
+import { sections, classSchema } from "@/helpers/FormClass";
 import { useState } from "react";
 
 const CreatePage = () => {
@@ -12,9 +12,6 @@ const CreatePage = () => {
     password: "",
     role: Role.Student,
     nik: "1234567890",
-    fammilies: [
-      
-    ],
     nuptk: "",
     nisn: "",
     dateOfBirth: 20050101,
@@ -25,13 +22,13 @@ const CreatePage = () => {
   const [createUser] = useCreateUserMutation();
   return (
     <CommonFormAdd
-      lable="Student"
-      title="Create Student Data"
+      lable="Class"
+      title="Create Class"
       method="POST"
       mutation={createUser}
       dataMutation={dataMutationDefault}
       setDataMutation={setDataMutationDefault}
-      schema={studentSchema}
+      schema={classSchema}
       sections={sections}
     />
   );
