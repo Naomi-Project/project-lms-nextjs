@@ -12,9 +12,6 @@ const CreatePage = () => {
     password: "",
     role: Role.Student,
     nik: "1234567890",
-    fammilies: [
-      
-    ],
     nuptk: "",
     nisn: "",
     dateOfBirth: 20050101,
