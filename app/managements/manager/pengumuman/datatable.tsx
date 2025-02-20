@@ -3,23 +3,20 @@ import { DataTable } from "@/components/common/list/CommonDataTable";
 import DeleteStudent from "@/components/managerStudent/DeleteStudent";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
-import { useDeleteAnnouncementMutation, useGetAnnouncementQuery } from "@/src/graphql/generated";
+import { useDeleteAnnouncementMutation, useGetAnnouncementQuery, useGetAnnouncementsQuery } from "@/src/graphql/generated";
 
-type Student = {
+type Pengumuman = {
     id: string;
-    username: string;
-    gender: string;
-    nik?: string | null; // Bisa null atau undefined
-    nisn?: string | null;
-    nuptk?: string | null;
-    role: string;
-    address: string;
-    phone: string; // Ubah number ke string agar cocok dengan GraphQL
+    title: string;
+    content: string;
+    target: string;
+    createdAt: string;
+    updatedAt: string;
   };
   
   
   export default function AnnouncementTable() {
-    const { data } = useGetAnnouncementQuery();
+    const { data } = useGetAnnouncementsQuery();
 
     const [deleteAnnouncement, {loading}] = useDeleteAnnouncementMutation()
     const columns = [
@@ -55,19 +52,19 @@ type Student = {
         accessorKey: "action",
         header: "ACTION",
         cell: ({ row }: any) => <div className="flex gap-3">
-         <ButtonEdit endpoint="/managements/manager/student/edit" id={row.original.id} />
+         <ButtonEdit endpoint="/managements/manager/pengumuman/edit/" id={row.original.id} />
          <ButtonDelete mutation={deleteAnnouncement} loading={loading} id={row.original.id} />
         </div>,
       },
     ];
 
-  const dataStudent: Student[] = data?.users || [];
-  console.log(dataStudent)
+    const dataPengumuman: Pengumuman[] = data?.announcements || [];
+    console.log(data)
 
   return (
     <DataTable
       columns={columns}
-      data={dataStudent}
+      data={dataPengumuman}
       filterName="username"
       filterPlaceholder="Cari Siswa.."
     />

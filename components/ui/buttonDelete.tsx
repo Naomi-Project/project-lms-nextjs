@@ -26,7 +26,7 @@ const ButtonDelete: React.FC<ButtonDeleteProps> = ({ mutation, loading, id }) =>
   };
   return (
     <Button onClick={handleDelete} disabled={loading} className="bg-red-500 hover:bg-red-700">
-      <Trash /> {loading ? "Menghapus..." : "Hapus"}
+      <Trash /> {"Hapus"}
     </Button>
   )
 }

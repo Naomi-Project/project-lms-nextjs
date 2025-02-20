@@ -1,11 +1,10 @@
 "use client";
 import { DataTable } from "@/components/common/list/CommonDataTable";
-import DeleteStudent from "@/components/managerStudent/DeleteStudent";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
 import { useDeleteUserMutation, useGetUsersQuery } from "@/graphql/generated";
 
-type Student = {
+type Teacher = {
     id: string;
     username: string;
     gender: string;
@@ -18,7 +17,7 @@ type Student = {
   };
   
   
-export default function StudentTable() {
+export default function TeacherTable() {
     const { data } = useGetUsersQuery();
     const [deleteUser, { loading }] = useDeleteUserMutation();
     const columns = [
@@ -54,21 +53,21 @@ export default function StudentTable() {
         accessorKey: "action",
         header: "ACTION",
         cell: ({ row }: any) => <div className="flex gap-3">
-         <ButtonEdit endpoint="/managements/manager/student/edit" id={row.original.id} />
+         <ButtonEdit endpoint="/managements/manager/teacher/edit/" id={row.original.id} />
          <ButtonDelete mutation={deleteUser} loading={loading} id={row.original.id} />
         </div>,
       },
     ];
 
-  const dataStudent: Student[] = data?.users || [];
-  console.log(dataStudent)
+  const dataTeacher: Teacher[] = data?.users || [];
+  console.log(dataTeacher)
 
   return (
     <DataTable
       columns={columns}
-      data={dataStudent}
+      data={dataTeacher}
       filterName="username"
-      filterPlaceholder="Cari Siswa.."
+      filterPlaceholder="Cari Guru.."
     />
   );
 }

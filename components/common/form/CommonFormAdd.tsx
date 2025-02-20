@@ -61,7 +61,6 @@ export function CommonFormAdd<T extends Record<any, any>>(
   });
 
   const onSubmit = async (values: z.infer<typeof props.schema>) => {
-    console.log(values);
     props.setDataMutation((prevState: typeof props.dataMutation) => {
       const updatedData = {
         ...prevState, // Menyalin data lama agar tidak hilang

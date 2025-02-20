@@ -58,7 +58,7 @@ export function DataTable<TData>({
   const [rowSelection, setRowSelection] = React.useState({});
   const [pagination, setPagination] = React.useState({
     pageIndex: 0, // Halaman pertama
-    pageSize: 5, // Jumlah data per halaman
+    pageSize: 10, // Jumlah data per halaman
   });
 
   const table = useReactTable({

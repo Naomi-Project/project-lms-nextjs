@@ -42,6 +42,7 @@ import {
   SlidersHorizontal,
   SquareArrowOutUpRight,
 } from "lucide-react";
+import AnnouncementTable from "./datatable";
 
 const data = [
   {
@@ -233,6 +234,7 @@ export default function ManagerPengumuman() {
               </TableRow>
             </TableFooter>
           </Table>
+          <AnnouncementTable />
         </div>
       </div>
     </div>
