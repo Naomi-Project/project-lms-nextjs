@@ -5,13 +5,14 @@ import { Button } from "@/components/ui/button";
 
 interface ButtonAddProps {
   endpoint: string;
+  label?: string;
 }
 
-const ButtonAdd: React.FC<ButtonAddProps> = ({ endpoint }) => {
+const ButtonAdd: React.FC<ButtonAddProps> = ({ endpoint, label }) => {
   return (
     
     <Button variant="default" onClick={() => window.location.href = endpoint}>
-        <Plus /> Tambah Siswa
+        <Plus /> {label || "Tambah"}
     </Button>
   )
 }

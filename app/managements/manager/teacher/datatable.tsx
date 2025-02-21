@@ -1,11 +1,10 @@
 "use client";
 import { DataTable } from "@/components/common/list/CommonDataTable";
-import DeleteStudent from "@/components/managerStudent/DeleteStudent";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
 import { useDeleteUserMutation, useGetUsersQuery } from "@/graphql/generated";
 
-type Student = {
+type Teacher = {
     id: string;
     username: string;
     gender: string;
@@ -14,15 +13,15 @@ type Student = {
     nuptk?: string | null;
     role: string;
     address: string;
-    phone: string; // Ubah number ke string agar cocok dengan GraphQL
+    phone: string;
   };
   
   
-export default function StudentTable() {
-    const { data } = useGetUsersQuery()
+export default function TeacherTable() {
+    const { data } = useGetUsersQuery();
     // const { data } = useGetUsersQuery({
     //   variables: {
-    //     role: "STUDENT" as string
+    //     role: "TEACHER" as string
     //   }
     // });
     const [deleteUser, { loading }] = useDeleteUserMutation();
@@ -69,21 +68,21 @@ export default function StudentTable() {
         accessorKey: "action",
         header: "ACTION",
         cell: ({ row }: any) => <div className="flex gap-3">
-         <ButtonEdit endpoint="/managements/manager/student/edit/" id={row.original.id} />
+         <ButtonEdit endpoint="/managements/manager/teacher/edit/" id={row.original.id} />
          <ButtonDelete mutation={deleteUser} loading={loading} id={row.original.id} />
         </div>,
       },
     ];
 
-  const dataStudent: Student[] = data?.users.filter(user => user.role === "STUDENT") || [];
-  console.log(dataStudent)
+  const dataTeacher: Teacher[] = data?.users.filter(user => user.role === "TEACHER") || [];
+  console.log(dataTeacher)
 
   return (
     <DataTable
       columns={columns}
-      data={dataStudent}
+      data={dataTeacher}
       filterName="username"
-      filterPlaceholder="Cari Siswa.."
+      filterPlaceholder="Cari Guru.."
     />
   );
 }

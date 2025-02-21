@@ -9,6 +9,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Toggle } from "@/components/ui/toggle";
 // import { Role, Gender } from "@/graphql/generated";
@@ -18,12 +25,18 @@ import { ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z, ZodSchema } from "zod";
+import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
+import { Label } from "recharts";
 
 export interface CommonFormEditField<T extends Record<any, any>> {
   key: keyof T & string;
   label: string;
   emptyValue?: string;
   class?: string;
+  type?: string;
+  dataSelect?: any;
+  dataRadio?: any;
+  disabled?: boolean;
   placeholder?: string;
 }
 export interface CommonFormEditSection<T extends Record<any, any>> {
@@ -44,9 +57,9 @@ export function CommonFormEdit<T extends Record<any, any>>(
   props: CommonFormEditProps<T>
 ) {
   // ambil data yang sudah terfilter sbelumnya dan masukan ke state
-   const [dataGet, setDataGet] = useState(props.dataGet) 
-  
-   const form = useForm<z.infer<typeof props.schema>>({
+  const [dataGet, setDataGet] = useState(props.dataGet);
+
+  const form = useForm<z.infer<typeof props.schema>>({
     resolver: zodResolver(props.schema),
     defaultValues: dataGet, // Set default values dari dataGet
   });
@@ -55,39 +68,39 @@ export function CommonFormEdit<T extends Record<any, any>>(
     if (dataGet) {
       form.reset(dataGet); // Update form jika dataGet berubah
     }
-  }, [dataGet, form.reset]);  
+  }, [dataGet, form.reset]);
 
   // proses save changes
   const onSubmit = async (values: z.infer<typeof props.schema>) => {
     setDataGet((prevState: typeof dataGet) => {
-        const updatedData = {
-            ...prevState, // Menyalin data lama agar tidak hilang
-            ...values, // Mengupdate dengan data baru
-        };
+      const updatedData = {
+        ...prevState, // Menyalin data lama agar tidak hilang
+        ...values, // Mengupdate dengan data baru
+      };
 
-        // Jalankan executeMutation langsung setelah state diperbarui
-        executeMutation(updatedData);
-        
-        return updatedData;
+      // Jalankan executeMutation langsung setelah state diperbarui
+      executeMutation(updatedData);
+
+      return updatedData;
     });
-}
+  };
 
-const executeMutation = async (dataMut: any) => {
-    const { __typename, families, ...cleanData } = dataMut;
+  const executeMutation = async (dataMut: any) => {
+    const { __typename, families, updatedAt, createdAt, ...cleanData } = dataMut;
     try {
-        const response = await props.mutation({
+      const response = await props.mutation({
         variables: {
-            data: cleanData
-        }
-        });
-        if (response) {
-          // location.reload();
-          history.back(); 
-        }
+          data: cleanData,
+        },
+      });
+      if (response) {
+        // location.reload();
+        history.back();
+      }
     } catch (err) {
-        console.error("Error updating data:", err);
+      console.error("Error updating data:", err);
     }
-  }
+  };
 
   return (
     <>
@@ -106,36 +119,120 @@ const executeMutation = async (dataMut: any) => {
             <h1>{props.title}</h1>
           </div>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="flex pb-4 px-4 flex-wrap">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="flex pb-4 px-4 flex-wrap"
+            >
               {props.sections.map((section, index) => (
                 <div key={index} className="w-full">
                   {section.fields.map((fieldGroup, groupIndex) => (
-                    <div key={groupIndex} className="my-4 w-full flex flex-wrap">
+                    <div
+                      key={groupIndex}
+                      className="my-4 w-full flex flex-wrap"
+                    >
                       {fieldGroup.map((dataField, indexField) => (
-                        <div className={`sm:w-full md:w-1/2 lg:w-1/2 pr-4 ${dataField.class || ""}`} key={indexField}>
-                          <FormField
-                            control={form.control}
-                            name={dataField.key as any}
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>{dataField.label}</FormLabel>
-                                <FormControl>
-                                  <Input placeholder={dataField.placeholder || ""} {...field} value={form.watch(dataField.key as any)} />
-                                </FormControl>
-                                <FormDescription />
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
+                        <div
+                          className={`sm:w-full md:w-1/2 lg:w-1/2 pr-4 ${
+                            dataField.class || ""
+                          }`}
+                          key={indexField}
+                        >
+                          {dataField.type === "select" ? (
+                            <FormField
+                              control={form.control}
+                              name={dataField.key as any}
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>{dataField.label}</FormLabel>
+                                  <Select
+                                    onValueChange={field.onChange}
+                                    defaultValue={field.value}
+                                    disabled={dataField.disabled || false}
+                                  >
+                                    <FormControl>
+                                      <SelectTrigger className="w-full">
+                                        <SelectValue
+                                          placeholder={dataField.placeholder}
+                                        />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      {dataField.dataSelect?.map(
+                                        (dataS: any, indexSelect: number) => (
+                                          <SelectItem
+                                            value={dataS.value}
+                                            key={indexSelect}
+                                          >
+                                            {dataS.label}
+                                          </SelectItem>
+                                        )
+                                      )}
+                                    </SelectContent>
+                                  </Select>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          ) : dataField.type === "radio" ? (
+                            <FormField
+                              control={form.control}
+                              name={dataField.key as any}
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>{dataField.label}</FormLabel>
+                                  <RadioGroup
+                                    onValueChange={field.onChange}
+                                    defaultValue={field.value}
+                                  >
+                                    {dataField.dataRadio?.map(
+                                      (dataS: any, indexSelect: number) => (
+                                        <div
+                                          key={indexSelect}
+                                          className="flex items-center space-x-2"
+                                        >
+                                          <RadioGroupItem
+                                            value={dataS.value}
+                                            id={dataS.value}
+                                          />
+                                          <Label>
+                                            {dataS.label}
+                                          </Label>
+                                        </div>
+                                      )
+                                    )}
+                                  </RadioGroup>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          ) : (
+                            <FormField
+                              control={form.control}
+                              name={dataField.key as any}
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>{dataField.label}</FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      type={dataField.type || "text"}
+                                      disabled={dataField.disabled || false}
+                                      placeholder={dataField.placeholder || ""}
+                                      {...field}
+                                    />
+                                  </FormControl>
+                                  <FormDescription />
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          )}
                         </div>
                       ))}
                     </div>
                   ))}
                 </div>
               ))}
-              <Button type="submit">
-                Save Changes
-              </Button>
+              <Button type="submit">Save Changes</Button>
             </form>
           </Form>
         </div>
