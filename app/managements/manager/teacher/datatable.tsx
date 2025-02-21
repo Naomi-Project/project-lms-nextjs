@@ -13,12 +13,17 @@ type Teacher = {
     nuptk?: string | null;
     role: string;
     address: string;
-    phone: string; // Ubah number ke string agar cocok dengan GraphQL
+    phone: string;
   };
   
   
 export default function TeacherTable() {
     const { data } = useGetUsersQuery();
+    // const { data } = useGetUsersQuery({
+    //   variables: {
+    //     role: "TEACHER" as string
+    //   }
+    // });
     const [deleteUser, { loading }] = useDeleteUserMutation();
     const columns = [
       {
@@ -50,6 +55,16 @@ export default function TeacherTable() {
         cell: ({ row }: any) => <span>{row.getValue("phone")}</span>,
       },
       {
+        accessorKey: "gender",
+        header: "GENDER",
+        cell: ({ row }: any) => <span>{row.getValue("gender")}</span>,
+      },
+      {
+        accessorKey: "role",
+        header: "ROLE",
+        cell: ({ row }: any) => <span>{row.getValue("role")}</span>,
+      },
+      {
         accessorKey: "action",
         header: "ACTION",
         cell: ({ row }: any) => <div className="flex gap-3">
@@ -59,7 +74,7 @@ export default function TeacherTable() {
       },
     ];
 
-  const dataTeacher: Teacher[] = data?.users || [];
+  const dataTeacher: Teacher[] = data?.users.filter(user => user.role === "TEACHER") || [];
   console.log(dataTeacher)
 
   return (

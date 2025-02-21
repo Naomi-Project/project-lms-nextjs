@@ -120,8 +120,8 @@ export function CommonFormAdd<T extends Record<any, any>>(
                     >
                       {fieldGroup.map((dataField, indexField) => (
                         <div
-                          className={`sm:w-full md:w-1/2 lg:w-1/2 pr-4 ${
-                            dataField.class || ""
+                          className={`sm:w-full pr-4 ${
+                            dataField.class || "md:w-1/2 lg:w-1/2"
                           }`}
                           key={indexField}
                         >

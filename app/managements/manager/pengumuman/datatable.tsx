@@ -28,25 +28,29 @@ type Pengumuman = {
         cell: ({ row }: any) => <span>{row.index + 1}</span>,
       },
       {
-        accessorKey: "username",
-        header: "NAMA SISWA",
-        cell: ({ row }: any) => <span>{row.getValue("username")}</span>,
+        accessorKey: "title",
+        header: "JUDUL PENGUMUMAN",
+        cell: ({ row }: any) => <span>{row.getValue("title")}</span>,
       },
       {
-        accessorKey: "class",
-        header: "KELAS",
-        // cell: ({ row }: any) => <span>{row.getValue("class")}</span>,
-        cell: ({ row }: any) => <span>7A</span>,
+        accessorKey: "content",
+        header: "CONTENT",
+        cell: ({ row }: any) => <span>{row.getValue("content")}</span>,
       },
       {
-        accessorKey: "address",
-        header: "ALAMAT",
-        cell: ({ row }: any) => <span>{row.getValue("address")}</span>,
+        accessorKey: "target",
+        header: "TARGET",
+        cell: ({ row }: any) => <span>{row.getValue("target")}</span>,
       },
       {
-        accessorKey: "phone",
-        header: "PHONE",
-        cell: ({ row }: any) => <span>{row.getValue("phone")}</span>,
+        accessorKey: "createdAt",
+        header: "CREATED AT",
+        cell: ({ row }: any) => <span>{row.getValue("createdAt")}</span>,
+      },
+      {
+        accessorKey: "updatedAt",
+        header: "UPDATED AT",
+        cell: ({ row }: any) => <span>{row.getValue("updatedAt")}</span>,
       },
       {
         accessorKey: "action",
@@ -59,14 +63,13 @@ type Pengumuman = {
     ];
 
     const dataPengumuman: Pengumuman[] = data?.announcements || [];
-    console.log(data)
 
   return (
     <DataTable
       columns={columns}
       data={dataPengumuman}
-      filterName="username"
-      filterPlaceholder="Cari Siswa.."
+      filterName="title"
+      filterPlaceholder="Cari Pengumuman.."
     />
   );
 }

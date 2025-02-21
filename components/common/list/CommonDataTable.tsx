@@ -49,6 +49,7 @@ export function DataTable<TData>({
   filterName = "id",
   filterPlaceholder = "Filter...",
 }: DataTableProps<TData>) {
+  const [isLoading, setIsLoading] = React.useState(true);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -81,6 +82,15 @@ export function DataTable<TData>({
       pagination,
     },
   });
+
+  React.useEffect(() => {
+    setIsLoading(true);
+  
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, [data]);
+  
 
   return (
     <div className="w-full">

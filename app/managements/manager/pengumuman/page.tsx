@@ -174,66 +174,7 @@ export default function ManagerPengumuman() {
           </div>
         </div>
 
-        <div className="border-2 rounded-lg bg-white mt-10 p-5">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="font-bold text-black">No.</TableHead>
-                <TableHead className="font-bold text-black">
-                  JUDUL PENGUMUMAN
-                </TableHead>
-                <TableHead className="font-bold text-black">
-                  TANGGAL DIUMUMKAN
-                </TableHead>
-                <TableHead className="font-bold text-black">TARGET</TableHead>
-                <TableHead className="font-bold text-black"></TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {data.map((invoice) => (
-                <TableRow key={invoice.no}>
-                  <TableCell>{invoice.no}</TableCell>
-                  <TableCell>{invoice.title}</TableCell>
-                  <TableCell>{invoice.tanggal}</TableCell>
-                  <TableCell>{invoice.target}</TableCell>
-                  <TableCell>
-                    <SquareArrowOutUpRight />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-            <TableFooter>
-              <TableRow className="bg-white">
-                <TableCell colSpan={3}></TableCell>
-                <TableCell className="">
-                  <Pagination>
-                    <PaginationContent>
-                      <PaginationItem>
-                        <PaginationPrevious href="#" />
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationLink href="#">1</PaginationLink>
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationLink href="#" isActive>
-                          2
-                        </PaginationLink>
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationLink href="#">3</PaginationLink>
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationEllipsis />
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationNext href="#" />
-                      </PaginationItem>
-                    </PaginationContent>
-                  </Pagination>
-                </TableCell>
-              </TableRow>
-            </TableFooter>
-          </Table>
+        <div className=" rounded-lg bg-white mt-10 p-5">
           <AnnouncementTable />
         </div>
       </div>

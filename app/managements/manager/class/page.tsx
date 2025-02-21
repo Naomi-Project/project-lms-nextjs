@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import ButtonAdd from "@/components/ui/buttonAdd";
 import {
   Dialog,
   DialogContent,
@@ -20,6 +21,8 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Building2, Plus, UserRound, UsersRound } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import ListClass from "./listClass";
+import ListGrade from "./listGrade";
 
 export default function ClassManager() {
   return (
@@ -45,6 +48,9 @@ export default function ClassManager() {
             </Link>
           </ToggleGroupItem>
         </ToggleGroup>
+      </div>
+      <div className="mt-4">
+        <ButtonAdd endpoint="/managements/manager/class/induk/create" label="Buat Induk Kelas" />
       </div>
 
       <div className="grid grid-cols-3 gap-4 mt-6">
@@ -134,88 +140,12 @@ export default function ClassManager() {
       </div>
 
       <div className="mt-4">
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button variant="default">
-              <Plus /> Buat Cabang Kelas
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="md:w-5/12 w-96 rounded-lg">
-            <DialogHeader>
-              <DialogTitle className="text-center">
-                Buat Cabang Kelas
-              </DialogTitle>
-            </DialogHeader>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="col-span-1">
-                <Label htmlFor="name" className="text-right">
-                  Induk Kelas
-                </Label>
-
-                <Select>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Kelas" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value="kelas7">Kelas 7</SelectItem>
-                      <SelectItem value="kelas8">Kelas 8</SelectItem>
-                      <SelectItem value="kelas9">Kelas 9</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="col-span-1">
-                <Label htmlFor="name" className="text-right">
-                  Wali Kelas
-                </Label>
-
-                <Select>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Wali Kelas" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value="josua">Josua</SelectItem>
-                      <SelectItem value="jonatan">Jonatan</SelectItem>
-                      <SelectItem value="joko">Joko</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            <div className="">
-              <Label htmlFor="name" className="text-right">
-                Cabang Kelas
-              </Label>
-
-              <Select>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Cabang Kelas" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="kelas7a">Kelas 7A</SelectItem>
-                    <SelectItem value="kelas7b">Kelas 7B</SelectItem>
-                    <SelectItem value="kelas7c">Kelas 7C</SelectItem>
-                    <SelectItem value="kelas7d">Kelas 7D</SelectItem>
-                    <SelectItem value="kelas7e">Kelas 7E</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-            <DialogFooter className="mt-5">
-              <Button type="submit" variant="default" className="w-full">
-                Selesai
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+       <ButtonAdd endpoint="/managements/manager/class/cabang/create" label="Buat Cabang Kelas" />
       </div>
 
       <div className="md:grid grid-cols-4 gap-4 mt-8">
+        <ListGrade />
+        <ListClass />
         <div className="col-span-1">
           <Link href="/managements/manager/class-detail">
             <Button className="w-full h-full border-0" variant="outline">

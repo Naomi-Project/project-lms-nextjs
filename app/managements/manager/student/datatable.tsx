@@ -19,7 +19,12 @@ type Student = {
   
   
 export default function StudentTable() {
-    const { data } = useGetUsersQuery();
+    const { data } = useGetUsersQuery()
+    // const { data } = useGetUsersQuery({
+    //   variables: {
+    //     role: "STUDENT" as string
+    //   }
+    // });
     const [deleteUser, { loading }] = useDeleteUserMutation();
     const columns = [
       {
@@ -51,16 +56,26 @@ export default function StudentTable() {
         cell: ({ row }: any) => <span>{row.getValue("phone")}</span>,
       },
       {
+        accessorKey: "gender",
+        header: "GENDER",
+        cell: ({ row }: any) => <span>{row.getValue("gender")}</span>,
+      },
+      {
+        accessorKey: "role",
+        header: "ROLE",
+        cell: ({ row }: any) => <span>{row.getValue("role")}</span>,
+      },
+      {
         accessorKey: "action",
         header: "ACTION",
         cell: ({ row }: any) => <div className="flex gap-3">
-         <ButtonEdit endpoint="/managements/manager/student/edit" id={row.original.id} />
+         <ButtonEdit endpoint="/managements/manager/student/edit/" id={row.original.id} />
          <ButtonDelete mutation={deleteUser} loading={loading} id={row.original.id} />
         </div>,
       },
     ];
 
-  const dataStudent: Student[] = data?.users || [];
+  const dataStudent: Student[] = data?.users.filter(user => user.role === "STUDENT") || [];
   console.log(dataStudent)
 
   return (
