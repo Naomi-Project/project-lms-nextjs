@@ -52,7 +52,6 @@ export const sections: CommonFormAddSection<Form>[] = [
           {
             key: "gradeId",
             label: "Grade ID",
-            type: "number",
             emptyValue: "-",
             placeholder: "Masukan..",
           },
