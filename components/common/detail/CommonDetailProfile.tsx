@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
+import ButtonAdd from "@/components/ui/buttonAdd";
 import { Toggle } from "@/components/ui/toggle";
 import { getValueByPath } from "@/lib/getter";
-import { Pencil } from "lucide-react";
+import { Pencil, Plus } from "lucide-react";
 import Image from "next/image";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface CommonSectionField<T extends Record<any, any>> {
@@ -56,8 +57,9 @@ export function CommonDetailPage<T extends Record<any, any>>(
                         </p>
                     </div>
                 </div>
-                <div className="absolute right-10">
-                    <Button className="bg-blue-400 bg-opacity-30 shadow-none text-blue-400 hover:text-white"><Pencil /> Edit</Button>
+                <div className="absolute right-10 gap-3 flex ">
+                    <Button className="bg-blue-500 shadow-none text-white"><Pencil /> Edit</Button>
+                    <ButtonAdd endpoint="/managements/teacher/profile/families/create" className="bg-green-500 text-white shadow-none hover:bg-green-600" label="Tambah Keluarga" />
                 </div>
             </div>
             <div>

@@ -1,8 +1,8 @@
 // import { Toggle } from "@/components/ui/toggle";
 // import Image from "next/image";
 import React from "react";
-import { CommonDetailPage } from "@/components/common/detail/CommonDetailPage";
-import type { CommonDetailSection, CommonSectionField } from "@/components/common/detail/CommonDetailPage";
+import { CommonDetailPage } from "@/components/common/detail/CommonDetailProfile";
+import type { CommonDetailSection, CommonSectionField } from "@/components/common/detail/CommonDetailProfile";
 import user from "../../../../image/user.jpeg";
 
 interface Teacher {

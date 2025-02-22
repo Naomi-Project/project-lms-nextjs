@@ -1,7 +1,7 @@
 import React from "react";
-import { CommonDetailPage } from "@/components/common/detail/CommonDetailPage";
-import type { CommonDetailSection, CommonSectionField } from "@/components/common/detail/CommonDetailPage";
-import user from "../../../../image/user.jpeg";
+import { CommonDetailPage } from "@/components/common/detail/CommonDetailProfile";
+import type { CommonDetailSection, CommonSectionField } from "@/components/common/detail/CommonDetailProfile";
+import user from "@/image/user.jpeg";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { CircleAlert, Pencil } from "lucide-react";
@@ -31,7 +31,8 @@ interface Student {
   phone: number
 }
 
-export default function ManagerProfileStudent() { const data: Student = {
+export default function ManagerProfileStudent() {
+   const data: Student = {
     name: "ahmad",
     address: "jakarta",
     nisn: 328738,

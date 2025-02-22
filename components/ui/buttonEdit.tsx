@@ -11,7 +11,7 @@ interface ButtonEditProps {
 const ButtonEdit: React.FC<ButtonEditProps> = ({ endpoint, id }) => {
 
   return (
-    <Button variant="default" onClick={() => window.location.href = '/managements/manager/student/edit/' + id}>
+    <Button variant="default" onClick={() => window.location.href = endpoint + id}>
         <Pencil /> Edit
     </Button>
   )

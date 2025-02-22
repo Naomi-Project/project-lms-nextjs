@@ -42,6 +42,8 @@ import {
   SlidersHorizontal,
   SquareArrowOutUpRight,
 } from "lucide-react";
+import AnnouncementTable from "./datatable";
+import ButtonAdd from "@/components/ui/buttonAdd";
 
 const data = [
   {
@@ -93,64 +95,8 @@ export default function ManagerPengumuman() {
     <div className="min-h-screen">
       <div className="bg-white rounded-lg p-5">
         <div className="md:flex justify-between items-center">
-          <div className="">
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant="default">
-                  <Plus className="h-4 w-4" /> Buat Pengumuman
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="md:w-4/12 w-96 rounded-lg">
-                <DialogHeader>
-                  <DialogTitle className="text-center">
-                    Buat Pengumuman
-                  </DialogTitle>
-                </DialogHeader>
-                <div className="">
-                  <Label htmlFor="title">Judul Pengumuman</Label>
-                  <Input type="text" id="title" placeholder="judul" />
-                </div>
-
-                <div className="">
-                  <Label htmlFor="title">Isi</Label>
-                  <Textarea placeholder="Isi pengumuman disini" />
-                </div>
-
-                <div className="">
-                  <Label htmlFor="title">Tanggal Diumumkan</Label>
-                  <Input type="date" id="title" placeholder="tanggal" />
-                </div>
-
-                <div className="">
-                  <Label htmlFor="title">Target</Label>
-                  <Select>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Target" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectItem value="guru">Guru</SelectItem>
-                        <SelectItem value="pegawai">Pegawai</SelectItem>
-                        <SelectItem value="siswa">Siswa</SelectItem>
-                        <SelectItem value="all">
-                          Guru || Pegawai || Siswa
-                        </SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <DialogFooter>
-                  <Button
-                    type="reset"
-                    variant="destructive"
-                    className="md:mt-0 mt-2"
-                  >
-                    Cancel
-                  </Button>
-                  <Button type="submit">Save</Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
+          <div>
+            <ButtonAdd label="Buat Pengumuman" endpoint="/managements/manager/pengumuman/create" />
           </div>
 
           <div className="md:mt-0 mt-2 grid grid-cols-3 gap-4">
@@ -173,66 +119,8 @@ export default function ManagerPengumuman() {
           </div>
         </div>
 
-        <div className="border-2 rounded-lg bg-white mt-10 p-5">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="font-bold text-black">No.</TableHead>
-                <TableHead className="font-bold text-black">
-                  JUDUL PENGUMUMAN
-                </TableHead>
-                <TableHead className="font-bold text-black">
-                  TANGGAL DIUMUMKAN
-                </TableHead>
-                <TableHead className="font-bold text-black">TARGET</TableHead>
-                <TableHead className="font-bold text-black"></TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {data.map((invoice) => (
-                <TableRow key={invoice.no}>
-                  <TableCell>{invoice.no}</TableCell>
-                  <TableCell>{invoice.title}</TableCell>
-                  <TableCell>{invoice.tanggal}</TableCell>
-                  <TableCell>{invoice.target}</TableCell>
-                  <TableCell>
-                    <SquareArrowOutUpRight />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-            <TableFooter>
-              <TableRow className="bg-white">
-                <TableCell colSpan={3}></TableCell>
-                <TableCell className="">
-                  <Pagination>
-                    <PaginationContent>
-                      <PaginationItem>
-                        <PaginationPrevious href="#" />
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationLink href="#">1</PaginationLink>
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationLink href="#" isActive>
-                          2
-                        </PaginationLink>
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationLink href="#">3</PaginationLink>
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationEllipsis />
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationNext href="#" />
-                      </PaginationItem>
-                    </PaginationContent>
-                  </Pagination>
-                </TableCell>
-              </TableRow>
-            </TableFooter>
-          </Table>
+        <div className=" rounded-lg bg-white mt-10 p-5">
+          <AnnouncementTable />
         </div>
       </div>
     </div>
