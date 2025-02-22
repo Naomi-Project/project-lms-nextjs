@@ -9,7 +9,7 @@ import {
 import { useParams } from "next/navigation";
 import { CommonFormEdit } from "@/components/common/form/CommonFormEdit";
 import { useGetAnnouncementQuery, useUpdateAnnouncementMutation } from "@/src/graphql/generated";
-import { announcementSchema, sections } from "@/helpers/FormAnnouncements";
+import { announcementSchema, sections } from "@/helpers/static/FormAnnouncements";
 
 const EditPage = () => {
   const params = useParams();

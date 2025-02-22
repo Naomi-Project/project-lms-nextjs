@@ -32,6 +32,7 @@ export interface CommonFormAddField<T extends Record<any, any>> {
   label: string;
   emptyValue?: string;
   class?: string;
+  defaultValue?: string;
   type?: string;
   dataSelect?: any;
   dataRadio?: any;
@@ -46,6 +47,7 @@ export interface CommonFormAddProps<T extends Record<any, any>> {
   lable: string;
   title: string;
   method: string;
+  isUseDefaultMutation?: boolean;
   schema: ZodSchema<T>;
   mutation: MutationFunction<any, any>;
   dataMutation: any;
@@ -58,15 +60,21 @@ export function CommonFormAdd<T extends Record<any, any>>(
 ) {
   const form = useForm<z.infer<typeof props.schema>>({
     resolver: zodResolver(props.schema),
+    defaultValues: props.dataMutation || {}, // ✅ Pastikan selalu ada nilai awal
   });
 
   const onSubmit = async (values: z.infer<typeof props.schema>) => {
+    // kondisi ini dipake jika datamutation default itu isinya sama dengan values
+    if (props.isUseDefaultMutation == true) {
+      executeMutation(values)
+      return
+    }
     props.setDataMutation((prevState: typeof props.dataMutation) => {
       const updatedData = {
         ...prevState, // Menyalin data lama agar tidak hilang
         ...values, // Mengupdate dengan data baru
       };
-
+      console.log(updatedData)
       // Jalankan executeMutation langsung setelah state diperbarui
       executeMutation(updatedData);
 
@@ -82,8 +90,8 @@ export function CommonFormAdd<T extends Record<any, any>>(
         },
       });
       if (response) {
-        // location.reload();
-        history.back();
+        location.reload();
+        // history.back();
       }
     } catch (err) {
       console.error("Error creating data:", err);

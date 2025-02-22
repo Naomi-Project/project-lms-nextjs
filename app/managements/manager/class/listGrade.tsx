@@ -12,11 +12,16 @@ function ListGrade<T extends Record<any, any>>(
   props: ListProps<T>
 ) {
   const { data, loading } = useGetGradesQuery();
+  const cleanData = data?.grades.slice().sort((a: any, b: any) => {
+    const numA = parseInt(a.name.match(/\d+/)?.[0] || "0"); 
+    const numB = parseInt(b.name.match(/\d+/)?.[0] || "0");
+  
+    return numA - numB; // Urutkan berdasarkan angka saja  
+  }) || [];
   if (loading) return "loading.."
-  console.log(data)
   return (
     <>
-    {data?.grades.map((dt: any, index: number) => (
+    {cleanData && cleanData.map((dt: any, index: number) => (
     <div className="col-span-1" key={index}>
     <Button className="w-full h-full border-0" variant="outline">
       <div className="w-full h-full p-2">

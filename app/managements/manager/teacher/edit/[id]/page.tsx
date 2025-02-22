@@ -8,7 +8,7 @@ import {
 } from "@/graphql/generated";
 import { useParams } from "next/navigation";
 import { CommonFormEdit } from "@/components/common/form/CommonFormEdit";
-import { sections, teacherSchema } from "@/helpers/FormTeachers";
+import { sections, teacherSchema } from "@/helpers/static/FormTeachers";
 
 const EditPage = () => {
   const params = useParams();

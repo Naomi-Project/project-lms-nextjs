@@ -3,9 +3,9 @@ import { CommonFormAddSection } from "@/components/common/form/CommonFormAdd"
 import { z } from "zod";
 
 export const classSchema = z.object({
-  induk: z.string().min(1, "Induk kelas wajib diisi"),
+  induk: z.string().min(1, "Induk Kelas wajib diisi"),
   guardian: z.string().min(1, "Nama wali wajib diisi"),
-  classname: z.string().min(1, "NIK wajib diisi"),
+  classname: z.string().min(1, "Nama Kelas diisi"),
   radio: z.string(),
 });
 

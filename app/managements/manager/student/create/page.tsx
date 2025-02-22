@@ -3,7 +3,7 @@ import {
   CommonFormAdd
 } from "@/components/common/form/CommonFormAdd";
 import { Gender, Role, useCreateUserMutation } from "@/graphql/generated";
-import { sections, studentSchema } from "@/helpers/FormStudents";
+import { sections, studentSchema } from "@/helpers/static/FormStudents";
 import { useState } from "react";
 
 const CreatePage = () => {

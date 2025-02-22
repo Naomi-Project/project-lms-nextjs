@@ -43,6 +43,7 @@ import {
   SquareArrowOutUpRight,
 } from "lucide-react";
 import AnnouncementTable from "./datatable";
+import ButtonAdd from "@/components/ui/buttonAdd";
 
 const data = [
   {
@@ -94,64 +95,8 @@ export default function ManagerPengumuman() {
     <div className="min-h-screen">
       <div className="bg-white rounded-lg p-5">
         <div className="md:flex justify-between items-center">
-          <div className="">
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant="default">
-                  <Plus className="h-4 w-4" /> Buat Pengumuman
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="md:w-4/12 w-96 rounded-lg">
-                <DialogHeader>
-                  <DialogTitle className="text-center">
-                    Buat Pengumuman
-                  </DialogTitle>
-                </DialogHeader>
-                <div className="">
-                  <Label htmlFor="title">Judul Pengumuman</Label>
-                  <Input type="text" id="title" placeholder="judul" />
-                </div>
-
-                <div className="">
-                  <Label htmlFor="title">Isi</Label>
-                  <Textarea placeholder="Isi pengumuman disini" />
-                </div>
-
-                <div className="">
-                  <Label htmlFor="title">Tanggal Diumumkan</Label>
-                  <Input type="date" id="title" placeholder="tanggal" />
-                </div>
-
-                <div className="">
-                  <Label htmlFor="title">Target</Label>
-                  <Select>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Target" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectItem value="guru">Guru</SelectItem>
-                        <SelectItem value="pegawai">Pegawai</SelectItem>
-                        <SelectItem value="siswa">Siswa</SelectItem>
-                        <SelectItem value="all">
-                          Guru || Pegawai || Siswa
-                        </SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <DialogFooter>
-                  <Button
-                    type="reset"
-                    variant="destructive"
-                    className="md:mt-0 mt-2"
-                  >
-                    Cancel
-                  </Button>
-                  <Button type="submit">Save</Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
+          <div>
+            <ButtonAdd label="Buat Pengumuman" endpoint="/managements/manager/pengumuman/create" />
           </div>
 
           <div className="md:mt-0 mt-2 grid grid-cols-3 gap-4">

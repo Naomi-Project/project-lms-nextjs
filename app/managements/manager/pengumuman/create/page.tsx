@@ -2,7 +2,7 @@
 import {
   CommonFormAdd
 } from "@/components/common/form/CommonFormAdd";
-import { sections, announcementSchema } from "@/helpers/FormAnnouncements";
+import { sections, announcementSchema } from "@/helpers/static/FormAnnouncements";
 import { useCreateAnnouncementMutation } from "@/src/graphql/generated";
 import { useState } from "react";
 
