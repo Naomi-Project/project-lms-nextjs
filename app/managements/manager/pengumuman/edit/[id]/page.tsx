@@ -1,11 +1,6 @@
 "use client";
-import {
-  Gender,
-  Role,
-  useCreateUserMutation,
-  useGetUserQuery,
-  useUpdateUserMutation,
-} from "@/graphql/generated";
+
+
 import { useParams } from "next/navigation";
 import { CommonFormEdit } from "@/components/common/form/CommonFormEdit";
 import { useGetAnnouncementQuery, useUpdateAnnouncementMutation } from "@/src/graphql/generated";

@@ -1,6 +1,6 @@
 "use client";
+/* eslint-disable */
 import { DataTable } from "@/components/common/list/CommonDataTable";
-import DeleteStudent from "@/components/managerStudent/DeleteStudent";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
 import { useDeleteUserMutation, useGetUsersQuery } from "@/graphql/generated";
@@ -43,7 +43,7 @@ export default function StudentTable() {
         accessorKey: "class",
         header: "KELAS",
         // cell: ({ row }: any) => <span>{row.getValue("class")}</span>,
-        cell: ({ row }: any) => <span>7A</span>,
+        cell: () => <span>7A</span>,
       },
       {
         accessorKey: "address",

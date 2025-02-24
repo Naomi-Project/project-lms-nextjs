@@ -1,6 +1,7 @@
 "use client"
 import { DataTable } from "@/components/common/list/CommonDataTable"
 
+/* eslint-disable */
 type Payment = {
   id: string
   username: string

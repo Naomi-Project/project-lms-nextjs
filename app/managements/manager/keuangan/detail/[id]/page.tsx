@@ -1,5 +1,4 @@
 import { CommonDetail, CommonDetailSection, CommonSectionField } from '@/components/common/detail/CommonDetailFinance'
-import { sections } from '@/helpers/static/FormAnnouncements'
 import user from "@/image/user.jpeg";
 import React from 'react'
 

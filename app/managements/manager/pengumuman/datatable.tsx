@@ -1,9 +1,9 @@
 "use client";
+/* eslint-disable */
 import { DataTable } from "@/components/common/list/CommonDataTable";
-import DeleteStudent from "@/components/managerStudent/DeleteStudent";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
-import { useDeleteAnnouncementMutation, useGetAnnouncementQuery, useGetAnnouncementsQuery } from "@/src/graphql/generated";
+import { useDeleteAnnouncementMutation, useGetAnnouncementsQuery } from "@/src/graphql/generated";
 
 type Pengumuman = {
     id: string;

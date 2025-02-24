@@ -1,12 +1,13 @@
 "use client"
-import { Pencil, Trash } from 'lucide-react'
+import { Trash } from 'lucide-react'
 import React from 'react'
 import { Button } from "@/components/ui/button";
+import { MutationFunction } from '@apollo/client';
 
 interface ButtonDeleteProps {
   id: string;
-  mutation: any;
-  loading: any;
+  mutation: MutationFunction<{ data: string }>;
+  loading: boolean;
 }
 
 const ButtonDelete: React.FC<ButtonDeleteProps> = ({ mutation, loading, id }) => {

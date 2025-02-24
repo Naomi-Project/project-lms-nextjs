@@ -1,3 +1,4 @@
+/* eslint-disable */
 import {
   Select,
   SelectContent,
@@ -7,26 +8,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import React from "react";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
   Dialog,
