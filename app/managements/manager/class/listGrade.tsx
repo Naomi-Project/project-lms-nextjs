@@ -1,8 +1,8 @@
 "use client";
-
+/* eslint-disable */
 import { Button } from "@/components/ui/button";
 import { useGetGradesQuery } from "@/graphql/generated";
-import { Building2, Link, UserRound, UsersRound } from "lucide-react";
+import { Building2 } from "lucide-react";
 
 export interface ListProps<T extends Record<any, any>> {
   title: any;

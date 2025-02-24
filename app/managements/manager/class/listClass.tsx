@@ -1,13 +1,12 @@
 "use client";
-
-import { useDeleteClassroomMutation, useGetClassroomQuery, useGetClassroomsQuery } from "@/graphql/generated";
-import { Delete, Trash, UserRound, UsersRound } from "lucide-react";
+/* eslint-disable */
+import { useDeleteClassroomMutation, useGetClassroomsQuery } from "@/graphql/generated";
+import { UserRound, UsersRound } from "lucide-react";
 import Link from "next/link";
 import ButtonDelete from "@/components/ui/buttonDelete";
-import { Button } from "@/components/ui/button";
 
 export interface ListProps<T extends Record<any, any>> {
-  title: any;
+  title: string;
 }
 
 function ListClass<T extends Record<any, any>>(

@@ -1,7 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Toggle } from "@/components/ui/toggle";
-import { getValueByPath } from "@/lib/getter";
 import { cn } from "@/lib/utils";
 import {
   Accordion,
@@ -15,7 +14,7 @@ import {
   PopoverContent,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import { CalendarDays, CalendarIcon, Search, Wallet } from "lucide-react";
+import { CalendarDays, CalendarIcon, Wallet } from "lucide-react";
 import * as React from "react";
 import {
   Dialog,
@@ -30,7 +29,6 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,

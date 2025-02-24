@@ -2,7 +2,7 @@
 import {
   CommonFormAdd
 } from "@/components/common/form/CommonFormAdd";
-import { Gender, Role, useCreateFamilyMutation, useCreateUserMutation } from "@/graphql/generated";
+import { useCreateFamilyMutation } from "@/graphql/generated";
 import { familiesSchema, sections } from "@/helpers/static/FormFamilies";
 import { useState } from "react";
 

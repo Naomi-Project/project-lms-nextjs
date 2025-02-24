@@ -1,94 +1,24 @@
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+
+
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+
+
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
+
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Plus,
   Search,
   SlidersHorizontal,
-  SquareArrowOutUpRight,
 } from "lucide-react";
 import AnnouncementTable from "./datatable";
 import ButtonAdd from "@/components/ui/buttonAdd";
 
-const data = [
-  {
-    no: "1",
-    title: "Pengumuman Libur Natal",
-    tanggal: "25 Desember 2024",
-    target: "Siswa dan Pegawai",
-  },
-  {
-    no: "2",
-    title: "Pengumuman Libur Natal",
-    tanggal: "25 Desember 2024",
-    target: "Siswa dan Pegawai",
-  },
-  {
-    no: "3",
-    title: "Pengumuman Libur Natal",
-    tanggal: "25 Desember 2024",
-    target: "Siswa dan Pegawai",
-  },
-  {
-    no: "4",
-    title: "Pengumuman Libur Natal",
-    tanggal: "25 Desember 2024",
-    target: "Siswa dan Pegawai",
-  },
-  {
-    no: "5",
-    title: "Pengumuman Libur Natal",
-    tanggal: "25 Desember 2024",
-    target: "Siswa dan Pegawai",
-  },
-  {
-    no: "6",
-    title: "Pengumuman Libur Natal",
-    tanggal: "25 Desember 2024",
-    target: "Siswa dan Pegawai",
-  },
-  {
-    no: "7",
-    title: "Pengumuman Libur Natal",
-    tanggal: "25 Desember 2024",
-    target: "Siswa dan Pegawai",
-  },
-];
 
 export default function ManagerPengumuman() {
   return (

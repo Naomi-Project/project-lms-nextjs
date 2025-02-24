@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import ButtonAdd from "@/components/ui/buttonAdd";
 import { Toggle } from "@/components/ui/toggle";
 import { getValueByPath } from "@/lib/getter";
-import { Pencil, Plus } from "lucide-react";
+import { Pencil } from "lucide-react";
 import Image from "next/image";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface CommonSectionField<T extends Record<any, any>> {

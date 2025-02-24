@@ -2,27 +2,10 @@ import React from "react";
 import { CommonDetailPage } from "@/components/common/detail/CommonDetailProfile";
 import type { CommonDetailSection, CommonSectionField } from "@/components/common/detail/CommonDetailProfile";
 import user from "@/image/user.jpeg";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { CircleAlert, Pencil } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
+
+
+
 
 interface Student {
   name: string

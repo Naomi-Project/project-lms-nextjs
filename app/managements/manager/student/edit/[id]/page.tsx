@@ -1,8 +1,5 @@
 "use client";
 import {
-  Gender,
-  Role,
-  useCreateUserMutation,
   useGetUserQuery,
   useUpdateUserMutation,
 } from "@/graphql/generated";

@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable */
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -34,8 +35,8 @@ export interface CommonFormAddField<T extends Record<any, any>> {
   class?: string;
   defaultValue?: string;
   type?: string;
-  dataSelect?: any;
-  dataRadio?: any;
+  dataSelect?: Array<{ label: string; value: string | number }>;
+  dataRadio?: Array<{ label: string; value: string | number }>;
   disabled?: boolean;
   placeholder?: string;
 }

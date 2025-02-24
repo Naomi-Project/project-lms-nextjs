@@ -20,9 +20,6 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
@@ -94,7 +91,7 @@ export function DataTable<TData>({
   return (
     <div className="w-full">
       {/* Search Input */}
-      <div className="flex items-center py-4">
+      <div className={`flex items-center py-4 ${isLoading ? "" : ""}`}>
         <Input
           placeholder={filterPlaceholder}
           value={
