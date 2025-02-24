@@ -1,5 +1,5 @@
-import { CommonDetailPage } from "@/components/common/detail/CommonDetailPage";
-import type { CommonDetailSection, CommonSectionField } from "@/components/common/detail/CommonDetailPage";
+import { CommonDetailPage } from "@/components/common/detail/CommonDetailProfile";
+import type { CommonDetailSection, CommonSectionField } from "@/components/common/detail/CommonDetailProfile";
 interface Student {
   name: string
   address: string

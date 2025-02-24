@@ -1,0 +1,8 @@
+schema: "http://staging.zerobase.tech/graphql" # Ganti dengan URL GraphQL API Anda
+documents: "graphql/**/*.graphql" # Path ke file query/mutation GraphQL
+generates:
+  src/graphql/generated.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"

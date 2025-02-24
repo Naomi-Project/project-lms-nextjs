@@ -537,3 +537,60 @@ mutation DeleteClassroom($data: String!) {
   }
 }
 ### Classroom endregion
+
+### Announcement region
+query GetAnnouncement($data: String!) {
+  announcement(id: $data) {
+    id
+    title
+    content
+    target
+    createdAt
+    updatedAt
+  }
+}
+
+query GetAnnouncements {
+  announcements {
+    id
+    title
+    content
+    target
+    createdAt
+    updatedAt
+  }
+}
+
+mutation CreateAnnouncement($data: CreateAnnouncementInput!) {
+  createAnnouncement(data: $data) {
+    id
+    title
+    content
+    target
+    createdAt
+    updatedAt
+  }
+}
+
+mutation UpdateAnnouncement($data: UpdateAnnouncementInput!) {
+  updateAnnouncement(data: $data) {
+    id
+    title
+    content
+    target
+    createdAt
+    updatedAt
+  }
+}
+
+mutation DeleteAnnouncement($data: String!) {
+  deleteAnnouncement(id: $data) {
+    id
+    title
+    content
+    target
+    createdAt
+    updatedAt
+  }
+}
+### Announcement endregion

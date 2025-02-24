@@ -49,6 +49,7 @@ export function DataTable<TData>({
   filterName = "id",
   filterPlaceholder = "Filter...",
 }: DataTableProps<TData>) {
+  const [isLoading, setIsLoading] = React.useState(true);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -58,7 +59,7 @@ export function DataTable<TData>({
   const [rowSelection, setRowSelection] = React.useState({});
   const [pagination, setPagination] = React.useState({
     pageIndex: 0, // Halaman pertama
-    pageSize: 5, // Jumlah data per halaman
+    pageSize: 10, // Jumlah data per halaman
   });
 
   const table = useReactTable({
@@ -81,6 +82,15 @@ export function DataTable<TData>({
       pagination,
     },
   });
+
+  React.useEffect(() => {
+    setIsLoading(true);
+  
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, [data]);
+  
 
   return (
     <div className="w-full">

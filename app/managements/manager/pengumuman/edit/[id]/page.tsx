@@ -8,13 +8,14 @@ import {
 } from "@/graphql/generated";
 import { useParams } from "next/navigation";
 import { CommonFormEdit } from "@/components/common/form/CommonFormEdit";
-import { sections, studentSchema } from "@/helpers/static/FormStudents";
+import { useGetAnnouncementQuery, useUpdateAnnouncementMutation } from "@/src/graphql/generated";
+import { announcementSchema, sections } from "@/helpers/static/FormAnnouncements";
 
 const EditPage = () => {
   const params = useParams();
   const { id } = params;
-  const [updateUser] = useUpdateUserMutation();
-  const { data, loading, error } = useGetUserQuery({
+  const [updateAnnouncement] = useUpdateAnnouncementMutation();
+  const { data, loading, error } = useGetAnnouncementQuery({
     variables: {
       data: id as string,
     },
@@ -23,15 +24,15 @@ const EditPage = () => {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
-
+  console.log(data)
   return (
     <CommonFormEdit
-      lable="Student"
-      title="Edit Student Data"
+      lable="Pengumuman"
+      title="Edit Pengumuman"
       method="PUT"
-      mutation={updateUser}
-      dataGet={data?.user}
-      schema={studentSchema}
+      mutation={updateAnnouncement}
+      dataGet={data?.announcement}
+      schema={announcementSchema}
       sections={sections}
     />
   );

@@ -8,7 +8,7 @@ import {
 } from "@/graphql/generated";
 import { useParams } from "next/navigation";
 import { CommonFormEdit } from "@/components/common/form/CommonFormEdit";
-import { sections, studentSchema } from "@/helpers/static/FormStudents";
+import { sections, teacherSchema } from "@/helpers/static/FormTeachers";
 
 const EditPage = () => {
   const params = useParams();
@@ -26,12 +26,12 @@ const EditPage = () => {
 
   return (
     <CommonFormEdit
-      lable="Student"
-      title="Edit Student Data"
+      lable="Teacher"
+      title="Edit Teacher Data"
       method="PUT"
       mutation={updateUser}
       dataGet={data?.user}
-      schema={studentSchema}
+      schema={teacherSchema}
       sections={sections}
     />
   );
