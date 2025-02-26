@@ -60,7 +60,7 @@ const FormHelpersAdd = () => {
           },
           {
             key: "gradeId",
-            label: "Grade ID",
+            label: "Induk Kelas / Angkatan",
             type: "select",
             dataSelect: dataGrades,
             emptyValue: "-",
@@ -68,7 +68,7 @@ const FormHelpersAdd = () => {
           },
           {
             key: "guardianId",
-            label: "Guardian id",
+            label: "Wali Kelas",
             type: "select",
             dataSelect: dataUsers,
             emptyValue: "-",

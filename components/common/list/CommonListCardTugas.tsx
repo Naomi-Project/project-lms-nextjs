@@ -20,14 +20,14 @@ const ListCardTugas = ({ canDelete = true, role = "student" }) => {
           <Link href={`/managements/${role}/tasks-detail/${data.id}`}>
             <Card className="w-full h-auto">
               <CardHeader className="flex gap-3">
-                <div className='flex justify-between items-center'>
-                  <div className='flex gap-4'>
+                <div className='flex flex-wrap gap-4 justify-between items-center'>
+                  <div className='flex flex-wrap gap-4'>
                     <CardTitle className={`fontligh text-xs py-1 w-auto px-3 rounded-full text-center font-bold ${data.submissions.length > 0 ? "bg-blue-100 text-blue-400" : "bg-red-100 text-red-400"}`}>
                       {data.submissions.length > 0 ? "Sudah Ada Yang Mengerjakan" : "Belum Dikerjakan"}
                     </CardTitle>
                     {
                       data.submissions.length > 0 ? (
-                      <CardTitle className={`fontligh text-xs py-1 w-auto px-3 rounded-full text-center font-bold ${data.submissions.length > 0 ? "bg-blue-100 text-blue-400" : "bg-red-100 text-red-400"}`}>
+                      <CardTitle className={`text-xs py-1 w-auto px-3 rounded-full text-center font-bold ${data.submissions.length > 0 ? "bg-blue-100 text-blue-400" : "bg-red-100 text-red-400"}`}>
                         {"Nilai Lihat Di Exam Guru sementara"}
                       </CardTitle>
                       ) : ""

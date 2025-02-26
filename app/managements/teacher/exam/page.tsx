@@ -18,7 +18,7 @@ export default function ExamTeacher() {
         <div className="">
           <Select>
             <SelectTrigger className="md:w-full w-5/12 bg-white rounded-lg">
-              <SelectValue placeholder="PTS" />
+              <SelectValue placeholder="Mata Pelajaran" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>

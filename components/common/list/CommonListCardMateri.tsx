@@ -11,12 +11,12 @@ const ListCardMateri = ({ canDelete = true, role = "student" }) => {
   console.log(data)
   const [deleteMaterial, {loading}] = useDeleteMaterialMutation()
   return (
-    <div className="grid md:grid-cols-4 grid-cols-2 gap-4">
+    <div className="grid md:grid-cols-4 lg:grid-cols-2 gap-4">
     {
       materi && materi.map((data, index: number) => (
         <div className="col-span-1" key={index}>
           <Link href={`/managements/${role}/material/detail/${data.id}`}>
-            <Card className="w-full h-[230px]">
+            <Card className="w-full h-[230px] sm:w-full">
               <CardHeader className="flex gap-3">
                 <div className='flex justify-between items-center'>
                   <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
@@ -28,6 +28,9 @@ const ListCardMateri = ({ canDelete = true, role = "student" }) => {
                 </div>
                 <CardDescription className="font-bold text-base text-black">
                   {data.title}
+                </CardDescription>
+                <CardDescription className="font-bold text-base text-black">
+                  {/* {data.content} */}
                 </CardDescription>
               </CardHeader>
               <CardFooter>

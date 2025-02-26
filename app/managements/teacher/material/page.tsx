@@ -20,7 +20,7 @@ export default function MaterialTeacher() {
   return (
     <div className="min-h-screen">
       <div className="md:flex justify-between items-center">
-        <div className="">
+        <div className="flex flex-wrap gap-3 justify-start items-start">
           <Link href="/managements/teacher/curiculum-create">
             <Button className="gap-2 mx-2">
               <Plus className="h-4 w-4" /> Buat Kurikulum
@@ -32,13 +32,8 @@ export default function MaterialTeacher() {
             </Button>
           </Link>
           <Link href="/managements/teacher/material/create">
-            <Button className="gap-2">
-              <Plus className="h-4 w-4" /> Buat Materi
-            </Button>
-          </Link>
-          <Link href="/managements/teacher/tasks-create">
             <Button className="gap-2 mx-2">
-              <Plus className="h-4 w-4" /> Buat Soal
+              <Plus className="h-4 w-4" /> Buat Materi
             </Button>
           </Link>
         </div>
@@ -69,10 +64,6 @@ export default function MaterialTeacher() {
       <ListCardMateri role="teacher" />
       {/* card loop materi dari view  */}
       <hr className="my-5" />
-      <h1 className="mt-10 mb-5">Tugas</h1>
-      {/* card loop tugas dari view  */}
-      <ListCardTugas role="teacher" />
-      {/* card loop tugas dari view  */}
 
     </div>
   );
