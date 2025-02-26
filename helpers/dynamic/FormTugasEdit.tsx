@@ -10,6 +10,7 @@ import { z } from "zod";
 import { useGetAssignmentQuery, useUpdateAssignmentMutation } from "@/src/graphql/generated";
 import { CommonFormEdit } from "@/components/common/form/CommonFormEdit";
 import { useParams } from "next/navigation";
+import { useState } from "react";
 
 const tugasSchema = z.object({
   title: z.string().min(1, "Nama materi wajib diisi"),
@@ -50,13 +51,9 @@ const FormHelpersEdit = () => {
     },
     skip: !id,
   })
-
-
-  // // 🔹 State untuk Quill Editor (WYSIWYG)
-  // const [code, setCode] = useState<string>("");
-  // useEffect(() => {
-  //   console.log(code)
-  // }, [code])
+  
+    // 🔹 State untuk Quill Editor (WYSIWYG)
+    const [stateEditor, setStateEditor] = useState<string>("");
 
   const sections: CommonFormAddSection<Form>[] = [
     {
@@ -66,12 +63,19 @@ const FormHelpersEdit = () => {
             key: "title",
             label: "Judul Tugas",
             emptyValue: "-",
+            class: "md:w-full lg:w-full",
             placeholder: "Masukan judul tugas..",
           },
+        ],
+        [
           {
             key: "description",
             label: "Deskripsi Tugas",
             emptyValue: "-",
+            type: "md",
+            mdValue: stateEditor,
+            setMdValue: setStateEditor,
+            class: "md:w-full lg:w-full",
             placeholder: "Masukan deskripsi..",
           },
         ],

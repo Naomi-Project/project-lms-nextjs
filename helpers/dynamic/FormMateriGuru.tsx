@@ -38,9 +38,6 @@ const FormHelpersAdd = () => {
 
   // 🔹 State untuk Quill Editor (WYSIWYG)
   const [code, setCode] = useState<string>("");
-  useEffect(() => {
-    console.log(code)
-  }, [code])
 
   const sections: CommonFormAddSection<Form>[] = [
     {

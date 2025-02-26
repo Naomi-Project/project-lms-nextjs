@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -10,13 +11,18 @@ import {
 } from "@/components/ui/select";
 import SubmissionTable from "./datatable";
 
-
 export default function ExamTeacher() {
+  // 🔹 State untuk menyimpan filter
+  const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
+  const [selectedGrade, setSelectedGrade] = useState<string | null>(null);
+  const [selectedClassType, setSelectedClassType] = useState<string | null>(null);
+
   return (
     <div className="min-h-screen">
       <div className="md:flex justify-between">
-        <div className="">
-          <Select>
+        {/* 🔹 Filter Mata Pelajaran */}
+        <div>
+          <Select onValueChange={(value) => setSelectedSubject(value)}>
             <SelectTrigger className="md:w-full w-5/12 bg-white rounded-lg">
               <SelectValue placeholder="Mata Pelajaran" />
             </SelectTrigger>
@@ -33,9 +39,10 @@ export default function ExamTeacher() {
           </Select>
         </div>
 
+        {/* 🔹 Filter Kelas & Jenis Kelas */}
         <div className="grid grid-cols-2 gap-4 md:mt-0 mt-3">
           <div className="col-span-1 bg-white rounded-lg">
-            <Select>
+            <Select onValueChange={(value) => setSelectedGrade(value)}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Kelas Berapa" />
               </SelectTrigger>
@@ -51,7 +58,7 @@ export default function ExamTeacher() {
           </div>
 
           <div className="col-span-1 bg-white rounded-lg">
-            <Select>
+            <Select onValueChange={(value) => setSelectedClassType(value)}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Jenis Kelas" />
               </SelectTrigger>
@@ -70,8 +77,13 @@ export default function ExamTeacher() {
         </div>
       </div>
 
+      {/* 🔹 Kirim filter ke SubmissionTable */}
       <div className="border-2 rounded-lg bg-white mt-10 p-5">
-        <SubmissionTable />
+        <SubmissionTable
+          selectedSubject={selectedSubject}
+          selectedGrade={selectedGrade}
+          selectedClassType={selectedClassType}
+        />
       </div>
     </div>
   );

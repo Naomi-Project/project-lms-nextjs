@@ -8,7 +8,7 @@ import {
   useGetSubjectsQuery,
 } from "@/graphql/generated";
 import { z } from "zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCreateAssignmentMutation } from "@/src/graphql/generated";
 
 const tugasSchema = z.object({
@@ -41,12 +41,9 @@ const FormHelpersAdd = () => {
     value: data.id,
   })) || []
 
-  // // 🔹 State untuk Quill Editor (WYSIWYG)
-  // const [code, setCode] = useState<string>("");
-  // useEffect(() => {
-  //   console.log(code)
-  // }, [code])
-
+  // 🔹 State untuk Quill Editor (WYSIWYG)
+  const [stateEditor, setStateEditor] = useState<string>("");
+  
   const sections: CommonFormAddSection<Form>[] = [
     {
       fields: [
@@ -54,21 +51,29 @@ const FormHelpersAdd = () => {
           {
             key: "title",
             label: "Judul Tugas",
+            class: "md:w-full lg:w-full",
             emptyValue: "-",
             placeholder: "Masukan judul tugas..",
           },
+        ],
+        [
           {
             key: "description",
             label: "Deskripsi Tugas",
             emptyValue: "-",
+            type: "md",
+            mdValue: stateEditor,
+            setMdValue: setStateEditor,
+            class: "md:w-full lg:w-full",
             placeholder: "Masukan deskripsi..",
           },
         ],
         [
           {
             key: "dueDate",
-            label: "Tanggal",
+            label: "Deadline Tugas",
             defaultValue: "2025-01-01",
+            type: "date_picker",
             emptyValue: "-",
             placeholder: "Masukkan tanggal pengumpulan..",
           },
@@ -110,18 +115,6 @@ const FormHelpersAdd = () => {
       ],
     },
   ];
-//   const { data, loading, error } = useGetAssignmentsQuery();
-
-// if (loading) {
-//   return <p>Loading...</p>;
-// }
-
-// if (error) {
-//   console.error("Error fetching assignments:", error);
-//   return <p>Error fetching data</p>;
-// }
-
-// console.log(data); // Pastikan ini mencetak hasil query
 
   const [createAssignment] = useCreateAssignmentMutation();
 

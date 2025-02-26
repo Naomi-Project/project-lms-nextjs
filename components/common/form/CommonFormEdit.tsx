@@ -29,6 +29,7 @@ import { z, ZodSchema } from "zod";
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
 import { Label } from "recharts";
 import CommonSoalBuilder from "./CommonSoalBuilder";
+import CommonEditor from "./CommonEditor";
 
 export interface CommonFormEditField<T extends Record<any, any>> {
   key: keyof T & string;
@@ -178,6 +179,8 @@ export function CommonFormEdit<T extends Record<any, any>>(
                                 </FormItem>
                               )}
                             />
+                          ) : dataField.type === "md" ? (
+                            <CommonEditor name={String(dataField.key)} label={dataField.label} placeholder={dataField.placeholder} />
                           ) : dataField.type === "soal_builder" ? (
                             <CommonSoalBuilder dataDefault={dataGet.extendedData} name={String(dataField.key)} label={dataField.label} placeholder={dataField.placeholder} />
                           ) : dataField.type === "radio" ? (
