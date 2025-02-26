@@ -1,6 +1,5 @@
 "use client";
 import * as React from "react"
-import dynamic from "next/dynamic";
 import { FormControl, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useFormContext } from "react-hook-form";
 import { format } from "date-fns"
@@ -15,9 +14,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-// 🔹 Load Quill secara dinamis agar tidak error di SSR Next.js
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
-import "react-quill/dist/quill.snow.css"; // Stylesheet untuk Quill DatePicker
 
 interface CommonDatePickerProps {
   name: string;
@@ -25,7 +21,7 @@ interface CommonDatePickerProps {
   placeholder?: string;
 }
 
-const CommonDatePicker: React.FC<CommonDatePickerProps> = ({ name, label = '', placeholder }) => {
+const CommonDatePicker: React.FC<CommonDatePickerProps> = ({ name, label = '' }) => {
   const { setValue, watch } = useFormContext(); // Gunakan useFormContext untuk mengakses form global
   const value = watch(name);
   const [date, setDate] = React.useState<Date>()
