@@ -38,6 +38,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import ListCardTugas from "@/components/common/list/CommonListCardTugas";
 
 export default function DashboardTeacher() {
   return (
@@ -126,56 +127,11 @@ export default function DashboardTeacher() {
 
       <div className="md:flex justify-between items-center mt-6">
         <div className="">
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="default">
-                <Plus className="h-4 w-4" /> Buat Tugas
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="md:w-3/12 w-96 rounded-lg">
-              <DialogHeader>
-                <DialogTitle className="text-center">Buat Tugas</DialogTitle>
-              </DialogHeader>
-              <div className="">
-                <Label htmlFor="name" className="text-right">
-                  Mata Pelajaran
-                </Label>
-
-                <Select>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Mata Pelajaran" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="matematika">Matematika</SelectItem>
-                    <SelectItem value="indonesia">Bahasa Indonesia</SelectItem>
-                    <SelectItem value="fisika">Fiska</SelectItem>
-                    <SelectItem value="kimia">Kimia</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="mt-3">
-                <Label htmlFor="name" className="text-right">
-                  Judul Tugas
-                </Label>
-
-                <Input type="text" placeholder="Isi Judul Tugas" />
-              </div>
-
-              <div className="mt-3">
-                <Label htmlFor="name" className="text-right">
-                  Batas Waktu
-                </Label>
-
-                <Input type="date" placeholder="Isi Judul Tugas" />
-              </div>
-              <DialogFooter className="mt-5">
-                <Button type="submit" variant="default" className="w-full">
-                  Selesai
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+          <Link href="/managements/teacher/tasks-create">
+            <Button className="gap-2 mx-2">
+              <Plus className="h-4 w-4" /> Buat tugas
+            </Button>
+          </Link>
         </div>
 
         <div className="flex gap-4 md:mt-0 mt-3">
@@ -199,7 +155,12 @@ export default function DashboardTeacher() {
         </div>
       </div>
 
-      <div className="grid md:grid-cols-4 grid-cols-2 gap-4 mt-10">
+      
+      <h1 className="mt-10 mb-5">Tugas</h1>
+      {/* card loop tugas dari view  */}
+      <ListCardTugas role="teacher" />
+      {/* card loop tugas dari view  */}
+      {/* <div className="grid md:grid-cols-4 grid-cols-2 gap-4 mt-10">
         <div className="col-span-1">
           <Link href="/managements/teacher/tasks">
             <Card>
@@ -519,7 +480,7 @@ export default function DashboardTeacher() {
             </Card>
           </Link>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

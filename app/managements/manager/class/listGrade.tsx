@@ -22,7 +22,7 @@ function ListGrade<T extends Record<any, any>>(
   return (
     <>
     {cleanData && cleanData.map((dt: any, index: number) => (
-    <div className="col-span-1" key={index}>
+    <div className="col-span-1 mt-4" key={index}>
     <Button className="w-full h-full border-0" variant="outline">
       <div className="w-full h-full p-2">
         <div className="md:flex justify-between">

@@ -39,7 +39,7 @@ export default function ClassManager() {
         <ButtonAdd endpoint="/managements/manager/class/induk/create" label="Buat Induk Kelas" />
       </div>
 
-      <div className="grid grid-cols-3 gap-4 mt-6">
+      <div className="md:grid grid-cols-3 gap-4 mt-6">
         <ListGrade title={"list grade"} />
       </div>
 

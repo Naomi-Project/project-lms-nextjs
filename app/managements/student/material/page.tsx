@@ -39,9 +39,6 @@ export default function MaterialStudent() {
 
       <h1 className="mt-5">Materi</h1>
       <ListCardMateri canDelete={false} />
-
-      <h1 className="mt-5">Tugas</h1>
-      <ListCardTugas canDelete={false} />
     </div>
   );
 }

@@ -26,6 +26,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import poster from "../../../image/poster-materi.jpeg";
+import ListCardTugas from "@/components/common/list/CommonListCardTugas";
 
 export default function DashboardStudent() {
   return (
@@ -133,7 +134,13 @@ export default function DashboardStudent() {
         </div>
       </div>
 
-      <div className="grid md:grid-cols-4 grid-cols-2 gap-4 mt-10">
+      
+      <h1 className="mt-10 mb-5">Tugas</h1>
+      {/* card loop tugas dari view  */}
+      <ListCardTugas canDelete={false} role="student" />
+      {/* card loop tugas dari view  */}
+
+      {/* <div className="grid md:grid-cols-4 grid-cols-2 gap-4 mt-10">
         <div className="col-span-1">
           <Link href="/managements/student/tasks">
             <Card>
@@ -453,7 +460,7 @@ export default function DashboardStudent() {
             </Card>
           </Link>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -84,13 +84,10 @@ export function CommonFormAdd<T extends Record<any, any>>(
   const onSubmit = async (values: z.infer<typeof props.schema>) => {
     if (props.isSubmission == true) {
       alert('tunggu sebentar.. (klik ok utk melanjutkan proses)')
-      console.log(values)
       const dataSoal = JSON.parse(values.extendedData)
       const soalLength = dataSoal.length
-      console.log("total soal", soalLength)
       
       const correctAnswer = dataSoal.filter((item: any) => item.correctAnswer === item.userAnswer).length
-      console.log("soal betul", correctAnswer)
   
       const resultScore = (correctAnswer / soalLength) * 100
       const finalScore = parseFloat(resultScore.toFixed(0));
@@ -122,7 +119,7 @@ export function CommonFormAdd<T extends Record<any, any>>(
   const [createSubmission] = useCreateSubmissionMutation();
 
   const submitTaskMutation = async (dataMut: any, score: number) => {
-    // console.log(dataMut)
+    // console.log("nilai lu ", score)
     // return
     try {
       const response = await createSubmission({
@@ -139,7 +136,7 @@ export function CommonFormAdd<T extends Record<any, any>>(
       await executeMutation({
           submissionId: submissionId,
           value: score,
-          notes: 'bagus'
+          notes: 'bagus cek2'
         })
       }
     } catch (err) {
@@ -157,8 +154,8 @@ export function CommonFormAdd<T extends Record<any, any>>(
         },
       });
       if (response) {
-        location.reload();
-        // history.back();
+        // location.reload();
+        history.back();
       }
     } catch (err) {
       console.error("Error creating data:", err);

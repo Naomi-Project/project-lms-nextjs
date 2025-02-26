@@ -88,8 +88,8 @@ const FormHelpersAdd = () => {
   });
   return (
     <CommonFormAdd
-      lable="Materi"
-      title="Buat Materi"
+      lable="Mata Pelajaran"
+      title="Buat Mata Pelajaran"
       method="POST"
       isUseDefaultMutation={true}
       mutation={createMaterial}

@@ -37,7 +37,7 @@ export function CommonDetailPage<T extends Record<any, any>>(
             >
                 <p className="text-sm text-blue-500">{props.title}</p>
             </Toggle>
-            <div className="border-2 rounded-lg flex row items-center relative mt-8 bg-white">
+            <div className="border-2 rounded-lg flex md:row items-center relative mt-8 bg-white">
                 <div className="grid grid-cols-12 gap-4 p-4">
                     <div className="md:col-span-1 col-span-2">
                         <Image
@@ -57,7 +57,7 @@ export function CommonDetailPage<T extends Record<any, any>>(
                         </p>
                     </div>
                 </div>
-                <div className="absolute right-10 gap-3 flex ">
+                <div className="md:absolute right-10 gap-3 flex flex-wrap">
                     <Button className="bg-blue-500 shadow-none text-white"><Pencil /> Edit</Button>
                     <ButtonAdd endpoint="/managements/teacher/profile/families/create" className="bg-green-500 text-white shadow-none hover:bg-green-600" label="Tambah Keluarga" />
                 </div>
