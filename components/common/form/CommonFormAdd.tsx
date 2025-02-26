@@ -42,6 +42,7 @@ export interface CommonFormAddField<T extends Record<any, any>> {
   class?: string;
   defaultValue?: string;
   type?: string;
+  hidden?: boolean;
   mdValue?: string;
   setMdValue?: any;
   dataSelect?: Array<{ label: string; value: string | number }>;
@@ -175,20 +176,20 @@ export function CommonFormAdd<T extends Record<any, any>>(
       </Toggle>
       <div className="w-full h-auto">
         <div className="w-full flex flex-col bg-white border rounded-lg mt-8">
-          <div className="p-4">
+          <div className={`px-4 py-2`}>
             <h1>{props.title}</h1>
           </div>
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="flex pb-4 px-4 flex-wrap"
+              className="flex py-4 px-4 flex-wrap"
             >
               {props.sections.map((section, index) => (
                 <div key={index} className="w-full">
                   {section.fields.map((fieldGroup, groupIndex) => (
                     <div
                       key={groupIndex}
-                      className="my-4 w-full flex flex-wrap"
+                      className="mb-4 w-full flex flex-wrap"
                     >
                       {fieldGroup.map((dataField, indexField) => (
                         <div
@@ -277,9 +278,10 @@ export function CommonFormAdd<T extends Record<any, any>>(
                               name={dataField.key as any}
                               render={({ field }) => (
                                 <FormItem>
-                                  <FormLabel>{dataField.label}</FormLabel>
+                                  <FormLabel className={dataField.hidden && dataField.hidden == true ? "hidden" : ""}>{dataField.label}</FormLabel>
                                   <FormControl>
                                     <Input
+                                      className={dataField.hidden && dataField.hidden == true ? "hidden" : ""}
                                       type={dataField.type || "text"}
                                       disabled={dataField.disabled || false}
                                       placeholder={dataField.placeholder || ""}
