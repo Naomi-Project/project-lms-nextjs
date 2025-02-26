@@ -3,7 +3,7 @@ FROM oven/bun:1 AS base
 WORKDIR /usr/src/app
 
 # Salin dan install dependencies
-COPY package.json bun.lock ./
+COPY package.json bun.lockb ./
 RUN bun install --frozen-lockfile
 
 # Salin seluruh proyek setelah dependencies terinstall (untuk caching)
