@@ -194,8 +194,8 @@ export const TeacherMenu = [
     visibility: true,
   },
   {
-    title: "Exam Guru",
-    href: "/managements/teacher/exam",
+    title: "Nilai Tugas Guru",
+    href: "/managements/teacher/nilai",
     icon: BookCheck,
     visibility: true,
   },
