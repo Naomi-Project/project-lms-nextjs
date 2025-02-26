@@ -12,7 +12,6 @@ import {
 import { Search } from "lucide-react";
 import React from "react";
 import ListCardMateri from "../../../../components/common/list/CommonListCardMateri";
-import ListCardTugas from "@/components/common/list/CommonListCardTugas";
 
 export default function MaterialStudent() {
   return (

@@ -14,7 +14,6 @@ import Link from "next/link";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import ListCardMateri from "../../../../components/common/list/CommonListCardMateri";
-import ListCardTugas from "@/components/common/list/CommonListCardTugas";
 
 export default function MaterialTeacher() {
   return (

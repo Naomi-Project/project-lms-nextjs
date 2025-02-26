@@ -1,12 +1,4 @@
 "use client";
-
-import {
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -21,11 +13,7 @@ import {
   Fence,
   ClipboardList,
   BookText,
-  CalendarRange,
 } from "lucide-react";
-import Link from "next/link";
-import Image from "next/image";
-import poster from "../../../image/poster-materi.jpeg";
 import ListCardTugas from "@/components/common/list/CommonListCardTugas";
 
 export default function DashboardStudent() {

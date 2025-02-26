@@ -1,13 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
+
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -19,7 +14,6 @@ import {
 import {
   BookText,
   CalendarOff,
-  CalendarRange,
   ClipboardList,
   Fence,
   Plus,
@@ -27,17 +21,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import poster from "../../../image/poster-materi.jpeg";
-import Image from "next/image";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
+
+
 import ListCardTugas from "@/components/common/list/CommonListCardTugas";
 
 export default function DashboardTeacher() {
