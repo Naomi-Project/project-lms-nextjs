@@ -34,6 +34,7 @@ import CommonEditor from "./CommonEditor";
 import CommonSoalBuilder from "./CommonSoalBuilder";
 import CommonSubmission from "./CommonSubmission";
 import { useCreateSubmissionMutation } from "@/src/graphql/generated";
+import CommonDatePicker from "./CommonDatePicker";
 
 export interface CommonFormAddField<T extends Record<any, any>> {
   key: keyof T & string;
@@ -266,6 +267,8 @@ export function CommonFormAdd<T extends Record<any, any>>(
                                 </FormItem>
                               )}
                             />
+                          ) : dataField.type === "date_picker" ? (
+                            <CommonDatePicker name={String(dataField.key)} label={dataField.label} />
                           ) : dataField.type === "md" ? (
                             <CommonEditor name={String(dataField.key)} label={dataField.label} placeholder={dataField.placeholder} />
                           ) : dataField.type === "soal_builder" ? (

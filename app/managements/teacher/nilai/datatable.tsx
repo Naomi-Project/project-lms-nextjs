@@ -1,30 +1,37 @@
 "use client";
-/* eslint-disable */
 import { DataTable } from "@/components/common/list/CommonDataTable";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import { useDeleteSubmissionMutation, useGetSubmissionsQuery } from "@/src/graphql/generated";
 
-type Submission = {
-  id: string;
-  assignment: {
-    id: string;
-    title: string;
-    type: string;
-  };
-  student: {
-    id: string;
-    username: string;
-  };
-  score?: {
-    id: string;
-    value: number | null;
-    notes: string;
-  };
-};
 
-export default function SubmissionTable() {
+interface SubmissionTableProps {
+  selectedSubject: string | null;
+  selectedGrade: string | null;
+  selectedClassType: string | null;
+}
+
+export default function SubmissionTable({
+  selectedSubject,
+  selectedGrade,
+  selectedClassType,
+}: SubmissionTableProps) {
   const { data, error } = useGetSubmissionsQuery();
   const [deleteSubmission, { loading }] = useDeleteSubmissionMutation();
+
+  // 🔹 Data asli dari query
+  const dataSubmission: any[] = data?.submissions || [];
+
+  // 🔹 Filter data berdasarkan state dari ExamTeacher.tsx
+  const filteredData = dataSubmission.filter((submission) => {
+    const { assignment } = submission;
+    console.log(selectedSubject)
+
+    return (
+      (!selectedSubject || assignment?.subject?.name.toLowerCase() === selectedSubject) &&
+      (!selectedGrade || assignment?.grade === selectedGrade) &&
+      (!selectedClassType || assignment?.classType === selectedClassType)
+    );
+  });
 
   const columns = [
     {
@@ -43,6 +50,11 @@ export default function SubmissionTable() {
       accessorKey: "assignment.title",
       header: "NAMA TUGAS",
       cell: ({ row }: any) => <span>{row.original.assignment?.title || "-"}</span>,
+    },
+    {
+      accessorKey: "assignment.subject.name",
+      header: "MATA PELAJARAN",
+      cell: ({ row }: any) => <span>{row.original.assignment?.subject?.name || "-"}</span>,
     },
     {
       accessorKey: "assignment.type",
@@ -65,17 +77,14 @@ export default function SubmissionTable() {
     },
   ];
 
-  const dataSubmission = data?.submissions || [];
-  
   if (error) {
     console.error("Error fetching submissions:", error);
   }
-  console.log(dataSubmission)
 
   return (
     <DataTable
       columns={columns}
-      data={dataSubmission}
+      data={filteredData} // 🔹 Data yang sudah difilter
       filterName="student.username"
       filterPlaceholder="Cari Nama Siswa..."
     />
