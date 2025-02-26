@@ -1,4 +1,4 @@
-import FormHelpersAdd from "@/helpers/dynamic/FormTugas";
+import FormHelpersAdd from "@/helpers/dynamic/FormMapel";
 
 const CreatePage = () => {
   return (

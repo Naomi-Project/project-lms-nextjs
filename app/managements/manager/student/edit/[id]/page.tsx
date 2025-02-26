@@ -20,6 +20,7 @@ const EditPage = () => {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
+  console.log(data)
 
   return (
     <CommonFormEdit
@@ -27,7 +28,7 @@ const EditPage = () => {
       title="Edit Student Data"
       method="PUT"
       mutation={updateUser}
-      dataGet={data?.user}
+      dataGet={data?.user || {}}
       schema={studentSchema}
       sections={sections}
     />

@@ -32,7 +32,7 @@ interface dataSelectTypes {
   value: string;
 }
 
-const FormCabangKelasHelpers = () => {
+const FormHelpersAdd = () => {
   // Query pertama: Ambil data grades
   const { data: firstData, loading: loadingGrades, error: errorGrades } = useGetGradesQuery()
   const dataGrades: dataSelectTypes[] = firstData?.grades.map((grade) => ({
@@ -120,4 +120,4 @@ const FormCabangKelasHelpers = () => {
   );
 };
 
-export default FormCabangKelasHelpers;
+export default FormHelpersAdd;

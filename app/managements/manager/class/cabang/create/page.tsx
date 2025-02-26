@@ -1,9 +1,9 @@
-import FormCabangKelasHelpers from "@/helpers/dynamic/FormCabangKelas";
+import FormHelpersAdd from "@/helpers/dynamic/FormCabangKelas";
 
 const CreatePage = () => {
   return (
     // tipe form dinamis atau ada data dari database yang perlu di display di form
-    <FormCabangKelasHelpers />
+    <FormHelpersAdd />
     // tipe form dinamis atau ada data dari database yang perlu di display di form
   );
 };
