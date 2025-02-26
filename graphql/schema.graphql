@@ -5,20 +5,14 @@ mutation Login($data: LoginInput!) {
   }
 }
 
-query CurrentUser {
+query UserPayload {
   me {
     id
     username
     role
-    nik
-    nuptk
-    nisn
-    dateOfBirth
-    gender
-    address
-    phone
   }
 }
+
 ### Authentication endregion
 
 ### User region
@@ -39,8 +33,6 @@ query GetUser($data: String!) {
       name
       contact
       relationship
-      createdAt
-      updatedAt
     }
   }
 }
@@ -125,8 +117,6 @@ query GetFamily($data: String!) {
       address
       phone
     }
-    createdAt
-    updatedAt
   }
 }
 
@@ -136,8 +126,6 @@ query GetFamilies {
     name
     contact
     relationship
-    createdAt
-    updatedAt
   }
 }
 
@@ -147,8 +135,6 @@ mutation CreateFamily($data: CreateFamilyInput!) {
     name
     contact
     relationship
-    createdAt
-    updatedAt
   }
 }
 
@@ -158,8 +144,6 @@ mutation UpdateFamily($data: UpdateFamilyInput!) {
     name
     contact
     relationship
-    createdAt
-    updatedAt
   }
 }
 
@@ -169,8 +153,6 @@ mutation DeleteFamily($data: String!) {
     name
     contact
     relationship
-    createdAt
-    updatedAt
   }
 }
 ### Family endregion
@@ -446,6 +428,361 @@ mutation DeleteSubject($data: String!) {
   }
 }
 ### Subject endregion
+
+### Material region
+
+# 🔹 Query untuk mendapatkan satu materi berdasarkan ID
+query GetMaterial($data: String!) {
+  material(id: $data) {
+    id
+    title
+    content
+    subject {
+      id
+      name
+      code 
+      description
+      teachers {
+        id
+        username 
+      }
+    }
+    assignments {
+      id
+      title
+      description
+      dueDate
+      type
+    }
+    teachers {
+      id
+      username
+    }
+    curriculum {
+      id
+      name
+    }
+  }
+}
+
+# 🔹 Query untuk mendapatkan semua materi
+query GetMaterials {
+  materials {
+    id
+    title
+    content
+    subject {
+      id
+      name
+      code 
+      description
+      teachers {
+        id
+        username 
+      }
+    }
+    assignments {
+      id
+      title
+      description
+      dueDate
+      type
+    }
+    teachers {
+      id
+      username
+    }
+    curriculum {
+      id
+      name
+    }
+  }
+}
+
+# 🔹 Mutasi untuk membuat materi baru
+mutation CreateMaterial($data: CreateMaterialInput!) {
+  createMaterial(data: $data) {
+    id
+    title
+    content
+  }
+}
+
+# 🔹 Mutasi untuk memperbarui materi
+mutation UpdateMaterial($data: UpdateMaterialInput!) {
+  updateMaterial(data: $data) {
+    id
+    title
+    content
+  }
+}
+
+# 🔹 Mutasi untuk menghapus materi berdasarkan ID
+mutation DeleteMaterial($data: String!) {
+  deleteMaterial(id: $data) {
+    id
+    title
+    content
+  }
+}
+
+### Material endregion
+
+
+
+### Assignment region
+
+# 🔹 Query untuk mendapatkan satu assignment berdasarkan ID
+query GetAssignment($data: String!) {
+  assignment(id: $data) {
+    id
+    title
+    description
+    extendedData
+    dueDate
+    type
+    subjectId
+    subject {
+      id
+      name
+      code 
+      description
+      teachers {
+        id
+        username 
+      }
+    }
+    submissions {
+      id
+      extendedData
+      assignmentId
+      studentId
+      score {
+        id
+        value
+        notes
+      }
+    }
+  }
+}
+
+# 🔹 Query untuk mendapatkan semua assignment
+query GetAssignments {
+  assignments {
+    id
+    title
+    description
+    extendedData
+    dueDate
+    type
+    subjectId
+    subject {
+      id
+      name
+      code 
+      description
+      teachers {
+        id
+        username 
+      }
+    }
+    submissions {
+      id
+      extendedData
+      assignmentId
+      studentId
+      score {
+        id
+        value
+        notes
+      }
+    }
+  }
+}
+
+# 🔹 Mutasi untuk membuat assignment baru
+mutation CreateAssignment($data: CreateAssignmentInput!) {
+  createAssignment(data: $data) {
+    id
+    title
+    description
+    extendedData
+    dueDate
+    type
+    subjectId
+  }
+}
+
+# 🔹 Mutasi untuk memperbarui assignment
+mutation UpdateAssignment($data: UpdateAssignmentInput!) {
+  updateAssignment(data: $data) {
+    id
+    title
+    description
+    extendedData
+    dueDate
+    type
+    subjectId
+  }
+}
+
+# 🔹 Mutasi untuk menghapus assignment berdasarkan ID
+mutation DeleteAssignment($data: String!) {
+  deleteAssignment(id: $data) {
+    id
+    title
+    description
+    extendedData
+    dueDate
+    type
+    subjectId
+  }
+}
+
+### Assignment endregion
+
+
+### Submission region
+
+# 🔹 Query untuk mendapatkan satu Submission berdasarkan ID
+query GetSubmission($data: String!) {
+  submission(id: $data) {
+    id
+    assignmentId
+    studentId
+    extendedData
+    createdAt
+    updatedAt
+    score {
+      id
+      value
+      notes
+    }
+  }
+}
+
+# 🔹 Query untuk mendapatkan semua Submission
+query GetSubmissions {
+  submissions {
+    id
+    assignmentId
+    studentId
+    extendedData
+    createdAt
+    updatedAt
+    score {
+      id
+      value
+      notes
+    }
+    student {
+      id
+      username
+      role
+    }
+    assignment {
+      title
+      dueDate
+      type
+      description
+      extendedData
+      subject {
+        id
+        name
+        code
+        teachers {
+          id
+          username
+          role
+        }
+      }
+    }
+  }
+}
+
+
+# 🔹 Mutasi untuk membuat Submission baru
+mutation CreateSubmission($data: CreateSubmissionInput!) {
+  createSubmission(data: $data) {
+    id
+    assignmentId
+    studentId
+    extendedData
+  }
+}
+
+# 🔹 Mutasi untuk memperbarui Submission
+mutation UpdateSubmission($data: UpdateSubmissionInput!) {
+  updateSubmission(data: $data) {
+    id
+    assignmentId
+    studentId
+    extendedData
+  }
+}
+
+# 🔹 Mutasi untuk menghapus Submission berdasarkan ID
+mutation DeleteSubmission($data: String!) {
+  deleteSubmission(id: $data) {
+    id
+  }
+}
+
+### Submission endregion
+
+### Score region
+
+# 🔹 Query untuk mendapatkan satu Score berdasarkan ID
+query GetScore($data: String!) {
+  score(id: $data) {
+    id
+    value
+    notes
+    createdAt
+    updatedAt
+  }
+}
+
+# 🔹 Query untuk mendapatkan semua Score
+query GetScores($filter: FilterScoresInput!) {
+  scores(filter: $filter) {
+    id
+    value
+    notes
+    createdAt
+    updatedAt
+  }
+}
+
+
+# 🔹 Mutasi untuk membuat Score baru
+mutation CreateScore($data: CreateScoreInput!) {
+  createScore(data: $data) {
+    id
+    submissionId
+    value
+    notes
+  }
+}
+
+# 🔹 Mutasi untuk memperbarui Score
+mutation UpdateScore($data: UpdateScoreInput!) {
+  updateScore(data: $data) {
+    id
+    submissionId
+    value
+    notes
+  }
+}
+
+# 🔹 Mutasi untuk menghapus Score berdasarkan ID
+mutation DeleteScore($data: String!) {
+  deleteScore(id: $data) {
+    id
+  }
+}
+
+### Score endregion
 
 ### Grade region
 query GetGrade($data: String!) {

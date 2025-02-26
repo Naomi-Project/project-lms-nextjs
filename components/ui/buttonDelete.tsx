@@ -1,12 +1,12 @@
 "use client"
+/* eslint-disable */
 import { Trash } from 'lucide-react'
 import React from 'react'
 import { Button } from "@/components/ui/button";
-import { MutationFunction } from '@apollo/client';
 
 interface ButtonDeleteProps {
   id: string;
-  mutation: MutationFunction<{ data: string }>;
+  mutation: any;
   loading: boolean;
 }
 

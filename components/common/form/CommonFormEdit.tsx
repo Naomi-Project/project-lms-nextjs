@@ -28,6 +28,7 @@ import { useForm } from "react-hook-form";
 import { z, ZodSchema } from "zod";
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
 import { Label } from "recharts";
+import CommonSoalBuilder from "./CommonSoalBuilder";
 
 export interface CommonFormEditField<T extends Record<any, any>> {
   key: keyof T & string;
@@ -48,6 +49,7 @@ export interface CommonFormEditProps<T extends Record<any, any>> {
   lable: string;
   title: string;
   method: string;
+  hideBackButton?: boolean;
   schema: ZodSchema<T>;
   mutation: MutationFunction<any, any>;
   dataGet: any;
@@ -67,9 +69,11 @@ export function CommonFormEdit<T extends Record<any, any>>(
 
   useEffect(() => {
     if (dataGet) {
+      console.log(dataGet.extendedData)
       form.reset(dataGet); // Update form jika dataGet berubah
     }
   }, [dataGet, form.reset]);
+
 
   // proses save changes
   const onSubmit = async (values: z.infer<typeof props.schema>) => {
@@ -87,7 +91,7 @@ export function CommonFormEdit<T extends Record<any, any>>(
   };
 
   const executeMutation = async (dataMut: any) => {
-    const { __typename, families, updatedAt, createdAt, ...cleanData } = dataMut;
+    const { __typename, families, updatedAt, createdAt, subject, submissions, ...cleanData } = dataMut;
     try {
       const response = await props.mutation({
         variables: {
@@ -109,12 +113,12 @@ export function CommonFormEdit<T extends Record<any, any>>(
         value="bold"
         aria-label="Toggle bold"
         onClick={() => history.back()}
-        className="bg-blue-100 text-blue-500 px-2 border-blue-100 rounded-lg"
+        className={`bg-blue-100 text-blue-500 px-2 border-blue-100 rounded-lg ${props.hideBackButton ? "hidden" : ""}`}
       >
         <ArrowLeft />
         <p className="text-sm pr-2">Kembali</p>
       </Toggle>
-      <div className="w-full h-screen">
+      <div className="w-full h-auto">
         <div className="w-full flex flex-col bg-white border rounded-lg mt-8">
           <div className="p-4">
             <h1>{props.title}</h1>
@@ -133,8 +137,8 @@ export function CommonFormEdit<T extends Record<any, any>>(
                     >
                       {fieldGroup.map((dataField, indexField) => (
                         <div
-                          className={`sm:w-full md:w-1/2 lg:w-1/2 pr-4 ${
-                            dataField.class || ""
+                          className={`sm:w-full ${
+                            dataField.class || " md:w-1/2 lg:w-1/2 pr-4"
                           }`}
                           key={indexField}
                         >
@@ -174,6 +178,8 @@ export function CommonFormEdit<T extends Record<any, any>>(
                                 </FormItem>
                               )}
                             />
+                          ) : dataField.type === "soal_builder" ? (
+                            <CommonSoalBuilder dataDefault={dataGet.extendedData} name={String(dataField.key)} label={dataField.label} placeholder={dataField.placeholder} />
                           ) : dataField.type === "radio" ? (
                             <FormField
                               control={form.control}

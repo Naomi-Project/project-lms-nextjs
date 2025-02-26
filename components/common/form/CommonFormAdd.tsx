@@ -27,6 +27,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z, ZodSchema } from "zod";
+import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+
+import CommonEditor from "./CommonEditor";
+import CommonSoalBuilder from "./CommonSoalBuilder";
+import CommonSubmission from "./CommonSubmission";
+import { useCreateSubmissionMutation } from "@/src/graphql/generated";
 
 export interface CommonFormAddField<T extends Record<any, any>> {
   key: keyof T & string;
@@ -35,6 +42,8 @@ export interface CommonFormAddField<T extends Record<any, any>> {
   class?: string;
   defaultValue?: string;
   type?: string;
+  mdValue?: string;
+  setMdValue?: any;
   dataSelect?: Array<{ label: string; value: string | number }>;
   dataRadio?: Array<{ label: string; value: string | number }>;
   disabled?: boolean;
@@ -48,10 +57,14 @@ export interface CommonFormAddProps<T extends Record<any, any>> {
   lable: string;
   title: string;
   method: string;
+  buttonTextSubmit?: string | undefined;
+  hideBackButton?: boolean;
   isUseDefaultMutation?: boolean;
   schema: ZodSchema<T>;
   mutation: MutationFunction<any, any>;
+  dataDefault?: any;
   dataMutation: any;
+  isSubmission?: boolean;
   setDataMutation: React.Dispatch<React.SetStateAction<any>>;
   sections: CommonFormAddSection<T>[];
 }
@@ -61,10 +74,33 @@ export function CommonFormAdd<T extends Record<any, any>>(
 ) {
   const form = useForm<z.infer<typeof props.schema>>({
     resolver: zodResolver(props.schema),
-    defaultValues: props.dataMutation || {}, // ✅ Pastikan selalu ada nilai awal
+    defaultValues: props.dataMutation || {},
   });
 
+  useEffect(() => {
+    form.reset(props.dataMutation);
+  }, [props.dataMutation, form.reset]);
+  
   const onSubmit = async (values: z.infer<typeof props.schema>) => {
+    if (props.isSubmission == true) {
+      alert('tunggu sebentar.. (klik ok utk melanjutkan proses)')
+      console.log(values)
+      const dataSoal = JSON.parse(values.extendedData)
+      const soalLength = dataSoal.length
+      console.log("total soal", soalLength)
+      
+      const correctAnswer = dataSoal.filter((item: any) => item.correctAnswer === item.userAnswer).length
+      console.log("soal betul", correctAnswer)
+  
+      const resultScore = (correctAnswer / soalLength) * 100
+      const finalScore = parseFloat(resultScore.toFixed(0));
+
+      submitTaskMutation(values, finalScore)
+
+      return
+    }
+    // console.log(values)
+    // return
     // kondisi ini dipake jika datamutation default itu isinya sama dengan values
     if (props.isUseDefaultMutation == true) {
       executeMutation(values)
@@ -82,8 +118,38 @@ export function CommonFormAdd<T extends Record<any, any>>(
       return updatedData;
     });
   };
+  
+  const [createSubmission] = useCreateSubmissionMutation();
+
+  const submitTaskMutation = async (dataMut: any, score: number) => {
+    // console.log(dataMut)
+    // return
+    try {
+      const response = await createSubmission({
+        variables: {
+          data: dataMut,
+        },
+      });
+      if (response) {
+      const submissionId = response?.data?.createSubmission?.id;
+      if (!submissionId) {
+        throw new Error("Submission ID tidak ditemukan!");
+      }
+      console.log("Submission berhasil dibuat dengan ID:", submissionId);
+      await executeMutation({
+          submissionId: submissionId,
+          value: score,
+          notes: 'bagus'
+        })
+      }
+    } catch (err) {
+      console.error("Error creating data:", err);
+    }
+  };
 
   const executeMutation = async (dataMut: any) => {
+    // console.log(dataMut)
+    // return
     try {
       const response = await props.mutation({
         variables: {
@@ -105,12 +171,12 @@ export function CommonFormAdd<T extends Record<any, any>>(
         value="bold"
         aria-label="Toggle bold"
         onClick={() => history.back()}
-        className="bg-blue-100 text-blue-500 px-2 border-blue-100 rounded-lg"
+        className={`bg-blue-100 text-blue-500 px-2 border-blue-100 rounded-lg ${props.hideBackButton ? "hidden" : ""}`}
       >
         <ArrowLeft />
         <p className="text-sm pr-2">Kembali</p>
       </Toggle>
-      <div className="w-full h-screen">
+      <div className="w-full h-auto">
         <div className="w-full flex flex-col bg-white border rounded-lg mt-8">
           <div className="p-4">
             <h1>{props.title}</h1>
@@ -202,6 +268,12 @@ export function CommonFormAdd<T extends Record<any, any>>(
                                 </FormItem>
                               )}
                             />
+                          ) : dataField.type === "md" ? (
+                            <CommonEditor name={String(dataField.key)} label={dataField.label} placeholder={dataField.placeholder} />
+                          ) : dataField.type === "soal_builder" ? (
+                            <CommonSoalBuilder name={String(dataField.key)} label={dataField.label} placeholder={dataField.placeholder} />
+                          ) : dataField.type === "submission" ? (
+                            <CommonSubmission dataDefault={props.dataDefault ?? ""} name={String(dataField.key)} key={String(dataField.key)} />
                           ) : (
                             <FormField
                               control={form.control}
@@ -229,7 +301,7 @@ export function CommonFormAdd<T extends Record<any, any>>(
                   ))}
                 </div>
               ))}
-              <Button type="submit">Create</Button>
+              <Button type="submit">{props.buttonTextSubmit ? props.buttonTextSubmit : "Create"}</Button>
             </form>
           </Form>
         </div>

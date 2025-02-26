@@ -1,10 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
+
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -14,20 +10,35 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Plus, Search } from "lucide-react";
-import Image from "next/image";
-import poster from "../../../../image/poster-materi.jpeg";
 import Link from "next/link";
 import React from "react";
 import { Button } from "@/components/ui/button";
+import ListCardMateri from "../../../../components/common/list/CommonListCardMateri";
+import ListCardTugas from "@/components/common/list/CommonListCardTugas";
 
 export default function MaterialTeacher() {
   return (
     <div className="min-h-screen">
       <div className="md:flex justify-between items-center">
         <div className="">
-          <Link href="/managements/teacher/material-create">
+          <Link href="/managements/teacher/curiculum-create">
+            <Button className="gap-2 mx-2">
+              <Plus className="h-4 w-4" /> Buat Kurikulum
+            </Button>
+          </Link>
+          <Link href="/managements/teacher/subject-create">
+            <Button className="gap-2 mx-2">
+              <Plus className="h-4 w-4" /> Buat Mata pelajaran
+            </Button>
+          </Link>
+          <Link href="/managements/teacher/material/create">
             <Button className="gap-2">
               <Plus className="h-4 w-4" /> Buat Materi
+            </Button>
+          </Link>
+          <Link href="/managements/teacher/tasks-create">
+            <Button className="gap-2 mx-2">
+              <Plus className="h-4 w-4" /> Buat Soal
             </Button>
           </Link>
         </div>
@@ -53,169 +64,16 @@ export default function MaterialTeacher() {
         </div>
       </div>
 
-      <div className="grid md:grid-cols-4 grid-cols-2 gap-4 mt-10">
-        <div className="col-span-1">
-          <Link href="/managements/teacher/material-detail">
-            <Card className="w-full">
-              <Image
-                src={poster}
-                alt="matematika"
-                className="rounded-lg w-full h-full"
-              />
-              <CardHeader>
-                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
-                  Matematika
-                </CardTitle>
-                <CardDescription className="font-bold text-base text-black">
-                  Materi faktorial dan aljabar
-                </CardDescription>
-              </CardHeader>
-            </Card>
-          </Link>
-        </div>
+      <h1 className="mt-10 mb-5">Materi</h1>
+      {/* card loop materi dari view  */}
+      <ListCardMateri role="teacher" />
+      {/* card loop materi dari view  */}
+      <hr className="my-5" />
+      <h1 className="mt-10 mb-5">Tugas</h1>
+      {/* card loop tugas dari view  */}
+      <ListCardTugas role="teacher" />
+      {/* card loop tugas dari view  */}
 
-        <div className="col-span-1">
-          <Link href="/managements/teacher/material-detail">
-            <Card className="w-full">
-              <Image
-                src={poster}
-                alt="matematika"
-                className="rounded-lg w-full h-full"
-              />
-              <CardHeader>
-                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
-                  Matematika
-                </CardTitle>
-                <CardDescription className="font-bold text-base text-black">
-                  Materi faktorial dan aljabar
-                </CardDescription>
-              </CardHeader>
-            </Card>
-          </Link>
-        </div>
-
-        <div className="col-span-1">
-          <Link href="/managements/teacher/material-detail">
-            <Card className="w-full">
-              <Image
-                src={poster}
-                alt="matematika"
-                className="rounded-lg w-full h-full"
-              />
-              <CardHeader>
-                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
-                  Matematika
-                </CardTitle>
-                <CardDescription className="font-bold text-base text-black">
-                  Materi faktorial dan aljabar
-                </CardDescription>
-              </CardHeader>
-            </Card>
-          </Link>
-        </div>
-
-        <div className="col-span-1">
-          <Link href="/managements/teacher/material-detail">
-            <Card className="w-full">
-              <Image
-                src={poster}
-                alt="matematika"
-                className="rounded-lg w-full h-full"
-              />
-              <CardHeader>
-                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
-                  Matematika
-                </CardTitle>
-                <CardDescription className="font-bold text-base text-black">
-                  Materi faktorial dan aljabar
-                </CardDescription>
-              </CardHeader>
-            </Card>
-          </Link>
-        </div>
-      </div>
-
-      <div className="grid md:grid-cols-4 grid-cols-2 gap-4 md:mt-10 mt-4">
-        <div className="col-span-1">
-          <Link href="/managements/teacher/material-detail">
-            <Card className="w-full">
-              <Image
-                src={poster}
-                alt="matematika"
-                className="rounded-lg w-full h-full"
-              />
-              <CardHeader>
-                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
-                  Matematika
-                </CardTitle>
-                <CardDescription className="font-bold text-base text-black">
-                  Materi faktorial dan aljabar
-                </CardDescription>
-              </CardHeader>
-            </Card>
-          </Link>
-        </div>
-
-        <div className="col-span-1">
-          <Link href="/managements/teacher/material-detail">
-            <Card className="w-full">
-              <Image
-                src={poster}
-                alt="matematika"
-                className="rounded-lg w-full h-full"
-              />
-              <CardHeader>
-                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
-                  Matematika
-                </CardTitle>
-                <CardDescription className="font-bold text-base text-black">
-                  Materi faktorial dan aljabar
-                </CardDescription>
-              </CardHeader>
-            </Card>
-          </Link>
-        </div>
-
-        <div className="col-span-1">
-          <Link href="/managements/teacher/material-detail">
-            <Card className="w-full">
-              <Image
-                src={poster}
-                alt="matematika"
-                className="rounded-lg w-full h-full"
-              />
-              <CardHeader>
-                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
-                  Matematika
-                </CardTitle>
-                <CardDescription className="font-bold text-base text-black">
-                  Materi faktorial dan aljabar
-                </CardDescription>
-              </CardHeader>
-            </Card>
-          </Link>
-        </div>
-
-        <div className="col-span-1">
-          <Link href="/managements/teacher/material-detail">
-            <Card className="w-full">
-              <Image
-                src={poster}
-                alt="matematika"
-                className="rounded-lg w-full h-full"
-              />
-              <CardHeader>
-                <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
-                  Matematika
-                </CardTitle>
-                <CardDescription className="font-bold text-base text-black">
-                  Materi faktorial dan aljabar
-                </CardDescription>
-              </CardHeader>
-            </Card>
-          </Link>
-        </div>
-      </div>
     </div>
   );
 }
