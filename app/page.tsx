@@ -15,6 +15,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLoginMutation } from "@/graphql/generated";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Swal from "sweetalert2";
 // import { loginPage } from "@/lib/apiservice/authservice";
 
 export default function LoginPage() {
@@ -49,9 +50,18 @@ export default function LoginPage() {
   
         if (response.data?.login.authToken) {
           localStorage.setItem("authToken", response.data.login.authToken);
-          alert("Login successful!");
-          // window.location.reload();
-          router.push('/dashboard')
+          Swal.fire({
+            title: "Berhasil Login!",
+            text: "Anda telah berhasil login!",
+            icon: "success",
+            timer: 2000,
+            timerProgressBar: true,
+          }).then((result) => {
+            if (result.dismiss === Swal.DismissReason.timer) {
+              // history.back(); 
+              router.push('/dashboard')
+            }
+          });
         }
         return true
       } else if (role === "teacher" || role === "student") {
@@ -66,9 +76,18 @@ export default function LoginPage() {
   
         if (response.data?.login.authToken) {
           localStorage.setItem("authToken", response.data.login.authToken);
-          alert("Login successful!");
-          // window.location.reload();
-          router.push('/dashboard')
+          Swal.fire({
+            title: "Berhasil Login!",
+            text: "Anda telah berhasil login!",
+            icon: "success",
+            timer: 2000,
+            timerProgressBar: true,
+          }).then((result) => {
+            if (result.dismiss === Swal.DismissReason.timer) {
+              // history.back(); 
+              router.push('/dashboard')
+            }
+          });
         }
         return true
       }

@@ -37,6 +37,7 @@ import { useCreateSubmissionMutation } from "@/graphql/generated";
 import CommonDatePicker from "./CommonDatePicker";
 import CommonDateTimePicker from "./CommonDateTimePicker";
 import CommonSelectMultiple from "./CommonSelectMultiple";
+import Swal from "sweetalert2";
 
 export interface CommonFormAddField<T extends Record<any, any>> {
   key: keyof T & string;
@@ -96,7 +97,6 @@ export function CommonFormAdd<T extends Record<any, any>>(
     if (props.isRelation == true) {
       if (props.valuerRelation1 === "nisn") {
         const newData = {...values, username: String(values.nisn) ?? ""}
-        console.log(values)
         executeMutation(newData)
         return
       }
@@ -175,8 +175,17 @@ export function CommonFormAdd<T extends Record<any, any>>(
         },
       });
       if (response) {
-        // location.reload();
-        history.back();
+        Swal.fire({
+          title: "Berhasil Dibuat!",
+          text: "Data telah berhasil dibuat!",
+          icon: "success",
+          timer: 2000,
+          timerProgressBar: true,
+        }).then((result) => {
+          if (result.dismiss === Swal.DismissReason.timer) {
+            history.back(); 
+          }
+        });
       }
     } catch (err) {
       setIsSubmit(false)

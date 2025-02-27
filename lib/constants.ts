@@ -1,6 +1,9 @@
 import {
   BellRing,
+  BookA,
+  BookAIcon,
   BookCheck,
+  BookCopy,
   // BookMarked,
   Building2,
   CalendarDays,
@@ -27,6 +30,18 @@ export const ManagerMenu = [
     title: "Class Staff",
     href: "/managements/manager/class",
     icon: Building2,
+    visibility: true,
+  },
+  {
+    title: "Kurikulum Staff",
+    href: "/managements/manager/kurikulum",
+    icon: BookA,
+    visibility: true,
+  },
+  {
+    title: "Mata Pelajaran Staff",
+    href: "/managements/manager/mata-pelajaran",
+    icon: BookAIcon,
     visibility: true,
   },
   {

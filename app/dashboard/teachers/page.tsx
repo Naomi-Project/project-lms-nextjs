@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-
+import poster from "../../../image/poster-materi.jpeg"
 
 import { Input } from "@/components/ui/input";
 import {
@@ -14,24 +14,46 @@ import {
 import {
   BookText,
   CalendarOff,
+  CalendarRange,
   ClipboardList,
   Fence,
   Plus,
   Search,
 } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 
 
 import ListCardTugas from "@/components/common/list/CommonListCardTugas";
+import Image from "next/image";
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { useGetAssignmentsQuery, useGetMaterialsQuery, useGetSubjectsQuery } from "@/graphql/generated";
+
+interface dataSelectTypes {
+  label: string;
+  value: string;
+}
 
 export default function DashboardTeacher() {
+  const { data: tugas } = useGetAssignmentsQuery()
+  const { data: materi } = useGetMaterialsQuery()
+  const assignmentNotFinishLength = tugas?.assignments.filter((item) => item.submissions?.length == 0).length ?? "loading.."
+  const assignmentLength = tugas?.assignments.length ?? "loading.."
+  const materialLength = materi?.materials.length ?? "loading.."
+
+  const [search, setSearch] = useState<string>('')
+  const [filter, setFilter] = useState<string>('')
+  const { data: firstData } = useGetSubjectsQuery()
+  const dataSubject: dataSelectTypes[] = firstData?.subjects.map((data) => ({
+    label: data.name,
+    value: data.id,
+  })) || []
   return (
-    <div className="min-h-screen">
-      <div className="grid md:grid-cols-4 grid-cols-2 gap-4">
-        <div className="col-span-1 bg-white border-2 rounded-lg justify-items-center content-center py-2">
+    <div className="h-auto">
+      <div className="grid md:grid-cols-3 grid-cols-2 gap-4">
+        <div className="col-span-1 bg-white border-2 rounded-lg justify-items-center content-center py-4">
           <div className="grid grid-cols-4 gap-2 ">
-            <div className="col-span-1 bg-orange-100 border-orange-100 border-2 p-2 rounded-lg flex items-center justify-center">
+            <div className="col-span-1 p-2 rounded-lg bg-orange-50 flex items-center justify-center">
               <BookText className="w-9 h-9 text-orange-400" />
             </div>
 
@@ -42,7 +64,7 @@ export default function DashboardTeacher() {
                 </div>
 
                 <div className="row-span-1">
-                  <p className="text-base font-bold">8 Tugas</p>
+                  <p className="text-base font-bold">{assignmentNotFinishLength ? assignmentNotFinishLength + " Tugas" : ""}</p>
                 </div>
               </div>
             </div>
@@ -51,7 +73,7 @@ export default function DashboardTeacher() {
 
         <div className="col-span-1 bg-white border-2 rounded-lg justify-items-center content-center py-2">
           <div className="grid grid-cols-4 gap-2">
-            <div className="col-span-1 bg-green-100 border-green-100 border-2 p-2 rounded-lg flex items-center justify-center">
+            <div className="col-span-1 p-2 rounded-lg bg-green-50 flex items-center justify-center">
               <ClipboardList className="w-9 h-9 text-green-400" />
             </div>
 
@@ -62,7 +84,7 @@ export default function DashboardTeacher() {
                 </div>
 
                 <div className="row-span-1">
-                  <p className="text-base font-bold">24</p>
+                  <p className="text-base font-bold">{assignmentLength ? assignmentLength + " Materi" : ""}</p>
                 </div>
               </div>
             </div>
@@ -71,7 +93,7 @@ export default function DashboardTeacher() {
 
         <div className="col-span-1 bg-white border-2 rounded-lg justify-items-center content-center py-2">
           <div className="grid grid-cols-4 gap-2">
-            <div className="col-span-1 bg-blue-100 border-blue-100 border-2 p-2 rounded-lg flex items-center justify-center">
+            <div className="col-span-1 bg-blue-50 p-2 rounded-lg flex items-center justify-center">
               <Fence className="w-9 h-9 text-blue-400" />
             </div>
 
@@ -82,27 +104,7 @@ export default function DashboardTeacher() {
                 </div>
 
                 <div className="row-span-1">
-                  <p className="text-base font-bold">18 Materi</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-span-1 bg-white border-2 rounded-lg justify-items-center content-center py-2">
-          <div className="grid grid-cols-4 gap-2">
-            <div className="col-span-1 bg-red-100 border-red-100 border-2 p-2 rounded-lg flex items-center justify-center">
-              <CalendarOff className="w-9 h-9 text-red-400" />
-            </div>
-
-            <div className="col-span-3">
-              <div className="grid grid-rows-2">
-                <div className="row-span-1">
-                  <p className="text-sm text-stone-400">Absen</p>
-                </div>
-
-                <div className="row-span-1">
-                  <p className="text-base font-bold">2</p>
+                  <p className="text-base font-bold">{materialLength ? materialLength + " Materi" : ""}</p>
                 </div>
               </div>
             </div>
@@ -121,21 +123,22 @@ export default function DashboardTeacher() {
 
         <div className="flex gap-4 md:mt-0 mt-3">
           <div className="bg-white rounded-lg">
-            <Select defaultValue="global">
+            <Select defaultValue="" onValueChange={(value) => setFilter(value)}>
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="Filter Kelas" />
+                <SelectValue placeholder="Pilih Mata Pelajaran" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="global">Global</SelectItem>
-                <SelectItem value="matematika">Matematika</SelectItem>
-                <SelectItem value="fisika">Fiska</SelectItem>
-                <SelectItem value="kimia">Kimia</SelectItem>
+                {
+                  dataSubject && dataSubject.map((item, index) => (
+                    <SelectItem key={index} value={item.value}>{item.label}</SelectItem>
+                  ))
+                }
               </SelectContent>
             </Select>
           </div>
           <div className="relative bg-white rounded-lg">
             <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input placeholder="Cari Tugas" className="pl-8 w-full" />
+            <Input value={search} onChange={(e: any) => setSearch(e.target.value)} placeholder="Cari Tugas" className="pl-8 w-full" />
           </div>
         </div>
       </div>
@@ -143,17 +146,12 @@ export default function DashboardTeacher() {
       
       <h1 className="mt-10 mb-5">Tugas</h1>
       {/* card loop tugas dari view  */}
-      <ListCardTugas role="teacher" />
+      <ListCardTugas search={search} filter={filter} role="teacher" />
       {/* card loop tugas dari view  */}
       {/* <div className="grid md:grid-cols-4 grid-cols-2 gap-4 mt-10">
         <div className="col-span-1">
           <Link href="/managements/teacher/tasks">
             <Card>
-              <Image
-                src={poster}
-                alt="matematika"
-                className="rounded-lg w-full h-full"
-              />
               <CardHeader>
                 <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
                   Matematika

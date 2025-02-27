@@ -1,41 +1,76 @@
 "use client"
-import ButtonDelete from '@/components/ui/buttonDelete';
 /* eslint-disabled */
-import { Card, CardHeader, CardTitle, CardFooter, CardDescription } from '@/components/ui/card'
+import ButtonDelete from '@/components/ui/buttonDelete';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Card, CardHeader, CardFooter, CardDescription, CardTitle } from '@/components/ui/card'
 import { useDeleteAssignmentMutation, useGetAssignmentsQuery } from '@/graphql/generated';
 import { format } from 'date-fns';
-import { Book, Calendar, User } from 'lucide-react';
+import { Book, Calendar, EllipsisVertical, User } from 'lucide-react';
 import Link from "next/link";
+import { useEffect, useState } from 'react';
 
-const ListCardTugas = ({ canDelete = true, role = "student" }) => {
+interface ListTypes {
+  canDelete?: boolean
+  role?: string
+  search?: string
+  filter?: string
+}
+
+const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: ListTypes) => {
   // const { data: currentuser } = useUserPayloadQuery()
   const { data } = useGetAssignmentsQuery()
-  const tugas = data?.assignments || []
-  console.log(tugas)
+  const rawData = data?.assignments || []
+  const [tugas, setTugas] = useState(rawData)
+  
+  useEffect(() => {
+    if (search && search.trim() !== "") {
+      setTugas(rawData.filter((item) => item.title.toLowerCase().includes(search.toLowerCase())))
+    } else {
+      setTugas(rawData)
+    }
+  }, [search, rawData])
+  useEffect(() => {
+    if (filter && filter.trim() !== "") {
+      setTugas(rawData.filter((item) => item.subject.id.includes(filter.toLowerCase())))
+    } else {
+      setTugas(rawData)
+    }
+  }, [filter, rawData])
+  
+  
   const [deleteAssignments, {loading}] = useDeleteAssignmentMutation()
   return (
-    <div className="w-full flex flex-col mt-2 gap-4">
+    <div className="w-full grid md:grid-cols-4 grid-cols-2 gap-4 mt-2">
     {
       tugas && tugas.map((data, index: number) => (
-        <div className="w-full" key={index}>
+        <div className="col-span-1" key={index}>
           <Link href={`/managements/${role}/tasks-detail/${data.id}`}>
-            <Card className="w-full h-auto">
+            <Card>
               <CardHeader className="flex gap-3">
-                <div className='flex flex-wrap gap-4 justify-between items-center'>
+                <div className='flex flex-row gap-4 justify-between items-center'>
                   <div className='flex flex-wrap gap-4'>
                     <CardTitle className={`fontligh text-xs py-1 w-auto px-3 rounded-full text-center font-bold ${data.submissions.length > 0 ? "bg-blue-100 text-blue-400" : "bg-red-100 text-red-400"}`}>
-                      {data.submissions.length > 0 ? "Sudah Ada Yang Mengerjakan" : "Belum Dikerjakan"}
+                      {data.submissions.length > 0 ? "Sudah Dikerjakan" : "Belum Dikerjakan"}
                     </CardTitle>
-                    {
-                      data.submissions.length > 0 ? (
-                      <CardTitle className={`text-xs py-1 w-auto px-3 rounded-full text-center font-bold ${data.submissions.length > 0 ? "bg-blue-100 text-blue-400" : "bg-red-100 text-red-400"}`}>
-                        {"Nilai Lihat Di Exam Guru sementara"}
-                      </CardTitle>
-                      ) : ""
-                    }
                   </div>
                   {canDelete && (
-                    <ButtonDelete id={data.id} mutation={deleteAssignments} loading={loading} />
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <button className="">
+                          <EllipsisVertical className="cursor-pointer" />
+                        </button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-56">
+                        <DropdownMenuItem className='hover:bg-red-100'>
+                          <ButtonDelete noBg={true} id={data.id} customClassNoBg='bg-transparent text-white bg-red-500 w-full hover:bg-red-600 shadow-none' mutation={deleteAssignments} loading={loading} />
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   )}
                 </div>
                 <CardDescription className="font-bold text-base text-black">
@@ -43,20 +78,20 @@ const ListCardTugas = ({ canDelete = true, role = "student" }) => {
                 </CardDescription>
               </CardHeader>
               <CardFooter className='flex flex-wrap gap-4'>
-                <CardDescription className="flex items-end gap-2 pr-8 border-r">
-                  <Calendar /> {' '}
+                <CardDescription className="flex text-xs items-end gap-2 pr-8">
+                  <Calendar className='text-primary w-5 h-5' /> {' '}
                   <p>
                   {format(new Date(data.dueDate), "yyyy-MM-dd HH:mm:ss")}
                   </p>
                 </CardDescription>
-                <CardDescription className="flex items-end gap-2 pr-8 border-r">
-                  <User /> {' '}
+                <CardDescription className="flex text-xs items-end gap-2 pr-8">
+                  <User className='text-primary w-5 h-5' /> {' '}
                   <p>
                   {"Pa Budi"}
                   </p>
                 </CardDescription>
-                <CardDescription className="flex gap-2">
-                  <Book /> {' '}
+                <CardDescription className="flex text-xs gap-2">
+                  <Book className='text-primary w-5 h-5' /> {' '}
                   <p>
                   {data.subject.name}
                   </p>

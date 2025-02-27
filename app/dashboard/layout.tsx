@@ -11,7 +11,7 @@ export default function DashboardLayout({ children }: LayoutProps) {
       <AppSidebar />
       <SidebarInset>
         <Header />
-        <main className="bg-gray-100 p-4 overflow-x-hidden">{children}</main>
+        <main className="bg-gray-100 p-4 overflow-x-hidde">{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );

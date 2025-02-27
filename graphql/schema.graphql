@@ -29,6 +29,20 @@ query GetUser($data: String!) {
     gender
     address
     phone
+    classroom {
+      id
+      name
+      guardian {
+        id
+        name
+        nuptk
+      }
+      schedules {
+        id
+        day
+        classroomId
+      }
+    }
     families {
       id
       name
@@ -51,6 +65,19 @@ query GetUsers {
     gender
     address
     phone
+    classroom {
+      id
+      name
+      guardian {
+        id
+        name
+        nuptk
+      }
+      schedules {
+        id
+        day
+      }
+    }
     families {
       id
       name
@@ -266,6 +293,153 @@ mutation DeleteSchool($data: String!) {
 }
 ### School endregion
 
+### Schedule region
+query GetSchedule($data: String!) {
+  schedule(id: $data) {
+    id
+    day
+    classroomId
+    createdAt
+    updatedAt
+  }
+}
+
+query GetSchedules($data: String!) {
+  schedules(classroomId: $data) {
+    id
+    day
+    classroomId
+    createdAt
+    updatedAt
+  }
+}
+
+mutation CreateSchedule($data: CreateScheduleInput!) {
+  createSchedule(data: $data) {
+    id
+    day
+    classroomId
+  }
+}
+
+mutation UpdateSchedule($id: String!, $data: UpdateScheduleInput!) {
+  updateSchedule(id: $id, data: $data) {
+    id
+    day
+    classroomId
+  }
+}
+
+mutation DeleteSchedule($data: String!) {
+  deleteSchedule(id: $data) {
+    id
+    day
+    classroomId
+  }
+}
+### Schedule endregion
+
+### Attendance region
+query GetAttendance {
+  attendance {
+    id
+    scheduleId
+    studentId
+    date
+    status
+    student {
+      id
+      name
+      username
+    }
+    schedule {
+      id
+      day
+      classroomId
+    }
+  }
+}
+
+query GetAttendances {
+  attendances {
+    id
+    scheduleId
+    studentId
+    date
+    status
+    student {
+      id
+      name
+      username
+    }
+    schedule {
+      id
+      day
+    }
+  }
+}
+
+query CreateAttendance {
+  createAttendance {
+    id
+    scheduleId
+    studentId
+    date
+    status
+    student {
+      id
+      name
+      username
+    }
+    schedule {
+      id
+      day
+      classroomId
+    }
+  }
+}
+
+query UpdateAttendance {
+  updateAttendance {
+    id
+    scheduleId
+    studentId
+    date
+    status
+    student {
+      id
+      name
+      username
+    }
+    schedule {
+      id
+      day
+      classroomId
+    }
+  }
+}
+
+query DeleteAttendance {
+  deleteAttendance {
+    id
+    scheduleId
+    studentId
+    date
+    status
+    student {
+      id
+      name
+      username
+    }
+    schedule {
+      id
+      day
+      classroomId
+    }
+  }
+}
+### Attendance endregion
+
 ### Term region
 query GetTerm($data: String!) {
   term(id: $data) {
@@ -340,6 +514,16 @@ query GetCurriculum($data: String!) {
     name
     createdAt
     updatedAt
+    subjects {
+      id
+      name
+      code
+      teachers {
+        id
+        name
+        nuptk
+      }
+    }
   }
 }
 
@@ -349,6 +533,16 @@ query GetCurriculums {
     name
     createdAt
     updatedAt
+    subjects {
+      id
+      name
+      code
+      teachers {
+        id
+        name
+        nuptk
+      }
+    }
   }
 }
 
@@ -447,6 +641,8 @@ query GetMaterial($data: String!) {
     id
     title
     content
+    createdAt
+    updatedAt
     subject {
       id
       name
@@ -481,6 +677,8 @@ query GetMaterials {
     id
     title
     content
+    createdAt
+    updatedAt
     subject {
       id
       name
@@ -844,11 +1042,6 @@ query GetClassroom($data: String!) {
   classroom(id: $data) {
     id
     name
-    students {
-      id
-      name
-      nisn
-    }
     guardian {
       id
       name
@@ -857,8 +1050,7 @@ query GetClassroom($data: String!) {
     schedules {
       id
       day
-      startTime
-      endTime
+      classroomId
     }
   }
 }
@@ -880,8 +1072,7 @@ query GetClassrooms {
     schedules {
       id
       day
-      startTime
-      endTime
+      classroomId
     }
   }
 }

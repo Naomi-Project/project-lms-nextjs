@@ -32,6 +32,7 @@ import CommonSoalBuilder from "./CommonSoalBuilder";
 import CommonEditor from "./CommonEditor";
 import CommonDatePicker from "./CommonDatePicker";
 import CommonDateTimePicker from "./CommonDateTimePicker";
+import Swal from "sweetalert2";
 
 export interface CommonFormEditField<T extends Record<any, any>> {
   key: keyof T & string;
@@ -95,7 +96,7 @@ export function CommonFormEdit<T extends Record<any, any>>(
   };
 
   const executeMutation = async (dataMut: any) => {
-    const { __typename, families, updatedAt, createdAt, subject, submissions, ...cleanData } = dataMut;
+    const { __typename, families, updatedAt, createdAt, subject, submissions, subjects, ...cleanData } = dataMut;
     try {
       const response = await props.mutation({
         variables: {
@@ -103,8 +104,17 @@ export function CommonFormEdit<T extends Record<any, any>>(
         },
       });
       if (response) {
-        // location.reload();
-        history.back();
+        Swal.fire({
+          title: "Berhasil Diedit!",
+          text: "Data telah berhasil di edit!",
+          icon: "success",
+          timer: 2000,
+          timerProgressBar: true,
+        }).then((result) => {
+          if (result.dismiss === Swal.DismissReason.timer) {
+            history.back(); 
+          }
+        });
       }
     } catch (err) {
       console.error("Error updating data:", err);

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -63,6 +62,26 @@ export enum AssignmentType {
   Task = 'TASK'
 }
 
+export type Attendance = {
+  __typename?: 'Attendance';
+  date: Scalars['Timestamp']['output'];
+  id: Scalars['ID']['output'];
+  schedule: Schedule;
+  scheduleId: Scalars['ID']['output'];
+  status: AttendanceStatus;
+  student: User;
+  studentId: Scalars['ID']['output'];
+};
+
+export enum AttendanceStatus {
+  Absent = 'ABSENT',
+  Excused = 'EXCUSED',
+  Late = 'LATE',
+  Permit = 'PERMIT',
+  Present = 'PRESENT',
+  Sick = 'SICK'
+}
+
 export type Authentication = {
   __typename?: 'Authentication';
   authToken: Scalars['String']['output'];
@@ -123,9 +142,6 @@ export type CreateMaterialInput = {
 export type CreateScheduleInput = {
   classroomId: Scalars['ID']['input'];
   day: Day;
-  endTime: Scalars['Timestamp']['input'];
-  startTime: Scalars['Timestamp']['input'];
-  subjectId: Scalars['ID']['input'];
 };
 
 export type CreateSchoolInput = {
@@ -203,7 +219,13 @@ export enum Day {
 
 export type Enrollment = {
   __typename?: 'Enrollment';
+  classroom?: Maybe<Classroom>;
+  classroomId: Scalars['ID']['output'];
   id: Scalars['ID']['output'];
+  student?: Maybe<User>;
+  studentId: Scalars['ID']['output'];
+  term?: Maybe<Term>;
+  termId: Scalars['ID']['output'];
 };
 
 export type Family = {
@@ -520,10 +542,14 @@ export type Query = {
   announcements: Array<Announcement>;
   assignment: Assignment;
   assignments: Array<Assignment>;
+  attendance: Attendance;
+  attendances: Array<Attendance>;
   classroom: Classroom;
   classrooms: Array<Classroom>;
+  createAttendance: Array<Attendance>;
   curriculum: Curriculum;
   curriculums: Array<Curriculum>;
+  deleteAttendance: Attendance;
   families: Array<Family>;
   family: Family;
   grade: Grade;
@@ -543,6 +569,7 @@ export type Query = {
   submissions: Array<Submission>;
   term: Term;
   terms: Array<Term>;
+  updateAttendance: Attendance;
   user: User;
   users: Array<User>;
 };
@@ -644,10 +671,11 @@ export enum Role {
 
 export type Schedule = {
   __typename?: 'Schedule';
+  classroomId: Scalars['ID']['output'];
+  createdAt?: Maybe<Scalars['Timestamp']['output']>;
   day: Day;
-  endTime: Scalars['Timestamp']['output'];
   id: Scalars['ID']['output'];
-  startTime: Scalars['Timestamp']['output'];
+  updatedAt?: Maybe<Scalars['Timestamp']['output']>;
 };
 
 export type School = {
@@ -684,7 +712,6 @@ export type Subject = {
   id: Scalars['ID']['output'];
   materials: Array<Material>;
   name: Scalars['String']['output'];
-  schedules: Array<Schedule>;
   teachers: Array<User>;
 };
 
@@ -768,10 +795,7 @@ export type UpdateMaterialInput = {
 export type UpdateScheduleInput = {
   classroomId?: InputMaybe<Scalars['ID']['input']>;
   day?: InputMaybe<Day>;
-  endTime?: InputMaybe<Scalars['Timestamp']['input']>;
   id: Scalars['ID']['input'];
-  startTime?: InputMaybe<Scalars['Timestamp']['input']>;
-  subjectId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateSchoolInput = {
@@ -831,6 +855,7 @@ export type UpdateUserInput = {
 export type User = {
   __typename?: 'User';
   address: Scalars['String']['output'];
+  classroom?: Maybe<Classroom>;
   dateOfBirth: Scalars['Timestamp']['output'];
   families: Array<Family>;
   gender: Gender;
@@ -841,6 +866,9 @@ export type User = {
   nuptk?: Maybe<Scalars['String']['output']>;
   phone: Scalars['String']['output'];
   role: Role;
+  school?: Maybe<Array<School>>;
+  submissions?: Maybe<Array<Submission>>;
+  teaching?: Maybe<Array<Classroom>>;
   username: Scalars['String']['output'];
 };
 
@@ -868,12 +896,12 @@ export type GetUserQueryVariables = Exact<{
 }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, name?: string | null, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string, families: Array<{ __typename?: 'Family', id: string, name: string, contact: string, relationship: Relationship }> } };
+export type GetUserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, name?: string | null, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string, classroom?: { __typename?: 'Classroom', id: string, name: string, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, classroomId: string }> } | null, families: Array<{ __typename?: 'Family', id: string, name: string, contact: string, relationship: Relationship }> } };
 
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, name?: string | null, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string, families: Array<{ __typename?: 'Family', id: string, name: string, contact: string, relationship: Relationship }> }> };
+export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, name?: string | null, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string, classroom?: { __typename?: 'Classroom', id: string, name: string, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day }> } | null, families: Array<{ __typename?: 'Family', id: string, name: string, contact: string, relationship: Relationship }> }> };
 
 export type CreateUserMutationVariables = Exact<{
   data: CreateUserInput;
@@ -962,6 +990,67 @@ export type DeleteSchoolMutationVariables = Exact<{
 
 export type DeleteSchoolMutation = { __typename?: 'Mutation', deleteSchool: { __typename?: 'School', id: string, name: string, npsn: string, accreditation: Accreditation, address: string, phone: string, email: string, foundAt: any, createdAt?: any | null, updatedAt?: any | null } };
 
+export type GetScheduleQueryVariables = Exact<{
+  data: Scalars['String']['input'];
+}>;
+
+
+export type GetScheduleQuery = { __typename?: 'Query', schedule: { __typename?: 'Schedule', id: string, day: Day, classroomId: string, createdAt?: any | null, updatedAt?: any | null } };
+
+export type GetSchedulesQueryVariables = Exact<{
+  data: Scalars['String']['input'];
+}>;
+
+
+export type GetSchedulesQuery = { __typename?: 'Query', schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, classroomId: string, createdAt?: any | null, updatedAt?: any | null }> };
+
+export type CreateScheduleMutationVariables = Exact<{
+  data: CreateScheduleInput;
+}>;
+
+
+export type CreateScheduleMutation = { __typename?: 'Mutation', createSchedule: { __typename?: 'Schedule', id: string, day: Day, classroomId: string } };
+
+export type UpdateScheduleMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+  data: UpdateScheduleInput;
+}>;
+
+
+export type UpdateScheduleMutation = { __typename?: 'Mutation', updateSchedule: { __typename?: 'Schedule', id: string, day: Day, classroomId: string } };
+
+export type DeleteScheduleMutationVariables = Exact<{
+  data: Scalars['String']['input'];
+}>;
+
+
+export type DeleteScheduleMutation = { __typename?: 'Mutation', deleteSchedule: { __typename?: 'Schedule', id: string, day: Day, classroomId: string } };
+
+export type GetAttendanceQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAttendanceQuery = { __typename?: 'Query', attendance: { __typename?: 'Attendance', id: string, scheduleId: string, studentId: string, date: any, status: AttendanceStatus, student: { __typename?: 'User', id: string, name?: string | null, username: string }, schedule: { __typename?: 'Schedule', id: string, day: Day, classroomId: string } } };
+
+export type GetAttendancesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAttendancesQuery = { __typename?: 'Query', attendances: Array<{ __typename?: 'Attendance', id: string, scheduleId: string, studentId: string, date: any, status: AttendanceStatus, student: { __typename?: 'User', id: string, name?: string | null, username: string }, schedule: { __typename?: 'Schedule', id: string, day: Day } }> };
+
+export type CreateAttendanceQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CreateAttendanceQuery = { __typename?: 'Query', createAttendance: Array<{ __typename?: 'Attendance', id: string, scheduleId: string, studentId: string, date: any, status: AttendanceStatus, student: { __typename?: 'User', id: string, name?: string | null, username: string }, schedule: { __typename?: 'Schedule', id: string, day: Day, classroomId: string } }> };
+
+export type UpdateAttendanceQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UpdateAttendanceQuery = { __typename?: 'Query', updateAttendance: { __typename?: 'Attendance', id: string, scheduleId: string, studentId: string, date: any, status: AttendanceStatus, student: { __typename?: 'User', id: string, name?: string | null, username: string }, schedule: { __typename?: 'Schedule', id: string, day: Day, classroomId: string } } };
+
+export type DeleteAttendanceQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type DeleteAttendanceQuery = { __typename?: 'Query', deleteAttendance: { __typename?: 'Attendance', id: string, scheduleId: string, studentId: string, date: any, status: AttendanceStatus, student: { __typename?: 'User', id: string, name?: string | null, username: string }, schedule: { __typename?: 'Schedule', id: string, day: Day, classroomId: string } } };
+
 export type GetTermQueryVariables = Exact<{
   data: Scalars['String']['input'];
 }>;
@@ -1000,12 +1089,12 @@ export type GetCurriculumQueryVariables = Exact<{
 }>;
 
 
-export type GetCurriculumQuery = { __typename?: 'Query', curriculum: { __typename?: 'Curriculum', id: string, name: string, createdAt?: any | null, updatedAt?: any | null } };
+export type GetCurriculumQuery = { __typename?: 'Query', curriculum: { __typename?: 'Curriculum', id: string, name: string, createdAt?: any | null, updatedAt?: any | null, subjects: Array<{ __typename?: 'Subject', id: string, name: string, code: string, teachers: Array<{ __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }> }> } };
 
 export type GetCurriculumsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCurriculumsQuery = { __typename?: 'Query', curriculums: Array<{ __typename?: 'Curriculum', id: string, name: string, createdAt?: any | null, updatedAt?: any | null }> };
+export type GetCurriculumsQuery = { __typename?: 'Query', curriculums: Array<{ __typename?: 'Curriculum', id: string, name: string, createdAt?: any | null, updatedAt?: any | null, subjects: Array<{ __typename?: 'Subject', id: string, name: string, code: string, teachers: Array<{ __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }> }> }> };
 
 export type CreateCurriculumMutationVariables = Exact<{
   data: CreateCurriculumInput;
@@ -1066,12 +1155,12 @@ export type GetMaterialQueryVariables = Exact<{
 }>;
 
 
-export type GetMaterialQuery = { __typename?: 'Query', material: { __typename?: 'Material', id: string, title: string, content: string, subject: { __typename?: 'Subject', id: string, name: string, code: string, description?: string | null, teachers: Array<{ __typename?: 'User', id: string, username: string }> }, assignments: Array<{ __typename?: 'Assignment', id: string, title: string, description: string, dueDate: any, type: AssignmentType }>, teachers: Array<{ __typename?: 'User', id: string, username: string }>, curriculum: { __typename?: 'Curriculum', id: string, name: string } } };
+export type GetMaterialQuery = { __typename?: 'Query', material: { __typename?: 'Material', id: string, title: string, content: string, createdAt?: any | null, updatedAt?: any | null, subject: { __typename?: 'Subject', id: string, name: string, code: string, description?: string | null, teachers: Array<{ __typename?: 'User', id: string, username: string }> }, assignments: Array<{ __typename?: 'Assignment', id: string, title: string, description: string, dueDate: any, type: AssignmentType }>, teachers: Array<{ __typename?: 'User', id: string, username: string }>, curriculum: { __typename?: 'Curriculum', id: string, name: string } } };
 
 export type GetMaterialsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMaterialsQuery = { __typename?: 'Query', materials: Array<{ __typename?: 'Material', id: string, title: string, content: string, subject: { __typename?: 'Subject', id: string, name: string, code: string, description?: string | null, teachers: Array<{ __typename?: 'User', id: string, username: string }> }, assignments: Array<{ __typename?: 'Assignment', id: string, title: string, description: string, dueDate: any, type: AssignmentType }>, teachers: Array<{ __typename?: 'User', id: string, username: string }>, curriculum: { __typename?: 'Curriculum', id: string, name: string } }> };
+export type GetMaterialsQuery = { __typename?: 'Query', materials: Array<{ __typename?: 'Material', id: string, title: string, content: string, createdAt?: any | null, updatedAt?: any | null, subject: { __typename?: 'Subject', id: string, name: string, code: string, description?: string | null, teachers: Array<{ __typename?: 'User', id: string, username: string }> }, assignments: Array<{ __typename?: 'Assignment', id: string, title: string, description: string, dueDate: any, type: AssignmentType }>, teachers: Array<{ __typename?: 'User', id: string, username: string }>, curriculum: { __typename?: 'Curriculum', id: string, name: string } }> };
 
 export type CreateMaterialMutationVariables = Exact<{
   data: CreateMaterialInput;
@@ -1233,12 +1322,12 @@ export type GetClassroomQueryVariables = Exact<{
 }>;
 
 
-export type GetClassroomQuery = { __typename?: 'Query', classroom: { __typename?: 'Classroom', id: string, name: string, students: Array<{ __typename?: 'User', id: string, name?: string | null, nisn?: string | null }>, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, startTime: any, endTime: any }> } };
+export type GetClassroomQuery = { __typename?: 'Query', classroom: { __typename?: 'Classroom', id: string, name: string, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, classroomId: string }> } };
 
 export type GetClassroomsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetClassroomsQuery = { __typename?: 'Query', classrooms: Array<{ __typename?: 'Classroom', id: string, name: string, students: Array<{ __typename?: 'User', id: string, name?: string | null, nisn?: string | null }>, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, startTime: any, endTime: any }> }> };
+export type GetClassroomsQuery = { __typename?: 'Query', classrooms: Array<{ __typename?: 'Classroom', id: string, name: string, students: Array<{ __typename?: 'User', id: string, name?: string | null, nisn?: string | null }>, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, classroomId: string }> }> };
 
 export type CreateClassroomMutationVariables = Exact<{
   data: CreateClassroomInput;
@@ -1383,6 +1472,20 @@ export const GetUserDocument = gql`
     gender
     address
     phone
+    classroom {
+      id
+      name
+      guardian {
+        id
+        name
+        nuptk
+      }
+      schedules {
+        id
+        day
+        classroomId
+      }
+    }
     families {
       id
       name
@@ -1439,6 +1542,19 @@ export const GetUsersDocument = gql`
     gender
     address
     phone
+    classroom {
+      id
+      name
+      guardian {
+        id
+        name
+        nuptk
+      }
+      schedules {
+        id
+        day
+      }
+    }
     families {
       id
       name
@@ -2058,6 +2174,464 @@ export function useDeleteSchoolMutation(baseOptions?: Apollo.MutationHookOptions
 export type DeleteSchoolMutationHookResult = ReturnType<typeof useDeleteSchoolMutation>;
 export type DeleteSchoolMutationResult = Apollo.MutationResult<DeleteSchoolMutation>;
 export type DeleteSchoolMutationOptions = Apollo.BaseMutationOptions<DeleteSchoolMutation, DeleteSchoolMutationVariables>;
+export const GetScheduleDocument = gql`
+    query GetSchedule($data: String!) {
+  schedule(id: $data) {
+    id
+    day
+    classroomId
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+/**
+ * __useGetScheduleQuery__
+ *
+ * To run a query within a React component, call `useGetScheduleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetScheduleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetScheduleQuery({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useGetScheduleQuery(baseOptions: Apollo.QueryHookOptions<GetScheduleQuery, GetScheduleQueryVariables> & ({ variables: GetScheduleQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetScheduleQuery, GetScheduleQueryVariables>(GetScheduleDocument, options);
+      }
+export function useGetScheduleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetScheduleQuery, GetScheduleQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetScheduleQuery, GetScheduleQueryVariables>(GetScheduleDocument, options);
+        }
+export function useGetScheduleSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetScheduleQuery, GetScheduleQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetScheduleQuery, GetScheduleQueryVariables>(GetScheduleDocument, options);
+        }
+export type GetScheduleQueryHookResult = ReturnType<typeof useGetScheduleQuery>;
+export type GetScheduleLazyQueryHookResult = ReturnType<typeof useGetScheduleLazyQuery>;
+export type GetScheduleSuspenseQueryHookResult = ReturnType<typeof useGetScheduleSuspenseQuery>;
+export type GetScheduleQueryResult = Apollo.QueryResult<GetScheduleQuery, GetScheduleQueryVariables>;
+export const GetSchedulesDocument = gql`
+    query GetSchedules($data: String!) {
+  schedules(classroomId: $data) {
+    id
+    day
+    classroomId
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+/**
+ * __useGetSchedulesQuery__
+ *
+ * To run a query within a React component, call `useGetSchedulesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSchedulesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSchedulesQuery({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useGetSchedulesQuery(baseOptions: Apollo.QueryHookOptions<GetSchedulesQuery, GetSchedulesQueryVariables> & ({ variables: GetSchedulesQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetSchedulesQuery, GetSchedulesQueryVariables>(GetSchedulesDocument, options);
+      }
+export function useGetSchedulesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSchedulesQuery, GetSchedulesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetSchedulesQuery, GetSchedulesQueryVariables>(GetSchedulesDocument, options);
+        }
+export function useGetSchedulesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetSchedulesQuery, GetSchedulesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetSchedulesQuery, GetSchedulesQueryVariables>(GetSchedulesDocument, options);
+        }
+export type GetSchedulesQueryHookResult = ReturnType<typeof useGetSchedulesQuery>;
+export type GetSchedulesLazyQueryHookResult = ReturnType<typeof useGetSchedulesLazyQuery>;
+export type GetSchedulesSuspenseQueryHookResult = ReturnType<typeof useGetSchedulesSuspenseQuery>;
+export type GetSchedulesQueryResult = Apollo.QueryResult<GetSchedulesQuery, GetSchedulesQueryVariables>;
+export const CreateScheduleDocument = gql`
+    mutation CreateSchedule($data: CreateScheduleInput!) {
+  createSchedule(data: $data) {
+    id
+    day
+    classroomId
+  }
+}
+    `;
+export type CreateScheduleMutationFn = Apollo.MutationFunction<CreateScheduleMutation, CreateScheduleMutationVariables>;
+
+/**
+ * __useCreateScheduleMutation__
+ *
+ * To run a mutation, you first call `useCreateScheduleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateScheduleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createScheduleMutation, { data, loading, error }] = useCreateScheduleMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateScheduleMutation(baseOptions?: Apollo.MutationHookOptions<CreateScheduleMutation, CreateScheduleMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateScheduleMutation, CreateScheduleMutationVariables>(CreateScheduleDocument, options);
+      }
+export type CreateScheduleMutationHookResult = ReturnType<typeof useCreateScheduleMutation>;
+export type CreateScheduleMutationResult = Apollo.MutationResult<CreateScheduleMutation>;
+export type CreateScheduleMutationOptions = Apollo.BaseMutationOptions<CreateScheduleMutation, CreateScheduleMutationVariables>;
+export const UpdateScheduleDocument = gql`
+    mutation UpdateSchedule($id: String!, $data: UpdateScheduleInput!) {
+  updateSchedule(id: $id, data: $data) {
+    id
+    day
+    classroomId
+  }
+}
+    `;
+export type UpdateScheduleMutationFn = Apollo.MutationFunction<UpdateScheduleMutation, UpdateScheduleMutationVariables>;
+
+/**
+ * __useUpdateScheduleMutation__
+ *
+ * To run a mutation, you first call `useUpdateScheduleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateScheduleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateScheduleMutation, { data, loading, error }] = useUpdateScheduleMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateScheduleMutation(baseOptions?: Apollo.MutationHookOptions<UpdateScheduleMutation, UpdateScheduleMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateScheduleMutation, UpdateScheduleMutationVariables>(UpdateScheduleDocument, options);
+      }
+export type UpdateScheduleMutationHookResult = ReturnType<typeof useUpdateScheduleMutation>;
+export type UpdateScheduleMutationResult = Apollo.MutationResult<UpdateScheduleMutation>;
+export type UpdateScheduleMutationOptions = Apollo.BaseMutationOptions<UpdateScheduleMutation, UpdateScheduleMutationVariables>;
+export const DeleteScheduleDocument = gql`
+    mutation DeleteSchedule($data: String!) {
+  deleteSchedule(id: $data) {
+    id
+    day
+    classroomId
+  }
+}
+    `;
+export type DeleteScheduleMutationFn = Apollo.MutationFunction<DeleteScheduleMutation, DeleteScheduleMutationVariables>;
+
+/**
+ * __useDeleteScheduleMutation__
+ *
+ * To run a mutation, you first call `useDeleteScheduleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteScheduleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteScheduleMutation, { data, loading, error }] = useDeleteScheduleMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useDeleteScheduleMutation(baseOptions?: Apollo.MutationHookOptions<DeleteScheduleMutation, DeleteScheduleMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteScheduleMutation, DeleteScheduleMutationVariables>(DeleteScheduleDocument, options);
+      }
+export type DeleteScheduleMutationHookResult = ReturnType<typeof useDeleteScheduleMutation>;
+export type DeleteScheduleMutationResult = Apollo.MutationResult<DeleteScheduleMutation>;
+export type DeleteScheduleMutationOptions = Apollo.BaseMutationOptions<DeleteScheduleMutation, DeleteScheduleMutationVariables>;
+export const GetAttendanceDocument = gql`
+    query GetAttendance {
+  attendance {
+    id
+    scheduleId
+    studentId
+    date
+    status
+    student {
+      id
+      name
+      username
+    }
+    schedule {
+      id
+      day
+      classroomId
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetAttendanceQuery__
+ *
+ * To run a query within a React component, call `useGetAttendanceQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAttendanceQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAttendanceQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAttendanceQuery(baseOptions?: Apollo.QueryHookOptions<GetAttendanceQuery, GetAttendanceQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAttendanceQuery, GetAttendanceQueryVariables>(GetAttendanceDocument, options);
+      }
+export function useGetAttendanceLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAttendanceQuery, GetAttendanceQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAttendanceQuery, GetAttendanceQueryVariables>(GetAttendanceDocument, options);
+        }
+export function useGetAttendanceSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetAttendanceQuery, GetAttendanceQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAttendanceQuery, GetAttendanceQueryVariables>(GetAttendanceDocument, options);
+        }
+export type GetAttendanceQueryHookResult = ReturnType<typeof useGetAttendanceQuery>;
+export type GetAttendanceLazyQueryHookResult = ReturnType<typeof useGetAttendanceLazyQuery>;
+export type GetAttendanceSuspenseQueryHookResult = ReturnType<typeof useGetAttendanceSuspenseQuery>;
+export type GetAttendanceQueryResult = Apollo.QueryResult<GetAttendanceQuery, GetAttendanceQueryVariables>;
+export const GetAttendancesDocument = gql`
+    query GetAttendances {
+  attendances {
+    id
+    scheduleId
+    studentId
+    date
+    status
+    student {
+      id
+      name
+      username
+    }
+    schedule {
+      id
+      day
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetAttendancesQuery__
+ *
+ * To run a query within a React component, call `useGetAttendancesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAttendancesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAttendancesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAttendancesQuery(baseOptions?: Apollo.QueryHookOptions<GetAttendancesQuery, GetAttendancesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAttendancesQuery, GetAttendancesQueryVariables>(GetAttendancesDocument, options);
+      }
+export function useGetAttendancesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAttendancesQuery, GetAttendancesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAttendancesQuery, GetAttendancesQueryVariables>(GetAttendancesDocument, options);
+        }
+export function useGetAttendancesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetAttendancesQuery, GetAttendancesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAttendancesQuery, GetAttendancesQueryVariables>(GetAttendancesDocument, options);
+        }
+export type GetAttendancesQueryHookResult = ReturnType<typeof useGetAttendancesQuery>;
+export type GetAttendancesLazyQueryHookResult = ReturnType<typeof useGetAttendancesLazyQuery>;
+export type GetAttendancesSuspenseQueryHookResult = ReturnType<typeof useGetAttendancesSuspenseQuery>;
+export type GetAttendancesQueryResult = Apollo.QueryResult<GetAttendancesQuery, GetAttendancesQueryVariables>;
+export const CreateAttendanceDocument = gql`
+    query CreateAttendance {
+  createAttendance {
+    id
+    scheduleId
+    studentId
+    date
+    status
+    student {
+      id
+      name
+      username
+    }
+    schedule {
+      id
+      day
+      classroomId
+    }
+  }
+}
+    `;
+
+/**
+ * __useCreateAttendanceQuery__
+ *
+ * To run a query within a React component, call `useCreateAttendanceQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCreateAttendanceQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCreateAttendanceQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCreateAttendanceQuery(baseOptions?: Apollo.QueryHookOptions<CreateAttendanceQuery, CreateAttendanceQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CreateAttendanceQuery, CreateAttendanceQueryVariables>(CreateAttendanceDocument, options);
+      }
+export function useCreateAttendanceLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CreateAttendanceQuery, CreateAttendanceQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CreateAttendanceQuery, CreateAttendanceQueryVariables>(CreateAttendanceDocument, options);
+        }
+export function useCreateAttendanceSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<CreateAttendanceQuery, CreateAttendanceQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<CreateAttendanceQuery, CreateAttendanceQueryVariables>(CreateAttendanceDocument, options);
+        }
+export type CreateAttendanceQueryHookResult = ReturnType<typeof useCreateAttendanceQuery>;
+export type CreateAttendanceLazyQueryHookResult = ReturnType<typeof useCreateAttendanceLazyQuery>;
+export type CreateAttendanceSuspenseQueryHookResult = ReturnType<typeof useCreateAttendanceSuspenseQuery>;
+export type CreateAttendanceQueryResult = Apollo.QueryResult<CreateAttendanceQuery, CreateAttendanceQueryVariables>;
+export const UpdateAttendanceDocument = gql`
+    query UpdateAttendance {
+  updateAttendance {
+    id
+    scheduleId
+    studentId
+    date
+    status
+    student {
+      id
+      name
+      username
+    }
+    schedule {
+      id
+      day
+      classroomId
+    }
+  }
+}
+    `;
+
+/**
+ * __useUpdateAttendanceQuery__
+ *
+ * To run a query within a React component, call `useUpdateAttendanceQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUpdateAttendanceQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUpdateAttendanceQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUpdateAttendanceQuery(baseOptions?: Apollo.QueryHookOptions<UpdateAttendanceQuery, UpdateAttendanceQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UpdateAttendanceQuery, UpdateAttendanceQueryVariables>(UpdateAttendanceDocument, options);
+      }
+export function useUpdateAttendanceLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UpdateAttendanceQuery, UpdateAttendanceQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UpdateAttendanceQuery, UpdateAttendanceQueryVariables>(UpdateAttendanceDocument, options);
+        }
+export function useUpdateAttendanceSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<UpdateAttendanceQuery, UpdateAttendanceQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<UpdateAttendanceQuery, UpdateAttendanceQueryVariables>(UpdateAttendanceDocument, options);
+        }
+export type UpdateAttendanceQueryHookResult = ReturnType<typeof useUpdateAttendanceQuery>;
+export type UpdateAttendanceLazyQueryHookResult = ReturnType<typeof useUpdateAttendanceLazyQuery>;
+export type UpdateAttendanceSuspenseQueryHookResult = ReturnType<typeof useUpdateAttendanceSuspenseQuery>;
+export type UpdateAttendanceQueryResult = Apollo.QueryResult<UpdateAttendanceQuery, UpdateAttendanceQueryVariables>;
+export const DeleteAttendanceDocument = gql`
+    query DeleteAttendance {
+  deleteAttendance {
+    id
+    scheduleId
+    studentId
+    date
+    status
+    student {
+      id
+      name
+      username
+    }
+    schedule {
+      id
+      day
+      classroomId
+    }
+  }
+}
+    `;
+
+/**
+ * __useDeleteAttendanceQuery__
+ *
+ * To run a query within a React component, call `useDeleteAttendanceQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDeleteAttendanceQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDeleteAttendanceQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useDeleteAttendanceQuery(baseOptions?: Apollo.QueryHookOptions<DeleteAttendanceQuery, DeleteAttendanceQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<DeleteAttendanceQuery, DeleteAttendanceQueryVariables>(DeleteAttendanceDocument, options);
+      }
+export function useDeleteAttendanceLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DeleteAttendanceQuery, DeleteAttendanceQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<DeleteAttendanceQuery, DeleteAttendanceQueryVariables>(DeleteAttendanceDocument, options);
+        }
+export function useDeleteAttendanceSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<DeleteAttendanceQuery, DeleteAttendanceQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<DeleteAttendanceQuery, DeleteAttendanceQueryVariables>(DeleteAttendanceDocument, options);
+        }
+export type DeleteAttendanceQueryHookResult = ReturnType<typeof useDeleteAttendanceQuery>;
+export type DeleteAttendanceLazyQueryHookResult = ReturnType<typeof useDeleteAttendanceLazyQuery>;
+export type DeleteAttendanceSuspenseQueryHookResult = ReturnType<typeof useDeleteAttendanceSuspenseQuery>;
+export type DeleteAttendanceQueryResult = Apollo.QueryResult<DeleteAttendanceQuery, DeleteAttendanceQueryVariables>;
 export const GetTermDocument = gql`
     query GetTerm($data: String!) {
   term(id: $data) {
@@ -2278,6 +2852,16 @@ export const GetCurriculumDocument = gql`
     name
     createdAt
     updatedAt
+    subjects {
+      id
+      name
+      code
+      teachers {
+        id
+        name
+        nuptk
+      }
+    }
   }
 }
     `;
@@ -2321,6 +2905,16 @@ export const GetCurriculumsDocument = gql`
     name
     createdAt
     updatedAt
+    subjects {
+      id
+      name
+      code
+      teachers {
+        id
+        name
+        nuptk
+      }
+    }
   }
 }
     `;
@@ -2675,6 +3269,8 @@ export const GetMaterialDocument = gql`
     id
     title
     content
+    createdAt
+    updatedAt
     subject {
       id
       name
@@ -2742,6 +3338,8 @@ export const GetMaterialsDocument = gql`
     id
     title
     content
+    createdAt
+    updatedAt
     subject {
       id
       name
@@ -3772,11 +4370,6 @@ export const GetClassroomDocument = gql`
   classroom(id: $data) {
     id
     name
-    students {
-      id
-      name
-      nisn
-    }
     guardian {
       id
       name
@@ -3785,8 +4378,7 @@ export const GetClassroomDocument = gql`
     schedules {
       id
       day
-      startTime
-      endTime
+      classroomId
     }
   }
 }
@@ -3842,8 +4434,7 @@ export const GetClassroomsDocument = gql`
     schedules {
       id
       day
-      startTime
-      endTime
+      classroomId
     }
   }
 }

@@ -1,14 +1,47 @@
 "use client"
 import ButtonDelete from '@/components/ui/buttonDelete';
 /* eslint-disabled */
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card'
 import { useDeleteMaterialMutation, useGetMaterialsQuery } from '@/graphql/generated';
 import Link from "next/link";
+import { Calendar, EllipsisVertical } from 'lucide-react';
+import { format } from 'date-fns';
+import { useState, useEffect } from 'react';
 
-const ListCardMateri = ({ canDelete = true, role = "student" }) => {
+
+interface ListTypes {
+  canDelete?: boolean
+  role?: string
+  search?: string
+  filter?: string
+}
+
+const ListCardMateri = ({ canDelete = true, role = "student", search, filter }: ListTypes) => {
   const { data } = useGetMaterialsQuery()
-  const materi = data?.materials || []
-  console.log(data)
+  const rawData = data?.materials || []
+  const [materi, setMateri] = useState(rawData)
+  
+  useEffect(() => {
+    if (search && search.trim() !== "") {
+      setMateri(rawData.filter((item) => item.title.toLowerCase().includes(search.toLowerCase())))
+    } else {
+      setMateri(rawData)
+    }
+  }, [search, rawData])
+  useEffect(() => {
+    if (filter && filter.trim() !== "") {
+      setMateri(rawData.filter((item) => item.subject.id.includes(filter.toLowerCase())))
+    } else {
+      setMateri(rawData)
+    }
+  }, [filter, rawData])
+  
   const [deleteMaterial, {loading}] = useDeleteMaterialMutation()
   return (
     <div className="grid md:grid-cols-4 lg:grid-cols-2 gap-4">
@@ -19,11 +52,27 @@ const ListCardMateri = ({ canDelete = true, role = "student" }) => {
             <Card className="w-full h-[230px] sm:w-full">
               <CardHeader className="flex gap-3">
                 <div className='flex justify-between items-center'>
-                  <CardTitle className="font-light text-xs p-1 bg-slate-100 w-auto rounded-full text-center text-slate-400">
-                    {data.subject.name}
-                  </CardTitle>
+                  <div className='w-full flex gap-3'>
+                    <CardTitle className="font-bold text-xs py-2 px-4 bg-orange-100 w-auto rounded-md text-center text-orange-400">
+                      {data.subject.name}
+                    </CardTitle>
+                    <CardTitle className="font-bold text-xs py-2 px-4 bg-blue-100 w-auto rounded-md text-center text-blue-400">
+                      Kurikulum {data.curriculum.name}
+                    </CardTitle>
+                  </div>
                   {canDelete && (
-                    <ButtonDelete id={data.id} mutation={deleteMaterial} loading={loading} />
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <button className="">
+                          <EllipsisVertical className="cursor-pointer" />
+                        </button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-56">
+                        <DropdownMenuItem className='hover:bg-red-100'>
+                          <ButtonDelete noBg={true} id={data.id} customClassNoBg='bg-transparent text-white bg-red-500 w-full hover:bg-red-600 shadow-none' mutation={deleteMaterial} loading={loading} />
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   )}
                 </div>
                 <CardDescription className="font-bold text-base text-black">
@@ -34,12 +83,12 @@ const ListCardMateri = ({ canDelete = true, role = "student" }) => {
                 </CardDescription>
               </CardHeader>
               <CardFooter>
-                {/* <CardDescription className="flex gap-2">
-                  <Calendar /> {' '}
+                <CardDescription className="flex items-end gap-2">
+                  <Calendar className='text-primary' /> {' '}
                   <p>
-                  Kumpulkan 3 hari lagi - 24 Okt 2025
+                  Dibuat pada {format(data.createdAt, 'yyyy-mm-dd')}
                   </p>
-                </CardDescription> */}
+                </CardDescription>
               </CardFooter>
             </Card>
           </Link>
