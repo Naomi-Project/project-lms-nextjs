@@ -7,6 +7,7 @@ import { useDeleteUserMutation, useGetUsersQuery } from "@/graphql/generated";
 
 type Student = {
     id: string;
+    // name: string;
     username: string;
     gender: string;
     nik?: string | null; // Bisa null atau undefined
@@ -35,9 +36,9 @@ export default function StudentTable() {
         cell: ({ row }: any) => <span>{row.index + 1}</span>,
       },
       {
-        accessorKey: "username",
+        accessorKey: "name",
         header: "NAMA SISWA",
-        cell: ({ row }: any) => <span>{row.getValue("username")}</span>,
+        cell: ({ row }: any) => <span>{row.getValue("name")}</span>,
       },
       {
         accessorKey: "class",
@@ -82,7 +83,7 @@ export default function StudentTable() {
     <DataTable
       columns={columns}
       data={dataStudent}
-      filterName="username"
+      filterName="name"
       filterPlaceholder="Cari Siswa.."
     />
   );

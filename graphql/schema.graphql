@@ -19,6 +19,7 @@ query UserPayload {
 query GetUser($data: String!) {
   user(id: $data) {
     id
+    name
     username
     role
     nik
@@ -40,6 +41,7 @@ query GetUser($data: String!) {
 query GetUsers {
   users {
     id
+    name
     username
     role
     nik
@@ -49,12 +51,19 @@ query GetUsers {
     gender
     address
     phone
+    families {
+      id
+      name
+      contact
+      relationship
+    }
   }
 }
 
 mutation CreateUser($data: CreateUserInput!) {
   createUser(data: $data) {
     id
+    name
     username
     role
     nik
@@ -834,8 +843,15 @@ query GetClassroom($data: String!) {
   classroom(id: $data) {
     id
     name
-    enrollments {
+    students {
       id
+      name
+      nisn
+    }
+    guardian {
+      id
+      name
+      nuptk
     }
     schedules {
       id
@@ -850,6 +866,22 @@ query GetClassrooms {
   classrooms {
     id
     name
+    students {
+      id
+      name
+      nisn
+    }
+    guardian {
+      id
+      name
+      nuptk
+    }
+    schedules {
+      id
+      day
+      startTime
+      endTime
+    }
   }
 }
 

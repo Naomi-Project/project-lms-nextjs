@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -71,10 +70,11 @@ export type Authentication = {
 
 export type Classroom = {
   __typename?: 'Classroom';
-  enrollments: Array<Enrollment>;
+  guardian: User;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   schedules: Array<Schedule>;
+  students: Array<User>;
 };
 
 export type CreateAnnouncementInput = {
@@ -170,6 +170,7 @@ export type CreateUserInput = {
   address?: InputMaybe<Scalars['String']['input']>;
   dateOfBirth: Scalars['Timestamp']['input'];
   gender: Gender;
+  name: Scalars['String']['input'];
   nik?: InputMaybe<Scalars['String']['input']>;
   nisn?: InputMaybe<Scalars['String']['input']>;
   nuptk?: InputMaybe<Scalars['String']['input']>;
@@ -816,6 +817,7 @@ export type UpdateUserInput = {
   dateOfBirth?: InputMaybe<Scalars['Timestamp']['input']>;
   gender?: InputMaybe<Gender>;
   id: Scalars['String']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
   nik?: InputMaybe<Scalars['String']['input']>;
   nisn?: InputMaybe<Scalars['String']['input']>;
   nuptk?: InputMaybe<Scalars['String']['input']>;
@@ -832,6 +834,7 @@ export type User = {
   families: Array<Family>;
   gender: Gender;
   id: Scalars['String']['output'];
+  name: Scalars['String']['output'];
   nik?: Maybe<Scalars['String']['output']>;
   nisn?: Maybe<Scalars['String']['output']>;
   nuptk?: Maybe<Scalars['String']['output']>;
@@ -864,19 +867,19 @@ export type GetUserQueryVariables = Exact<{
 }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string, families: Array<{ __typename?: 'Family', id: string, name: string, contact: string, relationship: Relationship }> } };
+export type GetUserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, name: string, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string, families: Array<{ __typename?: 'Family', id: string, name: string, contact: string, relationship: Relationship }> } };
 
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string }> };
+export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, name: string, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string, families: Array<{ __typename?: 'Family', id: string, name: string, contact: string, relationship: Relationship }> }> };
 
 export type CreateUserMutationVariables = Exact<{
   data: CreateUserInput;
 }>;
 
 
-export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: string, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string } };
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: string, name: string, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string } };
 
 export type UpdateUserMutationVariables = Exact<{
   data: UpdateUserInput;
@@ -1229,12 +1232,12 @@ export type GetClassroomQueryVariables = Exact<{
 }>;
 
 
-export type GetClassroomQuery = { __typename?: 'Query', classroom: { __typename?: 'Classroom', id: string, name: string, enrollments: Array<{ __typename?: 'Enrollment', id: string }>, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, startTime: any, endTime: any }> } };
+export type GetClassroomQuery = { __typename?: 'Query', classroom: { __typename?: 'Classroom', id: string, name: string, students: Array<{ __typename?: 'User', id: string, name: string, nisn?: string | null }>, guardian: { __typename?: 'User', id: string, name: string, nuptk?: string | null }, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, startTime: any, endTime: any }> } };
 
 export type GetClassroomsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetClassroomsQuery = { __typename?: 'Query', classrooms: Array<{ __typename?: 'Classroom', id: string, name: string }> };
+export type GetClassroomsQuery = { __typename?: 'Query', classrooms: Array<{ __typename?: 'Classroom', id: string, name: string, students: Array<{ __typename?: 'User', id: string, name: string, nisn?: string | null }>, guardian: { __typename?: 'User', id: string, name: string, nuptk?: string | null }, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, startTime: any, endTime: any }> }> };
 
 export type CreateClassroomMutationVariables = Exact<{
   data: CreateClassroomInput;
@@ -1369,6 +1372,7 @@ export const GetUserDocument = gql`
     query GetUser($data: String!) {
   user(id: $data) {
     id
+    name
     username
     role
     nik
@@ -1424,6 +1428,7 @@ export const GetUsersDocument = gql`
     query GetUsers {
   users {
     id
+    name
     username
     role
     nik
@@ -1433,6 +1438,12 @@ export const GetUsersDocument = gql`
     gender
     address
     phone
+    families {
+      id
+      name
+      contact
+      relationship
+    }
   }
 }
     `;
@@ -1472,6 +1483,7 @@ export const CreateUserDocument = gql`
     mutation CreateUser($data: CreateUserInput!) {
   createUser(data: $data) {
     id
+    name
     username
     role
     nik
@@ -3758,8 +3770,15 @@ export const GetClassroomDocument = gql`
   classroom(id: $data) {
     id
     name
-    enrollments {
+    students {
       id
+      name
+      nisn
+    }
+    guardian {
+      id
+      name
+      nuptk
     }
     schedules {
       id
@@ -3808,6 +3827,22 @@ export const GetClassroomsDocument = gql`
   classrooms {
     id
     name
+    students {
+      id
+      name
+      nisn
+    }
+    guardian {
+      id
+      name
+      nuptk
+    }
+    schedules {
+      id
+      day
+      startTime
+      endTime
+    }
   }
 }
     `;
