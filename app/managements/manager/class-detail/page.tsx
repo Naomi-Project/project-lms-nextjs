@@ -169,12 +169,6 @@ export default function ManagerClassDetail() {
             </div>
           </div>
         </div>
-
-        <div className="md:mt-0 mt-4 col-span-1 border-2 bg-white rounded-lg p-5">
-          <h1 className="text-slate-400 text-base">Nilai Rata-Rata Kelas</h1>
-
-          <p className="text-3xl font-bold mt-6">70</p>
-        </div>
       </div>
 
       <div className="border-2 rounded-lg bg-white p-5 mt-10">

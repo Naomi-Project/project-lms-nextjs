@@ -4,7 +4,7 @@ import { z } from "zod";
 
 export const studentSchema = z.object({
   username: z.string().optional(),
-  password: z.string().optional(),
+  password: z.string().nullable(), 
   role: z.string().optional(),
   name: z.string().min(1, "Nama Lengkap wajib diisi"),
   nisn: z.string().min(8, "NISN minimal 8 digit"),
@@ -22,8 +22,8 @@ export const studentSchema = z.object({
 export interface Form {
     name: string
     username?: string
-    password: string
-    role: string
+    password?: string | null
+    role?: string | null
     nisn: string
     nik: string
     phone: string

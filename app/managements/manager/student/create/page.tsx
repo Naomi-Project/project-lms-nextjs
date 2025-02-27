@@ -10,7 +10,7 @@ const CreatePage = () => {
   const [dataMutationDefault, setDataMutationDefault] = useState({
     name: "",
     username: "",
-    password: "erw",
+    password: "",
     role: Role.Student,
     nik: "1234567890",
     nuptk: "",
