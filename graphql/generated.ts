@@ -835,7 +835,7 @@ export type User = {
   families: Array<Family>;
   gender: Gender;
   id: Scalars['String']['output'];
-  name: Scalars['String']['output'];
+  name?: Maybe<Scalars['String']['output']>;
   nik?: Maybe<Scalars['String']['output']>;
   nisn?: Maybe<Scalars['String']['output']>;
   nuptk?: Maybe<Scalars['String']['output']>;
@@ -868,26 +868,26 @@ export type GetUserQueryVariables = Exact<{
 }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string, families: Array<{ __typename?: 'Family', id: string, name: string, contact: string, relationship: Relationship }> } };
+export type GetUserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, name?: string | null, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string, families: Array<{ __typename?: 'Family', id: string, name: string, contact: string, relationship: Relationship }> } };
 
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string, families: Array<{ __typename?: 'Family', id: string, name: string, contact: string, relationship: Relationship }> }> };
+export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, name?: string | null, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string, families: Array<{ __typename?: 'Family', id: string, name: string, contact: string, relationship: Relationship }> }> };
 
 export type CreateUserMutationVariables = Exact<{
   data: CreateUserInput;
 }>;
 
 
-export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: string, name: string, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string } };
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: string, name?: string | null, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string } };
 
 export type UpdateUserMutationVariables = Exact<{
   data: UpdateUserInput;
 }>;
 
 
-export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string } };
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, name?: string | null, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string } };
 
 export type DeleteUserMutationVariables = Exact<{
   data: Scalars['String']['input'];
@@ -1233,12 +1233,12 @@ export type GetClassroomQueryVariables = Exact<{
 }>;
 
 
-export type GetClassroomQuery = { __typename?: 'Query', classroom: { __typename?: 'Classroom', id: string, name: string, students: Array<{ __typename?: 'User', id: string, name: string, nisn?: string | null }>, guardian: { __typename?: 'User', id: string, name: string, nuptk?: string | null }, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, startTime: any, endTime: any }> } };
+export type GetClassroomQuery = { __typename?: 'Query', classroom: { __typename?: 'Classroom', id: string, name: string, students: Array<{ __typename?: 'User', id: string, name?: string | null, nisn?: string | null }>, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, startTime: any, endTime: any }> } };
 
 export type GetClassroomsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetClassroomsQuery = { __typename?: 'Query', classrooms: Array<{ __typename?: 'Classroom', id: string, name: string, students: Array<{ __typename?: 'User', id: string, name: string, nisn?: string | null }>, guardian: { __typename?: 'User', id: string, name: string, nuptk?: string | null }, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, startTime: any, endTime: any }> }> };
+export type GetClassroomsQuery = { __typename?: 'Query', classrooms: Array<{ __typename?: 'Classroom', id: string, name: string, students: Array<{ __typename?: 'User', id: string, name?: string | null, nisn?: string | null }>, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, startTime: any, endTime: any }> }> };
 
 export type CreateClassroomMutationVariables = Exact<{
   data: CreateClassroomInput;
@@ -1373,6 +1373,7 @@ export const GetUserDocument = gql`
     query GetUser($data: String!) {
   user(id: $data) {
     id
+    name
     username
     role
     nik
@@ -1428,6 +1429,7 @@ export const GetUsersDocument = gql`
     query GetUsers {
   users {
     id
+    name
     username
     role
     nik
@@ -1525,6 +1527,7 @@ export const UpdateUserDocument = gql`
     mutation UpdateUser($data: UpdateUserInput!) {
   updateUser(data: $data) {
     id
+    name
     username
     role
     nik

@@ -7,6 +7,7 @@ import { useDeleteUserMutation, useGetUsersQuery } from "@/graphql/generated";
 
 type Teacher = {
     id: string;
+    name?: string | null;
     username: string;
     gender: string;
     nik?: string | null; // Bisa null atau undefined
@@ -35,15 +36,15 @@ export default function TeacherTable() {
         cell: ({ row }: any) => <span>{row.index + 1}</span>,
       },
       {
-        accessorKey: "username",
-        header: "NAMA SISWA",
-        cell: ({ row }: any) => <span>{row.getValue("username")}</span>,
+        accessorKey: "name",
+        header: "NAMA GURU",
+        cell: ({ row }: any) => <span>{row.getValue("name")}</span>,
       },
       {
-        accessorKey: "class",
-        header: "KELAS",
-        // cell: ({ row }: any) => <span>{row.getValue("class")}</span>,
-        cell: ({ row }: any) => <span>7A</span>,
+        accessorKey: "nuptk",
+        header: "NUPTK",
+        cell: ({ row }: any) => <span>{row.getValue("nuptk")}</span>,
+        // cell: ({ row }: any) => <span>7A</span>,
       },
       {
         accessorKey: "address",

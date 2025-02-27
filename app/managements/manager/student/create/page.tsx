@@ -8,8 +8,9 @@ import { useState } from "react";
 
 const CreatePage = () => {
   const [dataMutationDefault, setDataMutationDefault] = useState({
+    name: "",
     username: "",
-    password: "",
+    password: "erw",
     role: Role.Student,
     nik: "1234567890",
     nuptk: "",
@@ -25,6 +26,9 @@ const CreatePage = () => {
       lable="Student"
       title="Create Student Data"
       method="POST"
+      isRelation={true}
+      relation1="username"
+      valuerRelation1="nisn"
       mutation={createUser}
       dataMutation={dataMutationDefault}
       setDataMutation={setDataMutationDefault}

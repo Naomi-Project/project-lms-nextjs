@@ -61,6 +61,9 @@ export interface CommonFormAddProps<T extends Record<any, any>> {
   lable: string;
   title: string;
   method: string;
+  isRelation?: boolean | undefined;
+  relation1?: string | undefined;
+  valuerRelation1?: string | undefined;
   buttonTextSubmit?: string | undefined;
   hideBackButton?: boolean;
   isUseDefaultMutation?: boolean;
@@ -88,8 +91,16 @@ export function CommonFormAdd<T extends Record<any, any>>(
   
   const onSubmit = async (values: z.infer<typeof props.schema>) => {
     setIsSubmit(true)
-    console.log(values)
-    return
+    // console.log(values)
+    // return
+    if (props.isRelation == true) {
+      if (props.valuerRelation1 === "nisn") {
+        const newData = {...values, username: String(values.nisn) ?? ""}
+        console.log(values)
+        executeMutation(newData)
+        return
+      }
+    }
     if (props.isSubmission == true) {
       alert('tunggu sebentar.. (klik ok utk melanjutkan proses)')
       const dataSoal = JSON.parse(values.extendedData)
@@ -305,7 +316,7 @@ export function CommonFormAdd<T extends Record<any, any>>(
                                     />
                                   </FormControl>
                                   <FormDescription />
-                                  <FormMessage />
+                                  <FormMessage className={dataField.hidden && dataField.hidden == true ? "hidden" : ""} />
                                 </FormItem>
                               )}
                             />

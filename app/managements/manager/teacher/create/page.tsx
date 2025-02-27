@@ -8,6 +8,7 @@ import { useState } from "react";
 
 const CreatePage = () => {
   const [dataMutationDefault, setDataMutationDefault] = useState({
+    name: "",
     username: "",
     password: "",
     role: Role.Teacher,

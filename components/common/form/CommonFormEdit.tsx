@@ -38,6 +38,7 @@ export interface CommonFormEditField<T extends Record<any, any>> {
   label: string;
   emptyValue?: string;
   class?: string;
+  hidden?: boolean;
   type?: string;
   dataSelect?: any;
   dataRadio?: any;
@@ -227,9 +228,10 @@ export function CommonFormEdit<T extends Record<any, any>>(
                               name={dataField.key as any}
                               render={({ field }) => (
                                 <FormItem>
-                                  <FormLabel>{dataField.label}</FormLabel>
+                                  <FormLabel className={dataField.hidden && dataField.hidden == true ? "hidden" : ""}>{dataField.label}</FormLabel>
                                   <FormControl>
                                     <Input
+                                      className={dataField.hidden && dataField.hidden == true ? "hidden" : ""}
                                       type={dataField.type || "text"}
                                       disabled={dataField.disabled || false}
                                       placeholder={dataField.placeholder || ""}
@@ -237,7 +239,7 @@ export function CommonFormEdit<T extends Record<any, any>>(
                                     />
                                   </FormControl>
                                   <FormDescription />
-                                  <FormMessage />
+                                  <FormMessage className={dataField.hidden && dataField.hidden == true ? "hidden" : ""} />
                                 </FormItem>
                               )}
                             />

@@ -6,6 +6,7 @@ import {
 import { useParams } from "next/navigation";
 import { CommonFormEdit } from "@/components/common/form/CommonFormEdit";
 import { sections, studentSchema } from "@/helpers/static/FormStudents";
+import { format } from "date-fns";
 
 const EditPage = () => {
   const params = useParams();
@@ -20,6 +21,7 @@ const EditPage = () => {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
+  const fixData = { ...data?.user, dateOfBirth: format(new Date(data?.user.dateOfBirth), "yyyy-MM-dd") }
   console.log(data)
 
   return (
@@ -28,7 +30,7 @@ const EditPage = () => {
       title="Edit Student Data"
       method="PUT"
       mutation={updateUser}
-      dataGet={data?.user || {}}
+      dataGet={fixData || {}}
       schema={studentSchema}
       sections={sections}
     />

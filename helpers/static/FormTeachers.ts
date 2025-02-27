@@ -3,6 +3,7 @@ import { CommonFormAddSection } from "@/components/common/form/CommonFormAdd"
 import { z } from "zod";
 
 export const teacherSchema = z.object({
+  name: z.string().min(1, "Nama wajib diisi"),
   username: z.string().min(1, "Nama Lengkap wajib diisi"),
   nuptk: z.string().min(8, "NUPTK minimal 8 digit"),
   nik: z.string().min(1, "NIK wajib diisi"),
@@ -15,6 +16,7 @@ export const teacherSchema = z.object({
 });
 
 export interface Form {
+    name: string
     username: string
     nuptk: string
     nik: string
@@ -28,10 +30,16 @@ export const sections: CommonFormAddSection<Form>[] = [
         // fields group 1
         [
           {
-            key: "username",
-            label: "Nama Lengkap",
+            key: "name",
+            label: "Nama",
             emptyValue: "-",
-            placeholder: "Masukkan nama lengkap guru..",
+            placeholder: "Masukkan nama guru..",
+          },
+          {
+            key: "username",
+            label: "NUPTK",
+            emptyValue: "-",
+            placeholder: "Masukkan NUPTK guru..",
           },
           {
             key: "nuptk",
@@ -50,9 +58,9 @@ export const sections: CommonFormAddSection<Form>[] = [
           },
           {
             key: "phone",
-            label: "No. Telfon Orang Tua/Wali",
+            label: "No. Telfon",
             emptyValue: "-",
-            placeholder: "Masukkan No. Telfon Orang Tua/Wali..",
+            placeholder: "Masukkan No. Telfon..",
           },
         ],
         // fields group 3
