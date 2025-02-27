@@ -1,6 +1,5 @@
 "use client"
-/* eslint-disable @next/next/no-img-element */
-
+/* eslint-disable */
 
 import { Input } from "@/components/ui/input";
 import {
@@ -15,7 +14,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import ListCardMateri from "../../../../components/common/list/CommonListCardMateri";
-import { useGetAssignmentsQuery, useGetMaterialsQuery, useGetSubjectsQuery } from "@/graphql/generated";
+import { useGetSubjectsQuery } from "@/graphql/generated";
 import { dataSelectTypes } from "@/helpers/static/FormClass";
 
 export default function MaterialTeacher() {

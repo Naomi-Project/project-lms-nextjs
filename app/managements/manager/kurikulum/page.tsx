@@ -3,8 +3,7 @@ import ButtonAdd from "@/components/ui/buttonAdd";
 
 
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { TrendingDown, TrendingUp } from "lucide-react";
+import { Tabs, TabsList } from "@/components/ui/tabs";
 import CurriculumTable from "./datatable";
 
 

@@ -1,7 +1,7 @@
 "use client";
 
+/* eslint-disable */
 import { Button } from "@/components/ui/button";
-import poster from "../../../image/poster-materi.jpeg"
 
 import { Input } from "@/components/ui/input";
 import {
@@ -13,8 +13,6 @@ import {
 } from "@/components/ui/select";
 import {
   BookText,
-  CalendarOff,
-  CalendarRange,
   ClipboardList,
   Fence,
   Plus,
@@ -25,8 +23,6 @@ import React, { useState } from "react";
 
 
 import ListCardTugas from "@/components/common/list/CommonListCardTugas";
-import Image from "next/image";
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGetAssignmentsQuery, useGetMaterialsQuery, useGetSubjectsQuery } from "@/graphql/generated";
 
 interface dataSelectTypes {

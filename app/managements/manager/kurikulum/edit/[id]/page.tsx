@@ -1,13 +1,10 @@
 "use client";
 import {
   useGetCurriculumQuery,
-  useGetUserQuery,
   useUpdateCurriculumMutation,
-  useUpdateUserMutation,
 } from "@/graphql/generated";
 import { useParams } from "next/navigation";
 import { CommonFormEdit } from "@/components/common/form/CommonFormEdit";
-import { format } from "date-fns";
 import { kurikulumSchema, sections } from "@/helpers/static/FormKurikulum";
 
 const EditPage = () => {

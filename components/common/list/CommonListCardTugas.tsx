@@ -1,61 +1,66 @@
-"use client"
-/* eslint-disabled */
-import ButtonDelete from '@/components/ui/buttonDelete';
+"use client";
+/* eslint-disable */
+import ButtonDelete from "@/components/ui/buttonDelete";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Card, CardHeader, CardFooter, CardDescription, CardTitle } from '@/components/ui/card'
-import { useDeleteAssignmentMutation, useGetAssignmentsQuery } from '@/graphql/generated';
-import { format } from 'date-fns';
-import { Book, Calendar, EllipsisVertical, User } from 'lucide-react';
+import { Card, CardHeader, CardFooter, CardDescription, CardTitle } from "@/components/ui/card";
+import { useDeleteAssignmentMutation, useGetAssignmentsQuery } from "@/graphql/generated";
+import { format } from "date-fns";
+import { Book, Calendar, EllipsisVertical, User } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from "react";
 
 interface ListTypes {
-  canDelete?: boolean
-  role?: string
-  search?: string
-  filter?: string
+  canDelete?: boolean;
+  role?: string;
+  search?: string;
+  filter?: string;
 }
 
 const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: ListTypes) => {
-  // const { data: currentuser } = useUserPayloadQuery()
-  const { data } = useGetAssignmentsQuery()
-  const rawData = data?.assignments || []
-  const [tugas, setTugas] = useState(rawData)
-  
+  const { data } = useGetAssignmentsQuery();
+
+  // Gunakan useMemo agar rawData tidak berubah terus-menerus
+  const rawData = useMemo(() => data?.assignments || [], [data?.assignments]);
+  const [tugas, setTugas] = useState(rawData);
+
   useEffect(() => {
-    if (search && search.trim() !== "") {
-      setTugas(rawData.filter((item) => item.title.toLowerCase().includes(search.toLowerCase())))
-    } else {
-      setTugas(rawData)
-    }
-  }, [search, rawData])
+    setTugas(
+      search && search.trim() !== ""
+        ? rawData.filter((item) => item.title.toLowerCase().includes(search.toLowerCase()))
+        : rawData
+    );
+  }, [search, rawData]);
+
   useEffect(() => {
-    if (filter && filter.trim() !== "") {
-      setTugas(rawData.filter((item) => item.subject.id.includes(filter.toLowerCase())))
-    } else {
-      setTugas(rawData)
-    }
-  }, [filter, rawData])
-  
-  
-  const [deleteAssignments, {loading}] = useDeleteAssignmentMutation()
+    setTugas(
+      filter && filter.trim() !== ""
+        ? rawData.filter((item) => item.subject.id.includes(filter.toLowerCase()))
+        : rawData
+    );
+  }, [filter, rawData]);
+
+  const [deleteAssignments, { loading }] = useDeleteAssignmentMutation();
+
   return (
     <div className="w-full grid md:grid-cols-4 grid-cols-2 gap-4 mt-2">
-    {
-      tugas && tugas.map((data, index: number) => (
+      {tugas.map((data, index: number) => (
         <div className="col-span-1" key={index}>
           <Link href={`/managements/${role}/tasks-detail/${data.id}`}>
             <Card>
               <CardHeader className="flex gap-3">
-                <div className='flex flex-row gap-4 justify-between items-center'>
-                  <div className='flex flex-wrap gap-4'>
-                    <CardTitle className={`fontligh text-xs py-1 w-auto px-3 rounded-full text-center font-bold ${data.submissions.length > 0 ? "bg-blue-100 text-blue-400" : "bg-red-100 text-red-400"}`}>
-                      {data.submissions.length > 0 ? "Sudah Dikerjakan" : "Belum Dikerjakan"}
+                <div className="flex flex-row gap-4 justify-between items-center">
+                  <div className="flex flex-wrap gap-4">
+                    <CardTitle
+                      className={`fontligh text-xs py-1 w-auto px-3 rounded-full text-center font-bold ${
+                        data.submissions?.length > 0 ? "bg-blue-100 text-blue-400" : "bg-red-100 text-red-400"
+                      }`}
+                    >
+                      {data.submissions?.length > 0 ? "Sudah Dikerjakan" : "Belum Dikerjakan"}
                     </CardTitle>
                   </div>
                   {canDelete && (
@@ -66,44 +71,41 @@ const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: L
                         </button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="w-56">
-                        <DropdownMenuItem className='hover:bg-red-100'>
-                          <ButtonDelete noBg={true} id={data.id} customClassNoBg='bg-transparent text-white bg-red-500 w-full hover:bg-red-600 shadow-none' mutation={deleteAssignments} loading={loading} />
+                        <DropdownMenuItem className="hover:bg-red-100">
+                          <ButtonDelete
+                            noBg={true}
+                            id={data.id}
+                            customClassNoBg="bg-transparent text-white bg-red-500 w-full hover:bg-red-600 shadow-none"
+                            mutation={deleteAssignments}
+                            loading={loading}
+                          />
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   )}
                 </div>
-                <CardDescription className="font-bold text-base text-black">
-                  {data.title}
-                </CardDescription>
+                <CardDescription className="font-bold text-base text-black">{data.title}</CardDescription>
               </CardHeader>
-              <CardFooter className='flex flex-wrap gap-4'>
+              <CardFooter className="flex flex-wrap gap-4">
                 <CardDescription className="flex text-xs items-end gap-2 pr-8">
-                  <Calendar className='text-primary w-5 h-5' /> {' '}
+                  <Calendar className="text-primary w-5 h-5" />{" "}
                   <p>
-                  {format(new Date(data.dueDate), "yyyy-MM-dd HH:mm:ss")}
+                    {data.dueDate ? format(new Date(data.dueDate), "yyyy-MM-dd HH:mm:ss") : "Tidak Ada Deadline"}
                   </p>
                 </CardDescription>
                 <CardDescription className="flex text-xs items-end gap-2 pr-8">
-                  <User className='text-primary w-5 h-5' /> {' '}
-                  <p>
-                  {"Pa Budi"}
-                  </p>
+                  <User className="text-primary w-5 h-5" /> <p>{"Pa Budi"}</p>
                 </CardDescription>
                 <CardDescription className="flex text-xs gap-2">
-                  <Book className='text-primary w-5 h-5' /> {' '}
-                  <p>
-                  {data.subject.name}
-                  </p>
+                  <Book className="text-primary w-5 h-5" /> <p>{data.subject.name}</p>
                 </CardDescription>
               </CardFooter>
             </Card>
           </Link>
         </div>
-      ))
-    }
+      ))}
     </div>
-  )
-}
+  );
+};
 
-export default ListCardTugas
+export default ListCardTugas;

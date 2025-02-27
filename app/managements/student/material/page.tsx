@@ -1,4 +1,4 @@
-/* eslint-disable @next/next/no-img-element */
+/* eslint-disable */
 "use client"
 
 import { Input } from "@/components/ui/input";

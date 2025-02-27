@@ -1,7 +1,5 @@
 import { Button } from "@/components/ui/button";
 import React from "react";
-import user from "../../../../image/user.jpeg";
-import Image from "next/image";
 import AttendancesTable from "./datatable";
 
 export default function PresenceTeacher() {
