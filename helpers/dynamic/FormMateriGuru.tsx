@@ -8,7 +8,7 @@ import {
   useGetSubjectsQuery,
 } from "@/graphql/generated";
 import { z } from "zod";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useCreateMaterialMutation } from "@/src/graphql/generated";
 
 const materiGuruSchema = z.object({
@@ -85,8 +85,8 @@ const FormHelpersAdd = () => {
   });
   return (
     <CommonFormAdd
-      lable="Mata Pelajaran"
-      title="Buat Mata Pelajaran"
+      lable="Materi"
+      title="Buat Materi"
       method="POST"
       isUseDefaultMutation={true}
       mutation={createMaterial}
