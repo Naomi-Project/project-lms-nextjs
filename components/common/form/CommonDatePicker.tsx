@@ -1,7 +1,7 @@
-"use client";
+"use client"
 import * as React from "react"
-import { FormControl, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { useFormContext } from "react-hook-form";
+import { FormControl, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { useFormContext } from "react-hook-form"
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
 
@@ -14,21 +14,23 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-
 interface CommonDatePickerProps {
-  name: string;
-  label?: string;
-  placeholder?: string;
+  name: string
+  label?: string
+  placeholder?: string
 }
 
-const CommonDatePicker: React.FC<CommonDatePickerProps> = ({ name, label = '' }) => {
+const CommonDatePicker: React.FC<CommonDatePickerProps> = ({ name, label = "" }) => {
   const { setValue, watch } = useFormContext(); // Gunakan useFormContext untuk mengakses form global
   const value = watch(name);
-  const [date, setDate] = React.useState<Date>()
+  const [date, setDate] = React.useState<Date | undefined>(value ? new Date(value) : undefined);
 
+  // Ketika tanggal berubah, simpan ke react-hook-form
   React.useEffect(() => {
-    setValue(name, value || "");
-  }, [value, setValue, name]);
+    if (date) {
+      setValue(name, date.toISOString().split("T")[0]); // Simpan dalam format YYYY-MM-DD
+    }
+  }, [date, name, setValue]);
 
   return (
     <FormItem className="flex flex-col mt-2 w-full">
@@ -43,15 +45,15 @@ const CommonDatePicker: React.FC<CommonDatePickerProps> = ({ name, label = '' })
                 !date && "text-muted-foreground"
               )}
             >
-              <CalendarIcon />
-              {date ? format(date, "PPP") : <span>Pick a date</span>}
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {date ? format(date, "PPP") : <span>Pilih Tanggal</span>}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0">
             <Calendar
               mode="single"
               selected={date}
-              onSelect={setDate}
+              onSelect={(selectedDate) => setDate(selectedDate)}
               initialFocus
             />
           </PopoverContent>

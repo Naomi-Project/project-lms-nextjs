@@ -8,7 +8,7 @@ import {
   useGetSubjectsQuery,
 } from "@/graphql/generated";
 import { z } from "zod";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useCreateAssignmentMutation } from "@/src/graphql/generated";
 
 const tugasSchema = z.object({
@@ -72,8 +72,7 @@ const FormHelpersAdd = () => {
           {
             key: "dueDate",
             label: "Deadline Tugas",
-            defaultValue: "2025-01-01",
-            type: "date_picker",
+            type: "date_time",
             emptyValue: "-",
             placeholder: "Masukkan tanggal pengumpulan..",
           },
@@ -121,7 +120,7 @@ const FormHelpersAdd = () => {
   const [dataMutationDefault, setDataMutationDefault] = useState({
     title: "",
     description: "",
-    dueDate: "2025-01-01",
+    dueDate: "",
     type: "",
     extendedData: '',
     subjectId: "",

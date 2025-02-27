@@ -30,6 +30,8 @@ import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
 import { Label } from "recharts";
 import CommonSoalBuilder from "./CommonSoalBuilder";
 import CommonEditor from "./CommonEditor";
+import CommonDatePicker from "./CommonDatePicker";
+import CommonDateTimePicker from "./CommonDateTimePicker";
 
 export interface CommonFormEditField<T extends Record<any, any>> {
   key: keyof T & string;
@@ -179,6 +181,10 @@ export function CommonFormEdit<T extends Record<any, any>>(
                                 </FormItem>
                               )}
                             />
+                          ) : dataField.type === "date_picker" ? (
+                            <CommonDatePicker name={String(dataField.key)} label={dataField.label} />
+                          ) : dataField.type === "date_time" ? (
+                            <CommonDateTimePicker name={String(dataField.key)} label={dataField.label} />
                           ) : dataField.type === "md" ? (
                             <CommonEditor name={String(dataField.key)} label={dataField.label} placeholder={dataField.placeholder} />
                           ) : dataField.type === "soal_builder" ? (

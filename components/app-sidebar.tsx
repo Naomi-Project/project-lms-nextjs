@@ -17,13 +17,12 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { HeadofficeMenu, ManagerMenu, StudentMenu, TeacherMenu } from "@/lib/constants";
-import { ChevronDown, LinkIcon, User2 } from "lucide-react";
+import { User2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "../image/logo.png";
-import user from "../image/user.jpeg";
-import { Avatar } from "./ui/avatar";
-import { Button } from "./ui/button";
+import ButtonLogout from "./ui/buttonLogout";
+import ProfileSidebar from "./ui/profileSidebar";
 
 export function AppSidebar() {
   return (
@@ -151,13 +150,7 @@ export function AppSidebar() {
             <SidebarGroupContent>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="secondary" className="w-full justify-start">
-                    <Avatar className="mr-2 h-8 w-8">
-                      <Image src={user} alt="user" />
-                    </Avatar>
-                    <span className="truncate">Pengguna</span>
-                    <ChevronDown className="ml-auto h-4 w-4" />
-                  </Button>
+                  <ProfileSidebar />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56">
                   <DropdownMenuItem>
@@ -177,17 +170,7 @@ export function AppSidebar() {
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
-                    <Link href="/" className="w-full">
-                      <div className="grid grid-cols-10 gap-4">
-                        <div className="col-span-1">
-                          <LinkIcon className="mr-2 h-4 w-4" />
-                        </div>
-
-                        <div className="col-span-9">
-                          <p>Logout</p>
-                        </div>
-                      </div>
-                    </Link>
+                    <ButtonLogout />
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

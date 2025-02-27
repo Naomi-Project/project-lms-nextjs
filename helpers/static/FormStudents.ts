@@ -9,6 +9,7 @@ export const studentSchema = z.object({
 //   guardian: z.string().min(1, "Nama Orang Tua/Wali wajib diisi"),
   phone: z.string().regex(/^(\+62|62|0)[0-9]{9,13}$/, "Nomor telepon tidak valid"),
   address: z.string().min(1, "Alamat wajib diisi"),
+  dateOfBirth: z.string().min(1, "Tgl Ulang Tahun wajib diisi"),
   mainClass: z.string().optional(),
   subClass: z.string().optional(),
   isTransfer: z.boolean().optional(),
@@ -20,6 +21,7 @@ export interface Form {
     nik: string
     phone: string
     address: string
+    dateOfBirth: string
 }
 
 export const sections: CommonFormAddSection<Form>[] = [
@@ -49,21 +51,27 @@ export const sections: CommonFormAddSection<Form>[] = [
             placeholder: "Masukkan NIK..",
           },
           {
+            key: "dateOfBirth",
+            label: "Tgl Ulang Tahun",
+            type: "date_picker",
+            emptyValue: "-",
+            placeholder: "Masukkan Tanggal Ulang Tahun .",
+          },
+        ],
+        // fields group 3
+        [
+          {
             key: "phone",
             label: "No. Telfon Orang Tua/Wali",
             emptyValue: "-",
             placeholder: "Masukkan No. Telfon Orang Tua/Wali..",
           },
-        ],
-        // fields group 3
-        [
-            {
-              key: "address",
-              label: "Alamat Tempat Tinggal",
-              emptyValue: "-",
-              class: "md:w-full lg:w-full",
-              placeholder: "Masukkan Alamat..",
-            },
+          {
+            key: "address",
+            label: "Alamat Tempat Tinggal",
+            emptyValue: "-",
+            placeholder: "Masukkan Alamat..",
+          },
         ],
       ],
     },
