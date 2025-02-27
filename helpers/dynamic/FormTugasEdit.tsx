@@ -11,14 +11,15 @@ import { useGetAssignmentQuery, useUpdateAssignmentMutation } from "@/src/graphq
 import { CommonFormEdit } from "@/components/common/form/CommonFormEdit";
 import { useParams } from "next/navigation";
 import { useState } from "react";
+import { format } from "date-fns";
 
 const tugasSchema = z.object({
-  title: z.string().min(1, "Nama materi wajib diisi"),
-  description: z.string().min(1, "Nama materi wajib diisi"),
-  dueDate: z.string().min(1, "Nama materi wajib diisi"),
-  type: z.string().min(1, "Nama materi wajib diisi"),
-  extendedData: z.string().min(1, "Nama materi wajib diisi"),
-  subjectId: z.string().min(1, "Subject id wajib dipilih"),
+  title: z.string().min(1, "Nama tugas wajib diisi"),
+  description: z.string().min(1, "Deskripsi tugas wajib diisi"),
+  dueDate: z.string().min(1, "Deadline wajib diisi"),
+  type: z.string().min(1, "Tipe tugas wajib diisi"),
+  extendedData: z.string().min(1, "Isi tugas wajib diisi"),
+  subjectId: z.string().min(1, "Mapel wajib dipilih"),
 });
 
 interface Form {
@@ -82,7 +83,8 @@ const FormHelpersEdit = () => {
         [
           {
             key: "dueDate",
-            label: "Tanggal",
+            label: "Deadline",
+            type: "date_time",
             emptyValue: "-",
             placeholder: "Masukkan tanggal pengumpulan..",
           },
@@ -124,28 +126,16 @@ const FormHelpersEdit = () => {
       ],
     },
   ];
-//   const { data, loading, error } = useGetAssignmentsQuery();
-
-// if (loading) {
-//   return <p>Loading...</p>;
-// }
-
-// if (error) {
-//   console.error("Error fetching assignments:", error);
-//   return <p>Error fetching data</p>;
-// }
-
-// console.log(data); // Pastikan ini mencetak hasil query
 
   const [updateAssignment] = useUpdateAssignmentMutation();
-
+  const fixData = { ...dataEdit?.assignment, dueDate: format(new Date(dataEdit?.assignment.dueDate), "yyyy-MM-dd") }
   return (
     <CommonFormEdit
       lable="Tugas"
       title="Edit & Detail Tugas"
       method="PUT"
       hideBackButton={true}
-      dataGet={dataEdit?.assignment}
+      dataGet={fixData}
       mutation={updateAssignment}
       schema={tugasSchema}
       sections={sections}

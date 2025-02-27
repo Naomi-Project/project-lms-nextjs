@@ -14,7 +14,7 @@ const CreatePage = () => {
     nik: "1234567890",
     nuptk: "",
     nisn: "",
-    dateOfBirth: 20050101,
+    dateOfBirth: "",
     gender: Gender.Male,
     address: "",
     phone: "",

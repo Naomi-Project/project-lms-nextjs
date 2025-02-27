@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable */
 import React from "react";
-import { BookOpen, Calendar, DatabaseIcon, LibraryBig, Link2Icon, User2Icon } from "lucide-react";
+import { Book, BookOpen, Calendar, DatabaseIcon, LibraryBig, Link2Icon, Paperclip, User2Icon } from "lucide-react";
 import { title } from "process";
 import FormHelpersEdit from "@/helpers/dynamic/FormTugasEdit";
 import FormHelpersAdd from "@/helpers/dynamic/FormSubsmission";
@@ -99,27 +99,27 @@ export default function TasksDetail({ role = "teacher", dataDefault, idAssignmen
                 {/* mapping soal utk student */}
                 <div className="w-full flex flex-col">
                   <div className="w-full">
-                    <p>{description}</p>
+                    <div
+                      className="prose max-w-none"
+                      dangerouslySetInnerHTML={{ __html: description ?? "" }}
+                    />
                   </div>
                   <div className="flex mt-5 flex-wrap justify-between ">
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2 items-end">
                       <Calendar className="text-primary" />
                       <div className="flex flex-col">
-                        <span>Deadline</span>
                         <span>{dueDate}</span>
                       </div>
                     </div>
-                    <div className="flex flex-wrap gap-2">
-                      <Calendar className="text-primary" />
+                    <div className="flex flex-wrap gap-2 items-end">
+                      <Paperclip className="text-primary" />
                       <div className="flex flex-col">
-                        <span>Tipe Tugas</span>
                         <span>{typeTugas}</span>
                       </div>
                     </div>
-                    <div className="flex flex-wrap gap-2">
-                      <Calendar className="text-primary" />
+                    <div className="flex flex-wrap gap-2 items-end">
+                      <Book className="text-primary" />
                       <div className="flex flex-col">
-                        <span>Mapel</span>
                         <span>{subject}</span>
                       </div>
                     </div>

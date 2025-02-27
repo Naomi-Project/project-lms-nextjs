@@ -15,13 +15,17 @@ function ListClass<T extends Record<any, any>>(
   const [deleteClassroom] = useDeleteClassroomMutation();
   const { data, loading } = useGetClassroomsQuery();
   const cleanData = data?.classrooms.slice().sort((a: any, b: any) => {
-    // Ambil angka di depan (misal "7" dari "7a")
-    const numA = parseInt(a.name.match(/\d+/)[0]); 
-    const numB = parseInt(b.name.match(/\d+/)[0]);
+    // Cek apakah `name` mengandung angka
+    const matchA = a?.name.match(/\d+/);
+    const matchB = b?.name.match(/\d+/);
   
-    // Ambil huruf di belakang (misal "a" dari "7a")
-    const letterA = a.name.match(/[a-zA-Z]+/)[0];
-    const letterB = b.name.match(/[a-zA-Z]+/)[0];
+    // Jika tidak ada angka, beri nilai default 0
+    const numA = matchA ? parseInt(matchA[0]) : 0;
+    const numB = matchB ? parseInt(matchB[0]) : 0;
+  
+    // Cek apakah `name` mengandung huruf
+    const letterA = a?.name.match(/[a-zA-Z]+/)?.[0] || "";
+    const letterB = b?.name.match(/[a-zA-Z]+/)?.[0] || "";
   
     // Urutkan berdasarkan angka dulu
     if (numA !== numB) {

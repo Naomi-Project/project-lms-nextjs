@@ -1,5 +1,5 @@
 "use client";
-
+/* eslint-disable */
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -25,30 +25,55 @@ export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [number, setNumber] = useState("");
+  const [isError, setIsError] = useState(false);
   const router = useRouter();
 
+  // const [login, { loading }] = useLoginMutation();
   const [login, { loading }] = useLoginMutation();
 
 
   // new code from react auth login
-  const handleLogin = async () => {
+  const handleLogin = async (e: any) => {
+    e.preventDefault()
     try {
-      const response = await login({
-        variables: {
-          data: {
-            username: username,
-            password: password,
+      setIsError(false)
+      if (role === "manager" || role === "admin") {
+        const response = await login({
+          variables: {
+            data: {
+              username: username,
+              password: password,
+            }
           }
+        })
+  
+        if (response.data?.login.authToken) {
+          localStorage.setItem("authToken", response.data.login.authToken);
+          alert("Login successful!");
+          // window.location.reload();
+          router.push('/dashboard')
         }
-      })
-
-      if (response.data?.login.authToken) {
-        localStorage.setItem("authToken", response.data.login.authToken);
-        alert("Login successful!");
-        // window.location.reload();
-        router.push('/dashboard')
+        return true
+      } else if (role === "teacher" || role === "student") {
+        const response = await login({
+          variables: {
+            data: {
+              username: String(number),
+              password: "",
+            }
+          }
+        })
+  
+        if (response.data?.login.authToken) {
+          localStorage.setItem("authToken", response.data.login.authToken);
+          alert("Login successful!");
+          // window.location.reload();
+          router.push('/dashboard')
+        }
+        return true
       }
     } catch (err) {
+      setIsError(true)
       console.error("Login error:", err);
     }
   };
@@ -63,7 +88,7 @@ export default function LoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleLogin}>
+          <form onSubmit={(e) => handleLogin(e)}>
             <Tabs
               defaultValue="manager"
               value={role}
@@ -148,7 +173,8 @@ export default function LoginPage() {
             </Tabs>
           </form>
         </CardContent>
-        <CardFooter>
+        <CardFooter className="flex flex-col gap-3">
+          <Label className={isError ? "text-red-600" : "hidden"}>Credential Akun Salah, Akun Tidak Ditemukan.</Label>
           <Button disabled={loading} className="w-full" onClick={handleLogin}>
             {loading && (
               <svg
