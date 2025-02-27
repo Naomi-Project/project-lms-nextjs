@@ -2,7 +2,7 @@
 import ButtonDelete from '@/components/ui/buttonDelete';
 /* eslint-disabled */
 import { Card, CardHeader, CardTitle, CardFooter, CardDescription } from '@/components/ui/card'
-import { useDeleteAssignmentMutation, useGetAssignmentsQuery } from '@/src/graphql/generated';
+import { useDeleteAssignmentMutation, useGetAssignmentsQuery } from '@/graphql/generated';
 import { format } from 'date-fns';
 import { Book, Calendar, User } from 'lucide-react';
 import Link from "next/link";

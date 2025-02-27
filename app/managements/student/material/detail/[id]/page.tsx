@@ -2,7 +2,7 @@
 import React from "react";
 import { useParams } from "next/navigation";
 import MaterialDetail from "@/components/common/detail/CommonDetailMateri";
-import { useGetMaterialQuery } from "@/src/graphql/generated";
+import { useGetMaterialQuery } from "@/graphql/generated";
 
 export default function DetailPage() {
   const params = useParams();

@@ -8,7 +8,7 @@ import {
 
 import { z } from "zod";
 import { useEffect, useState } from "react";
-import { useCreateScoreMutation, useUserPayloadQuery } from "@/src/graphql/generated";
+import { useCreateScoreMutation, useUserPayloadQuery } from "@/graphql/generated";
 
 const tugasSchema = z.object({
   assignmentId: z.string().min(1, "Nama materi wajib diisi"),

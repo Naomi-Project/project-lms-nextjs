@@ -33,9 +33,10 @@ import dynamic from "next/dynamic";
 import CommonEditor from "./CommonEditor";
 import CommonSoalBuilder from "./CommonSoalBuilder";
 import CommonSubmission from "./CommonSubmission";
-import { useCreateSubmissionMutation } from "@/src/graphql/generated";
+import { useCreateSubmissionMutation } from "@/graphql/generated";
 import CommonDatePicker from "./CommonDatePicker";
 import CommonDateTimePicker from "./CommonDateTimePicker";
+import CommonSelectMultiple from "./CommonSelectMultiple";
 
 export interface CommonFormAddField<T extends Record<any, any>> {
   key: keyof T & string;
@@ -87,8 +88,8 @@ export function CommonFormAdd<T extends Record<any, any>>(
   
   const onSubmit = async (values: z.infer<typeof props.schema>) => {
     setIsSubmit(true)
-    // console.log(values)
-    // return
+    console.log(values)
+    return
     if (props.isSubmission == true) {
       alert('tunggu sebentar.. (klik ok utk melanjutkan proses)')
       const dataSoal = JSON.parse(values.extendedData)
@@ -275,6 +276,8 @@ export function CommonFormAdd<T extends Record<any, any>>(
                                 </FormItem>
                               )}
                             />
+                          ) : dataField.type === "select_multiple" ? (
+                            <CommonSelectMultiple dataSelect={dataField.dataSelect ?? []} name={String(dataField.key)} label={dataField.label} placeholder={dataField.placeholder} />
                           ) : dataField.type === "date_picker" ? (
                             <CommonDatePicker name={String(dataField.key)} label={dataField.label} />
                           ) : dataField.type === "date_time" ? (

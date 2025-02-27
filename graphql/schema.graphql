@@ -19,7 +19,6 @@ query UserPayload {
 query GetUser($data: String!) {
   user(id: $data) {
     id
-    name
     username
     role
     nik
@@ -41,7 +40,6 @@ query GetUser($data: String!) {
 query GetUsers {
   users {
     id
-    name
     username
     role
     nik
@@ -889,6 +887,12 @@ mutation CreateClassroom($data: CreateClassroomInput!) {
   createClassroom(data: $data) {
     id
     name
+    guardian {
+      id
+    }
+    students {
+      id
+    }
   }
 }
 

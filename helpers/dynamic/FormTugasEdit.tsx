@@ -7,7 +7,7 @@ import {
   useGetSubjectsQuery,
 } from "@/graphql/generated";
 import { z } from "zod";
-import { useGetAssignmentQuery, useUpdateAssignmentMutation } from "@/src/graphql/generated";
+import { useGetAssignmentQuery, useUpdateAssignmentMutation } from "@/graphql/generated";
 import { CommonFormEdit } from "@/components/common/form/CommonFormEdit";
 import { useParams } from "next/navigation";
 import { useState } from "react";

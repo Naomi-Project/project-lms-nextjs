@@ -3,7 +3,7 @@ import {
   CommonFormAdd
 } from "@/components/common/form/CommonFormAdd";
 import { sections, announcementSchema } from "@/helpers/static/FormAnnouncements";
-import { useCreateAnnouncementMutation } from "@/src/graphql/generated";
+import { useCreateAnnouncementMutation } from "@/graphql/generated";
 import { useState } from "react";
 
 const CreatePage = () => {

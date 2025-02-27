@@ -9,7 +9,7 @@ import {
 } from "@/graphql/generated";
 import { z } from "zod";
 import { useState } from "react";
-import { useCreateMaterialMutation } from "@/src/graphql/generated";
+import { useCreateMaterialMutation } from "@/graphql/generated";
 
 const materiGuruSchema = z.object({
   title: z.string().min(1, "Nama materi wajib diisi"),

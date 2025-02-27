@@ -15,15 +15,15 @@ const cabangKelasSchema = z.object({
   name: z.string().min(1, "Nama kelas wajib diisi"),
   gradeId: z.string().min(1, "Induk kelas wajib diisi"),
   guardianId: z.string().min(1, "Wali wajib diisi"),
-  // enrollments: z.string().min(1, "Nama wali wajib diisi"),
+  students: z.string().min(1, "Wali wajib diisi"),
   // schedules: z.string().min(1, "Nama wali wajib diisi"),
 });
 
 interface Form {
   gradeId: string;
   guardianId: string;
+  students: string;
   name: string;
-  // enrollments: string
   // schedules: string
 }
 
@@ -34,15 +34,19 @@ interface dataSelectTypes {
 
 const FormHelpersAdd = () => {
   // Query pertama: Ambil data grades
-  const { data: firstData, loading: loadingGrades, error: errorGrades } = useGetGradesQuery()
+  const { data: firstData } = useGetGradesQuery()
   const dataGrades: dataSelectTypes[] = firstData?.grades.map((grade) => ({
     label: grade.name,
     value: grade.id,
   })) || []
   
   // Query kedua: Ambil data users
-  const { data: secondData, loading: loadingUsers, error: errorUsers } = useGetUsersQuery()
-  const dataUsers: dataSelectTypes[] = secondData?.users.map((user) => ({
+  const { data: secondData } = useGetUsersQuery()
+  const dataTeachers: dataSelectTypes[] = secondData?.users.filter((item) => item.role === "TEACHER").map((user) => ({
+      label: user.username,
+      value: user.id,
+  })) || []
+  const dataStudents: dataSelectTypes[] = secondData?.users.filter((item) => item.role === "STUDENT").map((user) => ({
       label: user.username,
       value: user.id,
   })) || []
@@ -66,32 +70,25 @@ const FormHelpersAdd = () => {
             emptyValue: "-",
             placeholder: "Pilih Induk Kelas..",
           },
+        ],
+        [
           {
             key: "guardianId",
             label: "Wali Kelas",
             type: "select",
-            dataSelect: dataUsers,
+            dataSelect: dataTeachers,
             emptyValue: "-",
-            placeholder: "Pilih Users..",
+            placeholder: "Pilih Guru..",
           },
-          // {
-          //   key: "enrollments",
-          //   label: "Wali Kelas",
-          //   emptyValue: "-",
-          //   placeholder: "Masukkan nama wali kelas..",
-          // },
+          {
+            key: "students",
+            label: "Siswa/i Kelas",
+            type: "select_multiple",
+            dataSelect: dataStudents,
+            emptyValue: "-",
+            placeholder: "Pilih Siswa..",
+          },
         ],
-        // fields group 2
-        // [
-        //   {
-        //     key: "schedules",
-        //     label: "Schedules",
-        //     emptyValue: "-",
-        //     type: "number",
-        //     class: "md:w-full lg:w-full",
-        //     placeholder: "Masukkan..",
-        //   },
-        // ],
       ],
     },
   ];
@@ -102,6 +99,7 @@ const FormHelpersAdd = () => {
     gradeId: "",
     guardianId: "",
     name: "",
+    students: [],
     // enrollments: "",
     // scheduls: "",
   });

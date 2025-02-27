@@ -2,7 +2,7 @@
 import ButtonDelete from '@/components/ui/buttonDelete';
 /* eslint-disabled */
 import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card'
-import { useDeleteMaterialMutation, useGetMaterialsQuery } from '@/src/graphql/generated';
+import { useDeleteMaterialMutation, useGetMaterialsQuery } from '@/graphql/generated';
 import Link from "next/link";
 
 const ListCardMateri = ({ canDelete = true, role = "student" }) => {
@@ -19,7 +19,7 @@ const ListCardMateri = ({ canDelete = true, role = "student" }) => {
             <Card className="w-full h-[230px] sm:w-full">
               <CardHeader className="flex gap-3">
                 <div className='flex justify-between items-center'>
-                  <CardTitle className="font-light text-xs p-1 bg-slate-100 w-20 rounded-full text-center text-slate-400">
+                  <CardTitle className="font-light text-xs p-1 bg-slate-100 w-auto rounded-full text-center text-slate-400">
                     {data.subject.name}
                   </CardTitle>
                   {canDelete && (

@@ -2,7 +2,7 @@
 /* eslint-disable */
 import { DataTable } from "@/components/common/list/CommonDataTable";
 import ButtonDelete from "@/components/ui/buttonDelete";
-import { useDeleteSubmissionMutation, useGetSubmissionsQuery } from "@/src/graphql/generated";
+import { useDeleteSubmissionMutation, useGetSubmissionsQuery } from "@/graphql/generated";
 
 
 interface SubmissionTableProps {

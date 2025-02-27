@@ -16,7 +16,7 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  title: "SMP Yapendik Dashboard",
+  title: "Sekolah Yapendik Dashboard",
   description: "A comprehensive dashboard for school management",
 };
 

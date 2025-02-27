@@ -3,7 +3,7 @@
 import { DataTable } from "@/components/common/list/CommonDataTable";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
-import { useDeleteAnnouncementMutation, useGetAnnouncementsQuery } from "@/src/graphql/generated";
+import { useDeleteAnnouncementMutation, useGetAnnouncementsQuery } from "@/graphql/generated";
 
 type Pengumuman = {
     id: string;

@@ -1245,7 +1245,7 @@ export type CreateClassroomMutationVariables = Exact<{
 }>;
 
 
-export type CreateClassroomMutation = { __typename?: 'Mutation', createClassroom: { __typename?: 'Classroom', id: string, name: string } };
+export type CreateClassroomMutation = { __typename?: 'Mutation', createClassroom: { __typename?: 'Classroom', id: string, name: string, guardian: { __typename?: 'User', id: string }, students: Array<{ __typename?: 'User', id: string }> } };
 
 export type UpdateClassroomMutationVariables = Exact<{
   data: UpdateClassroomInput;
@@ -3884,6 +3884,12 @@ export const CreateClassroomDocument = gql`
   createClassroom(data: $data) {
     id
     name
+    guardian {
+      id
+    }
+    students {
+      id
+    }
   }
 }
     `;

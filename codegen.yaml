@@ -1,7 +1,8 @@
 schema: "https://staging.zerobase.tech/graphql" # Ganti dengan URL GraphQL API Anda
 documents: "graphql/**/*.graphql" # Path ke file query/mutation GraphQL
 generates:
-  src/graphql/generated.ts:
+  # src/graphql/generated.ts:
+  graphql/generated.ts:
     plugins:
       - "typescript"
       - "typescript-operations"

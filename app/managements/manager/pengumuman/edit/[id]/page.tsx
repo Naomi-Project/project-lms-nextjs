@@ -3,7 +3,7 @@
 
 import { useParams } from "next/navigation";
 import { CommonFormEdit } from "@/components/common/form/CommonFormEdit";
-import { useGetAnnouncementQuery, useUpdateAnnouncementMutation } from "@/src/graphql/generated";
+import { useGetAnnouncementQuery, useUpdateAnnouncementMutation } from "@/graphql/generated";
 import { announcementSchema, sections } from "@/helpers/static/FormAnnouncements";
 
 const EditPage = () => {

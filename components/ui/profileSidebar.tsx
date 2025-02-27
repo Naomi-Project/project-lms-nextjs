@@ -5,7 +5,7 @@ import user from "@/image/user.jpeg";
 import Image from 'next/image';
 import { Button } from './button';
 import { Avatar } from './avatar';
-import { useUserPayloadQuery } from '@/src/graphql/generated';
+import { useUserPayloadQuery } from '@/graphql/generated';
 
 const ProfileSidebar = React.forwardRef<HTMLButtonElement, React.ComponentProps<typeof Button>>(
   ({ ...props }, ref) => {

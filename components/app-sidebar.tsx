@@ -35,7 +35,7 @@ export function AppSidebar() {
                 <a href="#">
                   <Image src={logo} alt="logo" />
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">SMP Yapendik</span>
+                    <span className="truncate font-semibold">Sekolah Yapendik</span>
                     <span className="truncate text-xs">Semarang</span>
                   </div>
                 </a>

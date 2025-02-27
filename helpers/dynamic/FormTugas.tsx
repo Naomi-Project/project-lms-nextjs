@@ -9,7 +9,7 @@ import {
 } from "@/graphql/generated";
 import { z } from "zod";
 import { useState } from "react";
-import { useCreateAssignmentMutation } from "@/src/graphql/generated";
+import { useCreateAssignmentMutation } from "@/graphql/generated";
 
 const tugasSchema = z.object({
   title: z.string().min(1, "Nama materi wajib diisi"),
