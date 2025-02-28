@@ -31,7 +31,7 @@ interface dataSelectTypes {
 }
 
 export default function DashboardTeacher() {
-  const { data: tugas } = useGetAssignmentsQuery()
+  const { data: tugas, error } = useGetAssignmentsQuery()
   const { data: materi } = useGetMaterialsQuery()
   const assignmentNotFinishLength = tugas?.assignments.filter((item) => item.submissions?.length == 0).length ?? "loading.."
   const assignmentLength = tugas?.assignments.length ?? "loading.."
@@ -44,6 +44,9 @@ export default function DashboardTeacher() {
     label: data.name,
     value: data.id,
   })) || []
+  if (error) {
+    console.log(error)
+  }
   return (
     <div className="h-auto">
       <div className="grid md:grid-cols-3 grid-cols-2 gap-4">

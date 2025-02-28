@@ -3,7 +3,7 @@
 import { DataTable } from "@/components/common/list/CommonDataTable";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
-import { useDeleteAnnouncementMutation, useDeleteAttendanceQuery, useGetAttendancesQuery, useGetMaterialsQuery, useGetUsersQuery } from "@/graphql/generated";
+import { useDeleteAnnouncementMutation, useGetAttendancesQuery, useGetMaterialsQuery, useGetUsersQuery } from "@/graphql/generated";
 import { format } from "date-fns";
 import {
   Select,
@@ -16,8 +16,8 @@ import {
   
   
 export default function AttendancesTable() {
-    // const { data } = useGetAttendancesQuery()
-    const { data } = useGetMaterialsQuery()
+    const { data } = useGetUsersQuery()
+    // const { data } = useGetMaterialsQuery()
     // });
     const [deleteAttendance, { loading }] = useDeleteAnnouncementMutation();
     const columns = [
@@ -29,9 +29,9 @@ export default function AttendancesTable() {
         cell: ({ row }: any) => <span>{row.index + 1}</span>,
       },
       {
-        accessorKey: "title",
+        accessorKey: "name",
         header: "NAMA MURID",
-        cell: ({ row }: any) => <span>{row.getValue('title')}</span>,
+        cell: ({ row }: any) => <span className="">{row.getValue('name')}</span>,
       },
       {
         accessorKey: "action",
@@ -42,10 +42,10 @@ export default function AttendancesTable() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="PRESENT"><span className="text-primary">Hadir</span></SelectItem>
-                <SelectItem value="SICK"><span className="text-warning">Sakit</span></SelectItem>
-                <SelectItem value="dark">Dark</SelectItem>
-                <SelectItem value="system">System</SelectItem>
+                <SelectItem value="PRESENT" className=""><span className="text-green-500">Hadir</span></SelectItem>
+                <SelectItem value="PERMIT" className=""><span className="text-yellow-500">Izin</span></SelectItem>
+                <SelectItem value="SICK"><span className="text-indigo-500">Sakit</span></SelectItem>
+                <SelectItem value="ABSENT"><span className="text-red-500">Tidak Hadir</span></SelectItem>
               </SelectContent>
           </Select>
          {/* <ButtonEdit endpoint="/managements/manager/presence/edit/" id={row.original.id} />
@@ -55,7 +55,7 @@ export default function AttendancesTable() {
     ];
 
   // const dataAttendances: unknown[] = data?.attendances || [];
-  const dataAttendances: unknown[] = data?.materials || [];
+  const dataAttendances: unknown[] = data?.users.filter((item) => item.role === "STUDENT") || [];
   console.log(dataAttendances)
 
   return (

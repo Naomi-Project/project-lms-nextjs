@@ -43,13 +43,13 @@ const FormHelpersAdd = () => {
   // Query kedua: Ambil data users
   const { data: secondData } = useGetUsersQuery()
   const dataTeachers: dataSelectTypes[] = secondData?.users.filter((item) => item.role === "TEACHER").map((user) => ({
-      label: user.username,
+      label: user.name ?? "",
       value: user.id,
   })) || []
-  const dataStudents: dataSelectTypes[] = secondData?.users.filter((item) => item.role === "STUDENT").map((user) => ({
-      label: user.username,
-      value: user.id,
-  })) || []
+  // const dataStudents: dataSelectTypes[] = secondData?.users.filter((item) => item.role === "STUDENT").map((user) => ({
+  //     label: user.username,
+  //     value: user.id,
+  // })) || []
 
   const sections: CommonFormAddSection<Form>[] = [
     {

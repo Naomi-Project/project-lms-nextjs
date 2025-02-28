@@ -4,7 +4,7 @@ import { z } from "zod";
 
 export const studentSchema = z.object({
   username: z.string().optional(),
-  password: z.string().nullable(), 
+  password: z.string().nullable().optional(),
   role: z.string().optional(),
   name: z.string().min(1, "Nama Lengkap wajib diisi"),
   nisn: z.string().min(8, "NISN minimal 8 digit"),
@@ -54,21 +54,21 @@ export const sections: CommonFormAddSection<Form>[] = [
             key: "username",
             label: "Nama Lengkap",
             emptyValue: "-",
-            // hidden: true,
+            hidden: true,
             placeholder: "Masukkan nama lengkap siswa..",
           },
           {
             key: "password",
             label: "Password",
             emptyValue: "-",
-            // hidden: true,
+            hidden: true,
             placeholder: "Masukkan password..",
           },
           {
             key: "role",
             label: "Role",
             emptyValue: "-",
-            // hidden: true,
+            hidden: true,
             placeholder: "Masukkan Role..",
           },
         ],
@@ -94,7 +94,7 @@ export const sections: CommonFormAddSection<Form>[] = [
             key: "phone",
             label: "No. Telfon Orang Tua/Wali",
             emptyValue: "-",
-            placeholder: "Masukkan No. Telfon Orang Tua/Wali..",
+            placeholder: "6287377333...",
           },
           {
             key: "gender",

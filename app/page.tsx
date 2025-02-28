@@ -83,9 +83,10 @@ export default function LoginPage() {
             timer: 2000,
             timerProgressBar: true,
           }).then((result) => {
-            if (result.dismiss === Swal.DismissReason.timer) {
+            if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
               // history.back(); 
-              router.push('/dashboard')
+              // router.push('/dashboard')
+              window.location.href = "/dashboard"
             }
           });
         }

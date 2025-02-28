@@ -96,7 +96,7 @@ export function CommonFormEdit<T extends Record<any, any>>(
   };
 
   const executeMutation = async (dataMut: any) => {
-    const { __typename, families, updatedAt, createdAt, subject, submissions, subjects, ...cleanData } = dataMut;
+    const { __typename, families, updatedAt, createdAt, subject, submissions, subjects, classroom, ...cleanData } = dataMut;
     try {
       const response = await props.mutation({
         variables: {

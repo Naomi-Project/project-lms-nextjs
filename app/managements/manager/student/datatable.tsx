@@ -5,6 +5,7 @@ import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
 import { useDeleteUserMutation, useGetUsersQuery } from "@/graphql/generated";
 
+
 type Student = {
     id: string;
     name?: string | null;
@@ -13,6 +14,7 @@ type Student = {
     nik?: string | null;
     nisn?: string | null;
     nuptk?: string | null;
+    classrom?: any | undefined;
     role: string;
     address: string;
     phone: string; // Ubah number ke string agar cocok dengan GraphQL
@@ -20,12 +22,8 @@ type Student = {
   
   
 export default function StudentTable() {
-    const { data } = useGetUsersQuery()
-    // const { data } = useGetUsersQuery({
-    //   variables: {
-    //     role: "STUDENT" as string
-    //   }
-    // });
+    const { data, error } = useGetUsersQuery()
+    if (error) console.log(error)
     const [deleteUser, { loading }] = useDeleteUserMutation();
     const columns = [
       {
@@ -76,7 +74,7 @@ export default function StudentTable() {
       },
     ];
 
-  const dataStudent: Student[] = data?.users.filter(user => user.role === "STUDENT") || [];
+  const dataStudent: unknown[] = data?.users.filter(user => user.role === "STUDENT") || [];
   console.log(dataStudent)
 
   return (

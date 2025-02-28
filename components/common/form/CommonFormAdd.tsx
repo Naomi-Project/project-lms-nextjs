@@ -99,6 +99,10 @@ export function CommonFormAdd<T extends Record<any, any>>(
         const newData = {...values, username: String(values.nisn) ?? ""}
         executeMutation(newData)
         return
+      } else if (props.valuerRelation1 === "nuptk") {
+        const newData = {...values, nuptk: String(values.username) ?? ""}
+        executeMutation(newData)
+        return
       }
     }
     if (props.isSubmission == true) {
@@ -182,8 +186,11 @@ export function CommonFormAdd<T extends Record<any, any>>(
           timer: 2000,
           timerProgressBar: true,
         }).then((result) => {
-          if (result.dismiss === Swal.DismissReason.timer) {
-            history.back(); 
+          if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
+            location.reload()
+            setTimeout(() => {
+              history.back(); 
+            }, 500);
           }
         });
       }

@@ -21,11 +21,6 @@ type Teacher = {
   
 export default function TeacherTable() {
     const { data } = useGetUsersQuery();
-    // const { data } = useGetUsersQuery({
-    //   variables: {
-    //     role: "TEACHER" as string
-    //   }
-    // });
     const [deleteUser, { loading }] = useDeleteUserMutation();
     const columns = [
       {

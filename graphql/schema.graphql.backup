@@ -12,6 +12,7 @@ query UserPayload {
     role
   }
 }
+
 ### Authentication endregion
 
 ### User region
@@ -298,7 +299,6 @@ query GetSchedule($data: String!) {
     id
     day
     classroomId
-    subjectId
     createdAt
     updatedAt
   }
@@ -309,7 +309,6 @@ query GetSchedules($data: String!) {
     id
     day
     classroomId
-    subjectId
     createdAt
     updatedAt
   }
@@ -320,7 +319,6 @@ mutation CreateSchedule($data: CreateScheduleInput!) {
     id
     day
     classroomId
-    subjectId
   }
 }
 
@@ -329,7 +327,6 @@ mutation UpdateSchedule($id: String!, $data: UpdateScheduleInput!) {
     id
     day
     classroomId
-    subjectId
   }
 }
 
@@ -338,13 +335,12 @@ mutation DeleteSchedule($data: String!) {
     id
     day
     classroomId
-    subjectId
   }
 }
 ### Schedule endregion
 
 ### Attendance region
-query GetAttendance($data: String!) {
+query GetAttendance($data: String!)  {
   attendance(id: $data) {
     id
     scheduleId
@@ -608,6 +604,8 @@ mutation DeleteSubject($data: String!) {
 ### Subject endregion
 
 ### Material region
+
+# 🔹 Query untuk mendapatkan satu materi berdasarkan ID
 query GetMaterial($data: String!) {
   material(id: $data) {
     id
@@ -640,23 +638,10 @@ query GetMaterial($data: String!) {
       id
       name
     }
-    grades {
-      id
-      name
-    }
-    references {
-      id
-      url
-      type
-      authorId
-      author {
-        id
-        name
-      }
-    }
   }
 }
 
+# 🔹 Query untuk mendapatkan semua materi
 query GetMaterials {
   materials {
     id
@@ -689,19 +674,10 @@ query GetMaterials {
       id
       name
     }
-    grades {
-      id
-      name
-    }
-    references {
-      id
-      url
-      type
-      authorId
-    }
   }
 }
 
+# 🔹 Mutasi untuk membuat materi baru
 mutation CreateMaterial($data: CreateMaterialInput!) {
   createMaterial(data: $data) {
     id
@@ -710,6 +686,7 @@ mutation CreateMaterial($data: CreateMaterialInput!) {
   }
 }
 
+# 🔹 Mutasi untuk memperbarui materi
 mutation UpdateMaterial($data: UpdateMaterialInput!) {
   updateMaterial(data: $data) {
     id
@@ -718,6 +695,7 @@ mutation UpdateMaterial($data: UpdateMaterialInput!) {
   }
 }
 
+# 🔹 Mutasi untuk menghapus materi berdasarkan ID
 mutation DeleteMaterial($data: String!) {
   deleteMaterial(id: $data) {
     id
@@ -725,17 +703,22 @@ mutation DeleteMaterial($data: String!) {
     content
   }
 }
+
 ### Material endregion
 
+
+
 ### Assignment region
+
+# 🔹 Query untuk mendapatkan satu assignment berdasarkan ID
 query GetAssignment($data: String!) {
   assignment(id: $data) {
     id
     title
     description
+    extendedData
     dueDate
     type
-    extendedData
     subjectId
     subject {
       id
@@ -761,14 +744,15 @@ query GetAssignment($data: String!) {
   }
 }
 
+# 🔹 Query untuk mendapatkan semua assignment
 query GetAssignments {
   assignments {
     id
     title
     description
+    extendedData
     dueDate
     type
-    extendedData
     subjectId
     subject {
       id
@@ -794,6 +778,7 @@ query GetAssignments {
   }
 }
 
+# 🔹 Mutasi untuk membuat assignment baru
 mutation CreateAssignment($data: CreateAssignmentInput!) {
   createAssignment(data: $data) {
     id
@@ -806,6 +791,7 @@ mutation CreateAssignment($data: CreateAssignmentInput!) {
   }
 }
 
+# 🔹 Mutasi untuk memperbarui assignment
 mutation UpdateAssignment($data: UpdateAssignmentInput!) {
   updateAssignment(data: $data) {
     id
@@ -818,6 +804,7 @@ mutation UpdateAssignment($data: UpdateAssignmentInput!) {
   }
 }
 
+# 🔹 Mutasi untuk menghapus assignment berdasarkan ID
 mutation DeleteAssignment($data: String!) {
   deleteAssignment(id: $data) {
     id
@@ -829,9 +816,13 @@ mutation DeleteAssignment($data: String!) {
     subjectId
   }
 }
+
 ### Assignment endregion
 
+
 ### Submission region
+
+# 🔹 Query untuk mendapatkan satu Submission berdasarkan ID
 query GetSubmission($data: String!) {
   submission(id: $data) {
     id
@@ -848,6 +839,7 @@ query GetSubmission($data: String!) {
   }
 }
 
+# 🔹 Query untuk mendapatkan semua Submission
 query GetSubmissions {
   submissions {
     id
@@ -886,6 +878,8 @@ query GetSubmissions {
   }
 }
 
+
+# 🔹 Mutasi untuk membuat Submission baru
 mutation CreateSubmission($data: CreateSubmissionInput!) {
   createSubmission(data: $data) {
     id
@@ -895,6 +889,7 @@ mutation CreateSubmission($data: CreateSubmissionInput!) {
   }
 }
 
+# 🔹 Mutasi untuk memperbarui Submission
 mutation UpdateSubmission($data: UpdateSubmissionInput!) {
   updateSubmission(data: $data) {
     id
@@ -904,14 +899,18 @@ mutation UpdateSubmission($data: UpdateSubmissionInput!) {
   }
 }
 
+# 🔹 Mutasi untuk menghapus Submission berdasarkan ID
 mutation DeleteSubmission($data: String!) {
   deleteSubmission(id: $data) {
     id
   }
 }
+
 ### Submission endregion
 
 ### Score region
+
+# 🔹 Query untuk mendapatkan satu Score berdasarkan ID
 query GetScore($data: String!) {
   score(id: $data) {
     id
@@ -922,6 +921,7 @@ query GetScore($data: String!) {
   }
 }
 
+# 🔹 Query untuk mendapatkan semua Score
 query GetScores($filter: FilterScoresInput!) {
   scores(filter: $filter) {
     id
@@ -932,6 +932,8 @@ query GetScores($filter: FilterScoresInput!) {
   }
 }
 
+
+# 🔹 Mutasi untuk membuat Score baru
 mutation CreateScore($data: CreateScoreInput!) {
   createScore(data: $data) {
     id
@@ -941,6 +943,7 @@ mutation CreateScore($data: CreateScoreInput!) {
   }
 }
 
+# 🔹 Mutasi untuk memperbarui Score
 mutation UpdateScore($data: UpdateScoreInput!) {
   updateScore(data: $data) {
     id
@@ -950,11 +953,13 @@ mutation UpdateScore($data: UpdateScoreInput!) {
   }
 }
 
+# 🔹 Mutasi untuk menghapus Score berdasarkan ID
 mutation DeleteScore($data: String!) {
   deleteScore(id: $data) {
     id
   }
 }
+
 ### Score endregion
 
 ### Grade region
@@ -1016,12 +1021,6 @@ query GetClassroom($data: String!) {
       id
       day
       classroomId
-      subjectId
-    }
-    students {
-      id
-      name
-      nisn
     }
   }
 }
@@ -1030,6 +1029,11 @@ query GetClassrooms {
   classrooms {
     id
     name
+    students {
+      id
+      name
+      nisn
+    }
     guardian {
       id
       name
@@ -1039,12 +1043,6 @@ query GetClassrooms {
       id
       day
       classroomId
-      subjectId
-    }
-    students {
-      id
-      name
-      nisn
     }
   }
 }
@@ -1133,67 +1131,3 @@ mutation DeleteAnnouncement($data: String!) {
   }
 }
 ### Announcement endregion
-
-### Reference region
-query GetReference($data: String!) {
-  reference(id: $data) {
-    id
-    url
-    type
-    authorId
-    author {
-      id
-      name
-      username
-    }
-    materials {
-      id
-      title
-    }
-  }
-}
-
-query GetReferences {
-  references {
-    id
-    url
-    type
-    authorId
-    author {
-      id
-      name
-    }
-    materials {
-      id
-      title
-    }
-  }
-}
-
-mutation CreateReference($data: CreateReferenceInput!) {
-  createReference(data: $data) {
-    id
-    url
-    type
-    authorId
-  }
-}
-
-mutation UpdateReference($data: UpdateReferenceInput!) {
-  updateReference(data: $data) {
-    id
-    url
-    type
-    authorId
-  }
-}
-
-mutation DeleteReference($data: String!) {
-  deleteReference(id: $data) {
-    id
-    url
-    type
-    authorId
-  }
-}
-### Reference endregion
