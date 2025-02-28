@@ -33,7 +33,7 @@ import dynamic from "next/dynamic";
 import CommonEditor from "./CommonEditor";
 import CommonSoalBuilder from "./CommonSoalBuilder";
 import CommonSubmission from "./CommonSubmission";
-import { useCreateSubmissionMutation } from "@/graphql/generated";
+import { useCreateEnrollmentMutation, useCreateSubmissionMutation } from "@/graphql/generated";
 import CommonDatePicker from "./CommonDatePicker";
 import CommonDateTimePicker from "./CommonDateTimePicker";
 import CommonSelectMultiple from "./CommonSelectMultiple";
@@ -62,6 +62,7 @@ export interface CommonFormAddProps<T extends Record<any, any>> {
   lable: string;
   title: string;
   method: string;
+  isCreateClass?: boolean | undefined;
   isRelation?: boolean | undefined;
   relation1?: string | undefined;
   valuerRelation1?: string | undefined;
@@ -92,8 +93,10 @@ export function CommonFormAdd<T extends Record<any, any>>(
   
   const onSubmit = async (values: z.infer<typeof props.schema>) => {
     setIsSubmit(true)
-    // console.log(values)
-    // return
+    if (props.isCreateClass == true) {
+        filledStudentToClass(values)
+        return
+    }
     if (props.isRelation == true) {
       if (props.valuerRelation1 === "nisn") {
         const newData = {...values, username: String(values.nisn) ?? ""}
@@ -119,7 +122,6 @@ export function CommonFormAdd<T extends Record<any, any>>(
 
       return
     }
-    // console.log(values)
     // return
     // kondisi ini dipake jika datamutation default itu isinya sama dengan values
     if (props.isUseDefaultMutation == true) {
@@ -131,7 +133,6 @@ export function CommonFormAdd<T extends Record<any, any>>(
         ...prevState, // Menyalin data lama agar tidak hilang
         ...values, // Mengupdate dengan data baru
       };
-      console.log(updatedData)
       // Jalankan executeMutation langsung setelah state diperbarui
       executeMutation(updatedData);
 
@@ -139,11 +140,64 @@ export function CommonFormAdd<T extends Record<any, any>>(
     });
   };
   
+   // if mutation class
+  const [createEnrollment] = useCreateEnrollmentMutation();
+
+  const filledStudentToClass = async (values: any) => {
+    try {
+      const classroomResponse = await props.mutation({
+        variables: {
+          data: {
+            name: values.name,
+            gradeId: values.gradeId,
+            guardianId: values.guardianId,
+          },
+        },
+      });
+  
+      // 2️⃣ Ambil `classroomId` dari hasil mutasi
+      const resClass = classroomResponse?.data?.createClassroom;
+      if (!resClass?.id) {
+        throw new Error("Gagal mendapatkan ID kelas.");
+      }
+      
+      // 3️⃣ Looping dan daftarkan setiap siswa ke kelas
+      for (const studentId of values.students) {
+        await createEnrollment({
+          variables: {
+            data: {
+              studentId: studentId,
+              classroomId: resClass.id,
+              termId: '6b0d7b0c-af15-4458-a252-2c8f140763ed',
+            },
+          },
+        });
+      }
+      
+      Swal.fire({
+        title: "Berhasil Dibuat!",
+        text: "Data telah berhasil dibuat!",
+        icon: "success",
+        timer: 2000,
+        timerProgressBar: true,
+      }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
+          location.reload()
+          setTimeout(() => {
+            history.back(); 
+          }, 500);
+        }
+      });
+    } catch (err) {
+      console.error("Error creating data:", err);
+      setIsSubmit(false)
+    }
+  };
+  
+  // if mutation submission of work
   const [createSubmission] = useCreateSubmissionMutation();
 
   const submitTaskMutation = async (dataMut: any, score: number) => {
-    // console.log("nilai lu ", score)
-    // return
     try {
       const response = await createSubmission({
         variables: {

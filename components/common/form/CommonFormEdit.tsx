@@ -74,8 +74,8 @@ export function CommonFormEdit<T extends Record<any, any>>(
 
   useEffect(() => {
     if (dataGet) {
-      console.log(dataGet.extendedData)
       form.reset(dataGet); // Update form jika dataGet berubah
+      console.log(dataGet)
     }
   }, [dataGet, form.reset]);
 

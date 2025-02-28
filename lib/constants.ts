@@ -32,6 +32,12 @@ export const ManagerMenu = [
     visibility: true,
   },
   {
+    title: "Semester Staff",
+    href: "/managements/manager/semester",
+    icon: BookA,
+    visibility: true,
+  },
+  {
     title: "Kurikulum Staff",
     href: "/managements/manager/kurikulum",
     icon: BookA,
@@ -103,7 +109,7 @@ export const HeadofficeMenu = [
   },
   {
     title: "Sekolah Headoffice",
-    href: "/managements/admin/school",
+    href: "/managements/admin/sekolah",
     icon: SchoolIcon,
     visibility: true,
   },

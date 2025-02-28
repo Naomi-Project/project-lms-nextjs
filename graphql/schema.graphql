@@ -204,6 +204,19 @@ query GetSchool($data: String!) {
     phone
     email
     foundAt
+  }
+}
+
+query GetSchools {
+  schools {
+    id
+    name
+    npsn
+    accreditation
+    address
+    phone
+    email
+    foundAt
     createdAt
     updatedAt
     terms {
@@ -228,21 +241,6 @@ query GetSchool($data: String!) {
       address
       phone
     }
-  }
-}
-
-query GetSchools {
-  schools {
-    id
-    name
-    npsn
-    accreditation
-    address
-    phone
-    email
-    foundAt
-    createdAt
-    updatedAt
   }
 }
 
@@ -271,8 +269,6 @@ mutation UpdateSchool($data: UpdateSchoolInput!) {
     phone
     email
     foundAt
-    createdAt
-    updatedAt
   }
 }
 
@@ -291,6 +287,98 @@ mutation DeleteSchool($data: String!) {
   }
 }
 ### School endregion
+
+### Enrollment region
+
+# 🔍 Query untuk mendapatkan satu Enrollment berdasarkan ID
+query GetEnrollment($id: String!) {
+  enrollment(id: $id) {
+    id
+    studentId
+    classroomId
+    termId
+    term {
+      id
+      name
+      startDate
+      endDate
+      schoolId
+      curriculumId
+    }
+    classroom {
+      id
+      name
+      guardian {
+        id
+        name
+      }
+    }
+    student {
+      id
+      name
+      username
+      role
+      gender
+      address
+      phone
+    }
+  }
+}
+
+# 🔍 Query untuk mendapatkan semua Enrollment
+query GetEnrollments {
+  enrollments {
+    id
+    studentId
+    classroomId
+    termId
+    term {
+      id
+      name
+    }
+    classroom {
+      id
+      name
+    }
+    student {
+      id
+      name
+    }
+  }
+}
+
+# ✨ Mutasi untuk membuat Enrollment baru
+mutation CreateEnrollment($data: CreateEnrollmentInput!) {
+  createEnrollment(data: $data) {
+    id
+    studentId
+    classroomId
+    termId
+  }
+}
+
+# ✨ Mutasi untuk memperbarui Enrollment
+mutation UpdateEnrollment($data: UpdateEnrollmentInput!) {
+  updateEnrollment(data: $data) {
+    id
+    studentId
+    classroomId
+    termId
+  }
+}
+
+# 🗑️ Mutasi untuk menghapus Enrollment berdasarkan ID
+mutation DeleteEnrollment($id: String!) {
+  deleteEnrollment(id: $id) {
+    id
+    studentId
+    classroomId
+    termId
+  }
+}
+
+### Enrollment endregion
+
 
 ### Schedule region
 query GetSchedule($data: String!) {

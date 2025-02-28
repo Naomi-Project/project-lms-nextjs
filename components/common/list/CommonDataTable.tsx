@@ -13,13 +13,14 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, EllipsisVertical } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
@@ -36,31 +37,66 @@ type DataTableProps<TData> = {
   columns: ColumnDef<TData>[];
   filterName: string;
   data: TData[];
+  isAttendance?: boolean;
+  isBulkAction?: boolean;
   filterPlaceholder?: string;
+  onBulkAction?: (selectedRows: TData[]) => void;
 };
 
 export function DataTable<TData>({
   columns,
   data,
+  isAttendance,
+  isBulkAction,
   filterName = "id",
   filterPlaceholder = "Filter...",
+  onBulkAction,
 }: DataTableProps<TData>) {
   const [isLoading, setIsLoading] = React.useState(true);
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
   const [pagination, setPagination] = React.useState({
     pageIndex: 0, // Halaman pertama
     pageSize: 10, // Jumlah data per halaman
   });
 
+  // === TAMBAHAN: Selection Column untuk Bulk Action ===
+  const selectionColumn: ColumnDef<TData> = {
+    id: "select",
+    header: ({ table }) => (
+      <div className="px-1">
+        <input
+          type="checkbox"
+          checked={table.getIsAllPageRowsSelected()}
+          onChange={table.getToggleAllPageRowsSelectedHandler()}
+          aria-label="Select all rows"
+        />
+      </div>
+    ),
+    cell: ({ row }) => (
+      <div className="px-1">
+        <input
+          type="checkbox"
+          checked={row.getIsSelected()}
+          onChange={row.getToggleSelectedHandler()}
+          aria-label="Select row"
+        />
+      </div>
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  };
+  // === END TAMBAHAN ===
+
+  // Gabungkan selectionColumn dengan columns yang sudah ada
+
+  const tableColumns = [selectionColumn, ...columns];
+
   const table = useReactTable({
     data,
-    columns,
+    columns: isAttendance ? tableColumns : columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -81,27 +117,64 @@ export function DataTable<TData>({
 
   React.useEffect(() => {
     setIsLoading(true);
-  
+
     setTimeout(() => {
       setIsLoading(false);
     }, 2000);
   }, [data]);
-  
+
+  // === TAMBAHAN: Fungsi untuk Bulk Action ===
+  const handleBulkAction = () => {
+    const selectedRows = table.getSelectedRowModel().rows.map((row) => row.original);
+    if (onBulkAction) {
+      onBulkAction(selectedRows); // ✅ Panggil fungsi bulk action dari parent
+    }
+  };
+  // === END TAMBAHAN ===
 
   return (
     <div className="w-full">
       {/* Search Input */}
       <div className={`flex items-center py-4 ${isLoading ? "" : ""}`}>
-        <Input
-          placeholder={filterPlaceholder}
-          value={
-            (table.getColumn(filterName)?.getFilterValue() as string) ?? ""
+        <div className="flex gap-2 items-center">
+          {
+            isBulkAction ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  {/* Tampilkan tombol Bulk Action */}
+                  <Button
+                    className="bg-white text-gray-800 border hover:bg-gray-100"
+                    onClick={handleBulkAction}
+                    disabled={Object.keys(rowSelection).length === 0}
+                  >
+                    <EllipsisVertical />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuItem className="hover:bg-red-100">
+                    {/* <ButtonDelete
+                      noBg={true}
+                      id={data.id}
+                      customClassNoBg="bg-transparent text-white bg-red-500 w-full hover:bg-red-600 shadow-none"
+                      mutation={deleteMaterial}
+                      loading={loading}
+                    /> */}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : ''
           }
-          onChange={(event) =>
-            table.getColumn(filterName)?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+          <Input
+            placeholder={filterPlaceholder}
+            value={
+              (table.getColumn(filterName)?.getFilterValue() as string) ?? ""
+            }
+            onChange={(event) =>
+              table.getColumn(filterName)?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+        </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
@@ -165,7 +238,7 @@ export function DataTable<TData>({
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={tableColumns.length}
                   className="h-24 text-center"
                 >
                   No results.
@@ -180,7 +253,7 @@ export function DataTable<TData>({
       <div className="flex items-center justify-between py-4">
         <div className="text-sm text-muted-foreground">
           Halaman {table.getState().pagination.pageIndex + 1} dari{" "}
-          {table.getPageCount()} {' '} dengan {table.getRowCount() + " data"}
+          {table.getPageCount()} dengan {table.getRowCount() + " data"}
         </div>
         <div className="flex items-center space-x-2">
           <span>Rows per page:</span>

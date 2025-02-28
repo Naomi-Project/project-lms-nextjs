@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable */
 import {
   CommonFormAdd,
   CommonFormAddSection,
@@ -15,14 +16,14 @@ const cabangKelasSchema = z.object({
   name: z.string().min(1, "Nama kelas wajib diisi"),
   gradeId: z.string().min(1, "Induk kelas wajib diisi"),
   guardianId: z.string().min(1, "Wali wajib diisi"),
-  // students: z.string().min(1, "Wali wajib diisi"),
+  students: z.array(z.string()).min(1, "Minimal pilih satu siswa"), 
   // schedules: z.string().min(1, "Nama wali wajib diisi"),
 });
 
 interface Form {
   gradeId: string;
   guardianId: string;
-  // students: string;
+  students: string[];
   name: string;
   // schedules: string
 }
@@ -46,10 +47,10 @@ const FormHelpersAdd = () => {
       label: user.name ?? "",
       value: user.id,
   })) || []
-  // const dataStudents: dataSelectTypes[] = secondData?.users.filter((item) => item.role === "STUDENT").map((user) => ({
-  //     label: user.username,
-  //     value: user.id,
-  // })) || []
+  const dataStudents: dataSelectTypes[] = secondData?.users.filter((item) => item.role === "STUDENT").map((user) => ({
+      label: user.name ?? "",
+      value: user.id,
+  })) || []
 
   const sections: CommonFormAddSection<Form>[] = [
     {
@@ -80,14 +81,14 @@ const FormHelpersAdd = () => {
             emptyValue: "-",
             placeholder: "Pilih Guru..",
           },
-          // {
-          //   key: "students",
-          //   label: "Siswa/i Kelas",
-          //   type: "select_multiple",
-          //   dataSelect: dataStudents,
-          //   emptyValue: "-",
-          //   placeholder: "Pilih Siswa..",
-          // },
+          {
+            key: "students",
+            label: "Siswa/i Kelas",
+            type: "select_multiple",
+            dataSelect: dataStudents,
+            emptyValue: "-",
+            placeholder: "Pilih Siswa..",
+          },
         ],
       ],
     },
@@ -108,6 +109,7 @@ const FormHelpersAdd = () => {
       lable="Cabang Kelas"
       title="Buat Cabang Kelas"
       method="POST"
+      isCreateClass={true}
       isUseDefaultMutation={true}
       mutation={createClassroom}
       dataMutation={dataMutationDefault}

@@ -129,6 +129,12 @@ export type CreateCurriculumInput = {
   name: Scalars['String']['input'];
 };
 
+export type CreateEnrollmentInput = {
+  classroomId: Scalars['ID']['input'];
+  studentId: Scalars['ID']['input'];
+  termId: Scalars['ID']['input'];
+};
+
 export type CreateFamilyInput = {
   contact: Scalars['String']['input'];
   name: Scalars['String']['input'];
@@ -298,6 +304,7 @@ export type Mutation = {
   createAttendance: Array<Attendance>;
   createClassroom: Classroom;
   createCurriculum: Curriculum;
+  createEnrollment: Enrollment;
   createFamily: Family;
   createGrade: Grade;
   createMaterial: Material;
@@ -314,6 +321,7 @@ export type Mutation = {
   deleteAttendance: Attendance;
   deleteClassroom: Classroom;
   deleteCurriculum: Curriculum;
+  deleteEnrollment: Enrollment;
   deleteFamily: Family;
   deleteGrade: Grade;
   deleteMaterial: Material;
@@ -331,6 +339,7 @@ export type Mutation = {
   updateAttendance: Array<Attendance>;
   updateClassroom: Classroom;
   updateCurriculum: Curriculum;
+  updateEnrollment: Enrollment;
   updateFamily: Family;
   updateGrade: Grade;
   updateMaterial: Material;
@@ -367,6 +376,11 @@ export type MutationCreateClassroomArgs = {
 
 export type MutationCreateCurriculumArgs = {
   data: CreateCurriculumInput;
+};
+
+
+export type MutationCreateEnrollmentArgs = {
+  data: CreateEnrollmentInput;
 };
 
 
@@ -446,6 +460,11 @@ export type MutationDeleteClassroomArgs = {
 
 
 export type MutationDeleteCurriculumArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type MutationDeleteEnrollmentArgs = {
   id: Scalars['String']['input'];
 };
 
@@ -535,6 +554,11 @@ export type MutationUpdateCurriculumArgs = {
 };
 
 
+export type MutationUpdateEnrollmentArgs = {
+  data: UpdateEnrollmentInput;
+};
+
+
 export type MutationUpdateFamilyArgs = {
   data: UpdateFamilyInput;
 };
@@ -602,6 +626,8 @@ export type Query = {
   classrooms: Array<Classroom>;
   curriculum: Curriculum;
   curriculums: Array<Curriculum>;
+  enrollment: Enrollment;
+  enrollments: Array<Enrollment>;
   families: Array<Family>;
   family: Family;
   grade: Grade;
@@ -649,6 +675,11 @@ export type QueryClassroomArgs = {
 
 
 export type QueryCurriculumArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type QueryEnrollmentArgs = {
   id: Scalars['String']['input'];
 };
 
@@ -864,6 +895,13 @@ export type UpdateCurriculumInput = {
   name?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type UpdateEnrollmentInput = {
+  classroomId?: InputMaybe<Scalars['ID']['input']>;
+  id: Scalars['ID']['input'];
+  studentId?: InputMaybe<Scalars['ID']['input']>;
+  termId?: InputMaybe<Scalars['ID']['input']>;
+};
+
 export type UpdateFamilyInput = {
   contact?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['ID']['input'];
@@ -1065,12 +1103,12 @@ export type GetSchoolQueryVariables = Exact<{
 }>;
 
 
-export type GetSchoolQuery = { __typename?: 'Query', school: { __typename?: 'School', id: string, name: string, npsn: string, accreditation: Accreditation, address: string, phone: string, email: string, foundAt: any, createdAt?: any | null, updatedAt?: any | null, terms: Array<{ __typename?: 'Term', id: string, name: string, startDate: any, endDate: any, schoolId: string, curriculumId: string, createdAt?: any | null, updatedAt?: any | null }>, users: Array<{ __typename?: 'User', id: string, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string }> } };
+export type GetSchoolQuery = { __typename?: 'Query', school: { __typename?: 'School', id: string, name: string, npsn: string, accreditation: Accreditation, address: string, phone: string, email: string, foundAt: any } };
 
 export type GetSchoolsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetSchoolsQuery = { __typename?: 'Query', schools: Array<{ __typename?: 'School', id: string, name: string, npsn: string, accreditation: Accreditation, address: string, phone: string, email: string, foundAt: any, createdAt?: any | null, updatedAt?: any | null }> };
+export type GetSchoolsQuery = { __typename?: 'Query', schools: Array<{ __typename?: 'School', id: string, name: string, npsn: string, accreditation: Accreditation, address: string, phone: string, email: string, foundAt: any, createdAt?: any | null, updatedAt?: any | null, terms: Array<{ __typename?: 'Term', id: string, name: string, startDate: any, endDate: any, schoolId: string, curriculumId: string, createdAt?: any | null, updatedAt?: any | null }>, users: Array<{ __typename?: 'User', id: string, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string }> }> };
 
 export type CreateSchoolMutationVariables = Exact<{
   data: CreateSchoolInput;
@@ -1084,7 +1122,7 @@ export type UpdateSchoolMutationVariables = Exact<{
 }>;
 
 
-export type UpdateSchoolMutation = { __typename?: 'Mutation', updateSchool: { __typename?: 'School', id: string, name: string, npsn: string, accreditation: Accreditation, address: string, phone: string, email: string, foundAt: any, createdAt?: any | null, updatedAt?: any | null } };
+export type UpdateSchoolMutation = { __typename?: 'Mutation', updateSchool: { __typename?: 'School', id: string, name: string, npsn: string, accreditation: Accreditation, address: string, phone: string, email: string, foundAt: any } };
 
 export type DeleteSchoolMutationVariables = Exact<{
   data: Scalars['String']['input'];
@@ -1092,6 +1130,39 @@ export type DeleteSchoolMutationVariables = Exact<{
 
 
 export type DeleteSchoolMutation = { __typename?: 'Mutation', deleteSchool: { __typename?: 'School', id: string, name: string, npsn: string, accreditation: Accreditation, address: string, phone: string, email: string, foundAt: any, createdAt?: any | null, updatedAt?: any | null } };
+
+export type GetEnrollmentQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type GetEnrollmentQuery = { __typename?: 'Query', enrollment: { __typename?: 'Enrollment', id: string, studentId: string, classroomId: string, termId: string, term?: { __typename?: 'Term', id: string, name: string, startDate: any, endDate: any, schoolId: string, curriculumId: string } | null, classroom?: { __typename?: 'Classroom', id: string, name: string, guardian: { __typename?: 'User', id: string, name?: string | null } } | null, student?: { __typename?: 'User', id: string, name?: string | null, username: string, role: Role, gender: Gender, address: string, phone: string } | null } };
+
+export type GetEnrollmentsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetEnrollmentsQuery = { __typename?: 'Query', enrollments: Array<{ __typename?: 'Enrollment', id: string, studentId: string, classroomId: string, termId: string, term?: { __typename?: 'Term', id: string, name: string } | null, classroom?: { __typename?: 'Classroom', id: string, name: string } | null, student?: { __typename?: 'User', id: string, name?: string | null } | null }> };
+
+export type CreateEnrollmentMutationVariables = Exact<{
+  data: CreateEnrollmentInput;
+}>;
+
+
+export type CreateEnrollmentMutation = { __typename?: 'Mutation', createEnrollment: { __typename?: 'Enrollment', id: string, studentId: string, classroomId: string, termId: string } };
+
+export type UpdateEnrollmentMutationVariables = Exact<{
+  data: UpdateEnrollmentInput;
+}>;
+
+
+export type UpdateEnrollmentMutation = { __typename?: 'Mutation', updateEnrollment: { __typename?: 'Enrollment', id: string, studentId: string, classroomId: string, termId: string } };
+
+export type DeleteEnrollmentMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type DeleteEnrollmentMutation = { __typename?: 'Mutation', deleteEnrollment: { __typename?: 'Enrollment', id: string, studentId: string, classroomId: string, termId: string } };
 
 export type GetScheduleQueryVariables = Exact<{
   data: Scalars['String']['input'];
@@ -2084,30 +2155,6 @@ export const GetSchoolDocument = gql`
     phone
     email
     foundAt
-    createdAt
-    updatedAt
-    terms {
-      id
-      name
-      startDate
-      endDate
-      schoolId
-      curriculumId
-      createdAt
-      updatedAt
-    }
-    users {
-      id
-      username
-      role
-      nik
-      nuptk
-      nisn
-      dateOfBirth
-      gender
-      address
-      phone
-    }
   }
 }
     `;
@@ -2157,6 +2204,28 @@ export const GetSchoolsDocument = gql`
     foundAt
     createdAt
     updatedAt
+    terms {
+      id
+      name
+      startDate
+      endDate
+      schoolId
+      curriculumId
+      createdAt
+      updatedAt
+    }
+    users {
+      id
+      username
+      role
+      nik
+      nuptk
+      nisn
+      dateOfBirth
+      gender
+      address
+      phone
+    }
   }
 }
     `;
@@ -2245,8 +2314,6 @@ export const UpdateSchoolDocument = gql`
     phone
     email
     foundAt
-    createdAt
-    updatedAt
   }
 }
     `;
@@ -2318,6 +2385,236 @@ export function useDeleteSchoolMutation(baseOptions?: Apollo.MutationHookOptions
 export type DeleteSchoolMutationHookResult = ReturnType<typeof useDeleteSchoolMutation>;
 export type DeleteSchoolMutationResult = Apollo.MutationResult<DeleteSchoolMutation>;
 export type DeleteSchoolMutationOptions = Apollo.BaseMutationOptions<DeleteSchoolMutation, DeleteSchoolMutationVariables>;
+export const GetEnrollmentDocument = gql`
+    query GetEnrollment($id: String!) {
+  enrollment(id: $id) {
+    id
+    studentId
+    classroomId
+    termId
+    term {
+      id
+      name
+      startDate
+      endDate
+      schoolId
+      curriculumId
+    }
+    classroom {
+      id
+      name
+      guardian {
+        id
+        name
+      }
+    }
+    student {
+      id
+      name
+      username
+      role
+      gender
+      address
+      phone
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetEnrollmentQuery__
+ *
+ * To run a query within a React component, call `useGetEnrollmentQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEnrollmentQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetEnrollmentQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetEnrollmentQuery(baseOptions: Apollo.QueryHookOptions<GetEnrollmentQuery, GetEnrollmentQueryVariables> & ({ variables: GetEnrollmentQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetEnrollmentQuery, GetEnrollmentQueryVariables>(GetEnrollmentDocument, options);
+      }
+export function useGetEnrollmentLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetEnrollmentQuery, GetEnrollmentQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetEnrollmentQuery, GetEnrollmentQueryVariables>(GetEnrollmentDocument, options);
+        }
+export function useGetEnrollmentSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetEnrollmentQuery, GetEnrollmentQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetEnrollmentQuery, GetEnrollmentQueryVariables>(GetEnrollmentDocument, options);
+        }
+export type GetEnrollmentQueryHookResult = ReturnType<typeof useGetEnrollmentQuery>;
+export type GetEnrollmentLazyQueryHookResult = ReturnType<typeof useGetEnrollmentLazyQuery>;
+export type GetEnrollmentSuspenseQueryHookResult = ReturnType<typeof useGetEnrollmentSuspenseQuery>;
+export type GetEnrollmentQueryResult = Apollo.QueryResult<GetEnrollmentQuery, GetEnrollmentQueryVariables>;
+export const GetEnrollmentsDocument = gql`
+    query GetEnrollments {
+  enrollments {
+    id
+    studentId
+    classroomId
+    termId
+    term {
+      id
+      name
+    }
+    classroom {
+      id
+      name
+    }
+    student {
+      id
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetEnrollmentsQuery__
+ *
+ * To run a query within a React component, call `useGetEnrollmentsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEnrollmentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetEnrollmentsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetEnrollmentsQuery(baseOptions?: Apollo.QueryHookOptions<GetEnrollmentsQuery, GetEnrollmentsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetEnrollmentsQuery, GetEnrollmentsQueryVariables>(GetEnrollmentsDocument, options);
+      }
+export function useGetEnrollmentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetEnrollmentsQuery, GetEnrollmentsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetEnrollmentsQuery, GetEnrollmentsQueryVariables>(GetEnrollmentsDocument, options);
+        }
+export function useGetEnrollmentsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetEnrollmentsQuery, GetEnrollmentsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetEnrollmentsQuery, GetEnrollmentsQueryVariables>(GetEnrollmentsDocument, options);
+        }
+export type GetEnrollmentsQueryHookResult = ReturnType<typeof useGetEnrollmentsQuery>;
+export type GetEnrollmentsLazyQueryHookResult = ReturnType<typeof useGetEnrollmentsLazyQuery>;
+export type GetEnrollmentsSuspenseQueryHookResult = ReturnType<typeof useGetEnrollmentsSuspenseQuery>;
+export type GetEnrollmentsQueryResult = Apollo.QueryResult<GetEnrollmentsQuery, GetEnrollmentsQueryVariables>;
+export const CreateEnrollmentDocument = gql`
+    mutation CreateEnrollment($data: CreateEnrollmentInput!) {
+  createEnrollment(data: $data) {
+    id
+    studentId
+    classroomId
+    termId
+  }
+}
+    `;
+export type CreateEnrollmentMutationFn = Apollo.MutationFunction<CreateEnrollmentMutation, CreateEnrollmentMutationVariables>;
+
+/**
+ * __useCreateEnrollmentMutation__
+ *
+ * To run a mutation, you first call `useCreateEnrollmentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateEnrollmentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createEnrollmentMutation, { data, loading, error }] = useCreateEnrollmentMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateEnrollmentMutation(baseOptions?: Apollo.MutationHookOptions<CreateEnrollmentMutation, CreateEnrollmentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateEnrollmentMutation, CreateEnrollmentMutationVariables>(CreateEnrollmentDocument, options);
+      }
+export type CreateEnrollmentMutationHookResult = ReturnType<typeof useCreateEnrollmentMutation>;
+export type CreateEnrollmentMutationResult = Apollo.MutationResult<CreateEnrollmentMutation>;
+export type CreateEnrollmentMutationOptions = Apollo.BaseMutationOptions<CreateEnrollmentMutation, CreateEnrollmentMutationVariables>;
+export const UpdateEnrollmentDocument = gql`
+    mutation UpdateEnrollment($data: UpdateEnrollmentInput!) {
+  updateEnrollment(data: $data) {
+    id
+    studentId
+    classroomId
+    termId
+  }
+}
+    `;
+export type UpdateEnrollmentMutationFn = Apollo.MutationFunction<UpdateEnrollmentMutation, UpdateEnrollmentMutationVariables>;
+
+/**
+ * __useUpdateEnrollmentMutation__
+ *
+ * To run a mutation, you first call `useUpdateEnrollmentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateEnrollmentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateEnrollmentMutation, { data, loading, error }] = useUpdateEnrollmentMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateEnrollmentMutation(baseOptions?: Apollo.MutationHookOptions<UpdateEnrollmentMutation, UpdateEnrollmentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateEnrollmentMutation, UpdateEnrollmentMutationVariables>(UpdateEnrollmentDocument, options);
+      }
+export type UpdateEnrollmentMutationHookResult = ReturnType<typeof useUpdateEnrollmentMutation>;
+export type UpdateEnrollmentMutationResult = Apollo.MutationResult<UpdateEnrollmentMutation>;
+export type UpdateEnrollmentMutationOptions = Apollo.BaseMutationOptions<UpdateEnrollmentMutation, UpdateEnrollmentMutationVariables>;
+export const DeleteEnrollmentDocument = gql`
+    mutation DeleteEnrollment($id: String!) {
+  deleteEnrollment(id: $id) {
+    id
+    studentId
+    classroomId
+    termId
+  }
+}
+    `;
+export type DeleteEnrollmentMutationFn = Apollo.MutationFunction<DeleteEnrollmentMutation, DeleteEnrollmentMutationVariables>;
+
+/**
+ * __useDeleteEnrollmentMutation__
+ *
+ * To run a mutation, you first call `useDeleteEnrollmentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteEnrollmentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteEnrollmentMutation, { data, loading, error }] = useDeleteEnrollmentMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteEnrollmentMutation(baseOptions?: Apollo.MutationHookOptions<DeleteEnrollmentMutation, DeleteEnrollmentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteEnrollmentMutation, DeleteEnrollmentMutationVariables>(DeleteEnrollmentDocument, options);
+      }
+export type DeleteEnrollmentMutationHookResult = ReturnType<typeof useDeleteEnrollmentMutation>;
+export type DeleteEnrollmentMutationResult = Apollo.MutationResult<DeleteEnrollmentMutation>;
+export type DeleteEnrollmentMutationOptions = Apollo.BaseMutationOptions<DeleteEnrollmentMutation, DeleteEnrollmentMutationVariables>;
 export const GetScheduleDocument = gql`
     query GetSchedule($data: String!) {
   schedule(id: $data) {
