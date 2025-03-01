@@ -16,7 +16,7 @@ const ProfileSidebar = React.forwardRef<HTMLButtonElement, React.ComponentProps<
         <Avatar className="mr-2 h-8 w-8">
           <Image src={user} alt="user" />
         </Avatar>
-        <span className="truncate">{data?.me.username || "User"}</span>
+        <span className="truncate">{data?.me.name || "User"}</span>
         <ChevronDown className="ml-auto h-4 w-4" />
       </Button>
     );

@@ -35,20 +35,27 @@ export default function ClassManager() {
           </ToggleGroupItem>
         </ToggleGroup>
       </div>
-      <div className="mt-4">
-        <ButtonAdd endpoint="/managements/manager/class/induk/create" label="Buat Induk Kelas" />
+
+      <div className="mt-5 border-b pb-5">
+        <div className="flex justify-between items-center">
+          <h1 className="font-bold">Induk/Angkatan</h1>
+          <ButtonAdd endpoint="/managements/manager/class/induk/create" label="Buat Induk Kelas" />
+        </div>
+
+        <div className="md:grid grid-cols-3 gap-4">
+          <ListGrade title={"list grade"} />
+        </div>
       </div>
 
-      <div className="md:grid grid-cols-3 gap-4 mt-6">
-        <ListGrade title={"list grade"} />
-      </div>
+      <div className="mt-5">
+        <div className="flex justify-between items-center">
+          <h1 className="font-bold">Cabang/Sub Kelas</h1>
+        <ButtonAdd endpoint="/managements/manager/class/cabang/create" label="Buat Cabang/Sub Kelas" />
+        </div>
 
-      <div className="mt-4">
-       <ButtonAdd endpoint="/managements/manager/class/cabang/create" label="Buat Cabang Kelas" />
-      </div>
-
-      <div className="md:grid grid-cols-4 gap-4 mt-8">
-        <ListClass title={"list class"} />
+        <div className="md:grid grid-cols-4 gap-4">
+          <ListClass title={"list class"} />
+        </div>
       </div>
     </div>
   );

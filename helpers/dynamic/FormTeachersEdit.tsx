@@ -1,38 +1,69 @@
-"use client"
-import { CommonFormAddSection } from "@/components/common/form/CommonFormAdd"
+"use client";
+
+import { CommonFormAddSection } from "@/components/common/form/CommonFormAdd";
+import { CommonFormEdit } from "@/components/common/form/CommonFormEdit";
+import {
+  useGetSchoolsQuery,
+  useGetUserQuery,
+  useUpdateUserMutation,
+} from "@/graphql/generated";
+import { format } from "date-fns";
+import { useParams } from "next/navigation";
 import { z } from "zod";
 
-export const studentSchema = z.object({
+const teacherSchema = z.object({
   username: z.string().optional(),
   password: z.string().nullable().optional(),
   role: z.string().optional(),
   name: z.string().min(1, "Nama Lengkap wajib diisi"),
-  nisn: z.string().min(8, "NISN minimal 8 digit"),
+  nuptk: z.string().min(8, "NISN minimal 8 digit"),
   nik: z.string().min(1, "NIK wajib diisi"),
-//   guardian: z.string().min(1, "Nama Orang Tua/Wali wajib diisi"),
-  phone: z.string().regex(/^(\+62|62|0)[0-9]{9,13}$/, "Nomor telepon tidak valid"),
+  phone: z
+    .string()
+    .regex(/^(\+62|62|0)[0-9]{9,13}$/, "Nomor telepon tidak valid"),
   address: z.string().min(1, "Alamat wajib diisi"),
   gender: z.string().min(1, "Gender wajib dipilih"),
   dateOfBirth: z.string().min(1, "Tgl Ulang Tahun wajib diisi"),
-  mainClass: z.string().optional(),
-  subClass: z.string().optional(),
-  isTransfer: z.boolean().optional(),
+  schoolId: z.string().min(1, "Sekolah user wajib dipilih"),
 });
 
-export interface Form {
-    name: string
-    username?: string
-    password?: string | null
-    role?: string | null
-    nisn: string
-    nik: string
-    phone: string
-    address: string
-    gender: string
-    dateOfBirth: string
+interface Form {
+  name: string;
+  username?: string;
+  password?: string | null;
+  role?: string | null;
+  nuptk: string;
+  nik: string;
+  phone: string;
+  address: string;
+  gender: string;
+  dateOfBirth: string;
+  schoolId: string;
 }
 
-export const sections: CommonFormAddSection<Form>[] = [
+interface dataSelectTypes {
+  label: string;
+  value: string;
+}
+
+const FormHelpersEdit = () => {
+  const params = useParams();
+  const { id } = params;
+
+  const { data: dataEdit, loading } = useGetUserQuery({
+    variables: {
+      data: id as string,
+    },
+    skip: !id,
+  });
+
+  const { data: firstData } = useGetSchoolsQuery();
+  const dataSchool: dataSelectTypes[] =
+    firstData?.schools.map((data) => ({
+      label: data.name,
+      value: data.id,
+    })) || [];
+  const sections: CommonFormAddSection<Form>[] = [
     {
       fields: [
         // fields group 1
@@ -44,11 +75,11 @@ export const sections: CommonFormAddSection<Form>[] = [
             placeholder: "Masukkan nama lengkap siswa..",
           },
           {
-            key: "nisn",
-            label: "NISN",
+            key: "nuptk",
+            label: "NUPTK",
             emptyValue: "-",
             type: "number",
-            placeholder: "Masukkan NISN..",
+            placeholder: "Masukkan NUPTK..",
           },
           {
             key: "username",
@@ -110,13 +141,47 @@ export const sections: CommonFormAddSection<Form>[] = [
         ],
         [
           {
+            key: "schoolId",
+            label: "Sekolah",
+            emptyValue: "-",
+            type: "select",
+            dataSelect: dataSchool,
+            placeholder: "Pilih Sekolah untuk pengguna ini..",
+          },
+          {
             key: "address",
             label: "Alamat Tempat Tinggal",
             emptyValue: "-",
-            class: "md:w-full lg:w-full",
             placeholder: "Masukkan Alamat..",
           },
-        ]
+        ],
       ],
     },
-];
+  ];
+
+  const [updateUser] = useUpdateUserMutation();
+
+  if (loading) {
+    return (
+      <p>Loading..</p>
+    );
+  }  
+
+  const fixData = { ...dataEdit?.user, dateOfBirth: format(new Date(dataEdit?.user.dateOfBirth), "yyyy-MM-dd"), schoolId: dataEdit?.user.school?.id ?? "" }
+  console.log(fixData);
+  return (
+    <CommonFormEdit
+      lable="Guru"
+      title="Edit Data Guru"
+      method="PUT"
+      isRelation={true}
+      valuerRelation1="nuptk"
+      dataGet={fixData}
+      mutation={updateUser}
+      schema={teacherSchema}
+      sections={sections}
+    />
+  );
+};
+
+export default FormHelpersEdit;

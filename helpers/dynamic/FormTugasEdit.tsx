@@ -19,7 +19,7 @@ const tugasSchema = z.object({
   dueDate: z.string().min(1, "Deadline wajib diisi"),
   type: z.string().min(1, "Tipe tugas wajib diisi"),
   extendedData: z.string().min(1, "Isi tugas wajib diisi"),
-  subjectId: z.string().min(1, "Mapel wajib dipilih"),
+  subjectId: z.string().min(1, "Subject id wajib dipilih"),
 });
 
 interface Form {
@@ -40,18 +40,18 @@ const FormHelpersEdit = () => {
   const params = useParams();
   const { id } = params;
 
-  const { data: firstData } = useGetSubjectsQuery()
-  const dataSubject: dataSelectTypes[] = firstData?.subjects.map((data) => ({
-    label: data.name,
-    value: data.id,
-  })) || []
-  
   const { data: dataEdit } = useGetAssignmentQuery({
     variables: {
       data: id as string,
     },
     skip: !id,
   })
+  
+  const { data: firstData } = useGetSubjectsQuery()
+  const dataSubject: dataSelectTypes[] = firstData?.subjects.map((data) => ({
+    label: data.name,
+    value: data.id,
+  })) || []
   
     // 🔹 State untuk Quill Editor (WYSIWYG)
     const [stateEditor, setStateEditor] = useState<string>("");

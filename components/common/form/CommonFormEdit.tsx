@@ -55,6 +55,9 @@ export interface CommonFormEditProps<T extends Record<any, any>> {
   title: string;
   method: string;
   hideBackButton?: boolean;
+  isRelation?: boolean | undefined;
+  relation1?: string | undefined;
+  valuerRelation1?: string | undefined;
   schema: ZodSchema<T>;
   mutation: MutationFunction<any, any>;
   dataGet: any;
@@ -74,19 +77,35 @@ export function CommonFormEdit<T extends Record<any, any>>(
 
   useEffect(() => {
     if (dataGet) {
-      form.reset(dataGet); // Update form jika dataGet berubah
-      console.log(dataGet)
+      form.reset(dataGet);
     }
   }, [dataGet, form.reset]);
-
 
   // proses save changes
   const onSubmit = async (values: z.infer<typeof props.schema>) => {
     setDataGet((prevState: typeof dataGet) => {
       const updatedData = {
-        ...prevState, // Menyalin data lama agar tidak hilang
-        ...values, // Mengupdate dengan data baru
+        ...prevState,
+        ...values,
       };
+
+      if (props.isRelation == true) {
+        if (props.valuerRelation1 === "nisn") {
+          const newData = {
+            ...updatedData,
+            username: String(updatedData.nisn) ?? "",
+          };
+          executeMutation(newData);
+          return;
+        } else if (props.valuerRelation1 === "nuptk") {
+          const newData = {
+            ...updatedData,
+            username: String(updatedData.nuptk) ?? "",
+          };
+          executeMutation(newData);
+          return;
+        }
+      }
 
       // Jalankan executeMutation langsung setelah state diperbarui
       executeMutation(updatedData);
@@ -96,7 +115,24 @@ export function CommonFormEdit<T extends Record<any, any>>(
   };
 
   const executeMutation = async (dataMut: any) => {
-    const { __typename, families, updatedAt, createdAt, subject, submissions, subjects, classroom, ...cleanData } = dataMut;
+    const {
+      __typename,
+      families,
+      updatedAt,
+      createdAt,
+      subject,
+      submissions,
+      subjects,
+      classroom,
+      school,
+      name,
+      startDate,
+      endDate,
+      schoolId,
+      classroomId,
+      curriculumId,
+      ...cleanData
+    } = dataMut;
     try {
       const response = await props.mutation({
         variables: {
@@ -111,8 +147,11 @@ export function CommonFormEdit<T extends Record<any, any>>(
           timer: 2000,
           timerProgressBar: true,
         }).then((result) => {
-          if (result.dismiss === Swal.DismissReason.timer) {
-            history.back(); 
+          if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
+            location.reload()
+            setTimeout(() => {
+              history.back(); 
+            }, 500);
           }
         });
       }
@@ -127,7 +166,9 @@ export function CommonFormEdit<T extends Record<any, any>>(
         value="bold"
         aria-label="Toggle bold"
         onClick={() => history.back()}
-        className={`bg-blue-100 text-blue-500 px-2 border-blue-100 rounded-lg ${props.hideBackButton ? "hidden" : ""}`}
+        className={`bg-blue-100 text-blue-500 px-2 border-blue-100 rounded-lg ${
+          props.hideBackButton ? "hidden" : ""
+        }`}
       >
         <ArrowLeft />
         <p className="text-sm pr-2">Kembali</p>
@@ -193,13 +234,28 @@ export function CommonFormEdit<T extends Record<any, any>>(
                               )}
                             />
                           ) : dataField.type === "date_picker" ? (
-                            <CommonDatePicker name={String(dataField.key)} label={dataField.label} />
+                            <CommonDatePicker
+                              name={String(dataField.key)}
+                              label={dataField.label}
+                            />
                           ) : dataField.type === "date_time" ? (
-                            <CommonDateTimePicker name={String(dataField.key)} label={dataField.label} />
+                            <CommonDateTimePicker
+                              name={String(dataField.key)}
+                              label={dataField.label}
+                            />
                           ) : dataField.type === "md" ? (
-                            <CommonEditor name={String(dataField.key)} label={dataField.label} placeholder={dataField.placeholder} />
+                            <CommonEditor
+                              name={String(dataField.key)}
+                              label={dataField.label}
+                              placeholder={dataField.placeholder}
+                            />
                           ) : dataField.type === "soal_builder" ? (
-                            <CommonSoalBuilder dataDefault={dataGet.extendedData} name={String(dataField.key)} label={dataField.label} placeholder={dataField.placeholder} />
+                            <CommonSoalBuilder
+                              dataDefault={dataGet.extendedData}
+                              name={String(dataField.key)}
+                              label={dataField.label}
+                              placeholder={dataField.placeholder}
+                            />
                           ) : dataField.type === "radio" ? (
                             <FormField
                               control={form.control}
@@ -221,9 +277,7 @@ export function CommonFormEdit<T extends Record<any, any>>(
                                             value={dataS.value}
                                             id={dataS.value}
                                           />
-                                          <Label>
-                                            {dataS.label}
-                                          </Label>
+                                          <Label>{dataS.label}</Label>
                                         </div>
                                       )
                                     )}
@@ -238,10 +292,24 @@ export function CommonFormEdit<T extends Record<any, any>>(
                               name={dataField.key as any}
                               render={({ field }) => (
                                 <FormItem>
-                                  <FormLabel className={dataField.hidden && dataField.hidden == true ? "hidden" : ""}>{dataField.label}</FormLabel>
+                                  <FormLabel
+                                    className={
+                                      dataField.hidden &&
+                                      dataField.hidden == true
+                                        ? "hidden"
+                                        : ""
+                                    }
+                                  >
+                                    {dataField.label}
+                                  </FormLabel>
                                   <FormControl>
                                     <Input
-                                      className={dataField.hidden && dataField.hidden == true ? "hidden" : ""}
+                                      className={
+                                        dataField.hidden &&
+                                        dataField.hidden == true
+                                          ? "hidden"
+                                          : ""
+                                      }
                                       type={dataField.type || "text"}
                                       disabled={dataField.disabled || false}
                                       placeholder={dataField.placeholder || ""}
@@ -249,7 +317,14 @@ export function CommonFormEdit<T extends Record<any, any>>(
                                     />
                                   </FormControl>
                                   <FormDescription />
-                                  <FormMessage className={dataField.hidden && dataField.hidden == true ? "hidden" : ""} />
+                                  <FormMessage
+                                    className={
+                                      dataField.hidden &&
+                                      dataField.hidden == true
+                                        ? "hidden"
+                                        : ""
+                                    }
+                                  />
                                 </FormItem>
                               )}
                             />

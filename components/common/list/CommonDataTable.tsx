@@ -40,6 +40,7 @@ type DataTableProps<TData> = {
   isAttendance?: boolean;
   isBulkAction?: boolean;
   filterPlaceholder?: string;
+  setSelectedStudents?: (selectedRows: TData[]) => void;
   onBulkAction?: (selectedRows: TData[]) => void;
 };
 
@@ -48,6 +49,7 @@ export function DataTable<TData>({
   data,
   isAttendance,
   isBulkAction,
+  setSelectedStudents,
   filterName = "id",
   filterPlaceholder = "Filter...",
   onBulkAction,
@@ -123,11 +125,19 @@ export function DataTable<TData>({
     }, 2000);
   }, [data]);
 
+
+  React.useEffect(() => {
+    if (setSelectedStudents) {
+      const selectedRows = table.getSelectedRowModel().rows.map((row) => row.original);
+      setSelectedStudents(selectedRows);
+    }
+  }, [rowSelection, setSelectedStudents, table]);
+
   // === TAMBAHAN: Fungsi untuk Bulk Action ===
   const handleBulkAction = () => {
     const selectedRows = table.getSelectedRowModel().rows.map((row) => row.original);
     if (onBulkAction) {
-      onBulkAction(selectedRows); // ✅ Panggil fungsi bulk action dari parent
+      onBulkAction(selectedRows);
     }
   };
   // === END TAMBAHAN ===

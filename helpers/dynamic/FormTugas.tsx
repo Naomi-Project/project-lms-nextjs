@@ -12,11 +12,11 @@ import { useState } from "react";
 import { useCreateAssignmentMutation } from "@/graphql/generated";
 
 const tugasSchema = z.object({
-  title: z.string().min(1, "Nama materi wajib diisi"),
-  description: z.string().min(1, "Nama materi wajib diisi"),
-  dueDate: z.string().min(1, "Nama materi wajib diisi"),
-  type: z.string().min(1, "Nama materi wajib diisi"),
-  extendedData: z.string().min(1, "Nama materi wajib diisi"),
+  title: z.string().min(1, "Nama tugas wajib diisi"),
+  description: z.string().min(1, "Deskripsi tugas wajib diisi"),
+  dueDate: z.string().min(1, "Deadline wajib diisi"),
+  type: z.string().min(1, "Tipe tugas wajib diisi"),
+  extendedData: z.string().min(1, "Isi tugas wajib diisi"),
   subjectId: z.string().min(1, "Subject id wajib dipilih"),
 });
 

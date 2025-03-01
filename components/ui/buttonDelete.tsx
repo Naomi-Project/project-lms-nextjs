@@ -8,11 +8,12 @@ interface ButtonDeleteProps {
   id: string;
   mutation: any;
   noBg?: boolean;
+  hideLable?: boolean;
   customClassNoBg?: string;
-  loading: boolean;
+  loading?: boolean;
 }
 
-const ButtonDelete: React.FC<ButtonDeleteProps> = ({ mutation, noBg, customClassNoBg, loading, id }) => {
+const ButtonDelete: React.FC<ButtonDeleteProps> = ({ mutation, noBg, hideLable, customClassNoBg, loading, id }) => {
   // const [deleteUser, { loading }] = useDeleteUserMutation();
   const handleDelete = async () => {
     Swal.fire({
@@ -59,7 +60,7 @@ const ButtonDelete: React.FC<ButtonDeleteProps> = ({ mutation, noBg, customClass
   }
   return (
     <Button onClick={handleDelete} disabled={loading} className={noBg ? customClassNoBg : "bg-red-500 hover:bg-red-700"}>
-      <Trash /> {"Hapus"}
+      <Trash /> {hideLable ? "" : "Hapus"}
     </Button>
   )
 }

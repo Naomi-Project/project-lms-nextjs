@@ -15,7 +15,7 @@ const EditPage = () => {
       data: id as string,
     },
     skip: !id,
-  });
+  }); 
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;

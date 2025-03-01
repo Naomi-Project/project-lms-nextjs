@@ -1,51 +1,73 @@
+"use client"
+/* eslint-disable */
+import { DataTable } from "@/components/common/list/CommonDataTable";
+import { useGetClassroomsQuery, useGetAttendancesQuery, useUserPayloadQuery, useDeleteAttendanceMutation, useGetUsersQuery } from "@/graphql/generated";
 import {
+  Badge,
   CalendarCheck2,
   CalendarOff,
   Hourglass,
   Thermometer,
 } from "lucide-react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+
+
 import React from "react";
 
-const invoices = [
-  {
-    invoice: "Sabtu, 28 maret 2024",
-    paymentStatus: "Hadir",
-  },
-  {
-    invoice: "Sabtu, 28 maret 2024",
-    paymentStatus: "Hadir",
-  },
-  {
-    invoice: "Sabtu, 28 maret 2024",
-    paymentStatus: "Hadir",
-  },
-  {
-    invoice: "Sabtu, 28 maret 2024",
-    paymentStatus: "Hadir",
-  },
-  {
-    invoice: "Sabtu, 28 maret 2024",
-    paymentStatus: "Hadir",
-  },
-  {
-    invoice: "Sabtu, 28 maret 2024",
-    paymentStatus: "Hadir",
-  },
-  {
-    invoice: "Sabtu, 28 maret 2024",
-    paymentStatus: "Hadir",
-  },
-];
+
+ 
 
 export default function PresenceStudent() {
+    const { data: filterStudent } = useGetUsersQuery()
+    const { data: absen } = useGetAttendancesQuery()
+    const { data: userPayload } = useUserPayloadQuery()
+    const dataAbsent = absen
+    const filteringDataStudent: any[] = filterStudent?.users.filter((item: any) => item.id === userPayload?.me.id && item.role === "STUDENT") || [];
+    console.log(absen)
+    const studentsInClass: any[] = (filteringDataStudent[0] as { students: any[] })?.students || [];
+  const columns = [
+    {
+      accessorKey: "name",
+      header: "RIWAYAT ABSENSI",
+      cell: ({ row }: any) => <span className="">{row.getValue('name')}</span>,
+    },
+    {
+      accessorKey: "action",
+      header: "ABSENSI",
+      cell: ({ row }: any) => {
+        const existingAttendance = absen?.attendances.find(
+          (item) => item.studentId === row.original.id
+        );
+  
+        // Jika sudah absen, tampilkan status
+        if (existingAttendance) {
+          if (existingAttendance.status === 'PRESENT') {
+            return (
+             <Badge className="bg-green-100 text-green-700 shadow-none hover:bg-opaci  cursor-pointer py-1">Hadir</Badge>
+            );
+          } else if (existingAttendance.status === 'PERMIT') {
+            return (
+             <Badge className="bg-yellow-100 text-yellow-700 shadow-none hover:bg-opaci  cursor-pointer py-1">Izin</Badge>
+            );
+          } else if (existingAttendance.status === 'SICK') {
+            return (
+             <Badge className="bg-orange-100 text-orange-700 shadow-none hover:bg-opaci  cursor-pointer py-1">Sakit</Badge>
+            );
+          } else if (existingAttendance.status === 'ABSENT') {
+            return (
+             <Badge className="bg-red-100 text-red-700 shadow-none hover:bg-opaci  cursor-pointer py-1">Tidak Hadir</Badge>
+            );
+          }
+        }
+  
+        // Jika belum absen, tampilkan dropdown untuk absensi
+        return (
+          <div className="flex gap-3">
+            <span>Kamu Belum Absen</span>
+          </div>
+        );
+      },
+    },
+  ];   
   return (
     <div className="min-h-screen">
       <div className="grid md:grid-cols-4 grid-cols-2 gap-4">
@@ -130,29 +152,13 @@ export default function PresenceStudent() {
         </div>
       </div>
 
-      <div className="border-2 rounded-lg bg-white mt-10">
-        <Table>
-          <TableHeader className="bg-slate-200">
-            <TableRow>
-              <TableHead className="w-10/12 font-bold text-black">
-                RIWAYAT ABSENSI
-              </TableHead>
-              <TableHead className="font-bold text-black border-l-2 border-slate-300">
-                STATUS
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {invoices.map((invoice) => (
-              <TableRow key={invoice.invoice}>
-                <TableCell>{invoice.invoice}</TableCell>
-                <TableCell className="text-green-400 border-l-2">
-                  {invoice.paymentStatus}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+      <div className="bg-white mt-10 border rounded-md p-5 ">
+        <DataTable
+          columns={columns}
+          data={studentsInClass}
+          filterName="name"
+          filterPlaceholder="Cari Siswa.."
+        />
       </div>
     </div>
   );

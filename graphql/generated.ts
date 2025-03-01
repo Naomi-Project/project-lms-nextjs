@@ -64,13 +64,13 @@ export enum AssignmentType {
 
 export type Attendance = {
   __typename?: 'Attendance';
+  classroom: Classroom;
+  classroomId: Scalars['ID']['output'];
   date: Scalars['Timestamp']['output'];
   id: Scalars['ID']['output'];
-  schedule: Schedule;
-  scheduleId: Scalars['ID']['output'];
   status: AttendanceStatus;
+  student: User;
   studentId: Scalars['ID']['output'];
-  students: Array<User>;
 };
 
 export enum AttendanceStatus {
@@ -90,6 +90,7 @@ export type Authentication = {
 
 export type Classroom = {
   __typename?: 'Classroom';
+  attendances: Array<Attendance>;
   guardian: User;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
@@ -113,8 +114,8 @@ export type CreateAssignmentInput = {
 };
 
 export type CreateAttendanceInput = {
+  classroomId: Scalars['ID']['input'];
   date: Scalars['Timestamp']['input'];
-  scheduleId: Scalars['ID']['input'];
   status: AttendanceStatus;
   studentId: Scalars['ID']['input'];
 };
@@ -151,6 +152,19 @@ export type CreateMaterialInput = {
   referenceId?: InputMaybe<Scalars['ID']['input']>;
   subjectId: Scalars['ID']['input'];
   title: Scalars['String']['input'];
+};
+
+export type CreatePaymentInput = {
+  enrollmentId: Scalars['ID']['input'];
+  method: PaymentMethod;
+  pricingId: Scalars['ID']['input'];
+  reference?: InputMaybe<Scalars['String']['input']>;
+  status: PaymentStatus;
+};
+
+export type CreatePricingInput = {
+  amount: Scalars['Float']['input'];
+  name: Scalars['String']['input'];
 };
 
 export type CreateReferenceInput = {
@@ -217,6 +231,7 @@ export type CreateUserInput = {
   password: Scalars['String']['input'];
   phone?: InputMaybe<Scalars['String']['input']>;
   role: Role;
+  schoolId?: InputMaybe<Scalars['String']['input']>;
   username: Scalars['String']['input'];
 };
 
@@ -245,6 +260,7 @@ export type Enrollment = {
   classroom?: Maybe<Classroom>;
   classroomId: Scalars['ID']['output'];
   id: Scalars['ID']['output'];
+  payment?: Maybe<Payment>;
   student?: Maybe<User>;
   studentId: Scalars['ID']['output'];
   term?: Maybe<Term>;
@@ -308,6 +324,8 @@ export type Mutation = {
   createFamily: Family;
   createGrade: Grade;
   createMaterial: Material;
+  createPayment: Payment;
+  createPricing: Pricing;
   createReference: Reference;
   createSchedule: Schedule;
   createSchool: School;
@@ -325,6 +343,8 @@ export type Mutation = {
   deleteFamily: Family;
   deleteGrade: Grade;
   deleteMaterial: Material;
+  deletePayment: Payment;
+  deletePricing: Pricing;
   deleteReference: Reference;
   deleteSchedule: Schedule;
   deleteSchool: School;
@@ -343,6 +363,8 @@ export type Mutation = {
   updateFamily: Family;
   updateGrade: Grade;
   updateMaterial: Material;
+  updatePayment: Payment;
+  updatePricing: Pricing;
   updateReference: Reference;
   updateSchedule: Schedule;
   updateSchool: School;
@@ -396,6 +418,16 @@ export type MutationCreateGradeArgs = {
 
 export type MutationCreateMaterialArgs = {
   data: CreateMaterialInput;
+};
+
+
+export type MutationCreatePaymentArgs = {
+  data: CreatePaymentInput;
+};
+
+
+export type MutationCreatePricingArgs = {
+  data: CreatePricingInput;
 };
 
 
@@ -480,6 +512,16 @@ export type MutationDeleteGradeArgs = {
 
 
 export type MutationDeleteMaterialArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type MutationDeletePaymentArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type MutationDeletePricingArgs = {
   id: Scalars['String']['input'];
 };
 
@@ -574,6 +616,16 @@ export type MutationUpdateMaterialArgs = {
 };
 
 
+export type MutationUpdatePaymentArgs = {
+  data: UpdatePaymentInput;
+};
+
+
+export type MutationUpdatePricingArgs = {
+  data: UpdatePricingInput;
+};
+
+
 export type MutationUpdateReferenceArgs = {
   data: UpdateReferenceInput;
 };
@@ -614,6 +666,36 @@ export type MutationUpdateUserArgs = {
   data: UpdateUserInput;
 };
 
+export type Payment = {
+  __typename?: 'Payment';
+  enrollment?: Maybe<Enrollment>;
+  id: Scalars['ID']['output'];
+  method: PaymentMethod;
+  pricing?: Maybe<Pricing>;
+  reference: Scalars['String']['output'];
+  status: PaymentStatus;
+};
+
+export enum PaymentMethod {
+  Cash = 'CASH',
+  Online = 'ONLINE'
+}
+
+export enum PaymentStatus {
+  Failed = 'FAILED',
+  Pending = 'PENDING',
+  Success = 'SUCCESS'
+}
+
+export type Pricing = {
+  __typename?: 'Pricing';
+  amount: Scalars['Float']['output'];
+  createdAt?: Maybe<Scalars['Timestamp']['output']>;
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  updatedAt?: Maybe<Scalars['Timestamp']['output']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   announcement: Announcement;
@@ -635,6 +717,10 @@ export type Query = {
   material: Material;
   materials: Array<Material>;
   me: UserPayload;
+  payment: Payment;
+  payments: Array<Payment>;
+  pricing: Pricing;
+  pricings: Array<Pricing>;
   reference: Reference;
   references: Array<Reference>;
   schedule: Schedule;
@@ -695,6 +781,11 @@ export type QueryGradeArgs = {
 
 
 export type QueryMaterialArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type QueryPaymentArgs = {
   id: Scalars['String']['input'];
 };
 
@@ -876,9 +967,9 @@ export type UpdateAssignmentInput = {
 };
 
 export type UpdateAttendanceInput = {
+  classroomId?: InputMaybe<Scalars['ID']['input']>;
   date?: InputMaybe<Scalars['Timestamp']['input']>;
   id: Scalars['ID']['input'];
-  scheduleId?: InputMaybe<Scalars['ID']['input']>;
   status?: InputMaybe<AttendanceStatus>;
   studentId?: InputMaybe<Scalars['ID']['input']>;
 };
@@ -921,6 +1012,21 @@ export type UpdateMaterialInput = {
   referenceId?: InputMaybe<Scalars['ID']['input']>;
   subjectId?: InputMaybe<Scalars['ID']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdatePaymentInput = {
+  enrollmentId?: InputMaybe<Scalars['ID']['input']>;
+  id: Scalars['ID']['input'];
+  method?: InputMaybe<PaymentMethod>;
+  pricingId?: InputMaybe<Scalars['ID']['input']>;
+  reference?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<PaymentStatus>;
+};
+
+export type UpdatePricingInput = {
+  amount?: InputMaybe<Scalars['Float']['input']>;
+  id: Scalars['ID']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateReferenceInput = {
@@ -990,6 +1096,7 @@ export type UpdateUserInput = {
   password?: InputMaybe<Scalars['String']['input']>;
   phone?: InputMaybe<Scalars['String']['input']>;
   role?: InputMaybe<Role>;
+  schoolId?: InputMaybe<Scalars['String']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -1007,7 +1114,8 @@ export type User = {
   nuptk?: Maybe<Scalars['String']['output']>;
   phone: Scalars['String']['output'];
   role: Role;
-  school?: Maybe<Array<School>>;
+  school?: Maybe<School>;
+  schoolId?: Maybe<Scalars['String']['output']>;
   submissions?: Maybe<Array<Submission>>;
   teaching?: Maybe<Array<Classroom>>;
   username: Scalars['String']['output'];
@@ -1016,6 +1124,7 @@ export type User = {
 export type UserPayload = {
   __typename?: 'UserPayload';
   id: Scalars['String']['output'];
+  name: Scalars['String']['output'];
   role: Scalars['String']['output'];
   username: Scalars['String']['output'];
 };
@@ -1030,26 +1139,26 @@ export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'Au
 export type UserPayloadQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserPayloadQuery = { __typename?: 'Query', me: { __typename?: 'UserPayload', id: string, username: string, role: string } };
+export type UserPayloadQuery = { __typename?: 'Query', me: { __typename?: 'UserPayload', id: string, username: string, name: string, role: string } };
 
 export type GetUserQueryVariables = Exact<{
   data: Scalars['String']['input'];
 }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, name?: string | null, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string, classroom?: { __typename?: 'Classroom', id: string, name: string, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, classroomId: string }> } | null, families: Array<{ __typename?: 'Family', id: string, name: string, contact: string, relationship: Relationship }> } };
+export type GetUserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, name?: string | null, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string, classroom?: { __typename?: 'Classroom', id: string, name: string, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, classroomId: string }> } | null, families: Array<{ __typename?: 'Family', id: string, name: string, contact: string, relationship: Relationship }>, school?: { __typename?: 'School', id: string, name: string, accreditation: Accreditation } | null } };
 
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, name?: string | null, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string, classroom?: { __typename?: 'Classroom', id: string, name: string, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day }> } | null, families: Array<{ __typename?: 'Family', id: string, name: string, contact: string, relationship: Relationship }> }> };
+export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, name?: string | null, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string, classroom?: { __typename?: 'Classroom', id: string, name: string, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, subject?: { __typename?: 'Subject', id: string, name: string } | null }> } | null, families: Array<{ __typename?: 'Family', id: string, name: string, contact: string, relationship: Relationship }> }> };
 
 export type CreateUserMutationVariables = Exact<{
   data: CreateUserInput;
 }>;
 
 
-export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: string, name?: string | null, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string } };
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: string, name?: string | null, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string, schoolId?: string | null } };
 
 export type UpdateUserMutationVariables = Exact<{
   data: UpdateUserInput;
@@ -1176,7 +1285,7 @@ export type GetSchedulesQueryVariables = Exact<{
 }>;
 
 
-export type GetSchedulesQuery = { __typename?: 'Query', schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, classroomId: string, subjectId: string, createdAt?: any | null, updatedAt?: any | null }> };
+export type GetSchedulesQuery = { __typename?: 'Query', schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, classroomId: string, subjectId: string, createdAt?: any | null, updatedAt?: any | null, subject?: { __typename?: 'Subject', id: string, name: string } | null, classroom?: { __typename?: 'Classroom', id: string, name: string, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, students: Array<{ __typename?: 'User', id: string, name?: string | null, nisn?: string | null }> } | null }> };
 
 export type CreateScheduleMutationVariables = Exact<{
   data: CreateScheduleInput;
@@ -1205,40 +1314,40 @@ export type GetAttendanceQueryVariables = Exact<{
 }>;
 
 
-export type GetAttendanceQuery = { __typename?: 'Query', attendance: { __typename?: 'Attendance', id: string, scheduleId: string, studentId: string, date: any, status: AttendanceStatus, students: Array<{ __typename?: 'User', id: string, name?: string | null, username: string }>, schedule: { __typename?: 'Schedule', id: string, day: Day, classroomId: string } } };
+export type GetAttendanceQuery = { __typename?: 'Query', attendance: { __typename?: 'Attendance', id: string, classroomId: string, studentId: string, date: any, status: AttendanceStatus, student: { __typename?: 'User', id: string, name?: string | null, username: string } } };
 
 export type GetAttendancesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAttendancesQuery = { __typename?: 'Query', attendances: Array<{ __typename?: 'Attendance', id: string, scheduleId: string, studentId: string, date: any, status: AttendanceStatus, students: Array<{ __typename?: 'User', id: string, name?: string | null, username: string }>, schedule: { __typename?: 'Schedule', id: string, day: Day } }> };
+export type GetAttendancesQuery = { __typename?: 'Query', attendances: Array<{ __typename?: 'Attendance', id: string, classroomId: string, studentId: string, date: any, status: AttendanceStatus, student: { __typename?: 'User', id: string, name?: string | null, username: string } }> };
 
 export type CreateAttendanceMutationVariables = Exact<{
   data: Array<CreateAttendanceInput> | CreateAttendanceInput;
 }>;
 
 
-export type CreateAttendanceMutation = { __typename?: 'Mutation', createAttendance: Array<{ __typename?: 'Attendance', id: string, scheduleId: string, studentId: string, date: any, status: AttendanceStatus }> };
+export type CreateAttendanceMutation = { __typename?: 'Mutation', createAttendance: Array<{ __typename?: 'Attendance', id: string, classroomId: string, studentId: string, date: any, status: AttendanceStatus }> };
 
 export type UpdateAttendanceMutationVariables = Exact<{
   data: Array<UpdateAttendanceInput> | UpdateAttendanceInput;
 }>;
 
 
-export type UpdateAttendanceMutation = { __typename?: 'Mutation', updateAttendance: Array<{ __typename?: 'Attendance', id: string, scheduleId: string, studentId: string, date: any, status: AttendanceStatus }> };
+export type UpdateAttendanceMutation = { __typename?: 'Mutation', updateAttendance: Array<{ __typename?: 'Attendance', id: string, classroomId: string, studentId: string, date: any, status: AttendanceStatus }> };
 
 export type DeleteAttendanceMutationVariables = Exact<{
   data: Scalars['String']['input'];
 }>;
 
 
-export type DeleteAttendanceMutation = { __typename?: 'Mutation', deleteAttendance: { __typename?: 'Attendance', id: string, scheduleId: string, studentId: string, date: any, status: AttendanceStatus } };
+export type DeleteAttendanceMutation = { __typename?: 'Mutation', deleteAttendance: { __typename?: 'Attendance', id: string, classroomId: string, studentId: string, date: any, status: AttendanceStatus } };
 
 export type GetTermQueryVariables = Exact<{
   data: Scalars['String']['input'];
 }>;
 
 
-export type GetTermQuery = { __typename?: 'Query', term: { __typename?: 'Term', id: string, name: string, startDate: any, endDate: any, schoolId: string, curriculumId: string, createdAt?: any | null, updatedAt?: any | null } };
+export type GetTermQuery = { __typename?: 'Query', term: { __typename?: 'Term', id: string, name: string, startDate: any, endDate: any, schoolId: string, curriculumId: string } };
 
 export type GetTermsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1257,7 +1366,7 @@ export type UpdateTermMutationVariables = Exact<{
 }>;
 
 
-export type UpdateTermMutation = { __typename?: 'Mutation', updateTerm: { __typename?: 'Term', id: string, name: string, startDate: any, endDate: any, schoolId: string, curriculumId: string, createdAt?: any | null, updatedAt?: any | null } };
+export type UpdateTermMutation = { __typename?: 'Mutation', updateTerm: { __typename?: 'Term', id: string } };
 
 export type DeleteTermMutationVariables = Exact<{
   data: Scalars['String']['input'];
@@ -1476,7 +1585,7 @@ export type GetGradeQuery = { __typename?: 'Query', grade: { __typename?: 'Grade
 export type GetGradesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetGradesQuery = { __typename?: 'Query', grades: Array<{ __typename?: 'Grade', id: string, name: string }> };
+export type GetGradesQuery = { __typename?: 'Query', grades: Array<{ __typename?: 'Grade', id: string, name: string, classrooms: Array<{ __typename?: 'Classroom', id: string, name: string, students: Array<{ __typename?: 'User', id: string, name?: string | null, nisn?: string | null }>, guardian: { __typename?: 'User', id: string, name?: string | null } }> }> };
 
 export type CreateGradeMutationVariables = Exact<{
   data: CreateGradeInput;
@@ -1509,7 +1618,7 @@ export type GetClassroomQuery = { __typename?: 'Query', classroom: { __typename?
 export type GetClassroomsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetClassroomsQuery = { __typename?: 'Query', classrooms: Array<{ __typename?: 'Classroom', id: string, name: string, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, classroomId: string, subjectId: string }>, students: Array<{ __typename?: 'User', id: string, name?: string | null, nisn?: string | null }> }> };
+export type GetClassroomsQuery = { __typename?: 'Query', classrooms: Array<{ __typename?: 'Classroom', id: string, name: string, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, classroomId: string, subjectId: string, subject?: { __typename?: 'Subject', id: string, name: string } | null }>, students: Array<{ __typename?: 'User', id: string, name?: string | null, nisn?: string | null, classroom?: { __typename?: 'Classroom', id: string, name: string, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, subjectId: string, subject?: { __typename?: 'Subject', id: string, name: string } | null }> } | null, school?: { __typename?: 'School', id: string, name: string, npsn: string } | null }> }> };
 
 export type CreateClassroomMutationVariables = Exact<{
   data: CreateClassroomInput;
@@ -1598,6 +1707,70 @@ export type DeleteReferenceMutationVariables = Exact<{
 
 export type DeleteReferenceMutation = { __typename?: 'Mutation', deleteReference: { __typename?: 'Reference', id: string, url: string, type: ReferenceType, authorId: string } };
 
+export type GetPaymentQueryVariables = Exact<{
+  data: Scalars['String']['input'];
+}>;
+
+
+export type GetPaymentQuery = { __typename?: 'Query', payment: { __typename?: 'Payment', id: string, status: PaymentStatus, reference: string, method: PaymentMethod, pricing?: { __typename?: 'Pricing', id: string, name: string, amount: number, createdAt?: any | null, updatedAt?: any | null } | null, enrollment?: { __typename?: 'Enrollment', id: string } | null } };
+
+export type GetPaymentsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetPaymentsQuery = { __typename?: 'Query', payments: Array<{ __typename?: 'Payment', id: string, status: PaymentStatus, reference: string, method: PaymentMethod, pricing?: { __typename?: 'Pricing', id: string, name: string, amount: number, createdAt?: any | null, updatedAt?: any | null } | null, enrollment?: { __typename?: 'Enrollment', id: string } | null }> };
+
+export type CreatePaymentMutationVariables = Exact<{
+  data: CreatePaymentInput;
+}>;
+
+
+export type CreatePaymentMutation = { __typename?: 'Mutation', createPayment: { __typename?: 'Payment', id: string, status: PaymentStatus, reference: string, method: PaymentMethod, pricing?: { __typename?: 'Pricing', id: string } | null, enrollment?: { __typename?: 'Enrollment', id: string } | null } };
+
+export type UpdatePaymentMutationVariables = Exact<{
+  data: UpdatePaymentInput;
+}>;
+
+
+export type UpdatePaymentMutation = { __typename?: 'Mutation', updatePayment: { __typename?: 'Payment', id: string, status: PaymentStatus, reference: string, method: PaymentMethod, pricing?: { __typename?: 'Pricing', id: string } | null, enrollment?: { __typename?: 'Enrollment', id: string } | null } };
+
+export type DeletePaymentMutationVariables = Exact<{
+  data: Scalars['String']['input'];
+}>;
+
+
+export type DeletePaymentMutation = { __typename?: 'Mutation', deletePayment: { __typename?: 'Payment', id: string, status: PaymentStatus, reference: string, method: PaymentMethod, pricing?: { __typename?: 'Pricing', id: string } | null, enrollment?: { __typename?: 'Enrollment', id: string } | null } };
+
+export type GetPricingQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetPricingQuery = { __typename?: 'Query', pricing: { __typename?: 'Pricing', id: string, name: string, amount: number, createdAt?: any | null, updatedAt?: any | null } };
+
+export type GetPricingsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetPricingsQuery = { __typename?: 'Query', pricings: Array<{ __typename?: 'Pricing', id: string, name: string, amount: number, createdAt?: any | null, updatedAt?: any | null }> };
+
+export type CreatePricingMutationVariables = Exact<{
+  data: CreatePricingInput;
+}>;
+
+
+export type CreatePricingMutation = { __typename?: 'Mutation', createPricing: { __typename?: 'Pricing', id: string, name: string, amount: number } };
+
+export type UpdatePricingMutationVariables = Exact<{
+  data: UpdatePricingInput;
+}>;
+
+
+export type UpdatePricingMutation = { __typename?: 'Mutation', updatePricing: { __typename?: 'Pricing', id: string, name: string, amount: number } };
+
+export type DeletePricingMutationVariables = Exact<{
+  data: Scalars['String']['input'];
+}>;
+
+
+export type DeletePricingMutation = { __typename?: 'Mutation', deletePricing: { __typename?: 'Pricing', id: string, name: string, amount: number } };
+
 
 export const LoginDocument = gql`
     mutation Login($data: LoginInput!) {
@@ -1637,6 +1810,7 @@ export const UserPayloadDocument = gql`
   me {
     id
     username
+    name
     role
   }
 }
@@ -1707,6 +1881,11 @@ export const GetUserDocument = gql`
       contact
       relationship
     }
+    school {
+      id
+      name
+      accreditation
+    }
   }
 }
     `;
@@ -1767,6 +1946,10 @@ export const GetUsersDocument = gql`
       }
       schedules {
         id
+        subject {
+          id
+          name
+        }
         day
       }
     }
@@ -1825,6 +2008,7 @@ export const CreateUserDocument = gql`
     gender
     address
     phone
+    schoolId
   }
 }
     `;
@@ -2667,6 +2851,24 @@ export const GetSchedulesDocument = gql`
     day
     classroomId
     subjectId
+    subject {
+      id
+      name
+    }
+    classroom {
+      id
+      name
+      guardian {
+        id
+        name
+        nuptk
+      }
+      students {
+        id
+        name
+        nisn
+      }
+    }
     createdAt
     updatedAt
   }
@@ -2818,19 +3020,14 @@ export const GetAttendanceDocument = gql`
     query GetAttendance($data: String!) {
   attendance(id: $data) {
     id
-    scheduleId
+    classroomId
     studentId
     date
     status
-    students {
+    student {
       id
       name
       username
-    }
-    schedule {
-      id
-      day
-      classroomId
     }
   }
 }
@@ -2872,18 +3069,14 @@ export const GetAttendancesDocument = gql`
     query GetAttendances {
   attendances {
     id
-    scheduleId
+    classroomId
     studentId
     date
     status
-    students {
+    student {
       id
       name
       username
-    }
-    schedule {
-      id
-      day
     }
   }
 }
@@ -2924,7 +3117,7 @@ export const CreateAttendanceDocument = gql`
     mutation CreateAttendance($data: [CreateAttendanceInput!]!) {
   createAttendance(data: $data) {
     id
-    scheduleId
+    classroomId
     studentId
     date
     status
@@ -2961,7 +3154,7 @@ export const UpdateAttendanceDocument = gql`
     mutation UpdateAttendance($data: [UpdateAttendanceInput!]!) {
   updateAttendance(data: $data) {
     id
-    scheduleId
+    classroomId
     studentId
     date
     status
@@ -2998,7 +3191,7 @@ export const DeleteAttendanceDocument = gql`
     mutation DeleteAttendance($data: String!) {
   deleteAttendance(id: $data) {
     id
-    scheduleId
+    classroomId
     studentId
     date
     status
@@ -3040,8 +3233,6 @@ export const GetTermDocument = gql`
     endDate
     schoolId
     curriculumId
-    createdAt
-    updatedAt
   }
 }
     `;
@@ -3168,13 +3359,6 @@ export const UpdateTermDocument = gql`
     mutation UpdateTerm($data: UpdateTermInput!) {
   updateTerm(data: $data) {
     id
-    name
-    startDate
-    endDate
-    schoolId
-    curriculumId
-    createdAt
-    updatedAt
   }
 }
     `;
@@ -4651,6 +4835,19 @@ export const GetGradesDocument = gql`
   grades {
     id
     name
+    classrooms {
+      id
+      name
+      students {
+        id
+        name
+        nisn
+      }
+      guardian {
+        id
+        name
+      }
+    }
   }
 }
     `;
@@ -4860,11 +5057,33 @@ export const GetClassroomsDocument = gql`
       day
       classroomId
       subjectId
+      subject {
+        id
+        name
+      }
     }
     students {
       id
       name
       nisn
+      classroom {
+        id
+        name
+        schedules {
+          id
+          day
+          subjectId
+          subject {
+            id
+            name
+          }
+        }
+      }
+      school {
+        id
+        name
+        npsn
+      }
     }
   }
 }
@@ -5422,3 +5641,425 @@ export function useDeleteReferenceMutation(baseOptions?: Apollo.MutationHookOpti
 export type DeleteReferenceMutationHookResult = ReturnType<typeof useDeleteReferenceMutation>;
 export type DeleteReferenceMutationResult = Apollo.MutationResult<DeleteReferenceMutation>;
 export type DeleteReferenceMutationOptions = Apollo.BaseMutationOptions<DeleteReferenceMutation, DeleteReferenceMutationVariables>;
+export const GetPaymentDocument = gql`
+    query GetPayment($data: String!) {
+  payment(id: $data) {
+    id
+    status
+    reference
+    method
+    pricing {
+      id
+      name
+      amount
+      createdAt
+      updatedAt
+    }
+    enrollment {
+      id
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetPaymentQuery__
+ *
+ * To run a query within a React component, call `useGetPaymentQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPaymentQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPaymentQuery({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useGetPaymentQuery(baseOptions: Apollo.QueryHookOptions<GetPaymentQuery, GetPaymentQueryVariables> & ({ variables: GetPaymentQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPaymentQuery, GetPaymentQueryVariables>(GetPaymentDocument, options);
+      }
+export function useGetPaymentLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPaymentQuery, GetPaymentQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPaymentQuery, GetPaymentQueryVariables>(GetPaymentDocument, options);
+        }
+export function useGetPaymentSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetPaymentQuery, GetPaymentQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetPaymentQuery, GetPaymentQueryVariables>(GetPaymentDocument, options);
+        }
+export type GetPaymentQueryHookResult = ReturnType<typeof useGetPaymentQuery>;
+export type GetPaymentLazyQueryHookResult = ReturnType<typeof useGetPaymentLazyQuery>;
+export type GetPaymentSuspenseQueryHookResult = ReturnType<typeof useGetPaymentSuspenseQuery>;
+export type GetPaymentQueryResult = Apollo.QueryResult<GetPaymentQuery, GetPaymentQueryVariables>;
+export const GetPaymentsDocument = gql`
+    query GetPayments {
+  payments {
+    id
+    status
+    reference
+    method
+    pricing {
+      id
+      name
+      amount
+      createdAt
+      updatedAt
+    }
+    enrollment {
+      id
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetPaymentsQuery__
+ *
+ * To run a query within a React component, call `useGetPaymentsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPaymentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPaymentsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetPaymentsQuery(baseOptions?: Apollo.QueryHookOptions<GetPaymentsQuery, GetPaymentsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPaymentsQuery, GetPaymentsQueryVariables>(GetPaymentsDocument, options);
+      }
+export function useGetPaymentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPaymentsQuery, GetPaymentsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPaymentsQuery, GetPaymentsQueryVariables>(GetPaymentsDocument, options);
+        }
+export function useGetPaymentsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetPaymentsQuery, GetPaymentsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetPaymentsQuery, GetPaymentsQueryVariables>(GetPaymentsDocument, options);
+        }
+export type GetPaymentsQueryHookResult = ReturnType<typeof useGetPaymentsQuery>;
+export type GetPaymentsLazyQueryHookResult = ReturnType<typeof useGetPaymentsLazyQuery>;
+export type GetPaymentsSuspenseQueryHookResult = ReturnType<typeof useGetPaymentsSuspenseQuery>;
+export type GetPaymentsQueryResult = Apollo.QueryResult<GetPaymentsQuery, GetPaymentsQueryVariables>;
+export const CreatePaymentDocument = gql`
+    mutation CreatePayment($data: CreatePaymentInput!) {
+  createPayment(data: $data) {
+    id
+    status
+    reference
+    method
+    pricing {
+      id
+    }
+    enrollment {
+      id
+    }
+  }
+}
+    `;
+export type CreatePaymentMutationFn = Apollo.MutationFunction<CreatePaymentMutation, CreatePaymentMutationVariables>;
+
+/**
+ * __useCreatePaymentMutation__
+ *
+ * To run a mutation, you first call `useCreatePaymentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePaymentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPaymentMutation, { data, loading, error }] = useCreatePaymentMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreatePaymentMutation(baseOptions?: Apollo.MutationHookOptions<CreatePaymentMutation, CreatePaymentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreatePaymentMutation, CreatePaymentMutationVariables>(CreatePaymentDocument, options);
+      }
+export type CreatePaymentMutationHookResult = ReturnType<typeof useCreatePaymentMutation>;
+export type CreatePaymentMutationResult = Apollo.MutationResult<CreatePaymentMutation>;
+export type CreatePaymentMutationOptions = Apollo.BaseMutationOptions<CreatePaymentMutation, CreatePaymentMutationVariables>;
+export const UpdatePaymentDocument = gql`
+    mutation UpdatePayment($data: UpdatePaymentInput!) {
+  updatePayment(data: $data) {
+    id
+    status
+    reference
+    method
+    pricing {
+      id
+    }
+    enrollment {
+      id
+    }
+  }
+}
+    `;
+export type UpdatePaymentMutationFn = Apollo.MutationFunction<UpdatePaymentMutation, UpdatePaymentMutationVariables>;
+
+/**
+ * __useUpdatePaymentMutation__
+ *
+ * To run a mutation, you first call `useUpdatePaymentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePaymentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updatePaymentMutation, { data, loading, error }] = useUpdatePaymentMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdatePaymentMutation(baseOptions?: Apollo.MutationHookOptions<UpdatePaymentMutation, UpdatePaymentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdatePaymentMutation, UpdatePaymentMutationVariables>(UpdatePaymentDocument, options);
+      }
+export type UpdatePaymentMutationHookResult = ReturnType<typeof useUpdatePaymentMutation>;
+export type UpdatePaymentMutationResult = Apollo.MutationResult<UpdatePaymentMutation>;
+export type UpdatePaymentMutationOptions = Apollo.BaseMutationOptions<UpdatePaymentMutation, UpdatePaymentMutationVariables>;
+export const DeletePaymentDocument = gql`
+    mutation DeletePayment($data: String!) {
+  deletePayment(id: $data) {
+    id
+    status
+    reference
+    method
+    pricing {
+      id
+    }
+    enrollment {
+      id
+    }
+  }
+}
+    `;
+export type DeletePaymentMutationFn = Apollo.MutationFunction<DeletePaymentMutation, DeletePaymentMutationVariables>;
+
+/**
+ * __useDeletePaymentMutation__
+ *
+ * To run a mutation, you first call `useDeletePaymentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeletePaymentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deletePaymentMutation, { data, loading, error }] = useDeletePaymentMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useDeletePaymentMutation(baseOptions?: Apollo.MutationHookOptions<DeletePaymentMutation, DeletePaymentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeletePaymentMutation, DeletePaymentMutationVariables>(DeletePaymentDocument, options);
+      }
+export type DeletePaymentMutationHookResult = ReturnType<typeof useDeletePaymentMutation>;
+export type DeletePaymentMutationResult = Apollo.MutationResult<DeletePaymentMutation>;
+export type DeletePaymentMutationOptions = Apollo.BaseMutationOptions<DeletePaymentMutation, DeletePaymentMutationVariables>;
+export const GetPricingDocument = gql`
+    query GetPricing {
+  pricing {
+    id
+    name
+    amount
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+/**
+ * __useGetPricingQuery__
+ *
+ * To run a query within a React component, call `useGetPricingQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPricingQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPricingQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetPricingQuery(baseOptions?: Apollo.QueryHookOptions<GetPricingQuery, GetPricingQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPricingQuery, GetPricingQueryVariables>(GetPricingDocument, options);
+      }
+export function useGetPricingLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPricingQuery, GetPricingQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPricingQuery, GetPricingQueryVariables>(GetPricingDocument, options);
+        }
+export function useGetPricingSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetPricingQuery, GetPricingQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetPricingQuery, GetPricingQueryVariables>(GetPricingDocument, options);
+        }
+export type GetPricingQueryHookResult = ReturnType<typeof useGetPricingQuery>;
+export type GetPricingLazyQueryHookResult = ReturnType<typeof useGetPricingLazyQuery>;
+export type GetPricingSuspenseQueryHookResult = ReturnType<typeof useGetPricingSuspenseQuery>;
+export type GetPricingQueryResult = Apollo.QueryResult<GetPricingQuery, GetPricingQueryVariables>;
+export const GetPricingsDocument = gql`
+    query GetPricings {
+  pricings {
+    id
+    name
+    amount
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+/**
+ * __useGetPricingsQuery__
+ *
+ * To run a query within a React component, call `useGetPricingsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPricingsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPricingsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetPricingsQuery(baseOptions?: Apollo.QueryHookOptions<GetPricingsQuery, GetPricingsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPricingsQuery, GetPricingsQueryVariables>(GetPricingsDocument, options);
+      }
+export function useGetPricingsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPricingsQuery, GetPricingsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPricingsQuery, GetPricingsQueryVariables>(GetPricingsDocument, options);
+        }
+export function useGetPricingsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetPricingsQuery, GetPricingsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetPricingsQuery, GetPricingsQueryVariables>(GetPricingsDocument, options);
+        }
+export type GetPricingsQueryHookResult = ReturnType<typeof useGetPricingsQuery>;
+export type GetPricingsLazyQueryHookResult = ReturnType<typeof useGetPricingsLazyQuery>;
+export type GetPricingsSuspenseQueryHookResult = ReturnType<typeof useGetPricingsSuspenseQuery>;
+export type GetPricingsQueryResult = Apollo.QueryResult<GetPricingsQuery, GetPricingsQueryVariables>;
+export const CreatePricingDocument = gql`
+    mutation CreatePricing($data: CreatePricingInput!) {
+  createPricing(data: $data) {
+    id
+    name
+    amount
+  }
+}
+    `;
+export type CreatePricingMutationFn = Apollo.MutationFunction<CreatePricingMutation, CreatePricingMutationVariables>;
+
+/**
+ * __useCreatePricingMutation__
+ *
+ * To run a mutation, you first call `useCreatePricingMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePricingMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPricingMutation, { data, loading, error }] = useCreatePricingMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreatePricingMutation(baseOptions?: Apollo.MutationHookOptions<CreatePricingMutation, CreatePricingMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreatePricingMutation, CreatePricingMutationVariables>(CreatePricingDocument, options);
+      }
+export type CreatePricingMutationHookResult = ReturnType<typeof useCreatePricingMutation>;
+export type CreatePricingMutationResult = Apollo.MutationResult<CreatePricingMutation>;
+export type CreatePricingMutationOptions = Apollo.BaseMutationOptions<CreatePricingMutation, CreatePricingMutationVariables>;
+export const UpdatePricingDocument = gql`
+    mutation UpdatePricing($data: UpdatePricingInput!) {
+  updatePricing(data: $data) {
+    id
+    name
+    amount
+  }
+}
+    `;
+export type UpdatePricingMutationFn = Apollo.MutationFunction<UpdatePricingMutation, UpdatePricingMutationVariables>;
+
+/**
+ * __useUpdatePricingMutation__
+ *
+ * To run a mutation, you first call `useUpdatePricingMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePricingMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updatePricingMutation, { data, loading, error }] = useUpdatePricingMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdatePricingMutation(baseOptions?: Apollo.MutationHookOptions<UpdatePricingMutation, UpdatePricingMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdatePricingMutation, UpdatePricingMutationVariables>(UpdatePricingDocument, options);
+      }
+export type UpdatePricingMutationHookResult = ReturnType<typeof useUpdatePricingMutation>;
+export type UpdatePricingMutationResult = Apollo.MutationResult<UpdatePricingMutation>;
+export type UpdatePricingMutationOptions = Apollo.BaseMutationOptions<UpdatePricingMutation, UpdatePricingMutationVariables>;
+export const DeletePricingDocument = gql`
+    mutation DeletePricing($data: String!) {
+  deletePricing(id: $data) {
+    id
+    name
+    amount
+  }
+}
+    `;
+export type DeletePricingMutationFn = Apollo.MutationFunction<DeletePricingMutation, DeletePricingMutationVariables>;
+
+/**
+ * __useDeletePricingMutation__
+ *
+ * To run a mutation, you first call `useDeletePricingMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeletePricingMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deletePricingMutation, { data, loading, error }] = useDeletePricingMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useDeletePricingMutation(baseOptions?: Apollo.MutationHookOptions<DeletePricingMutation, DeletePricingMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeletePricingMutation, DeletePricingMutationVariables>(DeletePricingDocument, options);
+      }
+export type DeletePricingMutationHookResult = ReturnType<typeof useDeletePricingMutation>;
+export type DeletePricingMutationResult = Apollo.MutationResult<DeletePricingMutation>;
+export type DeletePricingMutationOptions = Apollo.BaseMutationOptions<DeletePricingMutation, DeletePricingMutationVariables>;

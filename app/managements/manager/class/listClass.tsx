@@ -1,9 +1,15 @@
 "use client";
 /* eslint-disable */
 import { useDeleteClassroomMutation, useGetClassroomsQuery } from "@/graphql/generated";
-import { UserRound, UsersRound } from "lucide-react";
+import { EllipsisVertical, GraduationCap, UserRound, UsersRound } from "lucide-react";
 import Link from "next/link";
 import ButtonDelete from "@/components/ui/buttonDelete";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export interface ListProps<T extends Record<any, any>> {
   title: string;
@@ -29,23 +35,36 @@ function ListClass<T extends Record<any, any>>(
           <div className="w-full h-full p-4">
             <div className="flex justify-between">
               <h1 className="text-base font-bold">Kelas {dt.name}</h1>
-
-              {/* <div className="w-20 rounded-lg flex items-center justify-center bg-blue-100 p-1">
-                <p className="text-xs text-blue-500">Kelas Awal</p>
-              </div> */}
-              <ButtonDelete id={dt.id} mutation={deleteClassroom} loading={loading} />
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="">
+                    <EllipsisVertical className="cursor-pointer" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuItem className="hover:bg-red-100">
+                    <ButtonDelete
+                      noBg={true}
+                      id={dt.id}
+                      customClassNoBg="bg-transparent text-white bg-red-500 w-full hover:bg-red-600 shadow-none"
+                      mutation={deleteClassroom}
+                      loading={loading}
+                    />
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
 
             <div className="w-9/12 mt-5">
-              <div className="grid grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 gap-4">
                 <div className="col-span-1">
-                  <div className="grid grid-cols-3">
+                  <div className="grid grid-cols-3 gap-2">
                     <div className="col-span-1">
                       <UserRound className="text-slate-400 w-5 h-5" />
                     </div>
 
                     <div className="col-span-2">
-                      <p className="text-slate-400 text-sm">Demi He</p>
+                      <p className="text-slate-400 text-sm">{dt.guardian.name}</p>
                     </div>
                   </div>
                 </div>
@@ -53,11 +72,11 @@ function ListClass<T extends Record<any, any>>(
                 <div className="col-span-1">
                   <div className="grid grid-cols-3">
                     <div className="col-span-1">
-                      <UsersRound className="text-slate-400 w-5 h-5" />
+                      <GraduationCap className="text-slate-400 w-5 h-5" />
                     </div>
 
                     <div className="col-span-2">
-                      <p className="text-slate-400 text-sm">20 Siswa</p>
+                      <p className="text-slate-400 text-sm">{dt.students.length} Siswa/i</p>
                     </div>
                   </div>
                 </div>

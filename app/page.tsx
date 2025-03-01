@@ -47,23 +47,6 @@ export default function LoginPage() {
             }
           }
         })
-  
-        if (response.data?.login.authToken) {
-          localStorage.setItem("authToken", response.data.login.authToken);
-          Swal.fire({
-            title: "Berhasil Login!",
-            text: "Anda telah berhasil login!",
-            icon: "success",
-            timer: 2000,
-            timerProgressBar: true,
-          }).then((result) => {
-            if (result.dismiss === Swal.DismissReason.timer) {
-              // history.back(); 
-              router.push('/dashboard')
-            }
-          });
-        }
-        return true
       } else if (role === "teacher" || role === "student") {
         const response = await login({
           variables: {

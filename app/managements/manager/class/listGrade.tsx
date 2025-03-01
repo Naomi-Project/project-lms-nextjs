@@ -3,7 +3,13 @@
 import { Button } from "@/components/ui/button";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import { useDeleteGradeMutation, useGetGradesQuery } from "@/graphql/generated";
-import { Building2 } from "lucide-react";
+import { Building2, EllipsisVertical } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export interface ListProps<T extends Record<any, any>> {
   title: any;
@@ -21,6 +27,7 @@ function ListGrade<T extends Record<any, any>>(
     return numA - numB; // Urutkan berdasarkan angka saja  
   }) || [];
   if (loading) return "loading.."
+  console.log(data)
   return (
     <>
     {cleanData && cleanData.map((dt: any, index: number) => (
@@ -44,13 +51,30 @@ function ListGrade<T extends Record<any, any>>(
                 <Building2 className="text-slate-400 w-6 h-6" />
               </div>
               <div className="col-span-2 my-auto">
-                <p className="text-slate-400 text-sm text-nowrap">8 Kelas</p>
+                <p className="text-slate-400 text-sm text-nowrap">{dt.classrooms.length > 0 ? dt.classrooms.length + " kelas" : "Belum ada sub kelas"}</p>
               </div>
 
             </div>
           </div>
           <div>
-            <ButtonDelete id={dt.id} mutation={deleteGrade} loading={loading} />
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="">
+                  <EllipsisVertical className="cursor-pointer" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuItem className="hover:bg-red-100">
+                  <ButtonDelete
+                    noBg={true}
+                    id={dt.id}
+                    customClassNoBg="bg-transparent text-white bg-red-500 w-full hover:bg-red-600 shadow-none"
+                    mutation={deleteGrade}
+                    loading={loading}
+                  />
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>

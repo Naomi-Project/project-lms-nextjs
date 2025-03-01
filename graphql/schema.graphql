@@ -9,6 +9,7 @@ query UserPayload {
   me {
     id
     username
+    name
     role
   }
 }
@@ -48,6 +49,11 @@ query GetUser($data: String!) {
       contact
       relationship
     }
+    school {
+      id
+      name
+      accreditation
+    }
   }
 }
 
@@ -74,6 +80,10 @@ query GetUsers {
       }
       schedules {
         id
+        subject {
+          id
+          name
+        }
         day
       }
     }
@@ -99,6 +109,7 @@ mutation CreateUser($data: CreateUserInput!) {
     gender
     address
     phone
+    schoolId
   }
 }
 
@@ -398,6 +409,24 @@ query GetSchedules($data: String!) {
     day
     classroomId
     subjectId
+    subject {
+      id
+      name
+    }
+    classroom {
+      id
+      name
+      guardian {
+        id
+        name
+        nuptk
+      }
+      students {
+        id
+        name
+        nisn
+      }
+    }
     createdAt
     updatedAt
   }
@@ -435,19 +464,14 @@ mutation DeleteSchedule($data: String!) {
 query GetAttendance($data: String!) {
   attendance(id: $data) {
     id
-    scheduleId
+    classroomId
     studentId
     date
     status
-    students {
+    student {
       id
       name
       username
-    }
-    schedule {
-      id
-      day
-      classroomId
     }
   }
 }
@@ -455,18 +479,14 @@ query GetAttendance($data: String!) {
 query GetAttendances {
   attendances {
     id
-    scheduleId
+    classroomId
     studentId
     date
     status
-    students {
+    student {
       id
       name
       username
-    }
-    schedule {
-      id
-      day
     }
   }
 }
@@ -474,7 +494,7 @@ query GetAttendances {
 mutation CreateAttendance($data: [CreateAttendanceInput!]!) {
   createAttendance(data: $data) {
     id
-    scheduleId
+    classroomId
     studentId
     date
     status
@@ -484,7 +504,7 @@ mutation CreateAttendance($data: [CreateAttendanceInput!]!) {
 mutation UpdateAttendance($data: [UpdateAttendanceInput!]!) {
   updateAttendance(data: $data) {
     id
-    scheduleId
+    classroomId
     studentId
     date
     status
@@ -494,7 +514,7 @@ mutation UpdateAttendance($data: [UpdateAttendanceInput!]!) {
 mutation DeleteAttendance($data: String!) {
   deleteAttendance(id: $data) {
     id
-    scheduleId
+    classroomId
     studentId
     date
     status
@@ -511,8 +531,6 @@ query GetTerm($data: String!) {
     endDate
     schoolId
     curriculumId
-    createdAt
-    updatedAt
   }
 }
 
@@ -545,13 +563,6 @@ mutation CreateTerm($data: CreateTermInput!) {
 mutation UpdateTerm($data: UpdateTermInput!) {
   updateTerm(data: $data) {
     id
-    name
-    startDate
-    endDate
-    schoolId
-    curriculumId
-    createdAt
-    updatedAt
   }
 }
 
@@ -1065,6 +1076,19 @@ query GetGrades {
   grades {
     id
     name
+    classrooms {
+      id
+      name
+      students {
+        id
+        name
+        nisn
+      }
+      guardian {
+        id
+        name
+      }
+    }
   }
 }
 
@@ -1128,11 +1152,33 @@ query GetClassrooms {
       day
       classroomId
       subjectId
+      subject {
+        id
+        name
+      }
     }
     students {
       id
       name
       nisn
+      classroom {
+        id
+        name
+        schedules {
+          id
+          day
+          subjectId
+          subject {
+            id
+            name
+          }
+        }
+      }
+      school {
+        id
+        name
+        npsn
+      }
     }
   }
 }
@@ -1285,3 +1331,134 @@ mutation DeleteReference($data: String!) {
   }
 }
 ### Reference endregion
+
+### Payment region
+query GetPayment($data: String!) {
+  payment(id: $data) {
+    id
+    status
+    reference
+    method
+    pricing {
+      id
+      name
+      amount
+      createdAt
+      updatedAt
+    }
+    enrollment {
+      id
+    }
+  }
+}
+
+query GetPayments {
+  payments {
+    id
+    status
+    reference
+    method
+    pricing {
+      id
+      name
+      amount
+      createdAt
+      updatedAt
+    }
+    enrollment {
+      id
+    }
+  }
+}
+
+mutation CreatePayment($data: CreatePaymentInput!) {
+  createPayment(data: $data) {
+    id
+    status
+    reference
+    method
+    pricing {
+      id
+    }
+    enrollment {
+      id
+    }
+  }
+}
+
+mutation UpdatePayment($data: UpdatePaymentInput!) {
+  updatePayment(data: $data) {
+    id
+    status
+    reference
+    method
+    pricing {
+      id
+    }
+    enrollment {
+      id
+    }
+  }
+}
+
+mutation DeletePayment($data: String!) {
+  deletePayment(id: $data) {
+    id
+    status
+    reference
+    method
+    pricing {
+      id
+    }
+    enrollment {
+      id
+    }
+  }
+}
+### Payment endregion
+
+### Pricing region
+query GetPricing {
+  pricing {
+    id
+    name
+    amount
+    createdAt
+    updatedAt
+  }
+}
+
+query GetPricings {
+  pricings {
+    id
+    name
+    amount
+    createdAt
+    updatedAt
+  }
+}
+
+mutation CreatePricing($data: CreatePricingInput!) {
+  createPricing(data: $data) {
+    id
+    name
+    amount
+  }
+}
+
+mutation UpdatePricing($data: UpdatePricingInput!) {
+  updatePricing(data: $data) {
+    id
+    name
+    amount
+  }
+}
+
+mutation DeletePricing($data: String!) {
+  deletePricing(id: $data) {
+    id
+    name
+    amount
+  }
+}
+### Pricing endregion
