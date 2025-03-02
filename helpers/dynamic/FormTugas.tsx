@@ -5,6 +5,7 @@ import {
   CommonFormAddSection,
 } from "@/components/common/form/CommonFormAdd";
 import {
+  useGetClassroomsQuery,
   useGetSubjectsQuery,
 } from "@/graphql/generated";
 import { z } from "zod";
@@ -36,7 +37,12 @@ interface dataSelectTypes {
 
 const FormHelpersAdd = () => {
   const { data: firstData } = useGetSubjectsQuery()
+  const { data: secondData } = useGetClassroomsQuery()
   const dataSubject: dataSelectTypes[] = firstData?.subjects.map((data) => ({
+    label: data.name,
+    value: data.id,
+  })) || []
+  const dataClass: dataSelectTypes[] = secondData?.classrooms.map((data) => ({
     label: data.name,
     value: data.id,
   })) || []
@@ -93,11 +99,18 @@ const FormHelpersAdd = () => {
         [
           {
             key: "subjectId",
+            label: "Berikan tugas ini ke kelas",
+            emptyValue: "-",
+            type: "select",
+            dataSelect: dataClass,
+            placeholder: "Pilih target kelas..",
+          },
+          {
+            key: "subjectId",
             label: "Mata Pelajaran",
             emptyValue: "-",
             type: "select",
             dataSelect: dataSubject,
-            class: "md:w-full lg:w-full",
             placeholder: "Pilih mata pelajaran..",
           },
         ],

@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Card, CardHeader, CardFooter, CardDescription, CardTitle } from "@/components/ui/card";
-import { useDeleteAssignmentMutation, useGetAssignmentsQuery } from "@/graphql/generated";
+import { useDeleteAssignmentMutation, useGetAssignmentsQuery, useGetClassroomsQuery } from "@/graphql/generated";
 import { format } from "date-fns";
 import { Book, Calendar, EllipsisVertical, User } from "lucide-react";
 import Link from "next/link";
@@ -23,6 +23,7 @@ interface ListTypes {
 
 const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: ListTypes) => {
   const { data } = useGetAssignmentsQuery();
+  const { data: classRoom } = useGetClassroomsQuery();
 
   // Gunakan useMemo agar rawData tidak berubah terus-menerus
   const rawData = useMemo(() => data?.assignments || [], [data?.assignments]);
@@ -43,6 +44,11 @@ const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: L
         : rawData
     );
   }, [filter, rawData]);
+
+  useEffect(() => {
+    console.log(tugas)
+    console.log(classRoom)
+  }, [tugas, classRoom])
 
   const [deleteAssignments, { loading }] = useDeleteAssignmentMutation();
 
