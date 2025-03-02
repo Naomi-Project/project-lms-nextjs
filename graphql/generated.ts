@@ -1081,7 +1081,12 @@ export type UpdateSubmissionInput = {
 };
 
 export type UpdateTermInput = {
+  curriculumId?: InputMaybe<Scalars['ID']['input']>;
+  endDate?: InputMaybe<Scalars['Timestamp']['input']>;
   id: Scalars['ID']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+  schoolId?: InputMaybe<Scalars['ID']['input']>;
+  startDate?: InputMaybe<Scalars['Timestamp']['input']>;
 };
 
 export type UpdateUserInput = {
@@ -1366,7 +1371,7 @@ export type UpdateTermMutationVariables = Exact<{
 }>;
 
 
-export type UpdateTermMutation = { __typename?: 'Mutation', updateTerm: { __typename?: 'Term', id: string } };
+export type UpdateTermMutation = { __typename?: 'Mutation', updateTerm: { __typename?: 'Term', id: string, name: string, startDate: any, endDate: any, schoolId: string, curriculumId: string } };
 
 export type DeleteTermMutationVariables = Exact<{
   data: Scalars['String']['input'];
@@ -3359,6 +3364,11 @@ export const UpdateTermDocument = gql`
     mutation UpdateTerm($data: UpdateTermInput!) {
   updateTerm(data: $data) {
     id
+    name
+    startDate
+    endDate
+    schoolId
+    curriculumId
   }
 }
     `;

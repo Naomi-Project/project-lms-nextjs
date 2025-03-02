@@ -563,6 +563,11 @@ mutation CreateTerm($data: CreateTermInput!) {
 mutation UpdateTerm($data: UpdateTermInput!) {
   updateTerm(data: $data) {
     id
+    name
+    startDate
+    endDate
+    schoolId
+    curriculumId
   }
 }
 

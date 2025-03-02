@@ -125,12 +125,6 @@ export function CommonFormEdit<T extends Record<any, any>>(
       subjects,
       classroom,
       school,
-      name,
-      startDate,
-      endDate,
-      schoolId,
-      classroomId,
-      curriculumId,
       ...cleanData
     } = dataMut;
     try {
