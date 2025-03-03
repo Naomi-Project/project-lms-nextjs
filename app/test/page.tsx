@@ -1,5 +1,7 @@
-import { CommonDetailPage } from "@/components/common/detail/CommonDetailProfile";
 import type { CommonDetailSection, CommonSectionField } from "@/components/common/detail/CommonDetailProfile";
+import { User2Icon, DatabaseIcon } from "lucide-react";
+import { format } from "path";
+import { title } from "process";
 interface Student {
   name: string
   address: string
@@ -34,14 +36,55 @@ export default function TestPage() {
       ] satisfies CommonSectionField<Student>[],
     },
   ];
+  const subject = 'MTK'
+  const dueDate = 1741003200000
   return (
-    <CommonDetailPage
-      title="Test"
-      name={data.name}
-      jobdesk={"Guru"}
-      image="https://sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png"
-      data={data}
-      sections={sections}
-    ></CommonDetailPage>
+    
+          <div className="border-2 rounded-lg py-5 px-10 bg-white">
+            <h1 className="text-xl font-bold">{title}</h1>
+    
+            {/* 🔹 Info Tambahan */}
+            <div className="md:w-3/15 w-full mt-4">
+              <div className="grid grid-cols-2 gap-4">
+                {/* 🔹 Nama Guru */}
+                <div className="col-span-1 md:border-r-2 border-slate-400">
+                  <div className="grid grid-cols-5 gap-2">
+                    <div className="col-span-1 grid justify-items-end">
+                      <User2Icon className="h-4 w-4 text-slate-400" />
+                    </div>
+                    <div className="col-span-4">
+                      <p className="text-sm text-slate-400">
+                        {"asep"}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+    
+                {/* 🔹 Mata Pelajaran */}
+                <div className="col-span-1 md:border-r-2 border-slate-400">
+                  <div className="grid grid-cols-5 gap-2">
+                    <div className="col-span-1 grid justify-items-end">
+                      <DatabaseIcon className="h-4 w-4 text-slate-400" />
+                    </div>
+                    <div className="col-span-4">
+                      <p className="text-sm text-slate-400">{subject}</p>
+                    </div>
+                  </div>
+                </div>
+    
+                {/* 🔹 Semester */}
+                <div className="col-span-1">
+                  <div className="grid grid-cols-5 gap-2">
+                    <div className="col-span-1 grid justify-items-end">
+                      <DatabaseIcon className="h-4 w-4 text-slate-400" />
+                    </div>
+                    <div className="col-span-4">
+                      <p className="text-sm text-slate-400">Tanggal Pengumpulan {format(dueDate, 'yyyy-MM-dd')}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
   )
 }

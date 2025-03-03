@@ -13,6 +13,7 @@ import { format } from "date-fns";
 import { Book, Calendar, EllipsisVertical, User } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState, useMemo } from "react";
+import ButtonEdit from "@/components/ui/buttonEdit";
 
 interface ListTypes {
   canDelete?: boolean;
@@ -77,7 +78,8 @@ const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: L
                         </button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="w-56">
-                        <DropdownMenuItem className="hover:bg-red-100">
+                        <DropdownMenuItem className="flex flex-col">
+                          {/* <ButtonEdit customClass="w-full bg-orange -400 hover:bg-orange-500" id={data.id} endpoint={`/managements/${role}/material/detail/`} /> */}
                           <ButtonDelete
                             noBg={true}
                             id={data.id}

@@ -1487,7 +1487,7 @@ export type CreateMaterialMutationVariables = Exact<{
 }>;
 
 
-export type CreateMaterialMutation = { __typename?: 'Mutation', createMaterial: { __typename?: 'Material', id: string, title: string, content: string } };
+export type CreateMaterialMutation = { __typename?: 'Mutation', createMaterial: { __typename?: 'Material', id: string, title: string, content: string, references: Array<{ __typename?: 'Reference', id: string }> } };
 
 export type UpdateMaterialMutationVariables = Exact<{
   data: UpdateMaterialInput;
@@ -4090,6 +4090,9 @@ export const CreateMaterialDocument = gql`
     id
     title
     content
+    references {
+      id
+    }
   }
 }
     `;

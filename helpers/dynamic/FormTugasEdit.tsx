@@ -21,6 +21,7 @@ const tugasSchema = z.object({
   type: z.string().min(1, "Tipe tugas wajib diisi"),
   extendedData: z.string().min(1, "Isi tugas wajib diisi"),
   subjectId: z.string().min(1, "Subject id wajib dipilih"),
+  classroomIds: z.array(z.string()).min(1, "Kelas wajib dipilih"),
 });
 
 interface Form {
@@ -30,6 +31,7 @@ interface Form {
   type: string;
   extendedData: string;
   subjectId: string;
+  classroomIds: string;
 }
 
 interface dataSelectTypes {
@@ -111,10 +113,10 @@ const FormHelpersEdit = () => {
         ],
         [
           {
-            key: "subjectId",
+            key: "classroomIds",
             label: "Berikan tugas ini ke kelas",
             emptyValue: "-",
-            type: "select",
+            type: "select_multiple",
             dataSelect: dataClass,
             placeholder: "Pilih target kelas..",
           },

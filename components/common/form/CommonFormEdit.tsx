@@ -33,6 +33,7 @@ import CommonEditor from "./CommonEditor";
 import CommonDatePicker from "./CommonDatePicker";
 import CommonDateTimePicker from "./CommonDateTimePicker";
 import Swal from "sweetalert2";
+import CommonSelectMultiple from "./CommonSelectMultiple";
 
 export interface CommonFormEditField<T extends Record<any, any>> {
   key: keyof T & string;
@@ -227,6 +228,8 @@ export function CommonFormEdit<T extends Record<any, any>>(
                                 </FormItem>
                               )}
                             />
+                          ) : dataField.type === "select_multiple" ? (
+                            <CommonSelectMultiple dataSelect={dataField.dataSelect ?? []} name={String(dataField.key)} label={dataField.label} placeholder={dataField.placeholder} />
                           ) : dataField.type === "date_picker" ? (
                             <CommonDatePicker
                               name={String(dataField.key)}

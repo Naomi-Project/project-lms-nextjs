@@ -29,7 +29,7 @@ export default function TasksDetail({ role = "teacher", dataDefault, idAssignmen
         <h1 className="text-xl font-bold">{title}</h1>
 
         {/* 🔹 Info Tambahan */}
-        <div className="md:w-5/12 w-full mt-4">
+        <div className="md:w-3/15 w-full mt-4">
           <div className="grid grid-cols-2 gap-4">
             {/* 🔹 Nama Guru */}
             <div className="col-span-1 md:border-r-2 border-slate-400">
@@ -64,7 +64,7 @@ export default function TasksDetail({ role = "teacher", dataDefault, idAssignmen
                   <DatabaseIcon className="h-4 w-4 text-slate-400" />
                 </div>
                 <div className="col-span-4">
-                  <p className="text-sm text-slate-400">Tanggal Pengumpulan {format(dueDate, 'yyyy-mm-dd')}</p>
+                  <p className="text-sm text-slate-400">Tanggal Pengumpulan {format(dueDate, 'yyyy-MM-dd')}</p>
                 </div>
               </div>
             </div>

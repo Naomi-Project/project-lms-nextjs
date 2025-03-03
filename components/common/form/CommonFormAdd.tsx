@@ -39,6 +39,7 @@ import CommonDateTimePicker from "./CommonDateTimePicker";
 import CommonSelectMultiple from "./CommonSelectMultiple";
 import Swal from "sweetalert2";
 import { setTimeout } from "timers";
+import SelectMultiple2 from "./CommonSelectMultiple2";
 
 export interface CommonFormAddField<T extends Record<any, any>> {
   key: keyof T & string;
@@ -400,6 +401,8 @@ export function CommonFormAdd<T extends Record<any, any>>(
                             />
                           ) : dataField.type === "select_multiple" ? (
                             <CommonSelectMultiple dataSelect={dataField.dataSelect ?? []} name={String(dataField.key)} label={dataField.label} placeholder={dataField.placeholder} />
+                          ) : dataField.type === "select_multiple2" ? (
+                            <SelectMultiple2 name={String(dataField.key)} label={dataField.label} options={dataField.dataSelect ?? []} />
                           ) : dataField.type === "date_picker" ? (
                             <CommonDatePicker name={String(dataField.key)} label={dataField.label} />
                           ) : dataField.type === "date_time" ? (

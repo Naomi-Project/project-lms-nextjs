@@ -852,6 +852,9 @@ mutation CreateMaterial($data: CreateMaterialInput!) {
     id
     title
     content
+    references {
+      id
+    }
   }
 }
 

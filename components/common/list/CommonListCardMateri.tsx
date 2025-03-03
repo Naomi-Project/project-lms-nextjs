@@ -13,6 +13,7 @@ import Link from "next/link";
 import { Calendar, EllipsisVertical } from "lucide-react";
 import { format } from "date-fns";
 import { useState, useEffect, useMemo } from "react";
+import ButtonEdit from "@/components/ui/buttonEdit";
 
 interface ListTypes {
   canDelete?: boolean;
@@ -23,6 +24,7 @@ interface ListTypes {
 
 const ListCardMateri = ({ canDelete = true, role = "student", search, filter }: ListTypes) => {
   const { data } = useGetMaterialsQuery();
+  console.log(data)
   
   // Gunakan useMemo untuk mencegah re-rendering terus-menerus
   const rawData = useMemo(() => data?.materials || [], [data?.materials]);
@@ -53,7 +55,7 @@ const ListCardMateri = ({ canDelete = true, role = "student", search, filter }: 
     <div className="grid md:grid-cols-4 lg:grid-cols-2 gap-4">
       {materi.map((data, index: number) => (
         <div className="col-span-1" key={index}>
-          <Link href={`/managements/${role}/material/detail/${data.id}`}>
+          <Link href=''>
             <Card className="w-full h-[230px] sm:w-full">
               <CardHeader className="flex gap-3">
                 <div className="flex justify-between items-center">
@@ -73,7 +75,8 @@ const ListCardMateri = ({ canDelete = true, role = "student", search, filter }: 
                         </button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="w-56">
-                        <DropdownMenuItem className="hover:bg-red-100">
+                        <DropdownMenuItem className="flex flex-col">
+                          <ButtonEdit customClass="w-full bg-orange-400 hover:bg-orange-500" id={data.id} endpoint={`/managements/${role}/material/detail/`} />
                           <ButtonDelete
                             noBg={true}
                             id={data.id}

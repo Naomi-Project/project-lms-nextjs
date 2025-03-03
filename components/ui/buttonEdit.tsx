@@ -8,12 +8,13 @@ interface ButtonEditProps {
   id: string;
   label?: string;
   hideIcon?: boolean;
+  customClass?: string;
 }
 
-const ButtonEdit: React.FC<ButtonEditProps> = ({ endpoint, id, label, hideIcon = false }) => {
+const ButtonEdit: React.FC<ButtonEditProps> = ({ endpoint, id, label, hideIcon = false, customClass }) => {
 
   return (
-    <Button variant="default" onClick={() => window.location.href = endpoint + id}>
+    <Button variant="default" onClick={() => window.location.href = endpoint + id} className={`c ${customClass}`}>
         <Pencil className={hideIcon ? "hidden" : ""} /> {label || "Edit"}
     </Button>
   )

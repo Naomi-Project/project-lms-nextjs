@@ -19,6 +19,7 @@ const CreatePage = () => {
       title="Create Announcement"
       method="POST"
       mutation={createAnnouncement}
+      isUseDefaultMutation
       dataMutation={dataMutationDefault}
       setDataMutation={setDataMutationDefault}
       schema={announcementSchema}

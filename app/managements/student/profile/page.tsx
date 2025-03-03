@@ -77,7 +77,7 @@ export default function ManagerProfileStudent() {
     nisn: parseInt(userFind.nisn ?? ""),
     phone: parseInt(userFind.phone ?? ""),
     nik: parseInt(userFind.nik ?? ""),
-    dateOfBirth: format(userFind.dateOfBirth, 'yyyy-mm-dd') ?? "",
+    dateOfBirth: format(userFind.dateOfBirth, 'yyyy-MM-dd') ?? "",
     gender: userFind.gender === 'MALE' ? "Laki-laki" : "Perempuan",
     classroom: userFind.classroom?.name ?? "Belum ada kelas",
   }
