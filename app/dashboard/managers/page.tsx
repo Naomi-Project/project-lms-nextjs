@@ -56,7 +56,6 @@ const chartConfig = {
 export default function ManagerDashboard() {
   // widget tagihan spp
   const { data } = useGetEnrollmentsQuery();
-  const dataPayment: unknown[] = data?.enrollments || [];
   const studentsPaid = data?.enrollments.filter((item) => item?.payment?.status === 'SUCCESS')
   const studentsNotPaid = data?.enrollments.filter((item) => item?.payment?.status === 'PENDING')
   // Hitung total semua SPP yang belum terbayar

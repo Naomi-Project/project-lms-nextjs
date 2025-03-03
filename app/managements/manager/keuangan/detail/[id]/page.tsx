@@ -4,7 +4,7 @@ import {
   CommonDetailSection,
   CommonSectionField,
 } from "@/components/common/detail/CommonDetailFinance";
-import { useGetEnrollmentQuery, useGetPaymentsQuery } from "@/graphql/generated";
+import { useGetEnrollmentQuery } from "@/graphql/generated";
 import user from "@/image/user.jpeg";
 import { useParams } from "next/navigation";
 import React from "react";

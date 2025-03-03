@@ -1,14 +1,14 @@
 "use client";
 import React from "react";
 import { useParams } from "next/navigation";
-import { useGetAssignmentQuery, useUserPayloadQuery } from "@/graphql/generated";
+import { useGetAssignmentQuery } from "@/graphql/generated";
 import TasksDetail from "@/components/common/detail/CommonDetailTasks";
 
 export default function DetailPage() {
   const params = useParams();
   const { id } = params;
 
-  const { data: user } = useUserPayloadQuery()
+  // const { data: user } = useUserPayloadQuery()
 
   const { data, loading, error } = useGetAssignmentQuery({
     variables: { data: id as string },

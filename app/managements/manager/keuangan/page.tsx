@@ -1,160 +1,29 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+
+
 import { Input } from "@/components/ui/input";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+
+
+
+
+
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CalendarDays, CalendarIcon, Search, Wallet } from "lucide-react";
-import Image from "next/image";
+import { Search } from "lucide-react";
 import React from "react";
-import user from "../../../../image/user.jpeg";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Label } from "@/components/ui/label";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
-import { format } from "date-fns";
-import { cn } from "@/lib/utils";
+
+
+
+
 import PaymentTable from "./datatableLunas";
 import PaymentTablePending from "./datatableBelumLunas";
 import { useGetEnrollmentsQuery } from "@/graphql/generated";
 
 
-const data2 = [
-  {
-    no: "1",
-    name: "Fulan",
-    nisn: "676678",
-    class: "7A",
-    bill: "Rp 100.000.000",
-  },
-  {
-    no: "2",
-    name: "Fulan",
-    nisn: "676678",
-    class: "7A",
-    bill: "Rp 100.000.000",
-  },
-  {
-    no: "3",
-    name: "Fulan",
-    nisn: "676678",
-    class: "7A",
-    bill: "Rp 100.000.000",
-  },
-  {
-    no: "4",
-    name: "Fulan",
-    nisn: "676678",
-    class: "7A",
-    bill: "Rp 100.000.000",
-  },
-  {
-    no: "5",
-    name: "Fulan",
-    nisn: "676678",
-    class: "7A",
-    bill: "Rp 100.000.000",
-  },
-  {
-    no: "6",
-    name: "Fulan",
-    nisn: "676678",
-    class: "7A",
-    bill: "Rp 100.000.000",
-  },
-  {
-    no: "7",
-    name: "Fulan",
-    nisn: "676678",
-    class: "7A",
-    bill: "Rp 100.000.000",
-  },
-];
-
-const payments = [
-  {
-    invoice: "Sabtu, 28 maret 2024",
-    status: "Berhasil",
-    amount: "Rp. 1.000.000",
-  },
-  {
-    invoice: "Sabtu, 28 maret 2024",
-    status: "Berhasil",
-    amount: "Rp. 1.000.000",
-  },
-  {
-    invoice: "Sabtu, 28 maret 2024",
-    status: "Berhasil",
-    amount: "Rp. 1.000.000",
-  },
-  {
-    invoice: "Sabtu, 28 maret 2024",
-    status: "Berhasil",
-    amount: "Rp. 1.000.000",
-  },
-  {
-    invoice: "Sabtu, 28 maret 2024",
-    status: "Berhasil",
-    amount: "Rp. 1.000.000",
-  },
-  {
-    invoice: "Sabtu, 28 maret 2024",
-    status: "Berhasil",
-    amount: "Rp. 1.000.000",
-  },
-  {
-    invoice: "Sabtu, 28 maret 2024",
-    status: "Berhasil",
-    amount: "Rp. 1.000.000",
-  },
-];
 
 export default function ManagerKeuangan() {
-  const [date, setDate] = React.useState<Date>();
   const { data } = useGetEnrollmentsQuery();
-  const dataPayment: unknown[] = data?.enrollments || [];
   const studentsPaid = data?.enrollments.filter((item) => item?.payment?.status === 'SUCCESS')
   const studentsNotPaid = data?.enrollments.filter((item) => item?.payment?.status === 'PENDING')
   // Hitung total semua SPP yang belum terbayar

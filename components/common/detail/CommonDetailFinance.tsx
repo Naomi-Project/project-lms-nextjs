@@ -1,20 +1,15 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Toggle } from "@/components/ui/toggle";
-import { cn } from "@/lib/utils";
 import {
   Accordion,
   AccordionItem,
   AccordionTrigger,
   AccordionContent,
 } from "@radix-ui/react-accordion";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
-import { CalendarDays, CalendarIcon, Wallet } from "lucide-react";
+
+
+import { CalendarDays, Wallet } from "lucide-react";
 import * as React from "react";
 import {
   Dialog,
@@ -40,11 +35,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Image from "next/image";
-import { format } from "date-fns";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { PaymentMethod, PaymentStatus, useUpdateEnrollmentMutation, useUpdatePaymentMutation } from "@/graphql/generated";
+import { PaymentMethod, PaymentStatus, useUpdatePaymentMutation } from "@/graphql/generated";
 import Swal from "sweetalert2";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface CommonSectionField<T extends Record<any, any>> {
@@ -81,10 +75,8 @@ export interface CommonDetailProps<T extends Record<any, any>> {
 export function CommonDetail<T extends Record<any, any>>(
   props: CommonDetailProps<T>
 ) {
-  const [date, setDate] = React.useState<Date>();
   const [paymentMethod, setPaymentMethod] = React.useState("");
   const [paymentAmount, setPaymentAmount] = React.useState("");
-  const [updateEnrollment] = useUpdateEnrollmentMutation()
   const [updatePayment] = useUpdatePaymentMutation()
   const handlePaymentSubmit = async () => {
     try {
