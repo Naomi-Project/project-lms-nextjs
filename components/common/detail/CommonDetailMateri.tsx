@@ -1,71 +1,59 @@
 "use client";
 /* eslint-disable */
 import React from "react";
-import { BookOpen, DatabaseIcon, LibraryBig, Link2Icon, User2Icon } from "lucide-react";
+import { BookOpen, Calendar, DatabaseIcon, LibraryBig, Link2Icon, User2Icon } from "lucide-react";
+import { format } from "date-fns";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Badge } from "@/components/ui/badge";
+
 
 // 🔹 Definisikan tipe `Props`
 interface MaterialDetailProps {
+  data?: any;
   name: string;
   subject: string;
-  semester: string;
+  semester?: string;
+  createdAt?: string;
   guru?: string | null;
 //   description?: string | null;
   code: string;
 }
 
-export default function MaterialDetail({ name, code = "", subject, semester, guru = "" }: MaterialDetailProps) {
+export default function MaterialDetail({ data, name, code = "", subject, semester, createdAt, guru = "" }: MaterialDetailProps) {
+  console.log("data: ", data)
+  // return
   return (
     <div className="min-h-screen">
       {/* 🔹 Nama Materi */}
-      <div className="border-2 rounded-lg py-5 px-10 bg-white">
+      <div className="border-2 rounded-lg py-5 px-5 bg-white">
         <h1 className="text-xl font-bold">{name}</h1>
 
         {/* 🔹 Info Tambahan */}
-        <div className="md:w-5/12 w-full mt-4">
-          <div className="grid grid-cols-3 gap-4">
-            {/* 🔹 Nama Guru */}
-            <div className="col-span-1 border-r-2 border-slate-400">
-              <div className="grid grid-cols-5 gap-2">
-                <div className="col-span-1 grid justify-items-end">
-                  <User2Icon className="h-4 w-4 text-slate-400" />
-                </div>
-                <div className="col-span-4">
-                  <p className="text-sm text-slate-400">
-                    {guru}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* 🔹 Mata Pelajaran */}
-            <div className="col-span-1 border-r-2 border-slate-400">
-              <div className="grid grid-cols-5 gap-2">
-                <div className="col-span-1 grid justify-items-end">
-                  <DatabaseIcon className="h-4 w-4 text-slate-400" />
-                </div>
-                <div className="col-span-4">
-                  <p className="text-sm text-slate-400">{subject}</p>
-                </div>
-              </div>
-            </div>
-
-            {/* 🔹 Semester */}
-            <div className="col-span-1">
-              <div className="grid grid-cols-5 gap-2">
-                <div className="col-span-1 grid justify-items-end">
-                  <DatabaseIcon className="h-4 w-4 text-slate-400" />
-                </div>
-                <div className="col-span-4">
-                  <p className="text-sm text-slate-400">{semester}</p>
-                </div>
-              </div>
-            </div>
+        <div className="flex flex-col md:flex-row gap-5 mt-5">
+          <div className="flex gap-2">
+            <User2Icon className="h-4 w-4 text-slate-400" />
+            <p className="text-slate-400">{guru ?? 'Tidak Diketahui'}</p>
+          </div>
+          <div className="flex gap-2">
+            <DatabaseIcon className="h-4 w-4 text-slate-400" />
+            <p className="text-slate-400">{subject ?? 'Tidak Diketahui'}</p>
+          </div>
+          <div className="flex gap-2">
+            <Calendar className="h-4 w-4 text-slate-400" />
+            <p className="text-slate-400">{format(createdAt ?? '', 'yyyy-MM-dd')}</p>
           </div>
         </div>
       </div>
 
       {/* 🔹 Deskripsi Materi */}
-      <div className="border-2 rounded-lg py-5 px-10 mt-10 bg-white">
+      <div className="border-2 rounded-lg py-5 px-5 mt-10 bg-white">
         <div className="grid grid-cols-10 gap-4">
           <div className="md:col-span-1 col-span-2 grid justify-items-center border-r-2 border-slate-400">
             <div className="p-2 border-2 rounded-full border-slate-400">
@@ -88,7 +76,7 @@ export default function MaterialDetail({ name, code = "", subject, semester, gur
       </div>
 
       {/* 🔹 Referensi */}
-      <div className="border-2 rounded-lg py-5 px-10 mt-10 bg-white">
+      <div className="border-2 rounded-lg py-5 px-5 mt-10 bg-white">
         <div className="grid grid-cols-10 gap-4">
           <div className="md:col-span-1 col-span-2 grid justify-items-center border-r-2 border-slate-400">
             <div className="p-2 border-2 rounded-full border-slate-400">
@@ -102,14 +90,34 @@ export default function MaterialDetail({ name, code = "", subject, semester, gur
         </div>
 
         <div className="md:grid grid-cols-4 gap-6 mt-5">
-          {[1, 2, 3, 4].map((_, index) => (
+          {data.references.length > 0 && data.references.map((dt: any, index: number) => (
             <div key={index} className="col-span-1 border px-3 rounded-md bg-slate-100">
-              <div className="grid grid-cols-4 gap-2">
-                <div className="col-span-3 grid justify-items-center">
-                  <p>Referensi {index + 1}</p>
-                </div>
-                <div className="col-span-1 grid justify-items-end">
-                  <Link2Icon />
+              <div className="grid grid-cols-2 gap-2 py-2">
+                  <Dialog>
+                  <DialogTrigger>
+                    <div className="col-span-3 grid justify-items-center">
+                      <p>{"Referensi " + (index + 1)}</p>
+                    </div>
+                  </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>{dt.title}</DialogTitle>
+                        <DialogDescription>
+                          <div
+                            className="prose max-w-none"
+                            dangerouslySetInnerHTML={{ __html: dt.description ?? "" }}
+                          />
+                          <div>
+                          {dt.tags.map((tag: string, index: number) => (
+                            <Badge key={index} className="mr-1">{tag}</Badge>
+                          ))}
+                          </div>
+                        </DialogDescription>
+                      </DialogHeader>
+                    </DialogContent>
+                </Dialog>
+                <div className="col-span-1 grid cursor-pointer justify-items-end" onClick={() => window.open(dt.url)}>
+                  <Link2Icon className="text-primary" />
                 </div>
               </div>
             </div>

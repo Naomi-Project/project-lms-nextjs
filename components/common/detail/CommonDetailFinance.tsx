@@ -24,7 +24,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import {
   Table,
   TableBody,
@@ -38,6 +44,8 @@ import { format } from "date-fns";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { PaymentMethod, PaymentStatus, useUpdateEnrollmentMutation, useUpdatePaymentMutation } from "@/graphql/generated";
+import Swal from "sweetalert2";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface CommonSectionField<T extends Record<any, any>> {
   key: keyof T & string;
@@ -56,6 +64,13 @@ export interface CommonDetailProps<T extends Record<any, any>> {
   name: string;
   tagihan: string;
   jatuhTempo: string;
+  payStatus?: string;
+  enrollmentId: string;
+  studentId: string;
+  classroomId: string;
+  paymentId: string;
+  pricingId: string;
+  termId: string;
   ricianTagihan: any;
   riwayatPembayaran: any;
   class: string;
@@ -67,7 +82,60 @@ export function CommonDetail<T extends Record<any, any>>(
   props: CommonDetailProps<T>
 ) {
   const [date, setDate] = React.useState<Date>();
-
+  const [paymentMethod, setPaymentMethod] = React.useState("");
+  const [paymentAmount, setPaymentAmount] = React.useState("");
+  const [updateEnrollment] = useUpdateEnrollmentMutation()
+  const [updatePayment] = useUpdatePaymentMutation()
+  const handlePaymentSubmit = async () => {
+    try {
+      alert("Metode Pembayaran:" + paymentMethod);
+      alert("Nominal Pembayaran:" + paymentAmount);
+      // const res = await updateEnrollment({
+      //   variables: {
+      //     data: {
+      //       id: props.enrollmentId,
+      //       studentId: props.studentId,
+      //       classroomId: props.classroomId,
+      //       termId: props.termId,
+      //       pricingId: props.pricingId
+      //     }
+      //   }
+      // })
+      const res = await updatePayment({
+        variables: {
+          data: {
+            id: props.paymentId,
+            reference: "Bayar tagihan " + 'aja',
+            enrollmentId: props.enrollmentId,
+            status: PaymentStatus.Success,
+            method: paymentMethod === 'CASH' ? PaymentMethod.Cash : PaymentMethod.Online,
+            pricingId: props.pricingId
+          }
+        }
+      })
+      if (res) {
+          Swal.fire({
+            title: "Berhasil Bayar!",
+            text: "Tagihan telah berhasil dibayar!",
+            icon: "success",
+            timer: 2000,
+            timerProgressBar: true,
+          }).then((result) => {
+            if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
+              location.reload()
+              setTimeout(() => {
+                history.back(); 
+              }, 500);
+            }
+          });
+      } else {
+        alert('gagal bayar')
+      }
+    } catch (e) {
+      console.log(e) 
+      alert('erorr')
+    }
+  };
   return (
     <>
       <Toggle
@@ -103,13 +171,16 @@ export function CommonDetail<T extends Record<any, any>>(
           <div className="grid grid-cols-2 gap-4">
             <div className="col-span-1">
               <h1 className="text-base text-slate-400">
-                Tagihan SPP Bulan Ini
+                Tagihan SPP
               </h1>
+              {/* <h1 className="text-base text-slate-400">
+                Tagihan SPP Bulan Ini
+              </h1> */}
 
-              <p className="text-2xl font-bold">Rp. {props.tagihan}</p>
+              <p className="text-2xl font-bold">Rp. {props.tagihan ?? 'loading..'}</p>
             </div>
 
-            <div className="col-span-1 flex justify-end">
+            <div className={`col-span-1 flex justify-end mt-2 ${props.payStatus === 'SUCCESS' ? 'hidden' : ''}`}>
               <div className="border-2 rounded-lg p-2">
                 <div className="grid grid-cols-5 mx-auto">
                   <div className="col-span-2 flex items-center justify-center">
@@ -126,12 +197,12 @@ export function CommonDetail<T extends Record<any, any>>(
             </div>
           </div>
 
-          <div className="mt-2">
+          <div className={`mt-2 ${props.payStatus === 'SUCCESS' ? 'hidden' : ''}`}>
             <Dialog>
               <DialogTrigger asChild>
                 <Button variant="default">
                   <Wallet />
-                  <span>Bayar Manual</span>
+                  <span>Bayar {props.data.payMethod ?? "Manual"}</span>
                 </Button>
               </DialogTrigger>
               <DialogContent className="md:w-3/12 rounded-lg">
@@ -148,11 +219,25 @@ export function CommonDetail<T extends Record<any, any>>(
 
                 <div className="grid grid-cols-2 gap-2 mt-4">
                   <div className="col-span-1">
-                    <Label htmlFor="name" className="text-right">
+                    {/* <Label htmlFor="name" className="text-right">
                       Tanggal Pembayaran
+                    </Label> */}
+                    <Label htmlFor="name" className="text-right">
+                      Metode Pembayaran
                     </Label>
+                    <Select onValueChange={setPaymentMethod}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Cash, Online" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="CASH">Cash</SelectItem>
+                      <SelectItem value="ONLINE">Online</SelectItem>
+                    </SelectContent>
+                  </Select>
 
-                    <div className="">
+
+
+                    {/* <div className="">
                       <Popover>
                         <PopoverTrigger asChild>
                           <Button
@@ -179,7 +264,7 @@ export function CommonDetail<T extends Record<any, any>>(
                           />
                         </PopoverContent>
                       </Popover>
-                    </div>
+                    </div> */}
                   </div>
 
                   <div className="col-span-1">
@@ -187,11 +272,16 @@ export function CommonDetail<T extends Record<any, any>>(
                       Nominal Pembayaran
                     </Label>
 
-                    <Input type="text" placeholder="Jumlah Pembayaran" />
+                    <Input 
+                      type="text" 
+                      placeholder="Jumlah Pembayaran"
+                      value={paymentAmount}
+                      onChange={(e) => setPaymentAmount(e.target.value)}
+                    />
                   </div>
                 </div>
                 <DialogFooter className="mt-5">
-                  <Button type="submit" variant="default" className="w-full">
+                  <Button type="button" onClick={handlePaymentSubmit} variant="default" className="w-full">
                     Selesai
                   </Button>
                 </DialogFooter>
@@ -232,10 +322,10 @@ export function CommonDetail<T extends Record<any, any>>(
           <Table>
             <TableHeader className="bg-slate-200">
               <TableRow>
-                <TableHead className="w-6/12 font-bold text-black">
+                {/* <TableHead className="w-6/12 font-bold text-black">
                   RIWAYAT PEMBAYARAN
-                </TableHead>
-                <TableHead className="w-2/12 font-bold text-black border-l-2 border-slate-300">
+                </TableHead> */}
+                <TableHead className="w-8/12 font-bold text-black border-l-2 border-slate-300">
                   STATUS
                 </TableHead>
                 <TableHead className="w-4/12 font-bold text-black border-l-2 border-slate-300">
@@ -246,8 +336,8 @@ export function CommonDetail<T extends Record<any, any>>(
             <TableBody>
               {props.riwayatPembayaran.map((invoice: any, index: number) => (
                 <TableRow key={index}>
-                  <TableCell>{invoice.invoice}</TableCell>
-                  <TableCell className="text-green-400 border-l-2">
+                  {/* <TableCell>{invoice.invoice}</TableCell> */}
+                  <TableCell className={`${invoice.status === 'PENDING' ? 'text-orange-400' : invoice.status === 'SUCCESS' ? 'text-green-600' : 'text-red-600'} font-semibold border-l-2`}>
                     {invoice.status}
                   </TableCell>
                   <TableCell>{invoice.amount}</TableCell>

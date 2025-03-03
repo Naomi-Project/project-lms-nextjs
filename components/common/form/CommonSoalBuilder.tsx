@@ -129,8 +129,8 @@ const CommonSoalBuilder: React.FC<CommonSoalBuilderProps> = ({ name, label, data
           </div>
           ))
         }
-        <Button className="mt-2 hover:text-white w-full bg-transparent text-primary shadow-none" onClick={(e) => handleAddQuestion(e)}>
-          + Buat Soal Baru
+        <Button className="mt-2 hover:bg-transparent w-full bg-transparent text-primary shadow-none" onClick={(e) => handleAddQuestion(e)}>
+          <span className="underline underline-offset-1">+ Buat Soal Baru</span>
         </Button>
       </div>
       </FormControl>

@@ -1,5 +1,5 @@
 "use client";
-/* eslint-disabled */
+/* eslint-disable */
 import {
   CommonFormAddSection,
 } from "@/components/common/form/CommonFormAdd";
@@ -92,7 +92,7 @@ const FormHelpersEdit = () => {
         [
           {
             key: "dueDate",
-            label: "Deadline",
+            label: "Deadline Tugas",
             type: "date_time",
             emptyValue: "-",
             placeholder: "Masukkan tanggal pengumpulan..",
@@ -144,12 +144,13 @@ const FormHelpersEdit = () => {
   ];
 
   const [updateAssignment] = useUpdateAssignmentMutation();
-  const fixData = { ...dataEdit?.assignment, dueDate: format(new Date(dataEdit?.assignment.dueDate), "yyyy-MM-dd") }
+  const fixData = { ...dataEdit?.assignment, classroomIds: dataEdit?.assignment.classrooms.map((cls: any) => cls.id), dueDate: format(new Date(dataEdit?.assignment.dueDate), "yyyy-MM-dd HH:mm:ss") }
   console.log(fixData)
   return (
     <CommonFormEdit
       lable="Tugas"
-      title="Edit & Detail Tugas"
+      title=""
+      noTitle
       method="PUT"
       hideBackButton={true}
       dataGet={fixData}

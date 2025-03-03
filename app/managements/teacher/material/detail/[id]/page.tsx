@@ -1,21 +1,11 @@
-"use client";
-import React from "react";
-import { useParams } from "next/navigation";
-import MaterialDetail from "@/components/common/detail/CommonDetailMateri";
-import { useGetMaterialQuery } from "@/graphql/generated";
+import FormHelpersEdit from "@/helpers/dynamic/FormMateriGuruEdit";
 
-export default function DetailPage() {
-  const params = useParams();
-  const { id } = params;
+const EditPage = () => {
+  return (
+    // tipe form dinamis atau ada data dari database yang perlu di display di form
+    <FormHelpersEdit />
+    // tipe form dinamis atau ada data dari database yang perlu di display di form
+  );
+};
 
-  const { data, loading, error } = useGetMaterialQuery({
-    variables: { data: id as string },
-    skip: !id,
-  });
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error loading material: {error.message}</p>;
-  console.log(data)
-
-  return <MaterialDetail guru={data?.material.teachers[0].username ?? ""} semester={"semester 1" } subject={data?.material.subject.name ?? ""} name={data?.material.title ?? ""} code={data?.material.content ?? ""}  />;
-}
+export default EditPage;

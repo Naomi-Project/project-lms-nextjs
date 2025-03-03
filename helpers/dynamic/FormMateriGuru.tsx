@@ -1,5 +1,5 @@
 "use client";
-/* eslint-disabled */
+/* eslint-disable */
 import {
   CommonFormAdd,
   CommonFormAddSection,
@@ -42,7 +42,7 @@ const FormHelpersAdd = () => {
   const dataReferences: dataSelectTypes[] = secondData?.references.map((data) => ({
     label: data.title,
     value: data.id,
-  })) || []
+  })) || [] 
 
   // 🔹 State untuk Quill Editor (WYSIWYG)
   const [code, setCode] = useState<string>("");
@@ -55,8 +55,11 @@ const FormHelpersAdd = () => {
     referenceIds: [],
   });
   
-  if (loadSecdata) return 'loading..'
-
+  if (loadSecdata) {
+    return (
+      'loading..'
+    )
+  }
 
   const sections: CommonFormAddSection<Form>[] = [
     {
@@ -98,16 +101,17 @@ const FormHelpersAdd = () => {
             label: "Referensi Materi",
             dataSelect: dataReferences,
             emptyValue: "-",
+            class: "md:w-full lg:w-full",
             placeholder: "Pilih Referensi..",
           },
-          {
-            key: "referenceIds",
-            type: "select_multiple",
-            label: "Referensi Perpus",
-            dataSelect: dataReferences,
-            emptyValue: "-",
-            placeholder: "Pilih Referensi..",
-          },
+          // {
+          //   key: "referenceIds",
+          //   type: "select_multiple",
+          //   label: "Referensi Perpus",
+          //   dataSelect: dataReferences,
+          //   emptyValue: "-",
+          //   placeholder: "Pilih Referensi..",
+          // },
         ],
       ],
     },

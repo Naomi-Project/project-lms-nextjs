@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Card, CardHeader, CardFooter, CardDescription, CardTitle } from "@/components/ui/card";
-import { useDeleteAssignmentMutation, useGetAssignmentsQuery, useGetClassroomsQuery } from "@/graphql/generated";
+import { useDeleteAssignmentMutation, useGetAssignmentsQuery, useGetClassroomsQuery, useUserPayloadQuery } from "@/graphql/generated";
 import { format } from "date-fns";
 import { Book, Calendar, EllipsisVertical, User } from "lucide-react";
 import Link from "next/link";
@@ -24,38 +24,62 @@ interface ListTypes {
 
 const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: ListTypes) => {
   const { data } = useGetAssignmentsQuery();
+  const { data: userPayload } = useUserPayloadQuery();
   const { data: classRoom } = useGetClassroomsQuery();
 
   // Gunakan useMemo agar rawData tidak berubah terus-menerus
-  const rawData = useMemo(() => data?.assignments || [], [data?.assignments]);
-  const [tugas, setTugas] = useState(rawData);
+  const userId = userPayload?.me?.id;
+  const userRole = userPayload?.me?.role;
 
-  useEffect(() => {
-    setTugas(
-      search && search.trim() !== ""
-        ? rawData.filter((item) => item.title.toLowerCase().includes(search.toLowerCase()))
-        : rawData
+  // Filter tugas berdasarkan kelas siswa yang login
+  const rawData = useMemo(() => {
+    if (userRole === "STUDENT") {
+      return data?.assignments.filter((assignment) =>
+        assignment.classrooms.some((cls) =>
+          cls.students.some((student) => student.id === userId)
+        )
+      ) || [];
+    }
+    return data?.assignments || [];
+  }, [data?.assignments, userId, userRole]);
+
+  // Menambahkan informasi kelas dan nama wali kelas (guardian)
+  const tugasDenganKelas = rawData.map((assignment) => {
+    const kelasDitemukan = assignment.classrooms.find((cls) =>
+      cls.students.some((student) => student.id === userId)
     );
-  }, [search, rawData]);
 
-  useEffect(() => {
-    setTugas(
-      filter && filter.trim() !== ""
-        ? rawData.filter((item) => item.subject.id.includes(filter.toLowerCase()))
-        : rawData
-    );
-  }, [filter, rawData]);
+    return {
+      ...assignment,
+      kelasNama: kelasDitemukan?.name || "Tidak Diketahui",
+      waliKelas: kelasDitemukan?.guardian?.name || "Tidak Diketahui",
+    };
+  });
 
-  useEffect(() => {
-    console.log(tugas)
-    console.log(classRoom)
-  }, [tugas, classRoom])
+  // Filter tugas berdasarkan pencarian atau filter subject
+  const tugas = useMemo(() => {
+    let filteredTugas = [...tugasDenganKelas];
+
+    if (search && search.trim() !== "") {
+      filteredTugas = filteredTugas.filter((item) =>
+        item.title.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    if (filter && filter.trim() !== "") {
+      filteredTugas = filteredTugas.filter((item) =>
+        item.subject.id.includes(filter.toLowerCase())
+      );
+    }
+
+    return filteredTugas;
+  }, [search, filter, tugasDenganKelas]);
 
   const [deleteAssignments, { loading }] = useDeleteAssignmentMutation();
 
   return (
     <div className="w-full grid md:grid-cols-4 grid-cols-1 gap-4 mt-2">
-      {tugas.map((data, index: number) => (
+      {tugas?.map((data, index: number) => (
         <div className="col-span-1" key={index}>
           <Link href={`/managements/${role}/tasks-detail/${data.id}`}>
             <Card>
@@ -79,7 +103,7 @@ const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: L
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="w-56">
                         <DropdownMenuItem className="flex flex-col">
-                          {/* <ButtonEdit customClass="w-full bg-orange -400 hover:bg-orange-500" id={data.id} endpoint={`/managements/${role}/material/detail/`} /> */}
+                          {/* <ButtonEdit customClass="w-full bg-orange-400 hover:bg-orange-500" id={data.id} endpoint={`/managements/${role}/material/detail/`} /> */}
                           <ButtonDelete
                             noBg={true}
                             id={data.id}
@@ -94,7 +118,7 @@ const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: L
                 </div>
                 <CardDescription className="font-bold text-base text-black">{data.title}</CardDescription>
               </CardHeader>
-              <CardFooter className="flex flex-wrap gap-4">
+              <CardFooter className="flex flex-col items-start gap-4">
                 <CardDescription className="flex text-xs items-end gap-2 pr-8">
                   <Calendar className="text-primary w-5 h-5" />{" "}
                   <p>
@@ -102,7 +126,7 @@ const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: L
                   </p>
                 </CardDescription>
                 <CardDescription className="flex text-xs items-end gap-2 pr-8">
-                  <User className="text-primary w-5 h-5" /> <p>{"Pa Budi"}</p>
+                  <User className="text-primary w-5 h-5" /> <p>{data.waliKelas ?? "Tidak Diketahui"}</p>
                 </CardDescription>
                 <CardDescription className="flex text-xs gap-2">
                   <Book className="text-primary w-5 h-5" /> <p>{data.subject.name}</p>

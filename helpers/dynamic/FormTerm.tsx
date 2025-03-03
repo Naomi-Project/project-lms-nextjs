@@ -105,8 +105,8 @@ const FormHelpersAdd = () => {
   });
   return (
     <CommonFormAdd
-      lable="Tugas"
-      title="Buat Tugas"
+      lable="Semester"
+      title="Buat Semester"
       method="POST"
       isUseDefaultMutation={true}
       mutation={createTerm}

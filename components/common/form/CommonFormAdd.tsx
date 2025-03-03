@@ -169,7 +169,6 @@ export function CommonFormAdd<T extends Record<any, any>>(
   
    // if mutation class
   const [createEnrollment] = useCreateEnrollmentMutation();
-  const [createPayment] = useCreatePaymentMutation();
 
   const filledStudentToClass = async (values: any) => {
     // console.log(values)

@@ -15,65 +15,38 @@ interface TasksDetailProps {
   role: string;
   subject: string;
   dueDate: string;
-  // guru?: string | null;
+  guru?: string | null;
   description?: string | null;
   typeTugas?: string | null;
   extendedData?: string;
 }
 
-export default function TasksDetail({ role = "teacher", dataDefault, idAssignment, title, extendedData = "", typeTugas = "", subject, dueDate, description = "" }: TasksDetailProps) {
+export default function TasksDetail({ role = "teacher", dataDefault, idAssignment, title, guru, extendedData = "", typeTugas = "", subject, dueDate, description = "" }: TasksDetailProps) {
   return (
     <div className="min-h-screen">
       {/* 🔹 Nama Tugas */}
-      <div className="border-2 rounded-lg py-5 px-10 bg-white">
+      <div className="border-2 rounded-lg py-5 px-5 bg-white">
         <h1 className="text-xl font-bold">{title}</h1>
 
         {/* 🔹 Info Tambahan */}
-        <div className="md:w-3/15 w-full mt-4">
-          <div className="grid grid-cols-2 gap-4">
-            {/* 🔹 Nama Guru */}
-            <div className="col-span-1 md:border-r-2 border-slate-400">
-              <div className="grid grid-cols-5 gap-2">
-                <div className="col-span-1 grid justify-items-end">
-                  <User2Icon className="h-4 w-4 text-slate-400" />
-                </div>
-                <div className="col-span-4">
-                  <p className="text-sm text-slate-400">
-                    {"asep"}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* 🔹 Mata Pelajaran */}
-            <div className="col-span-1 md:border-r-2 border-slate-400">
-              <div className="grid grid-cols-5 gap-2">
-                <div className="col-span-1 grid justify-items-end">
-                  <DatabaseIcon className="h-4 w-4 text-slate-400" />
-                </div>
-                <div className="col-span-4">
-                  <p className="text-sm text-slate-400">{subject}</p>
-                </div>
-              </div>
-            </div>
-
-            {/* 🔹 Semester */}
-            <div className="col-span-1">
-              <div className="grid grid-cols-5 gap-2">
-                <div className="col-span-1 grid justify-items-end">
-                  <DatabaseIcon className="h-4 w-4 text-slate-400" />
-                </div>
-                <div className="col-span-4">
-                  <p className="text-sm text-slate-400">Tanggal Pengumpulan {format(dueDate, 'yyyy-MM-dd')}</p>
-                </div>
-              </div>
-            </div>
+        <div className="flex flex-col md:flex-row gap-5 mt-5">
+          <div className="flex gap-2">
+            <User2Icon className="h-4 w-4 text-slate-400" />
+            <p className="text-slate-400">{guru ?? 'Tidak Diketahui'}</p>
+          </div>
+          <div className="flex gap-2">
+            <DatabaseIcon className="h-4 w-4 text-slate-400" />
+            <p className="text-slate-400">{subject ?? 'Tidak Diketahui'}</p>
+          </div>
+          <div className="flex gap-2">
+            <Calendar className="h-4 w-4 text-slate-400" />
+            <p className="text-slate-400">{format(dueDate, 'yyyy-MM-dd')}</p>
           </div>
         </div>
       </div>
 
       {/* 🔹 deskripsi soal */}
-      <div className={`border-2 rounded-lg py-5 px-10 mt-10 bg-white ${role === "teacher" ? "hidden" : ""}`}>
+      <div className={`border-2 rounded-lg py-5 px-10 mt-10 shadow-sm bg-white ${role === "teacher" ? "hidden" : ""}`}>
         <div className="grid grid-cols-10 gap-4">
           <div className="md:col-span-1 col-span-2 grid justify-items-center md:border-r-2 border-slate-400">
             <div className="p-2 md:border-2 rounded-full border-slate-400">
@@ -135,7 +108,7 @@ export default function TasksDetail({ role = "teacher", dataDefault, idAssignmen
 
       {/* 🔹 isi soal */}
       <div className="border-none rounded-lg py-5 px- mt-10 bg-white">
-        <div className="grid grid-cols-10 gap-4 px-10 ">
+        <div className="grid grid-cols-10 gap-4 px-2 ">
           <div className="md:col-span-1 col-span-2 grid justify-items-center md:border-r-2 border-slate-400">
             <div className="p-2 md:border-2 rounded-full border-slate-400">
               <BookOpen />

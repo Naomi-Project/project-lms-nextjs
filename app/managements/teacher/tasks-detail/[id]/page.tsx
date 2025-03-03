@@ -17,5 +17,5 @@ export default function DetailPage() {
   if (error) return <p>Error loading material: {error.message}</p>;
   console.log(data)
 
-  return <TasksDetail role="teacher" title={data?.assignment.title ?? ""} dueDate={data?.assignment.dueDate} extendedData={JSON.parse(data?.assignment.extendedData || "") ?? ""} description={data?.assignment.description} subject={data?.assignment.subject.name ?? "Mapel Tidak Diketahui"} />;
+  return <TasksDetail guru={data?.assignment.subject.teachers[0].name ?? ""} role="teacher" title={data?.assignment.title ?? ""} dueDate={data?.assignment.dueDate} extendedData={JSON.parse(data?.assignment.extendedData || "") ?? ""} description={data?.assignment.description} subject={data?.assignment.subject.name ?? "Mapel Tidak Diketahui"} />;
 }

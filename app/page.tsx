@@ -171,7 +171,8 @@ export default function LoginPage() {
                 <TabsContent value="teacher">
                   <div className="flex flex-col space-y-1.5">
                     <Label htmlFor="number">
-                      Nomor Identitas Pegawai Negeri Sipil (NIP)
+                      {/* Nomor Identitas Pegawai Negeri Sipil (NIP) */}
+                      Nomor Unik Pendidik dan Tenaga Kependidikan (NUPTK)
                     </Label>
                     <Input
                       id="number"

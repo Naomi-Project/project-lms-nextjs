@@ -19,7 +19,7 @@ const CreatePage = () => {
 
   useEffect(() => {
     setDataMutationDefault({...dataMutationDefault, userId: userLogin?.me.id ?? ""})
-  }, [userLogin?.me.id])
+  }, [userLogin?.me.id, dataMutationDefault])
   return (
     <CommonFormAdd
       lable="Families"

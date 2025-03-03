@@ -363,6 +363,10 @@ query GetEnrollments {
     term {
       id
       name
+      curriculum {
+        id
+        name
+      }
     }
     classroom {
       id
@@ -396,6 +400,7 @@ query GetEnrollments {
         amount
       }
     }
+    createdAt
   }
 }
 
@@ -700,6 +705,22 @@ query GetSubject($data: String!) {
     name
     code
     description
+    grade {
+      id
+      name
+      classrooms {
+        id
+        name
+      }
+    }
+    curriculum {
+      id
+      name
+      terms {
+        id
+        name
+      }
+    }
     teachers {
       id
       name
@@ -806,7 +827,10 @@ query GetMaterial($data: String!) {
     }
     references {
       id
+      title
+      description
       url
+      tags
       type
       authorId
       author {
@@ -857,6 +881,7 @@ query GetMaterials {
     references {
       id
       url
+      tags
       type
       authorId
     }
@@ -909,6 +934,7 @@ query GetAssignment($data: String!) {
       teachers {
         id
         username 
+        name
       }
     }
     classrooms {
@@ -956,6 +982,7 @@ query GetAssignments {
       teachers {
         id
         username 
+        name
       }
     }
     classrooms {
@@ -995,8 +1022,40 @@ mutation CreateAssignment($data: CreateAssignmentInput!) {
     dueDate
     type
     subjectId
+    subject {
+      id
+      name
+      code 
+      description
+      teachers {
+        id
+        username 
+      }
+    }
     classrooms {
       id
+      name
+      guardian {
+        id
+        name
+        nuptk
+      }
+      students {
+        id
+        name
+        nisn
+      }
+    }
+    submissions {
+      id
+      extendedData
+      assignmentId
+      studentId
+      score {
+        id
+        value
+        notes
+      }
     }
   }
 }
@@ -1009,6 +1068,10 @@ mutation UpdateAssignment($data: UpdateAssignmentInput!) {
     extendedData
     dueDate
     type
+    subjectId
+    classrooms {
+      id
+    }
     subjectId
   }
 }
@@ -1225,11 +1288,33 @@ query GetClassroom($data: String!) {
       day
       classroomId
       subjectId
+      subject {
+        id
+        name
+      }
     }
     students {
       id
       name
       nisn
+      classroom {
+        id
+        name
+        schedules {
+          id
+          day
+          subjectId
+          subject {
+            id
+            name
+          }
+        }
+      }
+      school {
+        id
+        name
+        npsn
+      }
     }
   }
 }

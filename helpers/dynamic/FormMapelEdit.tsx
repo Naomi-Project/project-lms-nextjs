@@ -133,7 +133,7 @@ const FormHelpersEdit = () => {
   }  
   
   // const fixData = { ...data?.subject, startDate: format(new Date(data?.subject?.startDate || 0), "yyyy-MM-dd"), endDate: format(new Date(data?.subject?.endDate || 0), "yyyy-MM-dd") }
-  const fixData = {...data?.subject, teacherId: data?.subject.teachers[0].id, gradeId: 'data?.subject.grade.id', curriculumId: ""}
+  const fixData = {...data?.subject, teacherId: data?.subject.teachers[0].id, gradeId: data?.subject.grade.id, curriculumId: data?.subject.curriculum.id}
   return (
       <CommonFormEdit
         lable="Mata Pelajaran"

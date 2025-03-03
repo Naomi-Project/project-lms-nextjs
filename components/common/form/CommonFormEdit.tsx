@@ -57,6 +57,7 @@ export interface CommonFormEditProps<T extends Record<any, any>> {
   method: string;
   hideBackButton?: boolean;
   isRelation?: boolean | undefined;
+  noTitle?: boolean | undefined;
   relation1?: string | undefined;
   valuerRelation1?: string | undefined;
   schema: ZodSchema<T>;
@@ -125,6 +126,8 @@ export function CommonFormEdit<T extends Record<any, any>>(
       submissions,
       subjects,
       classroom,
+      classrooms,
+      references,
       school,
       ...cleanData
     } = dataMut;
@@ -170,7 +173,7 @@ export function CommonFormEdit<T extends Record<any, any>>(
       </Toggle>
       <div className="w-full h-auto">
         <div className="w-full flex flex-col bg-white rounded-lg mt-8">
-          <div className="p-4">
+          <div className={`${props.noTitle ? "hidden" : ""} p-4`}>
             <h1>{props.title}</h1>
           </div>
           <Form {...form}>

@@ -109,6 +109,7 @@ export default function AttendancesTable() {
   React.useEffect(() => {
     if (studentsInClass.length > 0) {
       // Inisialisasi attendanceStatus untuk semua siswa
+      console.log(studentsInClass)
       const defaultStatus: { [key: string]: string } = {};
       studentsInClass.forEach((student) => {
         defaultStatus[student.id] = "PRESENT"; // Set semua siswa ke PRESENT

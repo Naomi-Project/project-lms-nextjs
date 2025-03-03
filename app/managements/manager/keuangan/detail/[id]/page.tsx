@@ -4,7 +4,7 @@ import {
   CommonDetailSection,
   CommonSectionField,
 } from "@/components/common/detail/CommonDetailFinance";
-import { useGetEnrollmentQuery } from "@/graphql/generated";
+import { useGetEnrollmentQuery, useGetPaymentsQuery } from "@/graphql/generated";
 import user from "@/image/user.jpeg";
 import { useParams } from "next/navigation";
 import React from "react";
@@ -14,6 +14,8 @@ interface Finance {
   address: string;
   nisn: number;
   class: string;
+  amount: string;
+  payMethod: string;
   phone: number;
 }
 
@@ -26,11 +28,18 @@ const DetailPage = () => {
     }, 
     skip: !id,
   })
-  console.log(enrollment)
+  // const { data: dataPayments } = useGetPaymentsQuery()
+  // console.log('pay', dataPayments)
   const data: Finance = {
     name: enrollment?.enrollment.student?.name ?? "",
     address: enrollment?.enrollment?.student?.name ?? "",
     nisn: parseInt(enrollment?.enrollment?.student?.nisn ?? "") ?? "",
+    amount: new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    }).format(enrollment?.enrollment.payment?.pricing?.amount ?? 0),    
+    payMethod: "Manual",
     class: enrollment?.enrollment.classroom?.name ?? "",
     phone: 123,
   };
@@ -64,27 +73,30 @@ const DetailPage = () => {
 
   const payments = [
     {
-      invoice: "Sabtu, 28 maret 2024",
-      status: "Berhasil",
-      amount: "Rp. 1.000.000",
-    },
-    {
-      invoice: "Senin, 30 maret 2024",
-      status: "Berhasil",
-      amount: "Rp. 1.000.000",
+      // invoice: "Sabtu, 28 maret 2024",
+      status: enrollment?.enrollment.payment?.status,
+      amount: data.amount,
     },
   ];
+  // const ricianTagihan = Object.entries(enrollment?.enrollment.payment.map)
   const ricianTagihan = [
-    { name: "SPP Bulan Juni", harga: "200.000" },
-    { name: "SPP Bulan Mei", harga: "400.000" },
+    { name: enrollment?.enrollment.payment?.pricing?.name, harga: enrollment?.enrollment.payment?.pricing?.amount },
   ];
+  console.log(enrollment)
   return (
     <div className="min-h-screen">
       <CommonDetail
         title="Finance"
         name={data.name}
         class={data.class}
-        tagihan="300.000"
+        payStatus={enrollment?.enrollment.payment?.status ?? ''}
+        paymentId={enrollment?.enrollment.payment?.id ?? ''}
+        enrollmentId={enrollment?.enrollment.id ?? ""}
+        studentId={enrollment?.enrollment.studentId ?? ''}
+        classroomId={enrollment?.enrollment.classroomId ?? ''}
+        termId={enrollment?.enrollment.termId ?? ''}
+        pricingId={enrollment?.enrollment.payment?.pricing?.id ?? ''}
+        tagihan={data.amount.slice(2) ?? 0}
         jatuhTempo="23 Mei 2025"
         image={user.src}
         data={data}
