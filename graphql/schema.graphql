@@ -702,6 +702,7 @@ query GetSubject($data: String!) {
     description
     teachers {
       id
+      name
       username
       role
       nik
@@ -721,6 +722,19 @@ query GetSubjects {
     name
     code
     description
+    teachers {
+      id
+      name
+      username
+      role
+      nik
+      nuptk
+      nisn
+      dateOfBirth
+      gender
+      address
+      phone
+    }
   }
 }
 
@@ -780,6 +794,7 @@ query GetMaterial($data: String!) {
     teachers {
       id
       username
+      name
     }
     curriculum {
       id
@@ -816,7 +831,8 @@ query GetMaterials {
       description
       teachers {
         id
-        username 
+        username
+        name
       }
     }
     assignments {

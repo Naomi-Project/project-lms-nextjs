@@ -58,57 +58,6 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import PaymentTable from "./datatableLunas";
 
-const data1 = [
-  {
-    no: "1",
-    name: "Fu Xuan",
-    nisn: "676678",
-    class: "7A",
-    bill: "Rp 100.000.000",
-  },
-  {
-    no: "2",
-    name: "Fu Xuan",
-    nisn: "676678",
-    class: "7A",
-    bill: "Rp 100.000.000",
-  },
-  {
-    no: "3",
-    name: "Fu Xuan",
-    nisn: "676678",
-    class: "7A",
-    bill: "Rp 100.000.000",
-  },
-  {
-    no: "4",
-    name: "Fu Xuan",
-    nisn: "676678",
-    class: "7A",
-    bill: "Rp 100.000.000",
-  },
-  {
-    no: "5",
-    name: "Fu Xuan",
-    nisn: "676678",
-    class: "7A",
-    bill: "Rp 100.000.000",
-  },
-  {
-    no: "6",
-    name: "Fu Xuan",
-    nisn: "676678",
-    class: "7A",
-    bill: "Rp 100.000.000",
-  },
-  {
-    no: "7",
-    name: "Fu Xuan",
-    nisn: "676678",
-    class: "7A",
-    bill: "Rp 100.000.000",
-  },
-];
 
 const data2 = [
   {

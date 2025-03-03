@@ -145,6 +145,7 @@ const FormHelpersEdit = () => {
 
   const [updateAssignment] = useUpdateAssignmentMutation();
   const fixData = { ...dataEdit?.assignment, dueDate: format(new Date(dataEdit?.assignment.dueDate), "yyyy-MM-dd") }
+  console.log(fixData)
   return (
     <CommonFormEdit
       lable="Tugas"

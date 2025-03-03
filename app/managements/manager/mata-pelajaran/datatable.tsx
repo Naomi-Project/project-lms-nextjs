@@ -30,6 +30,17 @@ export default function SubjectTable() {
         cell: ({ row }: any) => <span>{row.getValue('code')}</span>,
       },
       {
+        accessorKey: "teachers",
+        header: "GURU PEMATERI",
+        cell: ({ row }: any) => {
+          const teachers = row.original.teachers; // Ambil array teachers dari data row
+          const teacherNames = teachers.length > 0 
+            ? teachers.map((teacher: any) => teacher.name).join(", ") // Gabungkan nama guru jika lebih dari satu
+            : "-"; // Jika tidak ada guru, tampilkan "-"
+          return <span>{teacherNames}</span>;
+        }
+      },      
+      {
         accessorKey: "description",
         header: "DESKRIPSI PELAJARAN",
         cell: ({ row }: any) => <span>{row.getValue('description')}</span>,
@@ -38,7 +49,7 @@ export default function SubjectTable() {
         accessorKey: "action",
         header: "ACTION",
         cell: ({ row }: any) => <div className="flex gap-3">
-         {/* <ButtonEdit endpoint="/managements/manager/mata-pelajaran/edit/" id={row.original.id} /> */}
+         <ButtonEdit endpoint="/managements/manager/mata-pelajaran/edit/" id={row.original.id} />
          <ButtonDelete mutation={deleteSubject} loading={loading} id={row.original.id} />
         </div>,
       },

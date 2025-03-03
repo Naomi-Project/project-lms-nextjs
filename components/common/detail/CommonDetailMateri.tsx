@@ -88,7 +88,7 @@ export default function MaterialDetail({ name, code = "", subject, semester, gur
       </div>
 
       {/* 🔹 Referensi */}
-      {/* <div className="border-2 rounded-lg py-5 px-10 mt-10 bg-white">
+      <div className="border-2 rounded-lg py-5 px-10 mt-10 bg-white">
         <div className="grid grid-cols-10 gap-4">
           <div className="md:col-span-1 col-span-2 grid justify-items-center border-r-2 border-slate-400">
             <div className="p-2 border-2 rounded-full border-slate-400">
@@ -97,7 +97,7 @@ export default function MaterialDetail({ name, code = "", subject, semester, gur
           </div>
 
           <div className="md:col-span-9 col-span-8 my-auto">
-            <h2 className="text-lg">Referensi Perpustakaan Digital</h2>
+            <h2 className="text-lg">Referensi Materi</h2>
           </div>
         </div>
 
@@ -115,7 +115,7 @@ export default function MaterialDetail({ name, code = "", subject, semester, gur
             </div>
           ))}
         </div>
-      </div> */}
+      </div>
     </div>
   );
 }

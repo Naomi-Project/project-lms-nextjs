@@ -17,5 +17,5 @@ export default function DetailPage() {
   if (error) return <p>Error loading material: {error.message}</p>;
   console.log(data)
 
-  return <MaterialDetail guru={"pa budi"} semester={"semester 1" } subject={data?.material.subject.name ?? ""} name={data?.material.title ?? ""} code={data?.material.content ?? ""}  />;
+  return <MaterialDetail guru={data?.material.teachers[0].username ?? ""} semester={"semester 1" } subject={data?.material.subject.name ?? ""} name={data?.material.title ?? ""} code={data?.material.content ?? ""}  />;
 }

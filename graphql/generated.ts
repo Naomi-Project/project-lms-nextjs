@@ -1442,12 +1442,12 @@ export type GetSubjectQueryVariables = Exact<{
 }>;
 
 
-export type GetSubjectQuery = { __typename?: 'Query', subject: { __typename?: 'Subject', id: string, name: string, code: string, description?: string | null, teachers: Array<{ __typename?: 'User', id: string, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string }> } };
+export type GetSubjectQuery = { __typename?: 'Query', subject: { __typename?: 'Subject', id: string, name: string, code: string, description?: string | null, teachers: Array<{ __typename?: 'User', id: string, name?: string | null, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string }> } };
 
 export type GetSubjectsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetSubjectsQuery = { __typename?: 'Query', subjects: Array<{ __typename?: 'Subject', id: string, name: string, code: string, description?: string | null }> };
+export type GetSubjectsQuery = { __typename?: 'Query', subjects: Array<{ __typename?: 'Subject', id: string, name: string, code: string, description?: string | null, teachers: Array<{ __typename?: 'User', id: string, name?: string | null, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string }> }> };
 
 export type CreateSubjectMutationVariables = Exact<{
   data: CreateSubjectInput;
@@ -1475,12 +1475,12 @@ export type GetMaterialQueryVariables = Exact<{
 }>;
 
 
-export type GetMaterialQuery = { __typename?: 'Query', material: { __typename?: 'Material', id: string, title: string, content: string, createdAt?: any | null, updatedAt?: any | null, subject: { __typename?: 'Subject', id: string, name: string, code: string, description?: string | null, teachers: Array<{ __typename?: 'User', id: string, username: string }> }, assignments: Array<{ __typename?: 'Assignment', id: string, title: string, description: string, dueDate: any, type: AssignmentType }>, teachers: Array<{ __typename?: 'User', id: string, username: string }>, curriculum: { __typename?: 'Curriculum', id: string, name: string }, grades: { __typename?: 'Grade', id: string, name: string }, references: Array<{ __typename?: 'Reference', id: string, url: string, type: ReferenceType, authorId: string, author: { __typename?: 'User', id: string, name?: string | null } }> } };
+export type GetMaterialQuery = { __typename?: 'Query', material: { __typename?: 'Material', id: string, title: string, content: string, createdAt?: any | null, updatedAt?: any | null, subject: { __typename?: 'Subject', id: string, name: string, code: string, description?: string | null, teachers: Array<{ __typename?: 'User', id: string, username: string }> }, assignments: Array<{ __typename?: 'Assignment', id: string, title: string, description: string, dueDate: any, type: AssignmentType }>, teachers: Array<{ __typename?: 'User', id: string, username: string, name?: string | null }>, curriculum: { __typename?: 'Curriculum', id: string, name: string }, grades: { __typename?: 'Grade', id: string, name: string }, references: Array<{ __typename?: 'Reference', id: string, url: string, type: ReferenceType, authorId: string, author: { __typename?: 'User', id: string, name?: string | null } }> } };
 
 export type GetMaterialsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMaterialsQuery = { __typename?: 'Query', materials: Array<{ __typename?: 'Material', id: string, title: string, content: string, createdAt?: any | null, updatedAt?: any | null, subject: { __typename?: 'Subject', id: string, name: string, code: string, description?: string | null, teachers: Array<{ __typename?: 'User', id: string, username: string }> }, assignments: Array<{ __typename?: 'Assignment', id: string, title: string, description: string, dueDate: any, type: AssignmentType }>, teachers: Array<{ __typename?: 'User', id: string, username: string }>, curriculum: { __typename?: 'Curriculum', id: string, name: string }, grades: { __typename?: 'Grade', id: string, name: string }, references: Array<{ __typename?: 'Reference', id: string, url: string, type: ReferenceType, authorId: string }> }> };
+export type GetMaterialsQuery = { __typename?: 'Query', materials: Array<{ __typename?: 'Material', id: string, title: string, content: string, createdAt?: any | null, updatedAt?: any | null, subject: { __typename?: 'Subject', id: string, name: string, code: string, description?: string | null, teachers: Array<{ __typename?: 'User', id: string, username: string, name?: string | null }> }, assignments: Array<{ __typename?: 'Assignment', id: string, title: string, description: string, dueDate: any, type: AssignmentType }>, teachers: Array<{ __typename?: 'User', id: string, username: string }>, curriculum: { __typename?: 'Curriculum', id: string, name: string }, grades: { __typename?: 'Grade', id: string, name: string }, references: Array<{ __typename?: 'Reference', id: string, url: string, type: ReferenceType, authorId: string }> }> };
 
 export type CreateMaterialMutationVariables = Exact<{
   data: CreateMaterialInput;
@@ -3727,6 +3727,7 @@ export const GetSubjectDocument = gql`
     description
     teachers {
       id
+      name
       username
       role
       nik
@@ -3780,6 +3781,19 @@ export const GetSubjectsDocument = gql`
     name
     code
     description
+    teachers {
+      id
+      name
+      username
+      role
+      nik
+      nuptk
+      nisn
+      dateOfBirth
+      gender
+      address
+      phone
+    }
   }
 }
     `;
@@ -3951,6 +3965,7 @@ export const GetMaterialDocument = gql`
     teachers {
       id
       username
+      name
     }
     curriculum {
       id
@@ -4022,6 +4037,7 @@ export const GetMaterialsDocument = gql`
       teachers {
         id
         username
+        name
       }
     }
     assignments {
