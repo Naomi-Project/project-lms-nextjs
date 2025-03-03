@@ -49,7 +49,7 @@ const FormHelpersAdd = () => {
   })) || []
   const { data: thridData } = useGetUsersQuery()
   const dataTeacher: dataSelectTypes[] = thridData?.users.filter((item) => item.role === "TEACHER").map((data) => ({
-    label: data.username,
+    label: data.name ?? "",
     value: data.id,
   })) || []
 
@@ -104,7 +104,7 @@ const FormHelpersAdd = () => {
             key: "teacherId",
             type: "select",
             dataSelect: dataTeacher,
-            label: "Guru Materi",
+            label: "Guru/Pemateri",
             emptyValue: "-",
             class: "md:w-full lg:w-full",
             placeholder: "Pilih Guru..",

@@ -21,6 +21,7 @@ const CreatePage = () => {
       title="Buat Cabang Sekolah"
       method="POST"
       mutation={createSchool}
+      isUseDefaultMutation
       dataMutation={dataMutationDefault}
       setDataMutation={setDataMutationDefault}
       schema={sekolahSchema}

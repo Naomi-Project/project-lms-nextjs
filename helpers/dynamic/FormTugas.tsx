@@ -19,6 +19,7 @@ const tugasSchema = z.object({
   type: z.string().min(1, "Tipe tugas wajib diisi"),
   extendedData: z.string().min(1, "Isi tugas wajib diisi"),
   subjectId: z.string().min(1, "Subject id wajib dipilih"),
+  classroomIds: z.array(z.string()).min(1, "Subject id wajib dipilih"),
 });
 
 interface Form {
@@ -28,6 +29,7 @@ interface Form {
   type: string;
   extendedData: string;
   subjectId: string;
+  classroomIds: string[];
 }
 
 interface dataSelectTypes {
@@ -98,10 +100,10 @@ const FormHelpersAdd = () => {
         ],
         [
           {
-            key: "subjectId",
+            key: "classroomIds",
             label: "Berikan tugas ini ke kelas",
             emptyValue: "-",
-            type: "select",
+            type: "select_multiple",
             dataSelect: dataClass,
             placeholder: "Pilih target kelas..",
           },
@@ -135,6 +137,7 @@ const FormHelpersAdd = () => {
     description: "",
     dueDate: "",
     type: "",
+    classroomIds: [],
     extendedData: '',
     subjectId: "",
   });
@@ -144,6 +147,7 @@ const FormHelpersAdd = () => {
       title="Buat Tugas"
       method="POST"
       isUseDefaultMutation={true}
+      isCreateAssignment={true}
       mutation={createAssignment}
       dataMutation={dataMutationDefault}
       setDataMutation={setDataMutationDefault}

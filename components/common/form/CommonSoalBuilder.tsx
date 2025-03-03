@@ -129,7 +129,7 @@ const CommonSoalBuilder: React.FC<CommonSoalBuilderProps> = ({ name, label, data
           </div>
           ))
         }
-        <Button variant="default" className="mt-5 w-full" onClick={(e) => handleAddQuestion(e)}>
+        <Button className="mt-2 hover:text-white w-full bg-transparent text-primary shadow-none" onClick={(e) => handleAddQuestion(e)}>
           + Buat Soal Baru
         </Button>
       </div>

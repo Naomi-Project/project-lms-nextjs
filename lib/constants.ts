@@ -32,14 +32,14 @@ export const ManagerMenu = [
     visibility: true,
   },
   {
-    title: "Semester Staff",
-    href: "/managements/manager/semester",
+    title: "Kurikulum Staff",
+    href: "/managements/manager/kurikulum",
     icon: BookA,
     visibility: true,
   },
   {
-    title: "Kurikulum Staff",
-    href: "/managements/manager/kurikulum",
+    title: "Semester Staff",
+    href: "/managements/manager/semester",
     icon: BookA,
     visibility: true,
   },
@@ -56,7 +56,13 @@ export const ManagerMenu = [
     visibility: false,
   },
   {
-    title: "Keuangan Staff",
+    title: "Penetapan SPP Staff",
+    href: "/managements/manager/pricing",
+    icon: Wallet,
+    visibility: true,
+  },
+  {
+    title: "Pembayaran Staff",
     href: "/managements/manager/keuangan",
     icon: Wallet,
     visibility: true,
@@ -208,15 +214,15 @@ export const TeacherMenu = [
     visibility: true,
   },
   {
-    title: "Profile Guru",
-    href: "/managements/teacher/profile",
-    icon: UserPen,
-    visibility: true,
-  },
-  {
     title: "Nilai Tugas Guru",
     href: "/managements/teacher/nilai",
     icon: BookCheck,
+    visibility: true,
+  },
+  {
+    title: "Profile Guru",
+    href: "/managements/teacher/profile",
+    icon: UserPen,
     visibility: true,
   },
 ]
@@ -274,13 +280,13 @@ export const StudentMenu = [
     title: "Profile Siswa",
     href: "/managements/manager/profile-student",
     icon: UserPen,
-    visibility: true,
+    visibility: false,
   },
   {
     title: "Profile Siswa",
     href: "/managements/student/profile",
     icon: UserPen,
-    visibility: false,
+    visibility: true,
   },
   {
     title: "Laporan Presensi Siswa",

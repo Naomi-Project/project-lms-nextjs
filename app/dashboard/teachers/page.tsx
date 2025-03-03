@@ -49,7 +49,7 @@ export default function DashboardTeacher() {
   }
   return (
     <div className="h-auto">
-      <div className="grid md:grid-cols-3 grid-cols-2 gap-4">
+      <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
         <div className="col-span-1 bg-white border-2 rounded-lg justify-items-center content-center py-4">
           <div className="grid grid-cols-4 gap-2 ">
             <div className="col-span-1 p-2 rounded-lg bg-orange-50 flex items-center justify-center">
@@ -63,7 +63,7 @@ export default function DashboardTeacher() {
                 </div>
 
                 <div className="row-span-1">
-                  <p className="text-base font-bold">{assignmentNotFinishLength ? assignmentNotFinishLength + " Tugas" : ""}</p>
+                  <p className="text-base font-bold">{assignmentNotFinishLength ? assignmentNotFinishLength + " Tugas" : "0"}</p>
                 </div>
               </div>
             </div>
@@ -83,7 +83,7 @@ export default function DashboardTeacher() {
                 </div>
 
                 <div className="row-span-1">
-                  <p className="text-base font-bold">{assignmentLength ? assignmentLength + " Materi" : ""}</p>
+                  <p className="text-base font-bold">{assignmentLength ? assignmentLength + " Materi" : "0"}</p>
                 </div>
               </div>
             </div>
@@ -103,7 +103,7 @@ export default function DashboardTeacher() {
                 </div>
 
                 <div className="row-span-1">
-                  <p className="text-base font-bold">{materialLength ? materialLength + " Materi" : ""}</p>
+                  <p className="text-base font-bold">{materialLength ? materialLength + " Materi" : "0"}</p>
                 </div>
               </div>
             </div>
@@ -114,7 +114,7 @@ export default function DashboardTeacher() {
       <div className="md:flex justify-between items-center mt-6">
         <div className="">
           <Link href="/managements/teacher/tasks-create">
-            <Button className="gap-2 mx-2">
+            <Button className="gap-2 w-full">
               <Plus className="h-4 w-4" /> Buat tugas
             </Button>
           </Link>

@@ -37,6 +37,7 @@ import Image from "next/image";
 import { format } from "date-fns";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface CommonSectionField<T extends Record<any, any>> {
   key: keyof T & string;
@@ -91,9 +92,9 @@ export function CommonDetail<T extends Record<any, any>>(
 
           <div className="md:col-span-11 col-span-10 my-auto">
             <h1 className="font-bold text-sm">{props.name}</h1>
-            <p className="w-10 text-center mt-1 bg-blue-100 text-blue-400 p-1 border-blue-100 rounded-lg text-xs">
+            <Badge className="font-light bg-transparent shadow-none text-primary bg-blue-100">
               {props.class}
-            </p>
+            </Badge>
           </div>
         </div>
       </div>

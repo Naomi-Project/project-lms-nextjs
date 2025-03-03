@@ -78,7 +78,7 @@ export default function TeacherTable() {
     <DataTable
       columns={columns}
       data={dataTeacher}
-      filterName="username"
+      filterName="name"
       filterPlaceholder="Cari Guru.."
     />
   );

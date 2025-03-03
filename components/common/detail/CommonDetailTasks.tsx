@@ -5,6 +5,7 @@ import { Book, BookOpen, Calendar, DatabaseIcon, LibraryBig, Link2Icon, Papercli
 import { title } from "process";
 import FormHelpersEdit from "@/helpers/dynamic/FormTugasEdit";
 import FormHelpersAdd from "@/helpers/dynamic/FormSubsmission";
+import { format } from "date-fns";
 
 // 🔹 Definisikan tipe `Props`
 interface TasksDetailProps {
@@ -29,9 +30,9 @@ export default function TasksDetail({ role = "teacher", dataDefault, idAssignmen
 
         {/* 🔹 Info Tambahan */}
         <div className="md:w-5/12 w-full mt-4">
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 gap-4">
             {/* 🔹 Nama Guru */}
-            <div className="col-span-1 border-r-2 border-slate-400">
+            <div className="col-span-1 md:border-r-2 border-slate-400">
               <div className="grid grid-cols-5 gap-2">
                 <div className="col-span-1 grid justify-items-end">
                   <User2Icon className="h-4 w-4 text-slate-400" />
@@ -45,7 +46,7 @@ export default function TasksDetail({ role = "teacher", dataDefault, idAssignmen
             </div>
 
             {/* 🔹 Mata Pelajaran */}
-            <div className="col-span-1 border-r-2 border-slate-400">
+            <div className="col-span-1 md:border-r-2 border-slate-400">
               <div className="grid grid-cols-5 gap-2">
                 <div className="col-span-1 grid justify-items-end">
                   <DatabaseIcon className="h-4 w-4 text-slate-400" />
@@ -63,7 +64,7 @@ export default function TasksDetail({ role = "teacher", dataDefault, idAssignmen
                   <DatabaseIcon className="h-4 w-4 text-slate-400" />
                 </div>
                 <div className="col-span-4">
-                  <p className="text-sm text-slate-400">Tanggal Pengumpulan {dueDate}</p>
+                  <p className="text-sm text-slate-400">Tanggal Pengumpulan {format(dueDate, 'yyyy-mm-dd')}</p>
                 </div>
               </div>
             </div>
@@ -74,8 +75,8 @@ export default function TasksDetail({ role = "teacher", dataDefault, idAssignmen
       {/* 🔹 deskripsi soal */}
       <div className={`border-2 rounded-lg py-5 px-10 mt-10 bg-white ${role === "teacher" ? "hidden" : ""}`}>
         <div className="grid grid-cols-10 gap-4">
-          <div className="md:col-span-1 col-span-2 grid justify-items-center border-r-2 border-slate-400">
-            <div className="p-2 border-2 rounded-full border-slate-400">
+          <div className="md:col-span-1 col-span-2 grid justify-items-center md:border-r-2 border-slate-400">
+            <div className="p-2 md:border-2 rounded-full border-slate-400">
               <BookOpen />
             </div>
           </div>
@@ -86,7 +87,7 @@ export default function TasksDetail({ role = "teacher", dataDefault, idAssignmen
         </div>
 
         {/* 🔹 Mapping soal */}
-        <div className="mt-5 border-t pt-3">
+        <div className="mt-5  pt-3">
           {
             role === "teacher" ? (
               <>
@@ -104,7 +105,7 @@ export default function TasksDetail({ role = "teacher", dataDefault, idAssignmen
                       dangerouslySetInnerHTML={{ __html: description ?? "" }}
                     />
                   </div>
-                  <div className="flex mt-5 flex-wrap justify-between ">
+                  <div className="flex mt-5 flex-wrap gap-5 justify-between ">
                     <div className="flex flex-wrap gap-2 items-end">
                       <Calendar className="text-primary" />
                       <div className="flex flex-col">
@@ -133,10 +134,10 @@ export default function TasksDetail({ role = "teacher", dataDefault, idAssignmen
       </div>
 
       {/* 🔹 isi soal */}
-      <div className="border-2 rounded-lg py-5 px-10 mt-10 bg-white">
-        <div className="grid grid-cols-10 gap-4">
-          <div className="md:col-span-1 col-span-2 grid justify-items-center border-r-2 border-slate-400">
-            <div className="p-2 border-2 rounded-full border-slate-400">
+      <div className="border-none rounded-lg py-5 px- mt-10 bg-white">
+        <div className="grid grid-cols-10 gap-4 px-10 ">
+          <div className="md:col-span-1 col-span-2 grid justify-items-center md:border-r-2 border-slate-400">
+            <div className="p-2 md:border-2 rounded-full border-slate-400">
               <BookOpen />
             </div>
           </div>
@@ -147,7 +148,7 @@ export default function TasksDetail({ role = "teacher", dataDefault, idAssignmen
         </div>
 
         {/* 🔹 Mapping soal */}
-        <div className={`border-t ${role === "teacher" ? "mt-5 pt-3" : ""}`}>
+        <div className={`border-none ${role === "teacher" ? "mt-5" : ""}`}>
           {
             role === "teacher" ? (
               <>

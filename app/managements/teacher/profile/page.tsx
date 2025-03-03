@@ -1,29 +1,110 @@
-// import { Toggle } from "@/components/ui/toggle";
-// import Image from "next/image";
+'use client'
 import React from "react";
 import { CommonDetailPage } from "@/components/common/detail/CommonDetailProfile";
 import type { CommonDetailSection, CommonSectionField } from "@/components/common/detail/CommonDetailProfile";
-import user from "../../../../image/user.jpeg";
+import user from "@/image/user.jpeg";
+import { useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";
+import { format } from "date-fns";
+import Swal from "sweetalert2";
 
-interface Teacher {
+
+
+
+
+interface Student {
+  id: string
   name: string
   address: string
+  role: string
+  nuptk: number
   phone: number
+  nik: number
+  gender: string
+  dateOfBirth: string
+  classroom?: string | null
+  families?: string[] | null
 }
 
-export default function ProfileTeacher() {
-  const data: Teacher = {
-    name: "Pak Budi",
-    address: "jakarta",
-    phone: 123,
+export default function ManagerProfileStudent() {
+  const { data: userLogin, loading } = useUserPayloadQuery()
+  const { data: allUser, loading: loadAllUser } = useGetUsersQuery()
+  if (loading) {
+    return 'loading'
+  } else if (loadAllUser) {
+    return
   }
-  const sections: CommonDetailSection<Teacher>[] = [
+  if (userLogin?.me.role !== 'TEACHER') {
+        Swal.fire({
+          title: "Access Denied!",
+          text: "Kamu tidak ada akses ke profile ini!",
+          icon: "error",
+          timer: 2000,
+          timerProgressBar: true,
+        }).then((result) => {
+          if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
+            location.reload()
+            setTimeout(() => {
+              history.back(); 
+            }, 500);
+          }
+        });
+    history.back()
+    return
+  }
+  const userPayload = userLogin?.me.role !== 'TEACHER' ? null : userLogin
+  const userFind = allUser?.users.find((item) => item.id === userPayload?.me.id)
+  console.log(userFind?.families)
+  if (userFind == null) {
+      Swal.fire({
+        title: "Error!",
+        text: "Data tidak ditemukan!",
+        icon: "info",
+        timer: 2000,
+        timerProgressBar: true,
+      }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
+          location.reload()
+          setTimeout(() => {
+            history.back(); 
+          }, 500);
+        }
+      });
+    return
+  }
+   const data: Student = {
+    id: userFind.id ?? "",
+    role: userFind.role === 'TEACHER' ? 'Guru' : "Tidak Diketahui",
+    name: userFind.name ?? "",
+    address: userFind.address ?? "",
+    nuptk: parseInt(userFind.nuptk ?? ""),
+    phone: parseInt(userFind.phone ?? ""),
+    nik: parseInt(userFind.nik ?? ""),
+    dateOfBirth: format(userFind.dateOfBirth, 'yyyy-mm-dd') ?? "",
+    gender: userFind.gender === 'MALE' ? "Laki-laki" : "Perempuan",
+    classroom: userFind.classroom?.name ?? "Bukan Wali kelas",
+  }
+  const sections: CommonDetailSection<Student>[] = [
     {
-      label: "Data Siswa",
+      label: "Guru",
       fields: [
         {
           key: "name",
           label: "Nama Lengkap",
+          emptyValue: "-",
+        },
+        {
+          key: "classroom",
+          label: "Wali Kelas",
+          emptyValue: "-",
+        },
+        {
+          key: "nik",
+          label: "NIK",
+          emptyValue: "-",
+        },
+        {
+          key: "nuptk",
+          label: "NUPTK",
           emptyValue: "-",
         },
         {
@@ -36,15 +117,38 @@ export default function ProfileTeacher() {
           label: "Telepon",
           emptyValue: "-",
         },
-      ] satisfies CommonSectionField<Teacher>[],
+        {
+          key: "dateOfBirth",
+          label: "Tgl. Ulang Tahun",
+          emptyValue: "-",
+        },
+        {
+          key: "gender",
+          label: "Gender",
+          emptyValue: "-",
+        },
+      ] satisfies CommonSectionField<Student>[],
+    },
+    {
+      label: "Keluarga Guru",
+      fields: [
+        {
+          key: "families",
+          label: "families",
+          emptyValue: "-",
+          dataFamily: userFind?.families, 
+        },
+      ] satisfies CommonSectionField<Student>[],
     },
   ];
   return (
     <div className="min-h-screen">
       <CommonDetailPage
-        title="Teacher Profile"
+        title="Profile Guru"
         name={data.name}
-        jobdesk={"Guru"}
+        epAddFamily="/managements/teacher/profile/family-add/"
+        epEdit={"/managements/teacher/profile/edit/" + data.id}
+        jobdesk={data.role}
         image={user.src}
         data={data}
         sections={sections}

@@ -53,7 +53,7 @@ const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: L
   const [deleteAssignments, { loading }] = useDeleteAssignmentMutation();
 
   return (
-    <div className="w-full grid md:grid-cols-4 grid-cols-2 gap-4 mt-2">
+    <div className="w-full grid md:grid-cols-4 grid-cols-1 gap-4 mt-2">
       {tugas.map((data, index: number) => (
         <div className="col-span-1" key={index}>
           <Link href={`/managements/${role}/tasks-detail/${data.id}`}>

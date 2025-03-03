@@ -47,7 +47,7 @@ const FormHelpersAdd = ({ idAssignment, dataDefault }: FHelper) => {
           {
             key: "studentId",
             label: "Student ID",
-            // hidden: true,
+            hidden: true,
             class: "md:w-full lg:w-full",
             emptyValue: "-",
             placeholder: "",

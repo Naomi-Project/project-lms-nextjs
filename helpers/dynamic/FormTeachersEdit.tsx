@@ -5,7 +5,9 @@ import { CommonFormEdit } from "@/components/common/form/CommonFormEdit";
 import {
   useGetSchoolsQuery,
   useGetUserQuery,
+  useGetUsersQuery,
   useUpdateUserMutation,
+  useUserPayloadQuery,
 } from "@/graphql/generated";
 import { format } from "date-fns";
 import { useParams } from "next/navigation";
@@ -46,9 +48,17 @@ interface dataSelectTypes {
   value: string;
 }
 
-const FormHelpersEdit = () => {
+interface HelpersProps {
+  context?: string
+}
+
+
+const FormHelpersEdit = ({ context }: HelpersProps) => {
   const params = useParams();
   const { id } = params;
+    const [updateUser] = useUpdateUserMutation()
+    const { data: userLogin, loading: loadUserLogin } = useUserPayloadQuery()
+    const { data: allUser, loading: loadAllUser } = useGetUsersQuery()
 
   const { data: dataEdit, loading } = useGetUserQuery({
     variables: {
@@ -63,6 +73,25 @@ const FormHelpersEdit = () => {
       label: data.name,
       value: data.id,
     })) || [];
+
+    
+  // untuk edit profile
+  let userFind;
+  if (context === 'edit_profile_teacher') {
+    if (loadUserLogin) {
+      return 'loading'
+    } else if (loadAllUser) {
+      return
+    }
+    if (userLogin?.me.role !== 'TEACHER' && id !== userLogin?.me.id) {
+      alert('Kamu tidak ada akses untuk mengedit profile ini')
+      history.back()
+      return
+    }
+    
+    userFind = allUser?.users.find((item) => item.id === userLogin?.me.id)
+  }
+
   const sections: CommonFormAddSection<Form>[] = [
     {
       fields: [
@@ -79,6 +108,7 @@ const FormHelpersEdit = () => {
             label: "NUPTK",
             emptyValue: "-",
             type: "number",
+            disabled: context && context === 'edit_profile_teacher' ? true : false,
             placeholder: "Masukkan NUPTK..",
           },
           {
@@ -86,12 +116,14 @@ const FormHelpersEdit = () => {
             label: "Nama Lengkap",
             emptyValue: "-",
             hidden: true,
+            disabled: context && context === 'edit_profile_teacher' ? true : false,
             placeholder: "Masukkan nama lengkap siswa..",
           },
           {
             key: "password",
             label: "Password",
             emptyValue: "-",
+            disabled: context && context === 'edit_profile_teacher' ? true : false,
             hidden: true,
             placeholder: "Masukkan password..",
           },
@@ -100,6 +132,7 @@ const FormHelpersEdit = () => {
             label: "Role",
             emptyValue: "-",
             hidden: true,
+            disabled: context && context === 'edit_profile_teacher' ? true : false,
             placeholder: "Masukkan Role..",
           },
         ],
@@ -145,6 +178,7 @@ const FormHelpersEdit = () => {
             label: "Sekolah",
             emptyValue: "-",
             type: "select",
+            disabled: context && context === 'edit_profile_teacher' ? true : false,
             dataSelect: dataSchool,
             placeholder: "Pilih Sekolah untuk pengguna ini..",
           },
@@ -159,8 +193,6 @@ const FormHelpersEdit = () => {
     },
   ];
 
-  const [updateUser] = useUpdateUserMutation();
-
   if (loading) {
     return (
       <p>Loading..</p>
@@ -168,7 +200,8 @@ const FormHelpersEdit = () => {
   }  
 
   const fixData = { ...dataEdit?.user, dateOfBirth: format(new Date(dataEdit?.user.dateOfBirth), "yyyy-MM-dd"), schoolId: dataEdit?.user.school?.id ?? "" }
-  console.log(fixData);
+  userFind = { ...userFind, dateOfBirth: format(new Date(userFind?.dateOfBirth), "yyyy-MM-dd"), schoolId: userFind?.school?.id ?? "" }
+
   return (
     <CommonFormEdit
       lable="Guru"
@@ -176,7 +209,7 @@ const FormHelpersEdit = () => {
       method="PUT"
       isRelation={true}
       valuerRelation1="nuptk"
-      dataGet={fixData}
+      dataGet={context && context === 'edit_profile_teacher' ? userFind : fixData}
       mutation={updateUser}
       schema={teacherSchema}
       sections={sections}

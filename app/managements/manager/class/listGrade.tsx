@@ -51,7 +51,7 @@ function ListGrade<T extends Record<any, any>>(
                 <Building2 className="text-slate-400 w-6 h-6" />
               </div>
               <div className="col-span-2 my-auto">
-                <p className="text-slate-400 text-sm text-nowrap">{dt.classrooms.length > 0 ? dt.classrooms.length + " kelas" : "Belum ada sub kelas"}</p>
+                <p className="text-slate-400 text-sm text-nowrap">{dt.classrooms.length > 0 ? dt.classrooms.length + " cabang kelas" : "Belum ada sub kelas"}</p>
               </div>
 
             </div>

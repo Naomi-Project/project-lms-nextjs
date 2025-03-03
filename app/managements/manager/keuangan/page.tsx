@@ -56,6 +56,7 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
+import PaymentTable from "./datatableLunas";
 
 const data1 = [
   {
@@ -268,67 +269,7 @@ export default function ManagerKeuangan() {
             </div>
           </TabsList>
           <TabsContent value="lunas">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="font-bold text-black">No.</TableHead>
-                  <TableHead className="font-bold text-black">
-                    NAMA SISWA
-                  </TableHead>
-                  <TableHead className="font-bold text-black">NISN</TableHead>
-                  <TableHead className="font-bold text-black">KELAS</TableHead>
-                  <TableHead className="font-bold text-black">
-                    JUMLAH TAGIHAN
-                  </TableHead>
-                  <TableHead className="font-bold text-black"></TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {data1.map((invoice) => (
-                  <TableRow key={invoice.no}>
-                    <TableCell>{invoice.no}</TableCell>
-                    <TableCell>{invoice.name}</TableCell>
-                    <TableCell>{invoice.nisn}</TableCell>
-                    <TableCell>{invoice.class}</TableCell>
-                    <TableCell>{invoice.bill}</TableCell>
-                    <TableCell>
-                      <Button onClick={() => window.location.href = '/managements/manager/keuangan/detail/testserhf'}>Detail Tagihan</Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-              <TableFooter>
-                <TableRow className="bg-white">
-                  <TableCell colSpan={3}></TableCell>
-                  <TableCell className="">
-                    <Pagination>
-                      <PaginationContent>
-                        <PaginationItem>
-                          <PaginationPrevious href="#" />
-                        </PaginationItem>
-                        <PaginationItem>
-                          <PaginationLink href="#">1</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                          <PaginationLink href="#" isActive>
-                            2
-                          </PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                          <PaginationLink href="#">3</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                          <PaginationEllipsis />
-                        </PaginationItem>
-                        <PaginationItem>
-                          <PaginationNext href="#" />
-                        </PaginationItem>
-                      </PaginationContent>
-                    </Pagination>
-                  </TableCell>
-                </TableRow>
-              </TableFooter>
-            </Table>
+            <PaymentTable />
           </TabsContent>
 
           {/* TABLE BELUM LUNAK */}

@@ -93,6 +93,11 @@ query GetUsers {
       contact
       relationship
     }
+    school {
+      id
+      name
+      accreditation
+    }
   }
 }
 
@@ -122,6 +127,7 @@ mutation UpdateUser($data: UpdateUserInput!) {
     nik
     nuptk
     nisn
+    schoolId
     dateOfBirth
     gender
     address
@@ -311,27 +317,38 @@ query GetEnrollment($id: String!) {
     term {
       id
       name
-      startDate
-      endDate
-      schoolId
-      curriculumId
     }
     classroom {
       id
       name
+      students {
+        id
+        name
+        nisn
+      }
       guardian {
         id
         name
+        nuptk
       }
     }
     student {
       id
       name
-      username
-      role
-      gender
-      address
-      phone
+      nisn
+    }
+    payment {
+      id
+      status
+      method
+      enrollment {
+        id
+      }
+      pricing {
+        id
+        name
+        amount
+      }
     }
   }
 }
@@ -350,10 +367,34 @@ query GetEnrollments {
     classroom {
       id
       name
+      students {
+        id
+        name
+        nisn
+      }
+      guardian {
+        id
+        name
+        nuptk
+      }
     }
     student {
       id
       name
+      nisn
+    }
+    payment {
+      id
+      status
+      method
+      enrollment {
+        id
+      }
+      pricing {
+        id
+        name
+        amount
+      }
     }
   }
 }
@@ -851,6 +892,20 @@ query GetAssignment($data: String!) {
         username 
       }
     }
+    classrooms {
+      id
+      name
+      guardian {
+        id
+        name
+        nuptk
+      }
+      students {
+        id
+        name
+        nisn
+      }
+    }
     submissions {
       id
       extendedData
@@ -884,6 +939,20 @@ query GetAssignments {
         username 
       }
     }
+    classrooms {
+      id
+      name
+      guardian {
+        id
+        name
+        nuptk
+      }
+      students {
+        id
+        name
+        nisn
+      }
+    }
     submissions {
       id
       extendedData
@@ -907,6 +976,9 @@ mutation CreateAssignment($data: CreateAssignmentInput!) {
     dueDate
     type
     subjectId
+    classrooms {
+      id
+    }
   }
 }
 
@@ -1277,6 +1349,9 @@ mutation DeleteAnnouncement($data: String!) {
 query GetReference($data: String!) {
   reference(id: $data) {
     id
+    title
+    description
+    tags
     url
     type
     authorId
@@ -1295,6 +1370,9 @@ query GetReference($data: String!) {
 query GetReferences {
   references {
     id
+    title
+    description
+    tags
     url
     type
     authorId
@@ -1306,12 +1384,16 @@ query GetReferences {
       id
       title
     }
+    createdAt
   }
 }
 
 mutation CreateReference($data: CreateReferenceInput!) {
   createReference(data: $data) {
     id
+    title
+    description
+    tags
     url
     type
     authorId
@@ -1321,6 +1403,9 @@ mutation CreateReference($data: CreateReferenceInput!) {
 mutation UpdateReference($data: UpdateReferenceInput!) {
   updateReference(data: $data) {
     id
+    title
+    description
+    tags
     url
     type
     authorId
@@ -1330,6 +1415,9 @@ mutation UpdateReference($data: UpdateReferenceInput!) {
 mutation DeleteReference($data: String!) {
   deleteReference(id: $data) {
     id
+    title
+    description
+    tags
     url
     type
     authorId
@@ -1423,8 +1511,8 @@ mutation DeletePayment($data: String!) {
 ### Payment endregion
 
 ### Pricing region
-query GetPricing {
-  pricing {
+query GetPricing($data: String!) {
+  pricing(id: $data) {
     id
     name
     amount

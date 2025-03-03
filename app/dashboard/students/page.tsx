@@ -40,8 +40,8 @@ export default function DashboardStudent() {
   })) || []
   return (
     <div className="space-y-6">
-      <div className="grid md:grid-cols-4 grid-cols-2 gap-4">
-        <div className="col-span-1 bg-white border-2 rounded-lg justify-items-center content-center py-2">
+      <div className="grid md:grid-cols-4 grid-cols-1 gap-4">
+        <div className="col-span-1 bg-white border-2 rounded-lg justify-items-center content-center py-4">
           <div className="grid grid-cols-4 gap-2 pl-2 ">
             <div className="col-span-1 bg-orange-100 border-orange-50 border-2 p-2 rounded-lg flex items-center justify-center">
               <BookText className="w-9 h-9 text-orange-400" />
@@ -54,14 +54,14 @@ export default function DashboardStudent() {
                 </div>
 
                 <div className="row-span-1">
-                  <p className="text-base">{assignmentNotFinishLength ? assignmentNotFinishLength + " Tugas" : ""}</p>
+                  <p className="text-base">{assignmentNotFinishLength ? assignmentNotFinishLength + " Tugas" : "0"}</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="col-span-1 bg-white border-2 rounded-lg justify-items-center content-center py-2">
+        <div className="col-span-1 bg-white border-2 rounded-lg justify-items-center content-center py-4">
           <div className="grid grid-cols-4 gap-2 pl-2">
             <div className="col-span-1 bg-green-100 border-green-50 border-2 p-2 rounded-lg flex items-center justify-center">
               <ClipboardList className="w-9 h-9 text-green-400" />
@@ -74,14 +74,14 @@ export default function DashboardStudent() {
                 </div>
 
                 <div className="row-span-1">
-                  <p className="text-base">{assignmentLength ? assignmentLength + " Materi" : ""}</p>
+                  <p className="text-base">{assignmentLength ? assignmentLength + " Materi" : "0"}</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="col-span-1 bg-white border-2 rounded-lg justify-items-center content-center py-2">
+        <div className="col-span-1 bg-white border-2 rounded-lg justify-items-center content-center py-4">
           <div className="grid grid-cols-4 gap-2 pl-2">
             <div className="col-span-1 bg-blue-100 border-blue-50 border-2 p-2 rounded-lg flex items-center justify-center">
               <Fence className="w-9 h-9 text-blue-400" />
@@ -94,14 +94,14 @@ export default function DashboardStudent() {
                 </div>
 
                 <div className="row-span-1">
-                  <p className="text-base">{materialLength ? materialLength + " Materi" : ""}</p>
+                  <p className="text-base">{materialLength ? materialLength + " Materi" : "0"}</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="col-span-1 bg-white border-2 rounded-lg justify-items-center content-center py-2">
+        <div className="col-span-1 bg-white border-2 rounded-lg justify-items-center content-center py-4">
           <div className="grid grid-cols-4 gap-2 pl-2">
             <div className="col-span-1 bg-red-100 border-red-100 border-2 p-2 rounded-lg flex items-center justify-center">
               <CalendarOff className="w-9 h-9 text-red-400" />
@@ -122,7 +122,7 @@ export default function DashboardStudent() {
         </div>
       </div>
 
-      <div className="flex justify-between">
+      <div className="flex justify-between gap-5 flex-col md:flex-row">
         <div className="bg-white rounded-lg">
           <Select defaultValue="" onValueChange={(value) => setFilter(value)}>
             <SelectTrigger className="w-full">

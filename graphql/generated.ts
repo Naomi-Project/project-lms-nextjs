@@ -42,6 +42,7 @@ export enum AnnouncementTarget {
 
 export type Assignment = {
   __typename?: 'Assignment';
+  classrooms: Array<Classroom>;
   createdAt?: Maybe<Scalars['Timestamp']['output']>;
   description: Scalars['String']['output'];
   dueDate: Scalars['Timestamp']['output'];
@@ -90,6 +91,7 @@ export type Authentication = {
 
 export type Classroom = {
   __typename?: 'Classroom';
+  assignments: Array<Assignment>;
   attendances: Array<Attendance>;
   guardian: User;
   id: Scalars['ID']['output'];
@@ -105,6 +107,7 @@ export type CreateAnnouncementInput = {
 };
 
 export type CreateAssignmentInput = {
+  classroomIds: Array<Scalars['ID']['input']>;
   description: Scalars['String']['input'];
   dueDate: Scalars['Timestamp']['input'];
   extendedData?: InputMaybe<Scalars['String']['input']>;
@@ -132,6 +135,7 @@ export type CreateCurriculumInput = {
 
 export type CreateEnrollmentInput = {
   classroomId: Scalars['ID']['input'];
+  pricingId: Scalars['ID']['input'];
   studentId: Scalars['ID']['input'];
   termId: Scalars['ID']['input'];
 };
@@ -149,7 +153,7 @@ export type CreateGradeInput = {
 
 export type CreateMaterialInput = {
   content: Scalars['String']['input'];
-  referenceId?: InputMaybe<Scalars['ID']['input']>;
+  referenceIds?: InputMaybe<Array<Scalars['ID']['input']>>;
   subjectId: Scalars['ID']['input'];
   title: Scalars['String']['input'];
 };
@@ -169,6 +173,9 @@ export type CreatePricingInput = {
 
 export type CreateReferenceInput = {
   authorId: Scalars['ID']['input'];
+  description: Scalars['String']['input'];
+  tags?: InputMaybe<Array<Scalars['String']['input']>>;
+  title: Scalars['String']['input'];
   type: ReferenceType;
   url: Scalars['String']['input'];
 };
@@ -259,12 +266,14 @@ export type Enrollment = {
   __typename?: 'Enrollment';
   classroom?: Maybe<Classroom>;
   classroomId: Scalars['ID']['output'];
+  createdAt?: Maybe<Scalars['Timestamp']['output']>;
   id: Scalars['ID']['output'];
   payment?: Maybe<Payment>;
   student?: Maybe<User>;
   studentId: Scalars['ID']['output'];
   term?: Maybe<Term>;
   termId: Scalars['ID']['output'];
+  updatedAt?: Maybe<Scalars['Timestamp']['output']>;
 };
 
 export type Family = {
@@ -790,6 +799,11 @@ export type QueryPaymentArgs = {
 };
 
 
+export type QueryPricingArgs = {
+  id: Scalars['String']['input'];
+};
+
+
 export type QueryReferenceArgs = {
   id: Scalars['String']['input'];
 };
@@ -843,9 +857,14 @@ export type Reference = {
   __typename?: 'Reference';
   author: User;
   authorId: Scalars['ID']['output'];
+  createdAt?: Maybe<Scalars['Timestamp']['output']>;
+  description: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   materials: Array<Material>;
+  tags?: Maybe<Array<Scalars['String']['output']>>;
+  title: Scalars['String']['output'];
   type: ReferenceType;
+  updatedAt?: Maybe<Scalars['Timestamp']['output']>;
   url: Scalars['String']['output'];
 };
 
@@ -957,6 +976,7 @@ export type UpdateAnnouncementInput = {
 };
 
 export type UpdateAssignmentInput = {
+  classroomIds?: InputMaybe<Array<Scalars['ID']['input']>>;
   description?: InputMaybe<Scalars['String']['input']>;
   dueDate?: InputMaybe<Scalars['Timestamp']['input']>;
   extendedData?: InputMaybe<Scalars['String']['input']>;
@@ -989,6 +1009,7 @@ export type UpdateCurriculumInput = {
 export type UpdateEnrollmentInput = {
   classroomId?: InputMaybe<Scalars['ID']['input']>;
   id: Scalars['ID']['input'];
+  pricingId?: InputMaybe<Scalars['ID']['input']>;
   studentId?: InputMaybe<Scalars['ID']['input']>;
   termId?: InputMaybe<Scalars['ID']['input']>;
 };
@@ -1009,7 +1030,7 @@ export type UpdateGradeInput = {
 export type UpdateMaterialInput = {
   content?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['ID']['input'];
-  referenceId?: InputMaybe<Scalars['ID']['input']>;
+  referenceIds?: InputMaybe<Array<Scalars['ID']['input']>>;
   subjectId?: InputMaybe<Scalars['ID']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
@@ -1031,7 +1052,10 @@ export type UpdatePricingInput = {
 
 export type UpdateReferenceInput = {
   authorId?: InputMaybe<Scalars['ID']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['ID']['input'];
+  tags?: InputMaybe<Array<Scalars['String']['input']>>;
+  title?: InputMaybe<Scalars['String']['input']>;
   type?: InputMaybe<ReferenceType>;
   url?: InputMaybe<Scalars['String']['input']>;
 };
@@ -1156,7 +1180,7 @@ export type GetUserQuery = { __typename?: 'Query', user: { __typename?: 'User', 
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, name?: string | null, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string, classroom?: { __typename?: 'Classroom', id: string, name: string, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, subject?: { __typename?: 'Subject', id: string, name: string } | null }> } | null, families: Array<{ __typename?: 'Family', id: string, name: string, contact: string, relationship: Relationship }> }> };
+export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, name?: string | null, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string, classroom?: { __typename?: 'Classroom', id: string, name: string, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, subject?: { __typename?: 'Subject', id: string, name: string } | null }> } | null, families: Array<{ __typename?: 'Family', id: string, name: string, contact: string, relationship: Relationship }>, school?: { __typename?: 'School', id: string, name: string, accreditation: Accreditation } | null }> };
 
 export type CreateUserMutationVariables = Exact<{
   data: CreateUserInput;
@@ -1170,7 +1194,7 @@ export type UpdateUserMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, name?: string | null, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string } };
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, name?: string | null, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, schoolId?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string } };
 
 export type DeleteUserMutationVariables = Exact<{
   data: Scalars['String']['input'];
@@ -1250,12 +1274,12 @@ export type GetEnrollmentQueryVariables = Exact<{
 }>;
 
 
-export type GetEnrollmentQuery = { __typename?: 'Query', enrollment: { __typename?: 'Enrollment', id: string, studentId: string, classroomId: string, termId: string, term?: { __typename?: 'Term', id: string, name: string, startDate: any, endDate: any, schoolId: string, curriculumId: string } | null, classroom?: { __typename?: 'Classroom', id: string, name: string, guardian: { __typename?: 'User', id: string, name?: string | null } } | null, student?: { __typename?: 'User', id: string, name?: string | null, username: string, role: Role, gender: Gender, address: string, phone: string } | null } };
+export type GetEnrollmentQuery = { __typename?: 'Query', enrollment: { __typename?: 'Enrollment', id: string, studentId: string, classroomId: string, termId: string, term?: { __typename?: 'Term', id: string, name: string } | null, classroom?: { __typename?: 'Classroom', id: string, name: string, students: Array<{ __typename?: 'User', id: string, name?: string | null, nisn?: string | null }>, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null } } | null, student?: { __typename?: 'User', id: string, name?: string | null, nisn?: string | null } | null, payment?: { __typename?: 'Payment', id: string, status: PaymentStatus, method: PaymentMethod, enrollment?: { __typename?: 'Enrollment', id: string } | null, pricing?: { __typename?: 'Pricing', id: string, name: string, amount: number } | null } | null } };
 
 export type GetEnrollmentsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetEnrollmentsQuery = { __typename?: 'Query', enrollments: Array<{ __typename?: 'Enrollment', id: string, studentId: string, classroomId: string, termId: string, term?: { __typename?: 'Term', id: string, name: string } | null, classroom?: { __typename?: 'Classroom', id: string, name: string } | null, student?: { __typename?: 'User', id: string, name?: string | null } | null }> };
+export type GetEnrollmentsQuery = { __typename?: 'Query', enrollments: Array<{ __typename?: 'Enrollment', id: string, studentId: string, classroomId: string, termId: string, term?: { __typename?: 'Term', id: string, name: string } | null, classroom?: { __typename?: 'Classroom', id: string, name: string, students: Array<{ __typename?: 'User', id: string, name?: string | null, nisn?: string | null }>, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null } } | null, student?: { __typename?: 'User', id: string, name?: string | null, nisn?: string | null } | null, payment?: { __typename?: 'Payment', id: string, status: PaymentStatus, method: PaymentMethod, enrollment?: { __typename?: 'Enrollment', id: string } | null, pricing?: { __typename?: 'Pricing', id: string, name: string, amount: number } | null } | null }> };
 
 export type CreateEnrollmentMutationVariables = Exact<{
   data: CreateEnrollmentInput;
@@ -1484,19 +1508,19 @@ export type GetAssignmentQueryVariables = Exact<{
 }>;
 
 
-export type GetAssignmentQuery = { __typename?: 'Query', assignment: { __typename?: 'Assignment', id: string, title: string, description: string, dueDate: any, type: AssignmentType, extendedData?: string | null, subjectId: string, subject: { __typename?: 'Subject', id: string, name: string, code: string, description?: string | null, teachers: Array<{ __typename?: 'User', id: string, username: string }> }, submissions: Array<{ __typename?: 'Submission', id: string, extendedData?: string | null, assignmentId: string, studentId: string, score?: { __typename?: 'Score', id: string, value?: number | null, notes?: string | null } | null }> } };
+export type GetAssignmentQuery = { __typename?: 'Query', assignment: { __typename?: 'Assignment', id: string, title: string, description: string, dueDate: any, type: AssignmentType, extendedData?: string | null, subjectId: string, subject: { __typename?: 'Subject', id: string, name: string, code: string, description?: string | null, teachers: Array<{ __typename?: 'User', id: string, username: string }> }, classrooms: Array<{ __typename?: 'Classroom', id: string, name: string, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, students: Array<{ __typename?: 'User', id: string, name?: string | null, nisn?: string | null }> }>, submissions: Array<{ __typename?: 'Submission', id: string, extendedData?: string | null, assignmentId: string, studentId: string, score?: { __typename?: 'Score', id: string, value?: number | null, notes?: string | null } | null }> } };
 
 export type GetAssignmentsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAssignmentsQuery = { __typename?: 'Query', assignments: Array<{ __typename?: 'Assignment', id: string, title: string, description: string, dueDate: any, type: AssignmentType, extendedData?: string | null, subjectId: string, subject: { __typename?: 'Subject', id: string, name: string, code: string, description?: string | null, teachers: Array<{ __typename?: 'User', id: string, username: string }> }, submissions: Array<{ __typename?: 'Submission', id: string, extendedData?: string | null, assignmentId: string, studentId: string, score?: { __typename?: 'Score', id: string, value?: number | null, notes?: string | null } | null }> }> };
+export type GetAssignmentsQuery = { __typename?: 'Query', assignments: Array<{ __typename?: 'Assignment', id: string, title: string, description: string, dueDate: any, type: AssignmentType, extendedData?: string | null, subjectId: string, subject: { __typename?: 'Subject', id: string, name: string, code: string, description?: string | null, teachers: Array<{ __typename?: 'User', id: string, username: string }> }, classrooms: Array<{ __typename?: 'Classroom', id: string, name: string, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, students: Array<{ __typename?: 'User', id: string, name?: string | null, nisn?: string | null }> }>, submissions: Array<{ __typename?: 'Submission', id: string, extendedData?: string | null, assignmentId: string, studentId: string, score?: { __typename?: 'Score', id: string, value?: number | null, notes?: string | null } | null }> }> };
 
 export type CreateAssignmentMutationVariables = Exact<{
   data: CreateAssignmentInput;
 }>;
 
 
-export type CreateAssignmentMutation = { __typename?: 'Mutation', createAssignment: { __typename?: 'Assignment', id: string, title: string, description: string, extendedData?: string | null, dueDate: any, type: AssignmentType, subjectId: string } };
+export type CreateAssignmentMutation = { __typename?: 'Mutation', createAssignment: { __typename?: 'Assignment', id: string, title: string, description: string, extendedData?: string | null, dueDate: any, type: AssignmentType, subjectId: string, classrooms: Array<{ __typename?: 'Classroom', id: string }> } };
 
 export type UpdateAssignmentMutationVariables = Exact<{
   data: UpdateAssignmentInput;
@@ -1684,33 +1708,33 @@ export type GetReferenceQueryVariables = Exact<{
 }>;
 
 
-export type GetReferenceQuery = { __typename?: 'Query', reference: { __typename?: 'Reference', id: string, url: string, type: ReferenceType, authorId: string, author: { __typename?: 'User', id: string, name?: string | null, username: string }, materials: Array<{ __typename?: 'Material', id: string, title: string }> } };
+export type GetReferenceQuery = { __typename?: 'Query', reference: { __typename?: 'Reference', id: string, title: string, description: string, tags?: Array<string> | null, url: string, type: ReferenceType, authorId: string, author: { __typename?: 'User', id: string, name?: string | null, username: string }, materials: Array<{ __typename?: 'Material', id: string, title: string }> } };
 
 export type GetReferencesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetReferencesQuery = { __typename?: 'Query', references: Array<{ __typename?: 'Reference', id: string, url: string, type: ReferenceType, authorId: string, author: { __typename?: 'User', id: string, name?: string | null }, materials: Array<{ __typename?: 'Material', id: string, title: string }> }> };
+export type GetReferencesQuery = { __typename?: 'Query', references: Array<{ __typename?: 'Reference', id: string, title: string, description: string, tags?: Array<string> | null, url: string, type: ReferenceType, authorId: string, createdAt?: any | null, author: { __typename?: 'User', id: string, name?: string | null }, materials: Array<{ __typename?: 'Material', id: string, title: string }> }> };
 
 export type CreateReferenceMutationVariables = Exact<{
   data: CreateReferenceInput;
 }>;
 
 
-export type CreateReferenceMutation = { __typename?: 'Mutation', createReference: { __typename?: 'Reference', id: string, url: string, type: ReferenceType, authorId: string } };
+export type CreateReferenceMutation = { __typename?: 'Mutation', createReference: { __typename?: 'Reference', id: string, title: string, description: string, tags?: Array<string> | null, url: string, type: ReferenceType, authorId: string } };
 
 export type UpdateReferenceMutationVariables = Exact<{
   data: UpdateReferenceInput;
 }>;
 
 
-export type UpdateReferenceMutation = { __typename?: 'Mutation', updateReference: { __typename?: 'Reference', id: string, url: string, type: ReferenceType, authorId: string } };
+export type UpdateReferenceMutation = { __typename?: 'Mutation', updateReference: { __typename?: 'Reference', id: string, title: string, description: string, tags?: Array<string> | null, url: string, type: ReferenceType, authorId: string } };
 
 export type DeleteReferenceMutationVariables = Exact<{
   data: Scalars['String']['input'];
 }>;
 
 
-export type DeleteReferenceMutation = { __typename?: 'Mutation', deleteReference: { __typename?: 'Reference', id: string, url: string, type: ReferenceType, authorId: string } };
+export type DeleteReferenceMutation = { __typename?: 'Mutation', deleteReference: { __typename?: 'Reference', id: string, title: string, description: string, tags?: Array<string> | null, url: string, type: ReferenceType, authorId: string } };
 
 export type GetPaymentQueryVariables = Exact<{
   data: Scalars['String']['input'];
@@ -1745,7 +1769,9 @@ export type DeletePaymentMutationVariables = Exact<{
 
 export type DeletePaymentMutation = { __typename?: 'Mutation', deletePayment: { __typename?: 'Payment', id: string, status: PaymentStatus, reference: string, method: PaymentMethod, pricing?: { __typename?: 'Pricing', id: string } | null, enrollment?: { __typename?: 'Enrollment', id: string } | null } };
 
-export type GetPricingQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetPricingQueryVariables = Exact<{
+  data: Scalars['String']['input'];
+}>;
 
 
 export type GetPricingQuery = { __typename?: 'Query', pricing: { __typename?: 'Pricing', id: string, name: string, amount: number, createdAt?: any | null, updatedAt?: any | null } };
@@ -1964,6 +1990,11 @@ export const GetUsersDocument = gql`
       contact
       relationship
     }
+    school {
+      id
+      name
+      accreditation
+    }
   }
 }
     `;
@@ -2053,6 +2084,7 @@ export const UpdateUserDocument = gql`
     nik
     nuptk
     nisn
+    schoolId
     dateOfBirth
     gender
     address
@@ -2584,27 +2616,38 @@ export const GetEnrollmentDocument = gql`
     term {
       id
       name
-      startDate
-      endDate
-      schoolId
-      curriculumId
     }
     classroom {
       id
       name
+      students {
+        id
+        name
+        nisn
+      }
       guardian {
         id
         name
+        nuptk
       }
     }
     student {
       id
       name
-      username
-      role
-      gender
-      address
-      phone
+      nisn
+    }
+    payment {
+      id
+      status
+      method
+      enrollment {
+        id
+      }
+      pricing {
+        id
+        name
+        amount
+      }
     }
   }
 }
@@ -2656,10 +2699,34 @@ export const GetEnrollmentsDocument = gql`
     classroom {
       id
       name
+      students {
+        id
+        name
+        nisn
+      }
+      guardian {
+        id
+        name
+        nuptk
+      }
     }
     student {
       id
       name
+      nisn
+    }
+    payment {
+      id
+      status
+      method
+      enrollment {
+        id
+      }
+      pricing {
+        id
+        name
+        amount
+      }
     }
   }
 }
@@ -4142,6 +4209,20 @@ export const GetAssignmentDocument = gql`
         username
       }
     }
+    classrooms {
+      id
+      name
+      guardian {
+        id
+        name
+        nuptk
+      }
+      students {
+        id
+        name
+        nisn
+      }
+    }
     submissions {
       id
       extendedData
@@ -4209,6 +4290,20 @@ export const GetAssignmentsDocument = gql`
         username
       }
     }
+    classrooms {
+      id
+      name
+      guardian {
+        id
+        name
+        nuptk
+      }
+      students {
+        id
+        name
+        nisn
+      }
+    }
     submissions {
       id
       extendedData
@@ -4265,6 +4360,9 @@ export const CreateAssignmentDocument = gql`
     dueDate
     type
     subjectId
+    classrooms {
+      id
+    }
   }
 }
     `;
@@ -5445,6 +5543,9 @@ export const GetReferenceDocument = gql`
     query GetReference($data: String!) {
   reference(id: $data) {
     id
+    title
+    description
+    tags
     url
     type
     authorId
@@ -5497,6 +5598,9 @@ export const GetReferencesDocument = gql`
     query GetReferences {
   references {
     id
+    title
+    description
+    tags
     url
     type
     authorId
@@ -5508,6 +5612,7 @@ export const GetReferencesDocument = gql`
       id
       title
     }
+    createdAt
   }
 }
     `;
@@ -5547,6 +5652,9 @@ export const CreateReferenceDocument = gql`
     mutation CreateReference($data: CreateReferenceInput!) {
   createReference(data: $data) {
     id
+    title
+    description
+    tags
     url
     type
     authorId
@@ -5583,6 +5691,9 @@ export const UpdateReferenceDocument = gql`
     mutation UpdateReference($data: UpdateReferenceInput!) {
   updateReference(data: $data) {
     id
+    title
+    description
+    tags
     url
     type
     authorId
@@ -5619,6 +5730,9 @@ export const DeleteReferenceDocument = gql`
     mutation DeleteReference($data: String!) {
   deleteReference(id: $data) {
     id
+    title
+    description
+    tags
     url
     type
     authorId
@@ -5883,8 +5997,8 @@ export type DeletePaymentMutationHookResult = ReturnType<typeof useDeletePayment
 export type DeletePaymentMutationResult = Apollo.MutationResult<DeletePaymentMutation>;
 export type DeletePaymentMutationOptions = Apollo.BaseMutationOptions<DeletePaymentMutation, DeletePaymentMutationVariables>;
 export const GetPricingDocument = gql`
-    query GetPricing {
-  pricing {
+    query GetPricing($data: String!) {
+  pricing(id: $data) {
     id
     name
     amount
@@ -5906,10 +6020,11 @@ export const GetPricingDocument = gql`
  * @example
  * const { data, loading, error } = useGetPricingQuery({
  *   variables: {
+ *      data: // value for 'data'
  *   },
  * });
  */
-export function useGetPricingQuery(baseOptions?: Apollo.QueryHookOptions<GetPricingQuery, GetPricingQueryVariables>) {
+export function useGetPricingQuery(baseOptions: Apollo.QueryHookOptions<GetPricingQuery, GetPricingQueryVariables> & ({ variables: GetPricingQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetPricingQuery, GetPricingQueryVariables>(GetPricingDocument, options);
       }

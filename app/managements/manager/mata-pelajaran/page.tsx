@@ -16,7 +16,7 @@ export default function MapelPage() {
         <Tabs defaultValue="aktif" className="w-full">
           <TabsList className="w-full flex justify-between bg-white">
             {/* direct to page */}
-            <ButtonAdd endpoint="/managements/manager/kurikulum/create" />
+            <ButtonAdd endpoint="/managements/manager/mata-pelajaran/create" />
             {/* direct to page */}
             <div className="grid grid-cols-1 md:gap-4">
               <div className="col-span-1 ml-1">

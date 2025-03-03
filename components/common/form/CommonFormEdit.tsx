@@ -168,7 +168,7 @@ export function CommonFormEdit<T extends Record<any, any>>(
         <p className="text-sm pr-2">Kembali</p>
       </Toggle>
       <div className="w-full h-auto">
-        <div className="w-full flex flex-col bg-white border rounded-lg mt-8">
+        <div className="w-full flex flex-col bg-white rounded-lg mt-8">
           <div className="p-4">
             <h1>{props.title}</h1>
           </div>
@@ -187,7 +187,7 @@ export function CommonFormEdit<T extends Record<any, any>>(
                       {fieldGroup.map((dataField, indexField) => (
                         <div
                           className={`sm:w-full ${
-                            dataField.class || " md:w-1/2 lg:w-1/2 pr-4"
+                            dataField.class || "w-full md:w-1/2 lg:w-1/2 pr-4"
                           }`}
                           key={indexField}
                         >

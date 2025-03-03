@@ -53,7 +53,7 @@ const CommonSelectMultiple: React.FC<CommonSelectMultipleProps> = ({
                 : placeholder}
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-full p-2">
+          <PopoverContent className="w-80 p-2">
             <ScrollArea className="h-auto">
               {dataSelect.map((option) => (
                 <div key={option.value} className="flex items-center space-x-2 p-1">

@@ -24,7 +24,7 @@ const CommonDateTimePicker: React.FC<CommonDateTimePickerProps> = ({ name, label
   const { control } = useFormContext();
 
   return (
-    <FormItem className="flex flex-col mt-2 w-full">
+    <FormItem className="flex flex-col w-full">
       <FormLabel>{label}</FormLabel>
       <Controller
         name={name}
@@ -37,7 +37,7 @@ const CommonDateTimePicker: React.FC<CommonDateTimePickerProps> = ({ name, label
           return (
             <>
               <FormControl>
-                <div className="flex gap-2">
+                <div className="flex flex-col !mb-5 md:!mb-0 md:flex-row gap-2">
                   {/* Date Picker */}
                   <Popover>
                     <PopoverTrigger asChild>

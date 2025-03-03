@@ -1,22 +1,39 @@
-import { CommonDetail, CommonDetailSection, CommonSectionField } from '@/components/common/detail/CommonDetailFinance'
+'use client'
+import {
+  CommonDetail,
+  CommonDetailSection,
+  CommonSectionField,
+} from "@/components/common/detail/CommonDetailFinance";
+import { useGetEnrollmentQuery } from "@/graphql/generated";
 import user from "@/image/user.jpeg";
-import React from 'react'
+import { useParams } from "next/navigation";
+import React from "react";
 
 interface Finance {
-    name: string
-    address: string
-    nisn: number
-    phone: number
-  }
+  name: string;
+  address: string;
+  nisn: number;
+  class: string;
+  phone: number;
+}
 
-const page = () => {
-
-const data: Finance = {
-    name: "ahmad",
-    address: "jakarta",
-    nisn: 328738,
+const DetailPage = () => {
+  const params = useParams();
+  const { id } = params;
+  const { data: enrollment } = useGetEnrollmentQuery({
+    variables: {
+      id: id as string
+    }, 
+    skip: !id,
+  })
+  console.log(enrollment)
+  const data: Finance = {
+    name: enrollment?.enrollment.student?.name ?? "",
+    address: enrollment?.enrollment?.student?.name ?? "",
+    nisn: parseInt(enrollment?.enrollment?.student?.nisn ?? "") ?? "",
+    class: enrollment?.enrollment.classroom?.name ?? "",
     phone: 123,
-    }
+  };
   const sections: CommonDetailSection<Finance>[] = [
     {
       label: "Data Keuangan",
@@ -44,6 +61,7 @@ const data: Finance = {
       ] satisfies CommonSectionField<Finance>[],
     },
   ];
+
   const payments = [
     {
       invoice: "Sabtu, 28 maret 2024",
@@ -59,15 +77,15 @@ const data: Finance = {
   const ricianTagihan = [
     { name: "SPP Bulan Juni", harga: "200.000" },
     { name: "SPP Bulan Mei", harga: "400.000" },
-  ]
-    return (
+  ];
+  return (
     <div className="min-h-screen">
       <CommonDetail
         title="Finance"
         name={data.name}
-        class={"7A"}
-        tagihan='300.000'
-        jatuhTempo='23 Mei 2025'
+        class={data.class}
+        tagihan="300.000"
+        jatuhTempo="23 Mei 2025"
         image={user.src}
         data={data}
         ricianTagihan={ricianTagihan}
@@ -75,7 +93,7 @@ const data: Finance = {
         sections={sections}
       ></CommonDetail>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default DetailPage;

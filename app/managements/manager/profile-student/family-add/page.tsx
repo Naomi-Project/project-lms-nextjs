@@ -2,18 +2,24 @@
 import {
   CommonFormAdd
 } from "@/components/common/form/CommonFormAdd";
-import { useCreateFamilyMutation } from "@/graphql/generated";
+import { useCreateFamilyMutation, useUserPayloadQuery } from "@/graphql/generated";
 import { familiesSchema, sections } from "@/helpers/static/FormFamilies";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const CreatePage = () => {
+  const { data: userLogin } = useUserPayloadQuery()
+  
   const [dataMutationDefault, setDataMutationDefault] = useState({
     name: "",
-    contact: 0,
+    contact: '',
     relationship: "",
-    userId: "aa49febe-8ade-4423-b92d-fc521bc3cf2e",
+    userId: userLogin?.me.id ?? "",
   });
   const [createFamily] = useCreateFamilyMutation();
+
+  useEffect(() => {
+    setDataMutationDefault({...dataMutationDefault, userId: userLogin?.me.id ?? ""})
+  }, [userLogin?.me.id])
   return (
     <CommonFormAdd
       lable="Families"
@@ -21,6 +27,7 @@ const CreatePage = () => {
       method="POST"
       mutation={createFamily}
       dataMutation={dataMutationDefault}
+      isUseDefaultMutation={true}
       setDataMutation={setDataMutationDefault}
       schema={familiesSchema}
       sections={sections}

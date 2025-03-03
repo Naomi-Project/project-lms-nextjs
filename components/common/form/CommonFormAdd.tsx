@@ -33,11 +33,12 @@ import dynamic from "next/dynamic";
 import CommonEditor from "./CommonEditor";
 import CommonSoalBuilder from "./CommonSoalBuilder";
 import CommonSubmission from "./CommonSubmission";
-import { useCreateEnrollmentMutation, useCreateSubmissionMutation } from "@/graphql/generated";
+import { PaymentMethod, PaymentStatus, useCreateEnrollmentMutation, useCreatePaymentMutation, useCreateSubmissionMutation } from "@/graphql/generated";
 import CommonDatePicker from "./CommonDatePicker";
 import CommonDateTimePicker from "./CommonDateTimePicker";
 import CommonSelectMultiple from "./CommonSelectMultiple";
 import Swal from "sweetalert2";
+import { setTimeout } from "timers";
 
 export interface CommonFormAddField<T extends Record<any, any>> {
   key: keyof T & string;
@@ -63,12 +64,15 @@ export interface CommonFormAddProps<T extends Record<any, any>> {
   title: string;
   method: string;
   isCreateClass?: boolean | undefined;
+  isCreateAssignment?: boolean | undefined;
   isRelation?: boolean | undefined;
   relation1?: string | undefined;
   valuerRelation1?: string | undefined;
   buttonTextSubmit?: string | undefined;
   hideBackButton?: boolean;
+  isCreateSpp?: boolean;
   isUseDefaultMutation?: boolean;
+  isInputTags?: boolean;
   schema: ZodSchema<T>;
   mutation: MutationFunction<any, any>;
   dataDefault?: any;
@@ -93,6 +97,29 @@ export function CommonFormAdd<T extends Record<any, any>>(
   
   const onSubmit = async (values: z.infer<typeof props.schema>) => {
     setIsSubmit(true)
+    if (props.isCreateAssignment == true) {
+      // const newData = {...values, classrooms: {
+      //   connect: values.classroomIds.map((id: any) => ({ id })) 
+      // }}
+      // console.log(values)
+      // console.log(newData)
+      executeMutation(values)
+      return
+    }
+    if (props.isCreateSpp == true) {
+      const newData = {...values, amount: parseFloat(values.amount)}
+      executeMutation(newData)
+      return
+    }
+    if (props.isInputTags == true) {
+      if (typeof (values as any).tags === "string") {
+        (values as any).tags = (values as any).tags.split(",").map((tag: any) => tag.trim());
+      }
+    
+      const newData = {...values, tags: (values as any).tags}
+      executeMutation(newData)
+      return;
+    }
     if (props.isCreateClass == true) {
         filledStudentToClass(values)
         return
@@ -109,7 +136,6 @@ export function CommonFormAdd<T extends Record<any, any>>(
       }
     }
     if (props.isSubmission == true) {
-      alert('tunggu sebentar.. (klik ok utk melanjutkan proses)')
       const dataSoal = JSON.parse(values.extendedData)
       const soalLength = dataSoal.length
       
@@ -122,7 +148,7 @@ export function CommonFormAdd<T extends Record<any, any>>(
 
       return
     }
-    // return
+
     // kondisi ini dipake jika datamutation default itu isinya sama dengan values
     if (props.isUseDefaultMutation == true) {
       executeMutation(values)
@@ -142,8 +168,11 @@ export function CommonFormAdd<T extends Record<any, any>>(
   
    // if mutation class
   const [createEnrollment] = useCreateEnrollmentMutation();
+  const [createPayment] = useCreatePaymentMutation();
 
   const filledStudentToClass = async (values: any) => {
+    // console.log(values)
+    // return
     try {
       const classroomResponse = await props.mutation({
         variables: {
@@ -163,17 +192,17 @@ export function CommonFormAdd<T extends Record<any, any>>(
       
       // 3️⃣ Looping dan daftarkan setiap siswa ke kelas
       for (const studentId of values.students) {
-        await createEnrollment({
+          await createEnrollment({
           variables: {
             data: {
               studentId: studentId,
               classroomId: resClass.id,
-              termId: '6b0d7b0c-af15-4458-a252-2c8f140763ed',
+              termId: values.termId,
+              pricingId: values.pricingId
             },
           },
         });
       }
-      
       Swal.fire({
         title: "Berhasil Dibuat!",
         text: "Data telah berhasil dibuat!",
@@ -217,6 +246,18 @@ export function CommonFormAdd<T extends Record<any, any>>(
           notes: 'bagus cek2'
         })
       }
+      Swal.fire({
+        title: "Berhasil Submit!",
+        text: "Berhasil Merekam Jawaban Tugas ini!",
+        icon: "success",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          location.reload()
+          setTimeout(() => {
+            history.back(); 
+          }, 500);
+        }
+      });
     } catch (err) {
       console.error("Error creating data:", err);
       setIsSubmit(false)
@@ -285,7 +326,7 @@ export function CommonFormAdd<T extends Record<any, any>>(
                       {fieldGroup.map((dataField, indexField) => (
                         <div
                           className={`sm:w-full pr-4 ${
-                            dataField.class || "md:w-1/2 lg:w-1/2"
+                            dataField.class || "w-full md:w-1/2 lg:w-1/2"
                           }`}
                           key={indexField}
                         >
@@ -405,7 +446,7 @@ export function CommonFormAdd<T extends Record<any, any>>(
                 </svg>
                 <span className="sr-only">Creating...</span>
               </div>
-              ) : "Create"}</Button>
+              ) : props.buttonTextSubmit ? props.buttonTextSubmit : "Create"}</Button>
             </form>
           </Form>
         </div>
