@@ -18,13 +18,16 @@ import { format } from "date-fns";
 
 export default function PresenceStudent() {
     const { data: filterStudent } = useGetUsersQuery()
-    const { data: absen } = useGetAttendancesQuery()
+    const { data: absen, loading } = useGetAttendancesQuery()
     const { data: userPayload } = useUserPayloadQuery()
     const filteringDataStudent: any[] = filterStudent?.users.filter((item: any) => item.id === userPayload?.me.id && item.role === "STUDENT") || [];
     // const studentsInClass: any[] = (filteringDataStudent[0] as { students: any[] })?.students || [];
     const studentsInClass: any[] = absen?.attendances.filter((item) => item.studentId === userPayload?.me.id) || []
-    console.log(studentsInClass)
-    console.log(studentsInClass[0].date)
+    if (loading) {
+      return (
+        <div>Loading..</div>
+      )
+    }
     const columns = [
     {
       accessorKey: "date",

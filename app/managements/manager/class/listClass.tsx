@@ -29,7 +29,7 @@ function ListClass<T extends Record<any, any>>(
   
   return (
     <>
-    <div className={`md:grid ${cleanData.length > 0 ? 'grid-cols-3' : "grid-cols-1"} mt-4 gap-4`}>
+    <div className={`md:grid ${cleanData.length > 0 ? 'grid-cols-4' : "grid-cols-1"} mt-4 gap-4`}>
     {cleanData.length > 0 ? cleanData.map((dt: any, index: number) => (
     <div className="col-span-1 mt-4" key={index}>
       <Link href={`/managements/manager/class/cabang/edit/${dt.id}`}>

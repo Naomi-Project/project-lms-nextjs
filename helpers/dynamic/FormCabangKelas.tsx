@@ -67,10 +67,16 @@ const FormHelpersAdd = () => {
   const guardians = classroomData?.classrooms
     ?.filter((cls) => cls.guardian) // Pastikan kelas punya wali kelas
     .map((cls) => cls.guardian.id); // Ambil ID wali kelas
+  // Ambil murid (murid)
+  const studentsInClass = classroomData?.classrooms
+  ?.flatMap((cls) => cls.students.map((student) => student.id)) || []; // Ambil semua student.id
   
   // Filter hanya guru yang BELUM menjadi wali kelas
   const onlyOneGuardian = secondData?.users.filter(
     (user) => user.role === "TEACHER" && !guardians?.includes(user.id)
+  );
+  const onlyOneStudent = secondData?.users.filter(
+    (user) => user.role === "STUDENT" && !studentsInClass?.includes(user.id)
   );
   
   // return 
@@ -78,7 +84,7 @@ const FormHelpersAdd = () => {
       label: user.name ?? "",
       value: user.id,
   })) || []
-  const dataStudents: dataSelectTypes[] = secondData?.users.filter((item) => item.role === "STUDENT").map((user) => ({
+  const dataStudents: dataSelectTypes[] = onlyOneStudent?.map((user) => ({
       label: user.name ?? "",
       value: user.id,
   })) || []
