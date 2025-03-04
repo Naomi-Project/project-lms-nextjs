@@ -1,31 +1,21 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { ScrollArea } from "@/components/ui/scroll-area";
+
+
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Plus, TrendingDown } from "lucide-react";
+import { TrendingDown } from "lucide-react";
 import React from "react";
 import { TrendingUp } from "lucide-react";
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
@@ -72,7 +62,7 @@ export default function ManagerDashboard() {
   const teacher = userLoad?.users.filter((item) => item.role === 'TEACHER')
   return (
     <div className="min-h-screen overflow-x-hidden">
-      <div className="flex justify-between rounded-lg bg-white p-4">
+      {/* <div className="flex justify-between rounded-lg bg-white p-4">
         <div className="">
           <h1 className="text-slate-400 text-base">Tahun Akademik</h1>
 
@@ -163,7 +153,7 @@ export default function ManagerDashboard() {
             </DialogContent>
           </Dialog>
         </div>
-      </div>
+      </div> */}
 
       <div className="md:grid grid-cols-2 gap-4 mt-6">
         <div className="col-span-1 bg-white rounded-lg p-4">

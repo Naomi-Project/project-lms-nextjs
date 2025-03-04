@@ -1,13 +1,18 @@
-
-
+'use client'
+/*eslint-disable*/
 import { User2Icon } from "lucide-react";
 import React from "react";
 import StudentInTeacherTable from "./datatable";
+import { useGetClassroomsQuery, useUserPayloadQuery } from "@/graphql/generated";
 
 
 
 
 export default function ClassTeacher() {
+  const { data } = useGetClassroomsQuery();
+  const { data: userPayload } = useUserPayloadQuery()
+  const filteringDataGuardian: unknown[] = data?.classrooms.filter((item: any) => item.guardian.id === userPayload?.me.id) || [];
+  const dataStudentInTeacher: any[] = (filteringDataGuardian[0] as { students: any[] })?.students || [];
   return (
     <div className="min-h-screen">
       <div className="md:grid grid-cols-2 gap-4">
@@ -42,9 +47,9 @@ export default function ClassTeacher() {
         </div>
 
         <div className="md:mt-0 mt-3 col-span-1 border-2 bg-white rounded-lg p-5">
-          <h1 className="text-slate-400 text-base">Nilai Rata-Rata Kelas</h1>
+          <h1 className="text-slate-400 text-base">Jumlah Murid Dikelas</h1>
 
-          <p className="text-3xl font-bold mt-6">70</p>
+          <p className="text-3xl font-bold mt-6">{dataStudentInTeacher.length}</p>
         </div>
       </div>
 

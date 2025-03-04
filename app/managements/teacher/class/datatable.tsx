@@ -21,7 +21,7 @@ type StudentInTeacher = {
   
 export default function StudentInTeacherTable() {
     const { data } = useGetClassroomsQuery();
-      const { data: userPayload } = useUserPayloadQuery()
+    const { data: userPayload } = useUserPayloadQuery()
     const [deleteUser, { loading }] = useDeleteUserMutation();
     const columns = [
       {
@@ -56,8 +56,8 @@ export default function StudentInTeacherTable() {
       },
     ];
 
-    const filteringDataGuardian: unknown[] = data?.classrooms.filter((item: any) => item.guardian.id === userPayload?.me.id) || [];
-    const dataStudentInTeacher: any[] = (filteringDataGuardian[0] as { students: any[] })?.students || [];
+  const filteringDataGuardian: unknown[] = data?.classrooms.filter((item: any) => item.guardian.id === userPayload?.me.id) || [];
+  const dataStudentInTeacher: any[] = (filteringDataGuardian[0] as { students: any[] })?.students || [];
   console.log(dataStudentInTeacher)
 
   return (

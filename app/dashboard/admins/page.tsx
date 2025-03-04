@@ -23,6 +23,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { useGetEnrollmentsQuery, useGetUsersQuery } from "@/graphql/generated";
 
 const chartData = [
   { month: "January", payment: 186 },
@@ -40,13 +41,29 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export default function DashboardAdmin() {
+  // widget tagihan spp 
+  const { data } = useGetEnrollmentsQuery();
+  const studentsPaid = data?.enrollments.filter((item) => item?.payment?.status === 'SUCCESS')
+  const studentsNotPaid = data?.enrollments.filter((item) => item?.payment?.status === 'PENDING')
+  // Hitung total semua SPP yang belum terbayar
+  const totalSppSudahTerbayar = studentsPaid?.reduce((total, item) => {
+    return total + (item.payment?.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
+  }, 0);
+  const totalSppBelumTerbayar = studentsNotPaid?.reduce((total, item) => {
+    return total + (item.payment?.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
+  }, 0);
+
+  // widget total guru dan murid
+  const { data: userLoad } = useGetUsersQuery()
+  const student = userLoad?.users.filter((item) => item.role === 'STUDENT')
+  const teacher = userLoad?.users.filter((item) => item.role === 'TEACHER')
   return (
     <div className="min-h-screen">
       <div className="md:grid grid-cols-2 gap-4">
         <div className="col-span-1 bg-white rounded-lg p-4">
           <p className="text-base text-slate-400">Pemasukan</p>
 
-          <p className="font-bold text-3xl mt-2">Rp. 150.000.000</p>
+          <p className="font-bold text-3xl mt-2">Rp. {totalSppSudahTerbayar?.toLocaleString("id-ID")}</p>
 
           <div className="w-8/12 mt-7">
             <div className="grid grid-cols-2 gap-4">
@@ -85,7 +102,7 @@ export default function DashboardAdmin() {
           <p className="text-base text-slate-400">SPP Belum Terbayar</p>
 
           <p className="font-bold text-3xl text-red-500 mt-2">
-            Rp. -21.000.000
+            Rp. {totalSppBelumTerbayar?.toLocaleString("id-ID")}
           </p>
 
           <p className="text-sm mt-6">123 Siswa</p>
@@ -114,7 +131,7 @@ export default function DashboardAdmin() {
                 </div>
               </div>
 
-              <p className="text-3xl font-bold">900</p>
+              <p className="text-3xl font-bold">{student?.length}</p>
               <p className="text-slate-400 text-sm">Siswa</p>
 
               <p className="text-slate-400 text-sm mt-3">
@@ -125,7 +142,7 @@ export default function DashboardAdmin() {
             <div className="col-span-1 bg-white p-2 rounded-lg">
               <div className="grid grid-cols-3 gap-4">
                 <div className="col-span-2 my-auto">
-                  <p className="text-base">Total Siswa</p>
+                  <p className="text-base">Total Guru</p>
                 </div>
 
                 <div className="col-span-1 rounded-lg p-2 border-red-500 bg-red-100 border-2">
@@ -141,8 +158,8 @@ export default function DashboardAdmin() {
                 </div>
               </div>
 
-              <p className="text-3xl font-bold">314</p>
-              <p className="text-slate-400 text-sm">Siswa</p>
+              <p className="text-3xl font-bold">{teacher?.length}</p>
+              <p className="text-slate-400 text-sm">Guru</p>
 
               <p className="text-slate-400 text-sm mt-3">
                 Turun lebih sedikit 12 siswa dari tahun lalu

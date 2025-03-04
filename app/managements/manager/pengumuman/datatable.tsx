@@ -4,6 +4,7 @@ import { DataTable } from "@/components/common/list/CommonDataTable";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
 import { useDeleteAnnouncementMutation, useGetAnnouncementsQuery } from "@/graphql/generated";
+import { format } from "date-fns";
 
 type Pengumuman = {
     id: string;
@@ -45,12 +46,12 @@ type Pengumuman = {
       {
         accessorKey: "createdAt",
         header: "CREATED AT",
-        cell: ({ row }: any) => <span>{row.getValue("createdAt")}</span>,
+        cell: ({ row }: any) => <span>{format(row.getValue("createdAt"), 'yyyy-MM-dd')}</span>,
       },
       {
         accessorKey: "updatedAt",
         header: "UPDATED AT",
-        cell: ({ row }: any) => <span>{row.getValue("updatedAt")}</span>,
+        cell: ({ row }: any) => <span>{format(row.getValue("updatedAt"), 'yyyy-MM-dd')}</span>,
       },
       {
         accessorKey: "action",

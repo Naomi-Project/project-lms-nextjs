@@ -19,13 +19,12 @@ import { Badge } from '@/components/ui/badge'
 import { Input } from "@/components/ui/input";
 import CommonEmpptyData from "@/components/common/detail/CommonEmpptyData";
 import { DialogHeader } from "@/components/ui/dialog";
-import { useGetReferencesQuery, useDeleteReferenceMutation } from "@/graphql/generated";
-import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } from "@radix-ui/react-dialog";
+import { useGetReferencesQuery } from "@/graphql/generated";
+import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { format } from "date-fns";
 
 export default function LibraryStudent() {
   const { data, loading, error } = useGetReferencesQuery();
-  const [deleteReference] = useDeleteReferenceMutation()
   if (loading) {
     return (
       <p>Loading..</p>
