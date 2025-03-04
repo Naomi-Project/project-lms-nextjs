@@ -59,6 +59,7 @@ const FormHelpersEdit = () => {
   const { data: school } = useGetSchoolsQuery()
   const { data: thirdData } = useGetPricingsQuery()
   const { data: user, loading } = useUserPayloadQuery(); 
+  const [updateClassroom] = useUpdateClassroomMutation();
   const dataGrades: dataSelectTypes[] = firstData?.grades.map((grade) => ({
     label: grade.name,
     value: grade.id,
@@ -80,9 +81,7 @@ const FormHelpersEdit = () => {
     .map((cls) => cls.guardian.id); // Ambil ID wali kelas
   
   // Filter hanya guru yang BELUM menjadi wali kelas
-  const onlyOneGuardian = secondData?.users.filter(
-    (user) => user.role === "TEACHER" && !guardians?.includes(user.id)
-  );
+  const onlyOneGuardian = secondData?.users
   
   // return 
   const dataTeachers: dataSelectTypes[] = onlyOneGuardian?.map((user) => ({
@@ -102,6 +101,9 @@ const FormHelpersEdit = () => {
     }))
   ) || [];
 
+  if (loading || loadClass || !data?.classroom || !dataTeachers) {
+    return <div>Loading..</div>;
+  }
   const sections: CommonFormAddSection<Form>[] = [
     {
       fields: [
@@ -165,14 +167,17 @@ const FormHelpersEdit = () => {
       ],
     },
   ];
-  const [updateClassroom] = useUpdateClassroomMutation();
-  if (loading) {
-    return (
-      <div>Loading..</div>
-    )
-  }
-  const fixData = {...data?.classroom, tes:""}
-  console.log(data?.classroom)
+  
+  const fixData = data?.classroom
+  ? {
+      name: data.classroom.name || "", // Jika name tidak ada, beri default ""
+      gradeId: "", // Pastikan gradeId sesuai dengan ID yang ada
+      guardianId: data.classroom.guardian?.id || "", // Pastikan guardianId ada
+      termId: "", // Jika term ada, ambil ID-nya
+      pricingId: "", // Jika pricing ada, ambil ID-nya
+      students: data.classroom.students?.map((student) => student.id) || [], // Ambil hanya ID murid
+    }
+  : null; // Jika `data?.classroom` masih `undefined`, biarkan `fixData` tetap `null`
   return (
       <CommonFormEdit
         lable="Kelas"

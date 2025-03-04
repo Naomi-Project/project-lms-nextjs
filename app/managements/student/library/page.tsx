@@ -10,15 +10,14 @@ import {
 
 
 import {
-  Badge,
   CalendarCheck,
   Link,
   Search,
   User2Icon,
 } from "lucide-react";
+import { Badge } from '@/components/ui/badge'
 import { Input } from "@/components/ui/input";
 import CommonEmpptyData from "@/components/common/detail/CommonEmpptyData";
-import ButtonDelete from "@/components/ui/buttonDelete";
 import { DialogHeader } from "@/components/ui/dialog";
 import { useGetReferencesQuery, useDeleteReferenceMutation } from "@/graphql/generated";
 import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } from "@radix-ui/react-dialog";
@@ -59,7 +58,7 @@ export default function LibraryStudent() {
       <div className="mt-10 flex gap-5 flex-col">
         {
           data?.references && data?.references.length > 0 ? data?.references.map((item,index) => (
-            <div key={index} className="grid grid-cols-1 md:grid-cols-12 rounded-md container pr-20 py-5 gap-4 px-4 bg-white border-b border-slate-300">
+            <div key={index} className="grid grid-cols-1 md:grid-cols-12 rounded-md container py-5 gap-4 px-4 bg-white border-b border-slate-300">
               <div className="md:col-span-10 col-span-8 pl-4">
                   <Dialog>
                   <DialogTrigger>
@@ -125,9 +124,6 @@ export default function LibraryStudent() {
               <div className="flex gap-10">
                 <div className="bg-blue-100 cursor-pointer rounded-md flex items-center justify-center py-2 px-4" onClick={() => window.open(item.url, '_blank')}>
                   <Link className="text-blue-400 mx-auto" />
-                </div>
-                <div className="bg-red-100 cursor-pointer rounded-md flex items-center justify-center py-2 px-4">
-                  <ButtonDelete hideLable id={item.id} mutation={deleteReference} noBg customClassNoBg="shadow-none bg-transparent hover:bg-transparent text-red-400 p-0 w-full" />
                 </div>
               </div>
 
