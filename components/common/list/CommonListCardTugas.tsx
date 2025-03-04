@@ -14,6 +14,7 @@ import { Book, Calendar, EllipsisVertical, User } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState, useMemo } from "react";
 import ButtonEdit from "@/components/ui/buttonEdit";
+import CommonEmpptyData from "../detail/CommonEmpptyData";
 
 interface ListTypes {
   canDelete?: boolean;
@@ -78,8 +79,8 @@ const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: L
   const [deleteAssignments, { loading }] = useDeleteAssignmentMutation();
 
   return (
-    <div className="w-full grid md:grid-cols-4 grid-cols-1 gap-4 mt-2">
-      {tugas?.map((data, index: number) => (
+    <div className={`w-full grid  gap-4 mt-2 ${tugas.length > 0 ? 'md:grid-cols-4 grid-cols-1' : 'md:grid-cols-1 grid-cols-1'}`}>
+      {tugas.length > 0 ? tugas?.map((data, index: number) => (
         <div className="col-span-1" key={index}>
           <Link href={`/managements/${role}/tasks-detail/${data.id}`}>
             <Card>
@@ -135,7 +136,9 @@ const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: L
             </Card>
           </Link>
         </div>
-      ))}
+      )) : (
+        <CommonEmpptyData />
+      )}
     </div>
   );
 };

@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import CommonEmpptyData from "@/components/common/detail/CommonEmpptyData";
 
 export interface ListProps<T extends Record<any, any>> {
   title: string;
@@ -28,7 +29,8 @@ function ListClass<T extends Record<any, any>>(
   
   return (
     <>
-    {cleanData && cleanData.map((dt: any, index: number) => (
+    <div className={`md:grid ${cleanData.length > 0 ? 'grid-cols-3' : "grid-cols-1"} mt-4 gap-4`}>
+    {cleanData.length > 0 ? cleanData.map((dt: any, index: number) => (
     <div className="col-span-1 mt-4" key={index}>
       <Link href={`/managements/manager/class/cabang/edit/${dt.id}`}>
         <div className="w-full h-full shadow rounded-md bg-white">
@@ -86,7 +88,10 @@ function ListClass<T extends Record<any, any>>(
         </div>
       </Link>
     </div>
-    ))}
+    )) : (
+      <CommonEmpptyData />
+    )}
+    </div>
     </>
   );
 };

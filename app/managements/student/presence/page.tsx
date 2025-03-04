@@ -3,15 +3,15 @@
 import { DataTable } from "@/components/common/list/CommonDataTable";
 import { useGetClassroomsQuery, useGetAttendancesQuery, useUserPayloadQuery, useDeleteAttendanceMutation, useGetUsersQuery } from "@/graphql/generated";
 import {
-  Badge,
   CalendarCheck2,
   CalendarOff,
   Hourglass,
   Thermometer,
 } from "lucide-react";
-
+import { Badge } from '@/components/ui/badge'
 
 import React from "react";
+import { format } from "date-fns";
 
 
  
@@ -20,22 +20,29 @@ export default function PresenceStudent() {
     const { data: filterStudent } = useGetUsersQuery()
     const { data: absen } = useGetAttendancesQuery()
     const { data: userPayload } = useUserPayloadQuery()
-    const dataAbsent = absen
     const filteringDataStudent: any[] = filterStudent?.users.filter((item: any) => item.id === userPayload?.me.id && item.role === "STUDENT") || [];
-    console.log(absen)
-    const studentsInClass: any[] = (filteringDataStudent[0] as { students: any[] })?.students || [];
-  const columns = [
+    // const studentsInClass: any[] = (filteringDataStudent[0] as { students: any[] })?.students || [];
+    const studentsInClass: any[] = absen?.attendances.filter((item) => item.studentId === userPayload?.me.id) || []
+    console.log(studentsInClass)
+    console.log(studentsInClass[0].date)
+    const columns = [
     {
-      accessorKey: "name",
+      accessorKey: "date",
       header: "RIWAYAT ABSENSI",
-      cell: ({ row }: any) => <span className="">{row.getValue('name')}</span>,
+      cell: ({ row }: any) => (
+        <span className="">
+          {row.getValue('date')
+            ? format(new Date(row.getValue('date')), 'yyyy-MM-dd')
+            : '-'}
+        </span>
+      ),      
     },
     {
       accessorKey: "action",
       header: "ABSENSI",
       cell: ({ row }: any) => {
         const existingAttendance = absen?.attendances.find(
-          (item) => item.studentId === row.original.id
+          (item) => item.studentId === userPayload?.me.id
         );
   
         // Jika sudah absen, tampilkan status

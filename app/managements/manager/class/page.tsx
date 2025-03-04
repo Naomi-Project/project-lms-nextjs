@@ -42,10 +42,9 @@ export default function ClassManager() {
           <ButtonAdd endpoint="/managements/manager/class/induk/create" label="Buat Induk Kelas" />
         </div>
 
-        <div className="md:grid grid-cols-3 gap-4">
+        
           <ListGrade title={"list grade"} />
         </div>
-      </div>
 
       <div className="mt-5">
         <div className="flex justify-between items-center">
@@ -53,9 +52,7 @@ export default function ClassManager() {
         <ButtonAdd endpoint="/managements/manager/class/cabang/create" label="Buat Cabang/Sub Kelas" />
         </div>
 
-        <div className="md:grid grid-cols-4 gap-4">
           <ListClass title={"list class"} />
-        </div>
       </div>
     </div>
   );

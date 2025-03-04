@@ -89,11 +89,11 @@ export default function ManagerKeuangan() {
       </div>
 
       <div className="border-2 rounded-lg bg-white p-5 mt-10">
-        <Tabs defaultValue="lunas" className="w-full">
+        <Tabs defaultValue="belum" className="w-full">
           <TabsList className="w-full flex justify-between bg-white">
             <div className="bg-slate-200 rounded-lg">
-              <TabsTrigger value="lunas">Lunas</TabsTrigger>
               <TabsTrigger value="belum">Belum Lunas</TabsTrigger>
+              <TabsTrigger value="lunas">Lunas</TabsTrigger>
             </div>
 
             <div className="relative border-2 rounded-lg">

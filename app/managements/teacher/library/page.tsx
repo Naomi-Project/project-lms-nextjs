@@ -33,6 +33,7 @@ import ButtonAdd from "@/components/ui/buttonAdd";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
+import CommonEmpptyData from "@/components/common/detail/CommonEmpptyData";
 
 export default function LibraryTeacher() {
   const { data, loading, error } = useGetReferencesQuery();
@@ -77,7 +78,7 @@ export default function LibraryTeacher() {
 
       <div className="mt-10 flex gap-5 flex-col">
         {
-          data && data?.references.map((item,index) => (
+          data?.references && data?.references.length > 0 ? data?.references.map((item,index) => (
             <div key={index} className="grid grid-cols-1 md:grid-cols-12 rounded-md container pr-20 py-5 gap-4 px-4 bg-white border-b border-slate-300">
               <div className="md:col-span-10 col-span-8 pl-4">
                   <Dialog>
@@ -151,7 +152,9 @@ export default function LibraryTeacher() {
               </div>
 
             </div>
-          ))
+          )) : (
+            <CommonEmpptyData />
+          )
         }
       </div>
     </div>

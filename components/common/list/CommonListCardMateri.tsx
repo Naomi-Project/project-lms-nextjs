@@ -13,6 +13,7 @@ import Link from "next/link";
 import { Calendar, EllipsisVertical } from "lucide-react";
 import { format } from "date-fns";
 import { useState, useEffect, useMemo } from "react";
+import CommonEmpptyData from "../detail/CommonEmpptyData";
 
 interface ListTypes {
   canDelete?: boolean;
@@ -51,8 +52,8 @@ const ListCardMateri = ({ canDelete = true, role = "student", search, filter }: 
   const [deleteMaterial, { loading }] = useDeleteMaterialMutation();
 
   return (
-    <div className="grid md:grid-cols-4 lg:grid-cols-2 gap-4">
-      {materi.map((data, index: number) => (
+    <div className={`grid gap-4 ${materi.length > 0 ? 'md:grid-cols-4 grid-cols-2' : 'md:grid-cols-1 grid-cols-1'}`}>
+      {materi.length > 0 ? materi.map((data, index: number) => (
         <div className="col-span-1" key={index}>
           <Link href={`/managements/${role}/material/detail/${data.id}`}>
             <Card className="w-full h-[230px] sm:w-full">
@@ -101,7 +102,9 @@ const ListCardMateri = ({ canDelete = true, role = "student", search, filter }: 
             </Card>
           </Link>
         </div>
-      ))}
+      )) : (
+        <CommonEmpptyData />
+      )}
     </div>
   );
 };

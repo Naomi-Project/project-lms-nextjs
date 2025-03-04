@@ -228,6 +228,8 @@ export default function AttendancesTable() {
             data: item.id
           }
         })
+        alert('semua data absen dihapus')
+        location.reload()
       } catch (error) {
         console.log(error)
       }
