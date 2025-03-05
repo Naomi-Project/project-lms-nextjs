@@ -8,6 +8,8 @@ import {
   useCreateTermMutation,
   useGetCurriculumsQuery,
   useGetSchoolsQuery,
+  useGetUserQuery,
+  useUserPayloadQuery,
 } from "@/graphql/generated";
 import { z } from "zod";
 import { useState } from "react";
@@ -35,6 +37,13 @@ interface dataSelectTypes {
 
 const FormHelpersAdd = () => {
   const { data: firstData } = useGetSchoolsQuery()
+  const { data: userPayload } = useUserPayloadQuery()
+  const { data: findUser, loading: loadFindUser } = useGetUserQuery({
+    variables: {
+      data: userPayload?.me.id ?? ''
+    }, 
+    skip: !userPayload?.me.id
+  })
   const dataSchool: dataSelectTypes[] = firstData?.schools.map((data) => ({
     label: data.name,
     value: data.id,
@@ -44,6 +53,20 @@ const FormHelpersAdd = () => {
     label: data.name,
     value: data.id,
   })) || []
+
+  const [createTerm] = useCreateTermMutation();
+  const [dataMutationDefault, setDataMutationDefault] = useState({
+    name: "",
+    startDate: "",
+    endDate: "",
+    schoolId: '',
+    curriculumId: "",
+  });
+  
+  if (loadFindUser) return 'loading..'
+  const fixData = {...dataMutationDefault, schoolId: findUser?.user?.school?.id}
+  
+  // if (loadFindUser) return 'loading..'
   const sections: CommonFormAddSection<Form>[] = [
     {
       fields: [
@@ -79,6 +102,7 @@ const FormHelpersAdd = () => {
             type: "select",
             dataSelect: dataSchool,
             emptyValue: "-",
+            disabled: true,
             placeholder: "Pilih sekolah..",
           },
           {
@@ -94,15 +118,6 @@ const FormHelpersAdd = () => {
     },
   ];
 
-  const [createTerm] = useCreateTermMutation();
-
-  const [dataMutationDefault, setDataMutationDefault] = useState({
-    name: "",
-    startDate: "",
-    endDate: "",
-    schoolId: "",
-    curriculumId: "",
-  });
   return (
     <CommonFormAdd
       lable="Semester"
@@ -110,7 +125,7 @@ const FormHelpersAdd = () => {
       method="POST"
       isUseDefaultMutation={true}
       mutation={createTerm}
-      dataMutation={dataMutationDefault}
+      dataMutation={fixData}
       setDataMutation={setDataMutationDefault}
       schema={termSchema}
       sections={sections}

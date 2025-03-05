@@ -13,9 +13,8 @@ import { Label } from "@/components/ui/label";
 
 
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { Search } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import StaffTable from "./datatable";
@@ -35,7 +34,7 @@ export default function ManagerSettingAdmin() {
               <p className="text-sm text-blue-500">Manajemen Admin</p>
             </Link>
           </ToggleGroupItem>
-          <ToggleGroupItem
+          {/* <ToggleGroupItem
             value="italic"
             aria-label="Toggle italic"
             className="bg-white"
@@ -52,7 +51,7 @@ export default function ManagerSettingAdmin() {
             <Link href="/managements/manager/profile">
               <p className="text-sm text-slate-400">Profile Sekolah</p>
             </Link>
-          </ToggleGroupItem>
+          </ToggleGroupItem> */}
         </ToggleGroup>
       </div>
 
@@ -157,16 +156,16 @@ export default function ManagerSettingAdmin() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="ml-1 col-span-1">
-                <div className="w-[132px] bg-slate-200 rounded-lg">
+                {/* <div className="w-[132px] bg-slate-200 rounded-lg">
                   <TabsTrigger value="aktif">Aktif</TabsTrigger>
                   <TabsTrigger value="nonAktif">Non Aktif</TabsTrigger>
-                </div>
+                </div> */}
               </div>
 
-              <div className="col-span-1 relative">
+              {/* <div className="col-span-1 relative">
                 <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input placeholder="Cari Admin" className="pl-8 w-full" />
-              </div>
+              </div> */}
             </div>
           </TabsList>
           <TabsContent value="aktif" className=" rounded-lg mt-4">

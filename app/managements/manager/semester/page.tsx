@@ -10,8 +10,6 @@ import TermTable from "./datatable";
 export default function SemesterPage() {
   return (
     <div className="min-h-screen">
-
-
       <div className="border-2 rounded-lg bg-white p-5 mt-10">
         <Tabs defaultValue="aktif" className="w-full">
           <TabsList className="w-full flex justify-between bg-white">

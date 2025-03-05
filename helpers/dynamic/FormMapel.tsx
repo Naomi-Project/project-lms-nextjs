@@ -52,6 +52,18 @@ const FormHelpersAdd = () => {
     label: data.name ?? "",
     value: data.id,
   })) || []
+  
+
+  const [createSubject] = useCreateSubjectMutation();
+
+  const [dataMutationDefault, setDataMutationDefault] = useState({
+    name: "",
+    code: "",
+    description: "",
+    gradeId: "",
+    curriculumId: "",
+    teacherId: "",
+  });
 
 
   const sections: CommonFormAddSection<Form>[] = [
@@ -113,17 +125,6 @@ const FormHelpersAdd = () => {
       ],
     },
   ];
-
-  const [createSubject] = useCreateSubjectMutation();
-
-  const [dataMutationDefault, setDataMutationDefault] = useState({
-    name: "",
-    code: "",
-    description: "",
-    gradeId: "",
-    curiculumId: "",
-    teacherId: "",
-  });
   return (
     <CommonFormAdd
       lable="Mata Pelajaran"

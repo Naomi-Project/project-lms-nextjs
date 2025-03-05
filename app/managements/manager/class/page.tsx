@@ -24,7 +24,7 @@ export default function ClassManager() {
               <p className="text-sm text-blue-500">Kelas</p>
             </Link>
           </ToggleGroupItem>
-          <ToggleGroupItem
+          {/* <ToggleGroupItem
             value="italic"
             aria-label="Toggle italic"
             className="bg-white"
@@ -32,7 +32,7 @@ export default function ClassManager() {
             <Link href="/managements/manager/class-management">
               <p className="text-sm text-slate-400">Manajemen Kelas Siswa</p>
             </Link>
-          </ToggleGroupItem>
+          </ToggleGroupItem> */}
         </ToggleGroup>
       </div>
 

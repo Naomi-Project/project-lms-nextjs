@@ -37,14 +37,15 @@ export default function Header() {
   const sortAllNotif = notif?.announcements.filter((item) => item.target === "ALL") || [];
 
   // Perbaikan utama: Menggunakan spread operator untuk menggabungkan array
-  const finalData = userData?.me.role === 'STAFF' || userData?.me.role === 'ADMIN' || userData?.me.role === 'PRINCIPAL' || userData?.me.role === 'TEACHER'
+  let finalData = userData?.me.role === 'STAFF' || userData?.me.role === 'ADMIN' || userData?.me.role === 'PRINCIPAL' || userData?.me.role === 'TEACHER'
     ? [...sortStaff, ...sortAllNotif]
     : [...sortStudent, ...sortAllNotif];
 
-  console.log(userData);
-  console.log(notif);
-  console.log(finalData); // Cek hasil array yang sudah digabung
+  // Pastikan setiap item memiliki `createdAt` dalam format ISO (YYYY-MM-DD) atau timestamp
+  finalData = finalData.sort((a, b) => b.createdAt - a.createdAt);
 
+  
+    
   const AppMenu = [
     ...ManagerMenu,
     ...HeadofficeMenu,
@@ -90,12 +91,12 @@ export default function Header() {
                       <DialogTrigger>
                           <div className="flex flex-col mb-3 justify-start items-start" key={index}>
                             <p className="text-nowrap hover:text-primary cursor-pointer">{item.title}</p>
-                            <span className="text-gray-500">{format(item.createdAt, 'yyyy-MM-dd')}</span>
+                            <span className="text-gray-500">{format(item.createdAt, 'yyyy-MM-dd HH:mm:ss')}</span>
                           </div>
                       </DialogTrigger>
                       <DialogContent>
                         <DialogHeader>
-                          <DialogTitle>{item.title} - {format(item.createdAt, 'yyyy-MM-dd')}</DialogTitle>
+                          <DialogTitle>{item.title} - {format(item.createdAt, 'yyyy-MM-dd HH:mm:ss')}</DialogTitle>
                           <DialogDescription>
                             {item.content}
                           </DialogDescription>

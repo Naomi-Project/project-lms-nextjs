@@ -59,6 +59,7 @@ export interface CommonFormEditProps<T extends Record<any, any>> {
   isRelation?: boolean | undefined;
   noTitle?: boolean | undefined;
   relation1?: string | undefined;
+  convertFloat?: string | undefined;
   valuerRelation1?: string | undefined;
   schema: ZodSchema<T>;
   mutation: MutationFunction<any, any>;
@@ -90,6 +91,12 @@ export function CommonFormEdit<T extends Record<any, any>>(
         ...prevState,
         ...values,
       };
+
+      if (props.convertFloat === 'amount') {
+        const newData = {...updatedData, amount: parseFloat(updatedData.amount)}
+        executeMutation(newData)
+        return
+      }
 
       if (props.isRelation == true) {
         if (props.valuerRelation1 === "nisn") {
@@ -129,6 +136,12 @@ export function CommonFormEdit<T extends Record<any, any>>(
       classrooms,
       references,
       school,
+      teachers,
+      curriculum,
+      // grade,
+      gradeId,
+      grades,
+      assignments,
       ...cleanData
     } = dataMut;
     try {

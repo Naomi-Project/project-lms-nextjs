@@ -1463,7 +1463,7 @@ export type UpdateSubjectMutationVariables = Exact<{
 }>;
 
 
-export type UpdateSubjectMutation = { __typename?: 'Mutation', updateSubject: { __typename?: 'Subject', id: string, name: string, code: string, description?: string | null } };
+export type UpdateSubjectMutation = { __typename?: 'Mutation', updateSubject: { __typename?: 'Subject', id: string, name: string, code: string, description?: string | null, grade: { __typename?: 'Grade', id: string }, teachers: Array<{ __typename?: 'User', id: string }>, curriculum: { __typename?: 'Curriculum', id: string } } };
 
 export type DeleteSubjectMutationVariables = Exact<{
   data: Scalars['String']['input'];
@@ -3894,6 +3894,15 @@ export const UpdateSubjectDocument = gql`
     id
     name
     code
+    grade {
+      id
+    }
+    teachers {
+      id
+    }
+    curriculum {
+      id
+    }
     description
   }
 }

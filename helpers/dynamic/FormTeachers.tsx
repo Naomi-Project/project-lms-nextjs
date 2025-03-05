@@ -8,6 +8,8 @@ import {
   Role,
   useCreateUserMutation,
   useGetSchoolsQuery,
+  useGetUserQuery,
+  useUserPayloadQuery,
 } from "@/graphql/generated";
 import { useState } from "react";
 import { z } from "zod";
@@ -49,106 +51,116 @@ interface dataSelectTypes {
 
 const FormHelpersAdd = () => {
   const { data: firstData } = useGetSchoolsQuery();
+  const { data: userPayload } = useUserPayloadQuery()
+  const { data: findUser, loading: loadFindUser } = useGetUserQuery({
+    variables: {
+      data: userPayload?.me.id ?? ''
+    }, 
+    skip: !userPayload?.me.id
+  })
   const dataSchool: dataSelectTypes[] =
     firstData?.schools.map((data) => ({
       label: data.name,
       value: data.id,
     })) || [];
-  const sections: CommonFormAddSection<Form>[] = [
-    {
-      fields: [
-        // fields group 1
-        [
-          {
-            key: "name",
-            label: "Nama",
-            emptyValue: "-",
-            placeholder: "Masukkan nama guru..",
-          },
-          {
-            key: "username",
-            label: "NUPTK",
-            emptyValue: "-",
-            placeholder: "Masukkan NUPTK guru..",
-          },
-          {
-            key: "nuptk",
-            label: "Nomor Unik Pendidik dan Tenaga Kependidikan",
-            emptyValue: "-",
-            hidden: true,
-            placeholder: "Masukkan NUPTK..",
-          },
-        ],
-        // fields group 2
-        [
-          {
-            key: "nik",
-            label: "NIK (Nomor Induk Keluarga)",
-            emptyValue: "-",
-            placeholder: "Masukkan NIK..",
-          },
-          {
-            key: "dateOfBirth",
-            label: "Tgl Ulang Tahun",
-            type: "date_picker",
-            emptyValue: "-",
-            placeholder: "Masukkan Tanggal Ulang Tahun .",
-          },
-        ],
-        // fields group 3
-        [
-          {
-            key: "phone",
-            label: "No. Telfon",
-            emptyValue: "-",
-            placeholder: "6284238342..",
-          },
-          {
-            key: "gender",
-            label: "Gender",
-            type: "select",
-            dataSelect: [
-              { label: "Laki-laki", value: "MALE" },
-              { label: "Perempuan", value: "FEMALE" },
-            ],
-            emptyValue: "-",
-            placeholder: "Pilih Gender..",
-          },
-        ],
-        [
-          {
-            key: "schoolId",
-            label: "Sekolah",
-            emptyValue: "-",
-            type: "select",
-            dataSelect: dataSchool,
-            placeholder: "Pilih Sekolah untuk pengguna ini..",
-          },
-          {
-            key: "address",
-            label: "Alamat Tempat Tinggal",
-            emptyValue: "-",
-            placeholder: "Masukkan Alamat..",
-          },
-        ],
-      ],
-    },
-  ];
   
-  const [dataMutationDefault, setDataMutationDefault] = useState({
-    name: "",
-    username: "",
-    password: "",
-    role: Role.Teacher,
-    nik: "1234567890",
-    nuptk: "",
-    nisn: "",
-    dateOfBirth: "",
-    gender: Gender.Male,
-    address: "",
-    phone: "",
-  });
-  const [createUser] = useCreateUserMutation();
+    const [dataMutationDefault, setDataMutationDefault] = useState({
+      name: "",
+      username: "",
+      password: "",
+      role: Role.Teacher,
+      nik: "",
+      nuptk: "",
+      nisn: "",
+      dateOfBirth: "",
+      gender: '',
+      address: "",
+      phone: "",
+    });
+    const [createUser] = useCreateUserMutation();
+    if (loadFindUser) return 'loading..'
+    const fixData = {...dataMutationDefault, schoolId: findUser?.user?.school?.id}
+    const sections: CommonFormAddSection<Form>[] = [
+      {
+        fields: [
+          // fields group 1
+          [
+            {
+              key: "name",
+              label: "Nama",
+              emptyValue: "-",
+              placeholder: "Masukkan nama guru..",
+            },
+            {
+              key: "username",
+              label: "NUPTK",
+              emptyValue: "-",
+              placeholder: "Masukkan NUPTK guru..",
+            },
+            {
+              key: "nuptk",
+              label: "Nomor Unik Pendidik dan Tenaga Kependidikan",
+              emptyValue: "-",
+              hidden: true,
+              placeholder: "Masukkan NUPTK..",
+            },
+          ],
+          // fields group 2
+          [
+            {
+              key: "nik",
+              label: "NIK (Nomor Induk Keluarga)",
+              emptyValue: "-",
+              placeholder: "Masukkan NIK..",
+            },
+            {
+              key: "dateOfBirth",
+              label: "Tgl Ulang Tahun",
+              type: "date_picker",
+              emptyValue: "-",
+              placeholder: "Masukkan Tanggal Ulang Tahun .",
+            },
+          ],
+          // fields group 3
+          [
+            {
+              key: "phone",
+              label: "No. Telfon",
+              emptyValue: "-",
+              placeholder: "6284238342..",
+            },
+            {
+              key: "gender",
+              label: "Gender",
+              type: "select",
+              dataSelect: [
+                { label: "Laki-laki", value: Gender.Male },
+                { label: "Perempuan", value: Gender.Female },
+              ],
+              emptyValue: "-",
+              placeholder: "Pilih Gender..",
+            },
+          ],
+          [
+            {
+              key: "schoolId",
+              label: "Sekolah",
+              emptyValue: "-",
+              type: "select",
+              disabled: true,
+              dataSelect: dataSchool,
+              placeholder: "Pilih Sekolah untuk pengguna ini..",
+            },
+            {
+              key: "address",
+              label: "Alamat Tempat Tinggal",
+              emptyValue: "-",
+              placeholder: "Masukkan Alamat..",
+            },
+          ],
+        ],
+      },
+    ];
   return (
     <CommonFormAdd
       lable="Teacher"
@@ -157,7 +169,7 @@ const FormHelpersAdd = () => {
       isRelation={true}
       valuerRelation1="nuptk"
       mutation={createUser}
-      dataMutation={dataMutationDefault}
+      dataMutation={fixData}
       setDataMutation={setDataMutationDefault}
       schema={teacherSchema}
       sections={sections}

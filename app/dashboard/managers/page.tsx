@@ -1,5 +1,5 @@
 "use client";
-
+/* eslint-disable */
 import {
   ChartConfig,
   ChartContainer,
@@ -26,7 +26,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useGetEnrollmentsQuery, useGetUsersQuery } from "@/graphql/generated";
+import { useGetClassroomsQuery, useGetEnrollmentsQuery, useGetGradesQuery, useGetUsersQuery } from "@/graphql/generated";
+import { parseISO } from "date-fns";
+import { format } from "date-fns";
 
 const chartData = [
   { month: "January", payment: 186 },
@@ -58,8 +60,50 @@ export default function ManagerDashboard() {
 
   // widget total guru dan murid
   const { data: userLoad } = useGetUsersQuery()
-  const student = userLoad?.users.filter((item) => item.role === 'STUDENT')
-  const teacher = userLoad?.users.filter((item) => item.role === 'TEACHER')
+  const student = userLoad?.users.filter((item) => item.role === 'STUDENT') || []
+  const teacher = userLoad?.users.filter((item) => item.role === 'TEACHER') || []
+  const groupByMonthYear = (users: any) => {
+    return users?.reduce((acc: any, user: any) => {
+      if (!user.createdAt) return acc;
+  
+      // Ubah tanggal ke format "YYYY-MM"
+      const monthYear = format(parseISO(user.createdAt), "yyyy-MM");
+  
+      // Jika bulan sudah ada, tambahkan 1, jika tidak, set ke 1
+      acc[monthYear] = (acc[monthYear] || 0) + 1;
+  
+      return acc;
+    }, {});
+  };
+  
+  // Hitung jumlah siswa/guru per bulan
+  const studentTrends = groupByMonthYear(student);
+  const teacherTrends = groupByMonthYear(teacher);
+
+  const calculateTrend = (trends: any) => {
+    const months = Object.keys(trends).sort(); // Urutkan bulan secara kronologis
+    const latestMonth = months[months.length - 1]; // Bulan terbaru
+    const prevMonth = months[months.length - 2]; // Bulan sebelumnya
+  
+    if (!latestMonth || !prevMonth) return { change: 0, percent: 0 }; // Jika data kurang dari 2 bulan, return 0
+  
+    const latestCount = trends[latestMonth] || 0;
+    const prevCount = trends[prevMonth] || 0;
+  
+    const change = latestCount - prevCount;
+    const percent = prevCount > 0 ? ((change / prevCount) * 100).toFixed(2) : 100;
+  
+    return { change, percent };
+  };
+  
+  // Hitung tren siswa dan guru
+  const studentTrendData = calculateTrend(studentTrends);
+  const teacherTrendData = calculateTrend(teacherTrends);
+  
+  // widget total angkatan dan kelas
+  const { data: grade } = useGetGradesQuery()
+  const { data: classrooms } = useGetClassroomsQuery()
+
   return (
     <div className="min-h-screen overflow-x-hidden">
       {/* <div className="flex justify-between rounded-lg bg-white p-4">
@@ -206,22 +250,28 @@ export default function ManagerDashboard() {
       </div>
 
       <div className="md:grid grid-cols-2 gap-4 mt-6">
-        <div className="col-span-1">
-          <div className="grid grid-cols-2 gap-4 h-full">
-            <div className="col-span-1 bg-white p-2 rounded-lg">
+            <div className="col-span-1">
+              <div className="grid grid-cols-2 gap-4 h-full">
+              <div className="col-span-1 bg-white p-2 rounded-lg">
               <div className="grid grid-cols-3 gap-4">
                 <div className="col-span-2 my-auto">
                   <p className="text-base">Total Siswa</p>
                 </div>
 
-                <div className="col-span-1 rounded-lg p-2 border-green-500 bg-green-100 border-2">
+                <div className={`col-span-1 rounded-lg p-2 border-2 ${studentTrendData.change >= 0 ? "border-green-500 bg-green-100" : "border-red-500 bg-red-100"}`}>
                   <div className="grid grid-cols-2">
                     <div className="col-span-1">
-                      <TrendingUp className="text-green-500" />
+                      {studentTrendData.change >= 0 ? (
+                        <TrendingUp className="text-green-500" />
+                      ) : (
+                        <TrendingDown className="text-red-500" />
+                      )}
                     </div>
 
                     <div className="col-span-1 my-auto">
-                      <p className="text-xs text-green-500">4.49%</p>
+                      <p className={`text-xs ${studentTrendData.change >= 0 ? "text-green-500" : "text-red-500"}`}>
+                        {studentTrendData.percent}%
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -231,24 +281,33 @@ export default function ManagerDashboard() {
               <p className="text-slate-400 text-sm">Siswa</p>
 
               <p className="text-slate-400 text-sm mt-3">
-                Naik lebih banyak 18 siswa dari tahun lalu
+                {studentTrendData.change >= 0
+                  ? `Naik lebih banyak ${studentTrendData.change} siswa dari bulan lalu`
+                  : `Turun ${Math.abs(studentTrendData.change)} siswa dari bulan lalu`}
               </p>
-            </div>
+              </div>
 
-            <div className="col-span-1 bg-white p-2 rounded-lg">
+
+              <div className="col-span-1 bg-white p-2 rounded-lg">
               <div className="grid grid-cols-3 gap-4">
                 <div className="col-span-2 my-auto">
                   <p className="text-base">Total Guru</p>
                 </div>
 
-                <div className="col-span-1 rounded-lg p-2 border-red-500 bg-red-100 border-2">
+                <div className={`col-span-1 rounded-lg p-2 border-2 ${teacherTrendData.change >= 0 ? "border-green-500 bg-green-100" : "border-red-500 bg-red-100"}`}>
                   <div className="grid grid-cols-2">
                     <div className="col-span-1">
-                      <TrendingDown className="text-red-500" />
+                      {teacherTrendData.change >= 0 ? (
+                        <TrendingUp className="text-green-500" />
+                      ) : (
+                        <TrendingDown className="text-red-500" />
+                      )}
                     </div>
 
                     <div className="col-span-1 my-auto">
-                      <p className="text-xs text-red-500">2%</p>
+                      <p className={`text-xs ${teacherTrendData.change >= 0 ? "text-green-500" : "text-red-500"}`}>
+                        {teacherTrendData.percent}%
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -258,24 +317,27 @@ export default function ManagerDashboard() {
               <p className="text-slate-400 text-sm">Guru</p>
 
               <p className="text-slate-400 text-sm mt-3">
-                Turun lebih sedikit 12 siswa dari tahun lalu
+                {teacherTrendData.change >= 0
+                  ? `Naik lebih banyak ${teacherTrendData.change} guru dari bulan lalu`
+                  : `Turun ${Math.abs(teacherTrendData.change)} guru dari bulan lalu`}
               </p>
-            </div>
+              </div>
+
           </div>
         </div>
 
         <div className="md:mt-0 mt-4 col-span-1">
           <div className="grid grid-rows-2 gap-4">
             <div className="row-span-1 bg-white p-2 rounded-lg">
-              <p className="text-base">Siswa Lulus Tahun Ini</p>
+              <p className="text-base">Total Angkatan</p>
 
-              <p className="font-bold text-3xl mt-2">120</p>
+              <p className="font-bold text-3xl mt-2">{grade?.grades.length}</p>
             </div>
 
             <div className="row-span-1 bg-white p-2 rounded-lg">
-              <p className="text-base">Siswa Dikeluarkan Tahun Ini</p>
+              <p className="text-base">Total Kelas</p>
 
-              <p className="font-bold text-3xl mt-2">12</p>
+              <p className="font-bold text-3xl mt-2">{classrooms?.classrooms.length}</p>
             </div>
           </div>
         </div>

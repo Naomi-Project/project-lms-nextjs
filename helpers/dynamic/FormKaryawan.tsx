@@ -8,6 +8,8 @@ import {
   Role,
   useCreateUserMutation,
   useGetSchoolsQuery,
+  useGetUserQuery,
+  useUserPayloadQuery,
 } from "@/graphql/generated";
 import { useState } from "react";
 import { z } from "zod";
@@ -18,7 +20,7 @@ const karyawanSchema = z.object({
   password: z.string().min(1, "NUPTK wajib diisi"),
   nuptk: z.string().min(1, 'NUPTK wajib diisi'),
   role: z.string().optional(),
-  nik: z.string().min(1, "NIK wajib diisi"),
+  nik: z.string().optional(),
   phone: z
     .string()
     .regex(/^(\+62|62|0)[0-9]{9,13}$/, "Nomor telepon tidak valid"),
@@ -34,7 +36,7 @@ interface Form {
   password?: string | null;
   role?: string | null;
   nuptk?: string;
-  nik: string;
+  nik?: string;
   phone: string;
   gender: string;
   dateOfBirth: string;
@@ -49,127 +51,138 @@ interface dataSelectTypes {
 
 const FormHelpersAdd = () => {
   const { data: firstData } = useGetSchoolsQuery();
+  const { data: userPayload } = useUserPayloadQuery()
+  const { data: findUser, loading: loadFindUser } = useGetUserQuery({
+    variables: {
+      data: userPayload?.me.id ?? ''
+    }, 
+  skip: !userPayload?.me.id
+})
   const dataSchool: dataSelectTypes[] =
     firstData?.schools.map((data) => ({
       label: data.name,
       value: data.id,
     })) || [];
-  const sections: CommonFormAddSection<Form>[] = [
-    {
-      fields: [
-        // fields group 1
-        [
-          {
-            key: "name",
-            label: "Nama Karyawan",
-            emptyValue: "-",
-            placeholder: "Masukkan nama..",
-          },
-          {
-            key: "username",
-            label: "Username (berguna untuk login)",
-            emptyValue: "-",
-            placeholder: "Masukkan username..",
-          },
-        ],
-        [
-          {
-            key: "password",
-            label: "Password",
-            emptyValue: "-",
-            placeholder: "Masukkan password..",
-          },
-          {
-            key: "role",
-            label: "Role",
-            emptyValue: "-",
-            type: 'select',
-            dataSelect: [
-              { label: 'ADMIN', value: Role.Admin },
-              { label: 'PRINCIPAL', value: Role.Principal },
-              { label: 'STAFF', value: Role.Staff }
-            ],
-            placeholder: "Pilih Role..",
-          },
-        ],
-        // fields group 2
-        [
-          {
-            key: "nik",
-            label: "NIK (Nomor Induk Keluarga)",
-            emptyValue: "-",
-            placeholder: "Masukkan NIK..",
-          },
-          {
-            key: "nuptk",
-            label: "Nomor Unik Pendidik dan Tenaga Kependidikan",
-            emptyValue: "-",
-            placeholder: "Masukkan NUPTK..",
-          },
-        ],
-        [
-          {
-            key: "dateOfBirth",
-            label: "Tgl Ulang Tahun",
-            type: "date_picker",
-            emptyValue: "-",
-            class: 'md:w-full lg:w-full',
-            placeholder: "Masukkan Tanggal Ulang Tahun .",
-          },
-        ],
-        [
-          {
-            key: "phone",
-            label: "No. Telfon",
-            emptyValue: "-",
-            placeholder: "6284238342..",
-          },
-          {
-            key: "gender",
-            label: "Gender",
-            type: "select",
-            dataSelect: [
-              { label: "Laki-laki", value: "MALE" },
-              { label: "Perempuan", value: "FEMALE" },
-            ],
-            emptyValue: "-",
-            placeholder: "Pilih Gender..",
-          },
-        ],
-        [
-          {
-            key: "schoolId",
-            label: "Sekolah",
-            emptyValue: "-",
-            type: "select",
-            dataSelect: dataSchool,
-            placeholder: "Pilih Sekolah untuk pengguna ini..",
-          },
-          {
-            key: "address",
-            label: "Alamat Tempat Tinggal",
-            emptyValue: "-",
-            placeholder: "Masukkan Alamat..",
-          },
-        ],
-      ],
-    },
-  ];
   
-  const [dataMutationDefault, setDataMutationDefault] = useState({
-    name: "",
-    username: "",
-    password: "",
-    role: '',
-    nik: "1234567890",
-    nuptk: "",
-    nisn: "",
-    dateOfBirth: "",
-    gender: Gender.Male,
-    address: "",
-    phone: "",
-  });
-  const [createUser] = useCreateUserMutation();
+    const [dataMutationDefault, setDataMutationDefault] = useState({
+      name: "",
+      username: "",
+      password: "",
+      role: '',
+      nik: "",
+      nuptk: "",
+      nisn: "",
+      dateOfBirth: "",
+      gender: Gender.Male,
+      address: "",
+      phone: "",
+    });
+    const [createUser] = useCreateUserMutation();
+    
+    if (loadFindUser) return 'loading..'
+    const fixData = {...dataMutationDefault, schoolId: findUser?.user?.school?.id}
+
+    const sections: CommonFormAddSection<Form>[] = [
+      {
+        fields: [
+          // fields group 1
+          [
+            {
+              key: "name",
+              label: "Nama Karyawan",
+              emptyValue: "-",
+              placeholder: "Masukkan nama..",
+            },
+            {
+              key: "username",
+              label: "Username (berfungsi untuk login)",
+              emptyValue: "-",
+              placeholder: "Masukkan username..",
+            },
+          ],
+          [
+            {
+              key: "password",
+              label: "Password",
+              emptyValue: "-",
+              placeholder: "Masukkan password..",
+            },
+            {
+              key: "role",
+              label: "Role",
+              emptyValue: "-",
+              type: 'select',
+              dataSelect: [
+                { label: 'ADMIN', value: Role.Admin },
+                { label: 'PRINCIPAL', value: Role.Principal },
+                { label: 'STAFF', value: Role.Staff }
+              ],
+              placeholder: "Pilih Role..",
+            },
+          ],
+          // fields group 2
+          [
+            {
+              key: "nuptk",
+              label: "Nomor Unik Pendidik dan Tenaga Kependidikan",
+              emptyValue: "-",
+              placeholder: "Masukkan NUPTK..",
+            },
+            {
+              key: "dateOfBirth",
+              label: "Tgl Ulang Tahun",
+              type: "date_picker",
+              emptyValue: "-",
+              placeholder: "Masukkan Tanggal Ulang Tahun .",
+            },
+            {
+              key: "nik",
+              label: "NIK (Nomor Induk Keluarga)",
+              emptyValue: "-",
+              hidden: true,
+              placeholder: "Masukkan NIK..",
+            },
+          ],
+          [
+            {
+              key: "phone",
+              label: "No. Telfon",
+              emptyValue: "-",
+              placeholder: "6284238342..",
+            },
+            {
+              key: "gender",
+              label: "Gender",
+              type: "select",
+              dataSelect: [
+                { label: "Laki-laki", value: Gender.Male },
+                { label: "Perempuan", value: Gender.Female },
+              ],
+              emptyValue: "-",
+              placeholder: "Pilih Gender..",
+            },
+          ],
+          [
+            {
+              key: "schoolId",
+              label: "Sekolah",
+              emptyValue: "-",
+              type: "select",
+              disabled: true,
+              dataSelect: dataSchool,
+              placeholder: "Pilih Sekolah untuk pengguna ini..",
+            },
+            {
+              key: "address",
+              label: "Alamat Tempat Tinggal",
+              emptyValue: "-",
+              placeholder: "Masukkan Alamat..",
+            },
+          ],
+        ],
+      },
+    ];
+
   return (
     <CommonFormAdd
       lable="karyawan"
@@ -178,7 +191,7 @@ const FormHelpersAdd = () => {
       isRelation={true}
       valuerRelation1="nuptk"
       mutation={createUser}
-      dataMutation={dataMutationDefault}
+      dataMutation={fixData}
       setDataMutation={setDataMutationDefault}
       schema={karyawanSchema}
       sections={sections}

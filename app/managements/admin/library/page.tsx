@@ -1,23 +1,5 @@
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+"use client";
+import React, { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -25,178 +7,174 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { CalendarCheck, Link, Search, User2Icon } from "lucide-react";
+import { Input } from "@/components/ui/input";
+
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Textarea } from "@/components/ui/textarea";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { Plus, Search, SlidersHorizontal, Trash } from "lucide-react";
-import Link from "next/link";
-import React from "react";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
-const data = [
-  {
-    no: "1",
-    topic: "Matematika Dasar",
-  },
-  {
-    no: "2",
-    topic: "Matematika Dasar",
-  },
-  {
-    no: "3",
-    topic: "Matematika Dasar",
-  },
-  {
-    no: "4",
-    topic: "Matematika Dasar",
-  },
-  {
-    no: "5",
-    topic: "Matematika Dasar",
-  },
-  {
-    no: "6",
-    topic: "Matematika Dasar",
-  },
-  {
-    no: "7",
-    topic: "Matematika Dasar",
-  },
-];
+import { useDeleteReferenceMutation, useGetReferencesQuery } from "@/graphql/generated";
+import ButtonAdd from "@/components/ui/buttonAdd";
+import ButtonDelete from "@/components/ui/buttonDelete";
+import { format } from "date-fns";
+import { Badge } from "@/components/ui/badge";
+import CommonEmpptyData from "@/components/common/detail/CommonEmpptyData";
 
-export default function LibrrayAdmin() {
+export default function LibraryAdmin() {
+  const { data, loading, error } = useGetReferencesQuery();
+  const [deleteReference] = useDeleteReferenceMutation();
+
+  // ✅ State untuk filter
+  const [selectedCategory, setSelectedCategory] = useState<string>("global");
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  if (loading) return <p>Loading..</p>;
+  if (error) console.log(error);
+
+  // ✅ Data untuk kategori filter
+  const categories = ["global"];
+
+  // ✅ Filter referensi berdasarkan kategori dan pencarian
+  const filteredReferences = data?.references.filter((item) => {
+    // Cek filter kategori
+    const categoryMatch = selectedCategory === "global" || item.tags?.includes(selectedCategory);
+
+    // Cek filter pencarian berdasarkan judul atau author
+    const searchMatch =
+      searchTerm === "" ||
+      item.title.toLowerCase().includes(searchTerm.toLowerCase())
+      // item?.author?.name.toLowerCase().includes(searchTerm.toLowerCase());
+
+    return categoryMatch && searchMatch;
+  });
+
   return (
     <div className="min-h-screen">
-      <div className="flex justify-start">
-        <ToggleGroup type="multiple" variant="outline">
-          <ToggleGroupItem
-            value="bold"
-            aria-label="Toggle bold"
-            className="bg-blue-100 border-blue-100 rounded-lg"
-          >
-            <p className="text-sm text-blue-400">Topik Perpustakaan</p>
-          </ToggleGroupItem>
-          <ToggleGroupItem value="italic" aria-label="Toggle italic">
-            <Link href="#">
-              <p className="text-sm text-slate-400">E-Book</p>
-            </Link>
-          </ToggleGroupItem>
-        </ToggleGroup>
+      <div className="md:flex justify-between items-center">
+        <div>
+          <ButtonAdd endpoint="/managements/admin/library/create" label="Buat Referensi" />
+        </div>
+
+        {/* ✅ Filter Kategori & Pencarian */}
+        <div className="grid grid-cols-3 gap-4 md:mt-0 mt-3">
+          <div className="col-span-1 bg-white rounded-lg">
+            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Filter" />
+              </SelectTrigger>
+              <SelectContent>
+                {categories.map((category) => (
+                  <SelectItem key={category} value={category}>
+                    {category.charAt(0).toUpperCase() + category.slice(1)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="col-span-2 relative bg-white rounded-lg">
+            <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              placeholder="Cari E-Book"
+              className="pl-8 w-full"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+        </div>
       </div>
 
-      <div className="bg-white rounded-lg p-5 mt-6">
-        <div className="md:flex justify-between items-center mt-4">
-          <div className="rounded-lg bg-white">
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant="default">
-                  <Plus className="h-4 w-4" /> Buat Topik
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="md:w-4/12 w-96 rounded-lg">
-                <DialogHeader>
-                  <DialogTitle className="text-center">Buat Topik</DialogTitle>
-                </DialogHeader>
-                <div className="">
-                  <Label htmlFor="title">Topic</Label>
-                  <Textarea placeholder="Isi Pengumuman Disini" />
+      {/* ✅ Daftar Referensi dengan Filter */}
+      <div className="mt-10 flex gap-5 flex-col">
+        {filteredReferences && filteredReferences.length > 0 ? (
+          filteredReferences.map((item, index) => (
+            <div
+              key={index}
+              className="grid grid-cols-1 md:grid-cols-12 rounded-md container pr-20 py-5 gap-4 px-4 bg-white border-b border-slate-300"
+            >
+              <div className="md:col-span-10 col-span-8 pl-4">
+                <Dialog>
+                  <DialogTrigger>
+                    <h1 className="text-base">{item.title ?? "Referensi Unknown"}</h1>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>{item.title} - {item.type}</DialogTitle>
+                      <DialogDescription>
+                        <div className="flex flex-col">
+                          <a href={item.url}>{item.url}</a>
+                          <p dangerouslySetInnerHTML={{ __html: item.description }}></p>
+                          <div className="text-gray-500 flex gap-3 my-3 p-0 justify-start">
+                            {item?.tags?.map((tag, indextag) => (
+                              <Badge
+                                key={indextag}
+                                className="bg-white border p-0 py-1 hover:bg-transparent px-3 shadow-none text-gray-600 border-gray-200"
+                              >
+                                #{tag}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      </DialogDescription>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
+                <div className="text-gray-500 flex gap-3 my-3 p-0 justify-start">
+                  {item?.tags?.map((tag, indextag) => (
+                    <Badge
+                      key={indextag}
+                      className="bg-white border p-0 py-1 hover:bg-transparent px-3 shadow-none text-gray-600 border-gray-200"
+                    >
+                      {tag}
+                    </Badge>
+                  ))}
                 </div>
-                <DialogFooter>
-                  <Button
-                    type="reset"
-                    variant="destructive"
-                    className="md:mt-0 mt-2"
-                  >
-                    Cancel
-                  </Button>
-                  <Button type="submit">Save</Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          </div>
 
-          <div className="md:mt-0 mt-3 grid grid-cols-3 gap-4">
-            <div className="col-span-1 rounded-lg bg-white">
-              <Select>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder={<SlidersHorizontal />} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="sd">Sekolah Dasar</SelectItem>
-                  <SelectItem value="smp">Sekolah Menengah Pertama</SelectItem>
-                  <SelectItem value="sma">Sekolah Menengah Atas</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="col-span-2 relative rounded-lg bg-white">
-              <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input placeholder="Cari Topik" className="pl-8 w-full" />
-            </div>
-          </div>
-        </div>
+                <div className="md:w-4/12 w-8/12 mt-4">
+                  <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+                    <div className="col-span-1 border-r-2 border-slate-400">
+                      <div className="grid grid-cols-5 gap-2">
+                        <div className="col-span-1 grid justify-items-end">
+                          <CalendarCheck className="h-4 w-4 text-slate-400" />
+                        </div>
+                        <div className="col-span-4">
+                          <p className="text-sm text-slate-400">{format(item.createdAt, "yyyy-MM-dd")}</p>
+                        </div>
+                      </div>
+                    </div>
 
-        <div className="border-2 rounded-lg bg-white mt-10 p-5">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="font-bold text-black">No.</TableHead>
-                <TableHead className="font-bold text-black">
-                  TOPIK PERPUSTAKAAN
-                </TableHead>
-                <TableHead className="font-bold text-black"></TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {data.map((invoice) => (
-                <TableRow key={invoice.no}>
-                  <TableCell>{invoice.no}</TableCell>
-                  <TableCell>{invoice.topic}</TableCell>
-                  <TableCell>
-                    <Trash />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-            <TableFooter>
-              <TableRow className="bg-white">
-                <TableCell colSpan={3}></TableCell>
-                <TableCell className="">
-                  <Pagination>
-                    <PaginationContent>
-                      <PaginationItem>
-                        <PaginationPrevious href="#" />
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationLink href="#">1</PaginationLink>
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationLink href="#" isActive>
-                          2
-                        </PaginationLink>
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationLink href="#">3</PaginationLink>
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationEllipsis />
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationNext href="#" />
-                      </PaginationItem>
-                    </PaginationContent>
-                  </Pagination>
-                </TableCell>
-              </TableRow>
-            </TableFooter>
-          </Table>
-        </div>
+                    <div className="col-span-1">
+                      <div className="grid grid-cols-5 gap-2">
+                        <div className="col-span-1 grid justify-items-end">
+                          <User2Icon className="h-4 w-4 text-slate-400" />
+                        </div>
+                        <div className="col-span-4">
+                          <p className="text-sm text-nowrap text-slate-400">{item.author.name}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex gap-10">
+                <div className="bg-blue-100 cursor-pointer rounded-md flex items-center justify-center py-2 px-4" onClick={() => window.open(item.url, "_blank")}>
+                  <Link className="text-blue-400 mx-auto" />
+                </div>
+                <div className="bg-red-100 cursor-pointer rounded-md flex items-center justify-center py-2 px-4">
+                  <ButtonDelete hideLable id={item.id} mutation={deleteReference} noBg customClassNoBg="shadow-none bg-transparent hover:bg-transparent text-red-400 p-0 w-full" />
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <CommonEmpptyData />
+        )}
       </div>
     </div>
   );

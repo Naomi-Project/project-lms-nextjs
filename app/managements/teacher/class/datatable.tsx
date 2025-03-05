@@ -33,7 +33,7 @@ export default function StudentInTeacherTable() {
       },
       {
         accessorKey: "name",
-        header: "NAMA GURU",
+        header: "NAMA SISWA",
         cell: ({ row }: any) => <span>{row.getValue("name")}</span>,
       },
       {
@@ -45,14 +45,6 @@ export default function StudentInTeacherTable() {
         accessorKey: "phone",
         header: "PHONE",
         cell: ({ row }: any) => <span>{row.getValue("phone") ?? "-"}</span>,
-      },
-      {
-        accessorKey: "action",
-        header: "ACTION",
-        cell: ({ row }: any) => <div className="flex gap-3">
-         <ButtonEdit endpoint="/managements/manager/StudentInTeacher/edit/" id={row.original.id} />
-         <ButtonDelete mutation={deleteUser} loading={loading} id={row.original.id} />
-        </div>,
       },
     ];
 

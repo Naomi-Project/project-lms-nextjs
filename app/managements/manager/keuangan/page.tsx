@@ -2,7 +2,6 @@
 
 
 
-import { Input } from "@/components/ui/input";
 
 
 
@@ -10,7 +9,6 @@ import { Input } from "@/components/ui/input";
 
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Search } from "lucide-react";
 import React from "react";
 
 
@@ -96,10 +94,10 @@ export default function ManagerKeuangan() {
               <TabsTrigger value="lunas">Lunas</TabsTrigger>
             </div>
 
-            <div className="relative border-2 rounded-lg">
+            {/* <div className="relative border-2 rounded-lg">
               <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input placeholder="Cari Siswa" className="pl-8 w-full" />
-            </div>
+            </div> */}
           </TabsList>
           <TabsContent value="lunas">
             <PaymentTable />

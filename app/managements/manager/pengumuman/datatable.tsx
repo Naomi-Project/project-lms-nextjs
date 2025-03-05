@@ -63,7 +63,7 @@ type Pengumuman = {
       },
     ];
 
-    const dataPengumuman: unknown[] = data?.announcements || [];
+    const dataPengumuman: any[] = data?.announcements || [];
 
   return (
     <DataTable

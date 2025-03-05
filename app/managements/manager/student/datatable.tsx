@@ -56,13 +56,14 @@ export default function StudentTable() {
       },
       {
         accessorKey: "gender",
+        sortable: true,
         header: "GENDER",
         cell: ({ row }: any) => <span>{row.getValue("gender")}</span>,
       },
       {
-        accessorKey: "role",
-        header: "ROLE",
-        cell: ({ row }: any) => <span>{row.getValue("role")}</span>,
+        accessorKey: "school",
+        header: "SEKOLAH",
+        cell: ({ row }: any) => <span>{row.original.school.name}</span>,
       },
       {
         accessorKey: "action",
@@ -74,7 +75,7 @@ export default function StudentTable() {
       },
     ];
 
-  const dataStudent: unknown[] = data?.users.filter(user => user.role === "STUDENT") || [];
+  const dataStudent: any[] = data?.users.filter(user => user.role === "STUDENT") || [];
   console.log(dataStudent)
 
   return (

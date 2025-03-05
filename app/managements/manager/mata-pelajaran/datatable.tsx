@@ -55,7 +55,7 @@ export default function SubjectTable() {
       },
     ];
 
-  const dataSubjects: unknown[] = data?.subjects || [];
+  const dataSubjects: any[] = data?.subjects || [];
   console.log(dataSubjects)
 
   return (

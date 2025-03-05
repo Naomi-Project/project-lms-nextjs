@@ -50,7 +50,7 @@ export default function TermTable() {
       },
     ];
 
-  const dataTerm: unknown[] = data?.terms || [];
+  const dataTerm: any[] = data?.terms || [];
   console.log(dataTerm)
 
   return (

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -7,17 +7,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-import {
-  CalendarCheck,
-  Link,
-  Search,
-  User2Icon,
-} from "lucide-react";
+import { CalendarCheck, Link, Search, User2Icon } from "lucide-react";
 import { Input } from "@/components/ui/input";
-
-
-
 
 import {
   Dialog,
@@ -26,7 +17,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 
 import { useDeleteReferenceMutation, useGetReferencesQuery } from "@/graphql/generated";
 import ButtonAdd from "@/components/ui/buttonAdd";
@@ -37,69 +28,95 @@ import CommonEmpptyData from "@/components/common/detail/CommonEmpptyData";
 
 export default function LibraryTeacher() {
   const { data, loading, error } = useGetReferencesQuery();
-  const [deleteReference] = useDeleteReferenceMutation()
-  if (loading) {
-    return (
-      <p>Loading..</p>
-    )
-  }
-  if (error) console.log(error)
-  console.log(data);
+  const [deleteReference] = useDeleteReferenceMutation();
+
+  // ✅ State untuk filter
+  const [selectedCategory, setSelectedCategory] = useState<string>("global");
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  if (loading) return <p>Loading..</p>;
+  if (error) console.log(error);
+
+  // ✅ Data untuk kategori filter
+  const categories = ["global"];
+
+  // ✅ Filter referensi berdasarkan kategori dan pencarian
+  const filteredReferences = data?.references.filter((item) => {
+    // Cek filter kategori
+    const categoryMatch = selectedCategory === "global" || item.tags?.includes(selectedCategory);
+
+    // Cek filter pencarian berdasarkan judul atau author
+    const searchMatch =
+      searchTerm === "" ||
+      item.title.toLowerCase().includes(searchTerm.toLowerCase())
+      // item?.author?.name.toLowerCase().includes(searchTerm.toLowerCase());
+
+    return categoryMatch && searchMatch;
+  });
+
   return (
     <div className="min-h-screen">
       <div className="md:flex justify-between items-center">
-        <div className="">
-          <ButtonAdd
-            endpoint="/managements/teacher/library/create"
-            label="Buat Referensi"
-          />
+        <div>
+          <ButtonAdd endpoint="/managements/teacher/library/create" label="Buat Referensi" />
         </div>
 
+        {/* ✅ Filter Kategori & Pencarian */}
         <div className="grid grid-cols-3 gap-4 md:mt-0 mt-3">
           <div className="col-span-1 bg-white rounded-lg">
-            <Select defaultValue="global">
+            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Filter" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="global">Global</SelectItem>
-                <SelectItem value="matematika">Matematika</SelectItem>
-                <SelectItem value="bahasa">Bahasa Indonesia</SelectItem>
-                <SelectItem value="fisika">Fisika</SelectItem>
+                {categories.map((category) => (
+                  <SelectItem key={category} value={category}>
+                    {category.charAt(0).toUpperCase() + category.slice(1)}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
           <div className="col-span-2 relative bg-white rounded-lg">
             <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input placeholder="Cari E-Book" className="pl-8 w-full" />
+            <Input
+              placeholder="Cari E-Book"
+              className="pl-8 w-full"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
         </div>
       </div>
 
+      {/* ✅ Daftar Referensi dengan Filter */}
       <div className="mt-10 flex gap-5 flex-col">
-        {
-          data?.references && data?.references.length > 0 ? data?.references.map((item,index) => (
-            <div key={index} className="grid grid-cols-1 md:grid-cols-12 rounded-md container pr-20 py-5 gap-4 px-4 bg-white border-b border-slate-300">
+        {filteredReferences && filteredReferences.length > 0 ? (
+          filteredReferences.map((item, index) => (
+            <div
+              key={index}
+              className="grid grid-cols-1 md:grid-cols-12 rounded-md container pr-20 py-5 gap-4 px-4 bg-white border-b border-slate-300"
+            >
               <div className="md:col-span-10 col-span-8 pl-4">
-                  <Dialog>
+                <Dialog>
                   <DialogTrigger>
-                    <h1 className="text-base">
-                      {item.title ?? "Referensi Unknown"}
-                    </h1>
+                    <h1 className="text-base">{item.title ?? "Referensi Unknown"}</h1>
                   </DialogTrigger>
                   <DialogContent>
                     <DialogHeader>
-                      <DialogTitle>Detail Referensi</DialogTitle>
+                      <DialogTitle>{item.title} - {item.type}</DialogTitle>
                       <DialogDescription>
                         <div className="flex flex-col">
-                          <h1>{item.title} - {item.type}</h1>
-                          <a href={item.url}>
-                            {item.url}
-                          </a>
+                          <a href={item.url}>{item.url}</a>
                           <p dangerouslySetInnerHTML={{ __html: item.description }}></p>
                           <div className="text-gray-500 flex gap-3 my-3 p-0 justify-start">
                             {item?.tags?.map((tag, indextag) => (
-                              <Badge key={indextag} className="bg-white border p-0 py-1 hover:bg-transparent px-3 shadow-none text-gray-600 border-gray-200">#{tag}</Badge> // Menampilkan setiap tag
+                              <Badge
+                                key={indextag}
+                                className="bg-white border p-0 py-1 hover:bg-transparent px-3 shadow-none text-gray-600 border-gray-200"
+                              >
+                                #{tag}
+                              </Badge>
                             ))}
                           </div>
                         </div>
@@ -109,20 +126,24 @@ export default function LibraryTeacher() {
                 </Dialog>
                 <div className="text-gray-500 flex gap-3 my-3 p-0 justify-start">
                   {item?.tags?.map((tag, indextag) => (
-                    <Badge key={indextag} className="bg-white border p-0 py-1 hover:bg-transparent px-3 shadow-none text-gray-600 border-gray-200">{tag}</Badge> // Menampilkan setiap tag
+                    <Badge
+                      key={indextag}
+                      className="bg-white border p-0 py-1 hover:bg-transparent px-3 shadow-none text-gray-600 border-gray-200"
+                    >
+                      {tag}
+                    </Badge>
                   ))}
                 </div>
 
                 <div className="md:w-4/12 w-8/12 mt-4">
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
                     <div className="col-span-1 border-r-2 border-slate-400">
                       <div className="grid grid-cols-5 gap-2">
                         <div className="col-span-1 grid justify-items-end">
                           <CalendarCheck className="h-4 w-4 text-slate-400" />
                         </div>
-
                         <div className="col-span-4">
-                          <p className="text-sm text-slate-400">{format(item.createdAt, 'yyyy-MM-dd')}</p>
+                          <p className="text-sm text-slate-400">{format(item.createdAt, "yyyy-MM-dd")}</p>
                         </div>
                       </div>
                     </div>
@@ -132,30 +153,28 @@ export default function LibraryTeacher() {
                         <div className="col-span-1 grid justify-items-end">
                           <User2Icon className="h-4 w-4 text-slate-400" />
                         </div>
-
                         <div className="col-span-4">
-                          <p className="text-sm text-slate-400">{item.author.name}</p>
+                          <p className="text-sm text-nowrap text-slate-400">{item.author.name}</p>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex gap-10">
-                <div className="bg-blue-100 cursor-pointer rounded-md flex items-center justify-center py-2 px-4" onClick={() => window.open(item.url, '_blank')}>
+                <div className="bg-blue-100 cursor-pointer rounded-md flex items-center justify-center py-2 px-4" onClick={() => window.open(item.url, "_blank")}>
                   <Link className="text-blue-400 mx-auto" />
                 </div>
                 <div className="bg-red-100 cursor-pointer rounded-md flex items-center justify-center py-2 px-4">
                   <ButtonDelete hideLable id={item.id} mutation={deleteReference} noBg customClassNoBg="shadow-none bg-transparent hover:bg-transparent text-red-400 p-0 w-full" />
                 </div>
               </div>
-
             </div>
-          )) : (
-            <CommonEmpptyData />
-          )
-        }
+          ))
+        ) : (
+          <CommonEmpptyData />
+        )}
       </div>
     </div>
   );

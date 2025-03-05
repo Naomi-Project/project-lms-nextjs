@@ -80,8 +80,6 @@ export function CommonDetail<T extends Record<any, any>>(
   const [updatePayment] = useUpdatePaymentMutation()
   const handlePaymentSubmit = async () => {
     try {
-      alert("Metode Pembayaran:" + paymentMethod);
-      alert("Nominal Pembayaran:" + paymentAmount);
       // const res = await updateEnrollment({
       //   variables: {
       //     data: {
@@ -152,7 +150,7 @@ export function CommonDetail<T extends Record<any, any>>(
 
           <div className="md:col-span-11 col-span-10 my-auto">
             <h1 className="font-bold text-sm">{props.name}</h1>
-            <Badge className="font-light bg-transparent shadow-none text-primary bg-blue-100">
+            <Badge className="font-light bg-transparent hover:text-white shadow-none text-primary bg-blue-100">
               {props.class}
             </Badge>
           </div>
@@ -186,6 +184,9 @@ export function CommonDetail<T extends Record<any, any>>(
                   </div>
                 </div>
               </div>
+            </div>
+            <div className={`col-span-1 flex justify-end mt-2 ${props.payStatus === 'SUCCESS' ? '' : 'hidden'}`}>
+              <Badge variant='outline' className="bg-blue-100 text-primary">Telah Lunas</Badge>
             </div>
           </div>
 

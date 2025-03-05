@@ -26,7 +26,6 @@ export default function AttendancesTable() {
     const [deleteAttendance, { loading }] = useDeleteAttendanceMutation();
     const [attendanceStatus, setAttendanceStatus] = React.useState<{ [key: string]: string }>({});
     const [selectedStudents, setSelectedStudents] = React.useState<any[]>([])
-    console.log(absen)
 
     const columns = [
       {
@@ -103,13 +102,12 @@ export default function AttendancesTable() {
   };
 
   // cari data class yang menunjukan walikelas adalah user yang sedang login
-  const filteringDataGuardian: unknown[] = data?.classrooms.filter((item: any) => item.guardian.id === userPayload?.me.id) || [];
+  const filteringDataGuardian: any[] = data?.classrooms.filter((item: any) => item.guardian.id === userPayload?.me.id) || [];
   const studentsInClass: any[] = (filteringDataGuardian[0] as { students: any[] })?.students || [];
 
   React.useEffect(() => {
     if (studentsInClass.length > 0) {
       // Inisialisasi attendanceStatus untuk semua siswa
-      console.log(studentsInClass)
       const defaultStatus: { [key: string]: string } = {};
       studentsInClass.forEach((student) => {
         defaultStatus[student.id] = "PRESENT"; // Set semua siswa ke PRESENT
@@ -219,8 +217,9 @@ export default function AttendancesTable() {
     }
   };
   
-  const deleteAllAttendance = () => {
-    absen?.attendances.map(async(item) => {
+  const resetAbsen = () => {
+    // return
+    absen?.attendances.filter((item) => item.classroomId === filteringDataGuardian[0].id).map(async(item) => {
       try {
         // console.log(item.id)
         await deleteAttendance({
@@ -228,8 +227,15 @@ export default function AttendancesTable() {
             data: item.id
           }
         })
-        alert('semua data absen dihapus')
-        location.reload()
+        Swal.fire({
+          title: "Berhasil!",
+          text: `Absen berhasil direset.`,
+          icon: "success",
+          timer: 2500,
+          timerProgressBar: true,
+        }).then(() => {
+          location.reload(); // Refresh halaman untuk update data
+        });
       } catch (error) {
         console.log(error)
       }
@@ -239,12 +245,14 @@ export default function AttendancesTable() {
     <>
     <div className="flex justify-between flex-wrap gap-10 border-2 bg-white rounded-lg px-10 py-10">
         <h1 className="text-3xl font-bold">Absensi Hari Ini</h1>
-        <Button variant="default" onClick={() => deleteAllAttendance()}>
-          Delete All Absensi
-        </Button>
-        <Button variant="default" onClick={() => handleAttendanceSubmit(selectedStudents)}>
-          Lakukan Absensi
-        </Button>
+        <div className="flex gap-6">
+          <Button variant="default" className="bg-red-600 hover:bg-red-700" onClick={() => resetAbsen()}>
+            Reset Absensi
+          </Button>
+          <Button variant="default" onClick={() => handleAttendanceSubmit(selectedStudents)}>
+            Lakukan Absensi
+          </Button>
+        </div>
       </div>
 
       <div className="bg-white mt-10 border rounded-md p-5 ">

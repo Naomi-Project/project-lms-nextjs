@@ -3,7 +3,7 @@
 import { DataTable } from "@/components/common/list/CommonDataTable";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
-import { useDeleteUserMutation, useGetUsersQuery } from "@/graphql/generated";
+import { useDeleteUserMutation, useGetSubjectsQuery, useGetUsersQuery } from "@/graphql/generated";
 
 type Teacher = {
     id: string;
@@ -21,6 +21,7 @@ type Teacher = {
   
 export default function TeacherTable() {
     const { data } = useGetUsersQuery();
+    const { data: subject } = useGetSubjectsQuery();
     const [deleteUser, { loading }] = useDeleteUserMutation();
     const columns = [
       {
@@ -42,9 +43,9 @@ export default function TeacherTable() {
         // cell: ({ row }: any) => <span>7A</span>,
       },
       {
-        accessorKey: "address",
-        header: "ALAMAT",
-        cell: ({ row }: any) => <span>{row.getValue("address")}</span>,
+        accessorKey: "subjects",
+        header: "KOMPETENSI",
+        cell: ({ row }: any) => <span>{row.getValue("subjects")}</span>,
       },
       {
         accessorKey: "phone",
@@ -52,14 +53,9 @@ export default function TeacherTable() {
         cell: ({ row }: any) => <span>{row.getValue("phone")}</span>,
       },
       {
-        accessorKey: "gender",
-        header: "GENDER",
-        cell: ({ row }: any) => <span>{row.getValue("gender")}</span>,
-      },
-      {
-        accessorKey: "role",
-        header: "ROLE",
-        cell: ({ row }: any) => <span>{row.getValue("role")}</span>,
+        accessorKey: "school",
+        header: "SEKOLAH",
+        cell: ({ row }: any) => <span>{row.original.school.name}</span>,
       },
       {
         accessorKey: "action",
@@ -70,10 +66,26 @@ export default function TeacherTable() {
         </div>,
       },
     ];
+  // Ambil semua subjects
+const subjectsData = subject?.subjects || [];
 
-  const dataTeacher: Teacher[] = data?.users.filter(user => user.role === "TEACHER") || [];
-  console.log(dataTeacher)
+// Proses data teachers dengan subjects
+const dataTeacher: any[] = data?.users
+  .filter(user => user.role === "TEACHER")
+  .map(teacher => {
+    // Cari subjects yang memiliki teacher.id yang sesuai
+    const teacherSubjects = subjectsData.filter(sub =>
+      sub.teachers.some(t => t.id === teacher.id)
+    );
 
+    // Gabungkan data teacher dengan subjects yang ditemukan
+    return {
+      ...teacher,
+      subjects: teacherSubjects.map(sub => sub.name).join(" | ") || "-", // Ambil nama subject
+    };
+  }) || [];
+
+console.log(dataTeacher);
   return (
     <DataTable
       columns={columns}

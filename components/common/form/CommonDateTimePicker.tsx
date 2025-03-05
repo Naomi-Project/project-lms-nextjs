@@ -32,7 +32,7 @@ const CommonDateTimePicker: React.FC<CommonDateTimePickerProps> = ({ name, label
         render={({ field, fieldState }) => {
           // Pastikan tanggal tidak mundur 1 hari dengan parseISO()
           const selectedDate = field.value ? parseISO(field.value.split(" ")[0]) : undefined;
-          console.log(field)
+          // console.log(field)
           const selectedTime = field.value ? field.value.split(" ")[1]?.substring(0, 5) : "12:00";
 
           return (

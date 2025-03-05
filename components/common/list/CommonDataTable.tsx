@@ -95,7 +95,7 @@ export function DataTable<TData>({
   // Gabungkan selectionColumn dengan columns yang sudah ada
 
   const tableColumns = [selectionColumn, ...columns];
-
+  
   const table = useReactTable({
     data,
     columns: isAttendance ? tableColumns : columns,

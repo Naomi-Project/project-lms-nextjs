@@ -11,8 +11,10 @@ import { useGetClassroomsQuery, useUserPayloadQuery } from "@/graphql/generated"
 export default function ClassTeacher() {
   const { data } = useGetClassroomsQuery();
   const { data: userPayload } = useUserPayloadQuery()
-  const filteringDataGuardian: unknown[] = data?.classrooms.filter((item: any) => item.guardian.id === userPayload?.me.id) || [];
+  const filteringDataGuardian: any[] = data?.classrooms.filter((item: any) => item.guardian.id === userPayload?.me.id) || [];
   const dataStudentInTeacher: any[] = (filteringDataGuardian[0] as { students: any[] })?.students || [];
+  console.log('filter', filteringDataGuardian)
+  console.log('data', dataStudentInTeacher)
   return (
     <div className="min-h-screen">
       <div className="md:grid grid-cols-2 gap-4">
@@ -38,7 +40,7 @@ export default function ClassTeacher() {
                   </div>
 
                   <div className="col-span-1">
-                    <p className="text-sm text-slate-400">Demi He</p>
+                    <p className="text-sm text-slate-400">{filteringDataGuardian?.[0]?.guardian?.name || '-'}</p>
                   </div>
                 </div>
               </div>

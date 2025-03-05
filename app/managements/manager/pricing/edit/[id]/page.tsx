@@ -25,6 +25,7 @@ const EditPage = () => {
     <CommonFormEdit
       lable="Tagihan"
       title="Edit Tagihan"
+      convertFloat="amount"
       method="PUT"
       mutation={updatePricing}
       dataGet={data?.pricing || {}}

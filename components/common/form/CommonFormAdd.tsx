@@ -40,6 +40,7 @@ import CommonSelectMultiple from "./CommonSelectMultiple";
 import Swal from "sweetalert2";
 import { setTimeout } from "timers";
 import SelectMultiple2 from "./CommonSelectMultiple2";
+import { usePathname, useRouter } from "next/navigation";
 
 export interface CommonFormAddField<T extends Record<any, any>> {
   key: keyof T & string;
@@ -83,9 +84,23 @@ export interface CommonFormAddProps<T extends Record<any, any>> {
   sections: CommonFormAddSection<T>[];
 }
 
+const Toast = Swal.mixin({
+  toast: true,
+  position: "top-end",
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.onmouseenter = Swal.stopTimer;
+    toast.onmouseleave = Swal.resumeTimer;
+  }
+});
+
 export function CommonFormAdd<T extends Record<any, any>>(
   props: CommonFormAddProps<T>
 ) {
+  const router = useRouter();
+  const pathname = usePathname();
   const [isSubmit, setIsSubmit] = useState<boolean>(false)
   const form = useForm<z.infer<typeof props.schema>>({
     resolver: zodResolver(props.schema),
@@ -95,18 +110,36 @@ export function CommonFormAdd<T extends Record<any, any>>(
   useEffect(() => {
     form.reset(props.dataMutation);
   }, [props.dataMutation, form.reset]);
-  
+ 
   const onSubmit = async (values: z.infer<typeof props.schema>) => {
     setIsSubmit(true)
     if (props.isCreateAssignment == true) {
-      // const newData = {...values, classrooms: {
-      //   connect: values.classroomIds.map((id: any) => ({ id })) 
-      // }}
       // console.log(values)
-      // console.log(newData)
-      executeMutation(values)
-      return
-    }
+      // return
+        try {
+            // Pastikan extendedData adalah string JSON dan parse ke objek
+            const extendedData = JSON.parse(values.extendedData);
+            
+            // Cek apakah ada soal yang tidak memiliki correctAnswer
+            const hasEmptyCorrectAnswer = extendedData.some((item: any) => !item.correctAnswer);
+    
+            if (hasEmptyCorrectAnswer) {
+                Toast.fire({
+                  icon: "error",
+                  title: "Terdapat soal yang belum memiliki jawaban benar! Harap lengkapi sebelum menyimpan!"
+                });
+                setIsSubmit(false)
+                return; // Hentikan proses jika ada error
+            }
+    
+            console.log("Data valid:", values);
+            executeMutation(values); // Jalankan jika valid
+            return
+        } catch (error) {
+            console.error("Error parsing extendedData:", error);
+            alert("Terjadi kesalahan dalam membaca data soal. Pastikan format valid.");
+        }
+    }  
     if (props.isCreateSpp == true) {
       const newData = {...values, amount: parseFloat(values.amount)}
       executeMutation(newData)
@@ -211,10 +244,7 @@ export function CommonFormAdd<T extends Record<any, any>>(
         timerProgressBar: true,
       }).then((result) => {
         if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
-          location.reload()
-          setTimeout(() => {
-            history.back(); 
-          }, 500);
+          handleCreateSuccess()
         }
       });
     } catch (err) {
@@ -252,10 +282,7 @@ export function CommonFormAdd<T extends Record<any, any>>(
         icon: "success",
       }).then((result) => {
         if (result.isConfirmed) {
-          location.reload()
-          setTimeout(() => {
-            history.back(); 
-          }, 500);
+          handleCreateSuccess()
         }
       });
     } catch (err) {
@@ -282,10 +309,7 @@ export function CommonFormAdd<T extends Record<any, any>>(
           timerProgressBar: true,
         }).then((result) => {
           if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
-            location.reload()
-            setTimeout(() => {
-              history.back(); 
-            }, 500);
+            handleCreateSuccess()
           }
         });
       }
@@ -295,6 +319,13 @@ export function CommonFormAdd<T extends Record<any, any>>(
     }
   };
 
+  const handleCreateSuccess = () => {
+      // Ambil path sebelumnya dengan menghapus bagian terakhir dari path
+      // const previousPath = pathname.split("/").slice(0, -1).join("/");
+      history.back()
+      // Navigasi ke halaman sebelumnya
+      // window.location.href = previousPath;
+  };
   return (
     <>
       <Toggle

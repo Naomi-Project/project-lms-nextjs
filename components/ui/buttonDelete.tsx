@@ -33,9 +33,11 @@ const ButtonDelete: React.FC<ButtonDeleteProps> = ({ mutation, noBg, hideLable, 
           Swal.fire({
             title: "Terhapus!",
             text: "Data berhasil dihapus.",
-            icon: "success"
+            icon: "success",
+            timer: 2000,
+            timerProgressBar: true
           }).then((res) => {
-            if (res.isConfirmed) {
+            if (res.dismiss === Swal.DismissReason.timer || res.isConfirmed) {
               // history.back()
               location.reload()
             } else {

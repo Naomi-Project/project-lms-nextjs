@@ -48,7 +48,7 @@ export default function PricingTable() {
       },
     ];
 
-  const dataPricing: unknown[] = data?.pricings || [];
+  const dataPricing: any[] = data?.pricings || [];
   console.log(dataPricing)
 
   return (

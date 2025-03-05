@@ -1,21 +1,13 @@
 
 
-import { Input } from "@/components/ui/input";
 
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 
-import {
-  Search,
-  SlidersHorizontal,
-} from "lucide-react";
+
+
+
+
 import AnnouncementTable from "./datatable";
 import ButtonAdd from "@/components/ui/buttonAdd";
 
@@ -29,7 +21,7 @@ export default function ManagerPengumuman() {
             <ButtonAdd label="Buat Pengumuman" endpoint="/managements/manager/pengumuman/create" />
           </div>
 
-          <div className="md:mt-0 mt-2 grid grid-cols-3 gap-4">
+          {/* <div className="md:mt-0 mt-2 grid grid-cols-3 gap-4">
             <div className="col-span-1 rounded-lg bg-white">
               <Select>
                 <SelectTrigger className="w-full">
@@ -46,10 +38,10 @@ export default function ManagerPengumuman() {
               <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input placeholder="Cari Pengumuman" className="pl-8 w-full" />
             </div>
-          </div>
+          </div> */}
         </div>
 
-        <div className=" rounded-lg bg-white mt-10 p-5">
+        <div className=" rounded-lg bg-white mt-1 p-5">
           <AnnouncementTable />
         </div>
       </div>

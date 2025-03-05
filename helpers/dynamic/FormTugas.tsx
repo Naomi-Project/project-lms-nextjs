@@ -1,5 +1,5 @@
 "use client";
-/* eslint-disabled */
+/* eslint-disable */
 import {
   CommonFormAdd,
   CommonFormAddSection,
@@ -59,7 +59,7 @@ const FormHelpersAdd = () => {
           {
             key: "title",
             label: "Judul Tugas",
-            class: "md:w-full lg:w-full",
+            class: "w-full md:w-full lg:w-full",
             emptyValue: "-",
             placeholder: "Masukan judul tugas..",
           },
@@ -146,7 +146,7 @@ const FormHelpersAdd = () => {
       lable="Tugas"
       title="Buat Tugas"
       method="POST"
-      isUseDefaultMutation={true}
+      // isUseDefaultMutation={true}
       isCreateAssignment={true}
       mutation={createAssignment}
       dataMutation={dataMutationDefault}

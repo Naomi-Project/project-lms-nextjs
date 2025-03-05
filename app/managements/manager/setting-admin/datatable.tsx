@@ -13,6 +13,7 @@ type Staff = {
     nik?: string | null; // Bisa null atau undefined
     nisn?: string | null;
     nuptk?: string | null;
+    createdAt?: string | null;
     role: string;
     address: string;
     phone: string;
@@ -22,6 +23,7 @@ type Staff = {
 export default function StaffTable() {
     const { data } = useGetUsersQuery();
     const [deleteUser, { loading }] = useDeleteUserMutation();
+    console.log(data)
     const columns = [
       {
         accessorKey: "id",
@@ -32,8 +34,13 @@ export default function StaffTable() {
       },
       {
         accessorKey: "name",
-        header: "NAMA GURU",
+        header: "NAME DISPLAY",
         cell: ({ row }: any) => <span>{row.getValue("name")}</span>,
+      },
+      {
+        accessorKey: "username",
+        header: "USERNAME",
+        cell: ({ row }: any) => <span>{row.getValue("username")}</span>,
       },
       {
         accessorKey: "nuptk",
@@ -42,19 +49,14 @@ export default function StaffTable() {
         // cell: ({ row }: any) => <span>7A</span>,
       },
       {
-        accessorKey: "address",
-        header: "ALAMAT",
-        cell: ({ row }: any) => <span>{row.getValue("address")}</span>,
+        accessorKey: "school",
+        header: "SEKOLAH",
+        cell: ({ row }: any) => <span>{row.original.school?.name || "-"}</span>
       },
       {
         accessorKey: "phone",
         header: "PHONE",
         cell: ({ row }: any) => <span>{row.getValue("phone")}</span>,
-      },
-      {
-        accessorKey: "gender",
-        header: "GENDER",
-        cell: ({ row }: any) => <span>{row.getValue("gender")}</span>,
       },
       {
         accessorKey: "role",
@@ -79,7 +81,7 @@ export default function StaffTable() {
       columns={columns}
       data={dataStaff}
       filterName="name"
-      filterPlaceholder="Cari Guru.."
+      filterPlaceholder="Cari Staff.."
     />
   );
 }

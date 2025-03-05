@@ -1,3 +1,4 @@
+'use client'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -51,9 +52,9 @@ export function AppSidebar() {
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {ManagerMenu.map((item) =>
+                {ManagerMenu.map((item, index) =>
                   item.visibility == true ? (
-                    <SidebarMenuItem key={item.title}>
+                    <SidebarMenuItem key={index}>
                       <SidebarMenuButton asChild>
                         <a href={item.href}>
                           <item.icon className="mr-2 h-4 w-4" />
@@ -76,9 +77,9 @@ export function AppSidebar() {
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {HeadofficeMenu.map((item) =>
+                {HeadofficeMenu.map((item, index) =>
                   item.visibility == true ? (
-                    <SidebarMenuItem key={item.title}>
+                    <SidebarMenuItem key={index}>
                       <SidebarMenuButton asChild>
                         <a href={item.href}>
                           <item.icon className="mr-2 h-4 w-4" />
@@ -101,9 +102,9 @@ export function AppSidebar() {
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {TeacherMenu.map((item) =>
+                {TeacherMenu.map((item, index) =>
                   item.visibility == true ? (
-                    <SidebarMenuItem key={item.title}>
+                    <SidebarMenuItem key={index}>
                       <SidebarMenuButton asChild>
                         <a href={item.href}>
                           <item.icon className="mr-2 h-4 w-4" />
@@ -126,9 +127,9 @@ export function AppSidebar() {
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {StudentMenu.map((item) =>
+                {StudentMenu.map((item, index) =>
                   item.visibility == true ? (
-                    <SidebarMenuItem key={item.title}>
+                    <SidebarMenuItem key={index}>
                       <SidebarMenuButton asChild>
                         <a href={item.href}>
                           <item.icon className="mr-2 h-4 w-4" />

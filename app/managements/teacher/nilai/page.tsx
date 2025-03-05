@@ -19,7 +19,7 @@ export default function ExamTeacher() {
 
   return (
     <div className="min-h-screen">
-      <div className="md:flex justify-between">
+      <div className="hidden">
         {/* 🔹 Filter Mata Pelajaran */}
         <div>
           <Select onValueChange={(value) => setSelectedSubject(value)}>

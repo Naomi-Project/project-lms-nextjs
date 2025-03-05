@@ -37,7 +37,7 @@ const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: L
     if (userRole === "STUDENT") {
       return data?.assignments.filter((assignment) =>
         assignment.classrooms.some((cls) =>
-          cls.students.some((student) => student.id === userId)
+          cls.students.some((student) => student.id === userId) || cls.guardian.id === userId
         )
       ) || [];
     }
@@ -47,8 +47,10 @@ const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: L
   // Menambahkan informasi kelas dan nama wali kelas (guardian)
   const tugasDenganKelas = rawData.map((assignment) => {
     const kelasDitemukan = assignment.classrooms.find((cls) =>
-      cls.students.some((student) => student.id === userId)
+      cls.students.some((student) => student.id === userId) || cls.guardian.id === userId
     );
+    
+    console.log(assignment)
 
     return {
       ...assignment,
@@ -56,6 +58,8 @@ const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: L
       waliKelas: kelasDitemukan?.guardian?.name || "Tidak Diketahui",
     };
   });
+  // console.log(data)
+  // console.log(rawData)
 
   // Filter tugas berdasarkan pencarian atau filter subject
   const tugas = useMemo(() => {

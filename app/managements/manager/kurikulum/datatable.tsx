@@ -50,7 +50,7 @@ export default function CurriculumTable() {
       },
     ];
 
-  const dataCurriculum: unknown[] = data?.curriculums || [];
+  const dataCurriculum: any[] = data?.curriculums || [];
   console.log(dataCurriculum)
 
   return (

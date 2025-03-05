@@ -109,10 +109,10 @@ export default function ManagerTeacher() {
 
             <div className="grid grid-cols-1 gap-4">
               <div className="col-span-1 ml-1">
-                <div className="w-[132px] bg-slate-200 rounded-lg">
+                {/* <div className="w-[132px] bg-slate-200 rounded-lg">
                   <TabsTrigger value="aktif">Aktif</TabsTrigger>
                   <TabsTrigger value="nonAktif">Non Aktif</TabsTrigger>
-                </div>
+                </div> */}
               </div>
 
               {/* <div className="col-span-1 relative">

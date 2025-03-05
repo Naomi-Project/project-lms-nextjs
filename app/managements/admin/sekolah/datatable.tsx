@@ -54,7 +54,7 @@ export default function SchoolTable() {
       },
     ];
 
-  const dataSchool: unknown[] = data?.schools || [];
+  const dataSchool: any[] = data?.schools || [];
   console.log(dataSchool)
 
   return (
@@ -62,7 +62,7 @@ export default function SchoolTable() {
       columns={columns}
       data={dataSchool}
       filterName="name"
-      filterPlaceholder="Cari Siswa.."
+      filterPlaceholder="Cari Sekolah.."
     />
   );
 }
