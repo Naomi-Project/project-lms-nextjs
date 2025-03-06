@@ -28,7 +28,7 @@ function ListGrade<T extends Record<any, any>>(
     return numA - numB; // Urutkan berdasarkan angka saja  
   }) || [];
   if (loading) return "loading.."
-  console.log(data)
+  
   return (
     <>
     <div className={`md:grid ${cleanData.length > 0 ? 'grid-cols-3' : "grid-cols-1"} mt-4 gap-4`}>

@@ -25,7 +25,6 @@ export default function SubmissionTable({
   // 🔹 Filter data berdasarkan state dari ExamTeacher.tsx
   const filteredData = dataSubmission.filter((submission) => {
     const { assignment } = submission;
-    console.log(selectedSubject)
 
     return (
       (!selectedSubject || assignment?.subject?.name.toLowerCase() === selectedSubject) &&

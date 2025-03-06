@@ -123,7 +123,7 @@ const CreatePage = () => {
   if (loading) {
     return <p>Loading..</p>;
   }
-  console.log(data);
+  ;
   return (
     <CommonFormAdd
       lable="Referensi/Libary"

@@ -77,7 +77,6 @@ const dataTeacher: any[] = data?.users
     };
   }) || [];
 
-console.log(dataTeacher);
   return (
     <DataTable
       columns={columns}

@@ -11,14 +11,12 @@ export default function ScheduleStudent() {
   const { data, loading, error } = useGetUsersQuery()
   if (error) {
     alert('upps ada yang error..')
-    console.log(error)
   }
 
   // cari data class yang menunjukan walikelas adalah user yang sedang login
   const { data: userPayload } = useUserPayloadQuery()
   const filteringDataStudent: any[] = data?.users.filter((item: any) => item.id === userPayload?.me.id && item.role === "STUDENT") || [];
-  // console.log(data)
-  // console.log(data?.classrooms[0].students.filter((item) => item.id === 'fdba356f-d443-4a3b-9ee3-a056cab6983f'))
+  // 
 
   const monday = filteringDataStudent[0]?.classroom?.schedules.filter((item: any) => item?.day === "MONDAY") || []
   const tuesday = filteringDataStudent[0]?.classroom?.schedules.filter((item: any) => item?.day === "TUESDAY") || []
@@ -26,7 +24,6 @@ export default function ScheduleStudent() {
   const thursday = filteringDataStudent[0]?.classroom?.schedules.filter((item: any) => item?.day === "THURSDAY") || []
   const friday = filteringDataStudent[0]?.classroom?.schedules.filter((item: any) => item?.day === "FRIDAY") || []
   const saturday = filteringDataStudent[0]?.classroom?.schedules.filter((item: any) => item?.day === "SATURDAY") || []
-  // console.log(monday)
   // return ""
   return (
     <div className="min-h-screen">

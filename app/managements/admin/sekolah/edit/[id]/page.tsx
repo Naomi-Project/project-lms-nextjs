@@ -22,7 +22,6 @@ const EditPage = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
   const fixData = { ...data?.school, foundAt: format(new Date(data?.school.foundAt), "yyyy-MM-dd") }
-  console.log(fixData)
 
   return (
     <CommonFormEdit

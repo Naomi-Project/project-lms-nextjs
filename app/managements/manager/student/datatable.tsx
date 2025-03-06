@@ -23,7 +23,6 @@ type Student = {
   
 export default function StudentTable() {
     const { data, error } = useGetUsersQuery()
-    if (error) console.log(error)
     const [deleteUser, { loading }] = useDeleteUserMutation();
     const columns = [
       {
@@ -76,7 +75,6 @@ export default function StudentTable() {
     ];
 
   const dataStudent: any[] = data?.users.filter(user => user.role === "STUDENT") || [];
-  console.log(dataStudent)
 
   return (
     <DataTable

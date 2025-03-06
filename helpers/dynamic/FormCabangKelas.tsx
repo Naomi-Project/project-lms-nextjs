@@ -55,7 +55,6 @@ const FormHelpersAdd = () => {
     label: item.name,
     value: item.id,
   })) || []
-  console.log(school)
   
   // Query kedua: Ambil data users
   const { data: classroomData  } = useGetClassroomsQuery()

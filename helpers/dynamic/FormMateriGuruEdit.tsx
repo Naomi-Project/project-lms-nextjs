@@ -123,7 +123,6 @@ const FormHelpersEdit = () => {
   ];
 
   const fixData = { ...dataEdit?.material, subjectId: dataEdit?.material.subject.id, referenceIds: dataEdit?.material.references.map((cls: any) => cls.id), }
-  console.log(fixData)
   return (
       <CommonFormEdit
         lable="Tugas"

@@ -25,7 +25,7 @@ function ListClass<T extends Record<any, any>>(
   
   if (loading) return "loading.."
   if (error) return <p>Error while fetch classroom: {error.message}</p>
-  console.log(data)
+  
   
   return (
     <>

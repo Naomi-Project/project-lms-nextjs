@@ -24,7 +24,7 @@ interface ListTypes {
 
 const ListCardMateri = ({ canDelete = true, role = "student", search, filter }: ListTypes) => {
   const { data } = useGetMaterialsQuery();
-  console.log(data)
+  
   
   // Gunakan useMemo untuk mencegah re-rendering terus-menerus
   const rawData = useMemo(() => data?.materials || [], [data?.materials]);

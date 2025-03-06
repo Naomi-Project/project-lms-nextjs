@@ -51,7 +51,6 @@ export default function CurriculumTable() {
     ];
 
   const dataCurriculum: any[] = data?.curriculums || [];
-  console.log(dataCurriculum)
 
   return (
     <DataTable

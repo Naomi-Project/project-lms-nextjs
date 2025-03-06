@@ -174,7 +174,6 @@ export default function AttendancesTable() {
       // ✅ Lakukan Absensi untuk yang belum absen
       await Promise.all(
         studentsToBeAbsent.map(async (item) => {
-          // console.log(item)
           // return
           try {
             const statusEnum = attendanceStatus[item.id] as AttendanceStatus;
@@ -221,7 +220,6 @@ export default function AttendancesTable() {
     // return
     absen?.attendances.filter((item) => item.classroomId === filteringDataGuardian[0].id).map(async(item) => {
       try {
-        // console.log(item.id)
         await deleteAttendance({
           variables: {
             data: item.id
@@ -237,7 +235,6 @@ export default function AttendancesTable() {
           location.reload(); // Refresh halaman untuk update data
         });
       } catch (error) {
-        console.log(error)
       }
     })
   }

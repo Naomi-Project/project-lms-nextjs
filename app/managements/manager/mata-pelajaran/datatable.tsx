@@ -56,7 +56,6 @@ export default function SubjectTable() {
     ];
 
   const dataSubjects: any[] = data?.subjects || [];
-  console.log(dataSubjects)
 
   return (
     <DataTable

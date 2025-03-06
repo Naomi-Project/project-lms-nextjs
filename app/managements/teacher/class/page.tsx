@@ -13,8 +13,6 @@ export default function ClassTeacher() {
   const { data: userPayload } = useUserPayloadQuery()
   const filteringDataGuardian: any[] = data?.classrooms.filter((item: any) => item.guardian.id === userPayload?.me.id) || [];
   const dataStudentInTeacher: any[] = (filteringDataGuardian[0] as { students: any[] })?.students || [];
-  console.log('filter', filteringDataGuardian)
-  console.log('data', dataStudentInTeacher)
   return (
     <div className="min-h-screen">
       <div className="md:grid grid-cols-2 gap-4">

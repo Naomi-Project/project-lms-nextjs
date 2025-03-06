@@ -27,7 +27,6 @@ interface MaterialDetailProps {
 }
 
 export default function MaterialDetail({ data, name, code = "", subject, semester, createdAt, guru = "" }: MaterialDetailProps) {
-  console.log("data: ", data)
   // return
   return (
     <div className="min-h-screen">

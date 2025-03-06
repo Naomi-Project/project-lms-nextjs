@@ -35,7 +35,6 @@ export default function LibraryAdmin() {
   const [searchTerm, setSearchTerm] = useState<string>("");
 
   if (loading) return <p>Loading..</p>;
-  if (error) console.log(error);
 
   // ✅ Data untuk kategori filter
   const categories = ["global"];

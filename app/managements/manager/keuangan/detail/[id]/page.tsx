@@ -29,7 +29,6 @@ const DetailPage = () => {
     skip: !id,
   })
   // const { data: dataPayments } = useGetPaymentsQuery()
-  // console.log('pay', dataPayments)
   const data: Finance = {
     name: enrollment?.enrollment.student?.name ?? "",
     address: enrollment?.enrollment?.student?.name ?? "",
@@ -82,7 +81,6 @@ const DetailPage = () => {
   const ricianTagihan = [
     { name: enrollment?.enrollment.payment?.pricing?.name, harga: enrollment?.enrollment.payment?.pricing?.amount },
   ];
-  console.log(enrollment)
   return (
     <div className="min-h-screen">
       <CommonDetail

@@ -23,7 +23,7 @@ type Staff = {
 export default function StaffTable() {
     const { data } = useGetUsersQuery();
     const [deleteUser, { loading }] = useDeleteUserMutation();
-    console.log(data)
+    
     const columns = [
       {
         accessorKey: "id",
@@ -74,7 +74,6 @@ export default function StaffTable() {
     ];
 
   const dataStaff: Staff[] = data?.users.filter(user => user.role === "ADMIN" || user.role === "STAFF" || user.role === 'PRINCIPAL') || [];
-  console.log(dataStaff)
 
   return (
     <DataTable

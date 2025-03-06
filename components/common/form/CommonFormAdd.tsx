@@ -114,7 +114,6 @@ export function CommonFormAdd<T extends Record<any, any>>(
   const onSubmit = async (values: z.infer<typeof props.schema>) => {
     setIsSubmit(true)
     if (props.isCreateAssignment == true) {
-      // console.log(values)
       // return
         try {
             // Pastikan extendedData adalah string JSON dan parse ke objek
@@ -132,7 +131,6 @@ export function CommonFormAdd<T extends Record<any, any>>(
                 return; // Hentikan proses jika ada error
             }
     
-            console.log("Data valid:", values);
             executeMutation(values); // Jalankan jika valid
             return
         } catch (error) {
@@ -204,7 +202,6 @@ export function CommonFormAdd<T extends Record<any, any>>(
   const [createEnrollment] = useCreateEnrollmentMutation();
 
   const filledStudentToClass = async (values: any) => {
-    // console.log(values)
     // return
     try {
       const classroomResponse = await props.mutation({
@@ -269,7 +266,6 @@ export function CommonFormAdd<T extends Record<any, any>>(
         setIsSubmit(false)
         throw new Error("Submission ID tidak ditemukan!");
       }
-      console.log("Submission berhasil dibuat dengan ID:", submissionId);
       await executeMutation({
           submissionId: submissionId,
           value: score,
@@ -292,7 +288,6 @@ export function CommonFormAdd<T extends Record<any, any>>(
   };
 
   const executeMutation = async (dataMut: any) => {
-    // console.log(dataMut)
     // return
     try {
       const response = await props.mutation({

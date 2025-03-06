@@ -50,7 +50,6 @@ const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: L
       cls.students.some((student) => student.id === userId) || cls.guardian.id === userId
     );
     
-    console.log(assignment)
 
     return {
       ...assignment,
@@ -58,8 +57,7 @@ const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: L
       waliKelas: kelasDitemukan?.guardian?.name || "Tidak Diketahui",
     };
   });
-  // console.log(data)
-  // console.log(rawData)
+  // 
 
   // Filter tugas berdasarkan pencarian atau filter subject
   const tugas = useMemo(() => {

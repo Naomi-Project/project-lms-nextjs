@@ -62,7 +62,7 @@ export default function LoginPage() {
             if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
               // history.back(); 
               // router.push('/dashboard')
-              window.location.href = "/dashboard"
+              window.location.href = "/dashboard/managers"
             }
           });
         }
@@ -89,7 +89,11 @@ export default function LoginPage() {
             if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
               // history.back(); 
               // router.push('/dashboard')
-              window.location.href = "/dashboard"
+              if (role === "teacher") {
+                window.location.href = "/dashboard/teachers"
+              } else if (role === "student") {
+                window.location.href = "/dashboard/students"
+              }
             }
           });
         }

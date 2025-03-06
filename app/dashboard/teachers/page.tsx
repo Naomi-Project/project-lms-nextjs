@@ -45,7 +45,6 @@ export default function DashboardTeacher() {
     value: data.id,
   })) || []
   if (error) {
-    console.log(error)
   }
   return (
     <div className="h-auto">

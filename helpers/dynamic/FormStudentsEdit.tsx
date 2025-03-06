@@ -200,7 +200,6 @@ const FormHelpersEdit = ({ context }: HelpersProps) => {
     userFind = { ...userFind, dateOfBirth: format(new Date(userFind?.dateOfBirth), "yyyy-MM-dd"), schoolId: userFind?.school?.id ?? "" }
   }
 
-  console.log(fixData);
   return (
     <CommonFormEdit
       lable="Murid"

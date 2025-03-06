@@ -122,7 +122,6 @@ export function CommonDetail<T extends Record<any, any>>(
         alert('gagal bayar')
       }
     } catch (e) {
-      console.log(e) 
       alert('erorr')
     }
   };

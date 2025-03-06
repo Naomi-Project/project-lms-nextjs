@@ -51,7 +51,6 @@ export default function TermTable() {
     ];
 
   const dataTerm: any[] = data?.terms || [];
-  console.log(dataTerm)
 
   return (
     <DataTable

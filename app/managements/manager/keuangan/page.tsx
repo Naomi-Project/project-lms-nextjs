@@ -31,7 +31,7 @@ export default function ManagerKeuangan() {
   const totalSppBelumTerbayar = studentsNotPaid?.reduce((total, item) => {
     return total + (item.payment?.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
   }, 0);
-  console.log(data)
+  
 
   return (
     <div className="min-h-screen">

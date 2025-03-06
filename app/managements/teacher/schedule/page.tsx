@@ -41,21 +41,18 @@ export default function ScheduleTeacher() {
   const { data, loading, error } = useGetClassroomsQuery()
   if (error) {
     alert('upps ada yang error..')
-    console.log(error)
   }
   const [deleteSchedule] = useDeleteScheduleMutation()
   // cari data class yang menunjukan walikelas adalah user yang sedang login
   const { data: userPayload } = useUserPayloadQuery()
   const filteringDataGuardian: any[] = data?.classrooms.filter((item: any) => item.guardian.id === userPayload?.me.id) || [];
 
-  console.log(filteringDataGuardian)
   const monday = filteringDataGuardian[0]?.schedules.filter((item: any) => item?.day === "MONDAY") || []
   const tuesday = filteringDataGuardian[0]?.schedules.filter((item: any) => item?.day === "TUESDAY") || []
   const wednesday = filteringDataGuardian[0]?.schedules.filter((item: any) => item?.day === "WEDNESDAY") || []
   const thursday = filteringDataGuardian[0]?.schedules.filter((item: any) => item?.day === "THURSDAY") || []
   const friday = filteringDataGuardian[0]?.schedules.filter((item: any) => item?.day === "FRIDAY") || []
   const saturday = filteringDataGuardian[0]?.schedules.filter((item: any) => item?.day === "SATURDAY") || []
-  // console.log('senin', monday)
   const [open, setOpen] = useState(false);
 
   const removeAllSchedule = async (day: any) => {
@@ -80,13 +77,11 @@ export default function ScheduleTeacher() {
               location.reload(); // Refresh halaman untuk update data
             });
           } catch (e) {
-            console.log(e)
             alert('error remove 1')
           }
         })
       )
     } catch (e) {
-      console.log(e)
       alert('error saat reset jadwal')
     }
   }

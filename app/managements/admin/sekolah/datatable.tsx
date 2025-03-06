@@ -55,7 +55,6 @@ export default function SchoolTable() {
     ];
 
   const dataSchool: any[] = data?.schools || [];
-  console.log(dataSchool)
 
   return (
     <DataTable

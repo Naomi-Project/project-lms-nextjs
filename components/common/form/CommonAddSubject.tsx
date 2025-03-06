@@ -23,7 +23,6 @@ interface Subject {
 const CommonAddSubject = ({ day, classroomId }: Subject) => {
     const { data, loading, error } = useGetSubjectsQuery() 
     if (error) {
-        console.log(error)
         alert('error coba lain waktu')
     }
   const [open, setOpen] = useState(false);
@@ -52,7 +51,6 @@ const CommonAddSubject = ({ day, classroomId }: Subject) => {
         });
     } catch (error) {
         console.error('waduh error saat buat mapel ke jadwal')
-        console.log(error)
     }
   }
   return (

@@ -10,7 +10,7 @@ import { format } from "date-fns";
   
 export default function PricingTable() {
     const { data } = useGetPricingsQuery()
-    console.log(data)
+    
     const [deletePricing, { loading }] = useDeletePricingMutation();
     const columns = [
       {
@@ -49,7 +49,6 @@ export default function PricingTable() {
     ];
 
   const dataPricing: any[] = data?.pricings || [];
-  console.log(dataPricing)
 
   return (
     <DataTable

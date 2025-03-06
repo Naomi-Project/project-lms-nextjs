@@ -44,7 +44,6 @@ const FormHelpersEdit = () => {
     },
     skip: !id,
   })
-  console.log(data?.term)
   const { data: firstData } = useGetSchoolsQuery()
   const dataSchool: dataSelectTypes[] = firstData?.schools.map((data) => ({
     label: data.name,
@@ -114,7 +113,6 @@ const FormHelpersEdit = () => {
   }  
 
   const fixData = { ...data?.term, startDate: format(new Date(data?.term?.startDate || 0), "yyyy-MM-dd"), endDate: format(new Date(data?.term?.endDate || 0), "yyyy-MM-dd") }
-  // console.log("data fix: ", fixData)
   // return ''
   return (
     <CommonFormEdit

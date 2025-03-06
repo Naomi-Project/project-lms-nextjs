@@ -46,7 +46,6 @@ const FormHelpersEdit = () => {
     },
     skip: !id,
   })
-  console.log(data?.subject)
   const { data: firstData } = useGetGradesQuery()
   const dataGrades: dataSelectTypes[] = firstData?.grades.map((data) => ({
     label: data.name,

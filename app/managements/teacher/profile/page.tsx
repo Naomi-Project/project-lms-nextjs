@@ -53,7 +53,6 @@ export default function ManagerProfileStudent() {
   }
   const userPayload = userLogin?.me.role !== 'TEACHER' ? null : userLogin
   const userFind = allUser?.users.find((item) => item.id === userPayload?.me.id)
-  console.log(userFind?.families)
   if (userFind == null) {
       Swal.fire({
         title: "Error!",
