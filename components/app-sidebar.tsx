@@ -19,7 +19,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { HeadofficeMenu, ManagerMenu, StudentMenu, TeacherMenu } from "@/lib/constants";
+import { HeadofficeMenu, ManagerMenu, StudentMenu, TeacherMenu, TeacherNotGuardianMenu } from "@/lib/constants";
 import { ChevronDown, ChevronRight, User2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -36,6 +36,7 @@ export function AppSidebar() {
   const { loading: announcementLoading } = useGetAnnouncementsQuery()
   const { loading: taskLoading } = useGetAssignmentsQuery()
   const { loading: materiLoading } = useGetMaterialsQuery()
+  const { data: classRoom } = useGetClassroomsQuery();
   const { data: classrooms, loading: classLoading } = useGetClassroomsQuery()
   const [openSubMenus, setOpenSubMenus] = useState<any>({});
   
@@ -45,6 +46,7 @@ export function AppSidebar() {
   const isAdmin = userPayload?.me.role === "ADMIN"
   const isHeadOffice = userPayload?.me.role === "STAFF"
   const isTeacher = userPayload?.me.role === "TEACHER"
+  const isGuardian = classRoom?.classrooms.find((item) => item.guardian.id === userPayload?.me.id) ? true : false
   const isStudent = userPayload?.me.role === "STUDENT"
 
   // Fungsi untuk toggle dropdown pada sub-menu
@@ -148,12 +150,33 @@ export function AppSidebar() {
             </SidebarGroupContent>
           </SidebarGroup>
 
-          {/* GURU */}
-          <SidebarGroup className={isTeacher ? "" : "hidden"}>
+          {/* GURU - WALI KELAS */}
+          <SidebarGroup className={isTeacher && isGuardian ? "" : "hidden"}>
             <SidebarGroupLabel className="font-bold">Guru</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {TeacherMenu.map((item, index) =>
+                  item.visibility ? (
+                    <SidebarMenuItem key={index}>
+                      <SidebarMenuButton asChild>
+                        <a href={item.href}>
+                          <item.icon className="mr-2 h-4 w-4" />
+                          {item.title}
+                        </a>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ) : null
+                )}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+          
+          {/* GURU - BUKAN WALI KELAS */}
+          <SidebarGroup className={isTeacher && !isGuardian ? "" : "hidden"}>
+            <SidebarGroupLabel className="font-bold">Guru</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {TeacherNotGuardianMenu.map((item, index) =>
                   item.visibility ? (
                     <SidebarMenuItem key={index}>
                       <SidebarMenuButton asChild>

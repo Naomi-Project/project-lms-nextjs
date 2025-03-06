@@ -235,6 +235,83 @@ export const TeacherMenu = [
     visibility: true,
   },
 ]
+
+export const TeacherNotGuardianMenu = [
+
+  {
+    title: "Dashboard Tugas",
+    href: "/dashboard/teachers",
+    icon: Book,
+    visibility: false,
+  },
+  {
+    title: "Nilai Tugas",
+    href: "/managements/teacher/nilai",
+    icon: BookCheck,
+    visibility: false,
+  },
+  {
+    title: "Edit Tugas",
+    href: "/managements/teacher/tasks",
+    icon: HomeIcon,
+    visibility: false,
+  },
+  {
+    title: "Create Tugas",
+    href: "/managements/teacher/tasks-create",
+    icon: HomeIcon,
+    visibility: false,
+  },
+  {
+    title: "Dashboard Materi",
+    href: "/managements/teacher/material",
+    icon: Book,
+    visibility: true,
+  },
+  {
+    title: "Create Materi",
+    href: "/managements/teacher/material-create",
+    icon: Fence,
+    visibility: false,
+  },
+  {
+    title: "Detail Materi",
+    href: "/managements/teacher/material-detail",
+    icon: Fence,
+    visibility: false,
+  },
+  {
+    title: "Class",
+    href: "/managements/teacher/class",
+    icon: BookOpen,
+    visibility: false,
+  },
+  {
+    title: "Absensi",
+    href: "/managements/teacher/presence",
+    icon: Clock,
+    visibility: false,
+  },
+  {
+    title: "Jadwal Pelajaran",
+    href: "/managements/teacher/schedule",
+    icon: CalendarDays,
+    visibility: false,
+  },
+  {
+    title: "Perpustakaan Digital",
+    href: "/managements/teacher/library",
+    icon: Library,
+    visibility: true,
+  },
+  {
+    title: "Profile Guru",
+    href: "/managements/teacher/profile",
+    icon: UserPen,
+    visibility: true,
+  },
+]
+
 export const StudentMenu = [
 
   {

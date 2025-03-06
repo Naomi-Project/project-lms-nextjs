@@ -26,7 +26,6 @@ interface ListTypes {
 const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: ListTypes) => {
   const { data } = useGetAssignmentsQuery();
   const { data: userPayload } = useUserPayloadQuery();
-  const { data: classRoom } = useGetClassroomsQuery();
 
   // Gunakan useMemo agar rawData tidak berubah terus-menerus
   const userId = userPayload?.me?.id;
