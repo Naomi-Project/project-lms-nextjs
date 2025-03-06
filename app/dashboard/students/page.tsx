@@ -14,9 +14,12 @@ import {
   Fence,
   ClipboardList,
   BookText,
+  User,
+  Shield,
+  Contact,
 } from "lucide-react";
 import ListCardTugas from "@/components/common/list/CommonListCardTugas";
-import { useGetAssignmentsQuery, useGetMaterialsQuery, useGetSubjectsQuery } from "@/graphql/generated";
+import { useGetAssignmentsQuery, useGetAttendancesQuery, useGetClassroomsQuery, useGetMaterialsQuery, useGetSubjectsQuery, useUserPayloadQuery } from "@/graphql/generated";
 import { useState } from "react";
 
 interface dataSelectTypes {
@@ -27,6 +30,9 @@ interface dataSelectTypes {
 export default function DashboardStudent() {
   const { data: tugas } = useGetAssignmentsQuery()
   const { data: materi } = useGetMaterialsQuery()
+  const { data: classrooms, loading: loadClass } = useGetClassroomsQuery()
+  const { data: userPayload } = useUserPayloadQuery()
+  const { data: absen, loading } = useGetAttendancesQuery()
   const assignmentNotFinishLength = tugas?.assignments.filter((item) => item.submissions?.length == 0).length ?? "loading.."
   const assignmentLength = tugas?.assignments.length ?? "loading.."
   const materialLength = materi?.materials.length ?? "loading.."
@@ -38,8 +44,55 @@ export default function DashboardStudent() {
     label: data.name,
     value: data.id,
   })) || []
+
+  
+  const findClass: any = classrooms?.classrooms.find((item) => item.students.some((item) => item.id === userPayload?.me.id)) || []
+  const absensi: any[] = absen?.attendances.filter((item) => item.studentId === userPayload?.me.id) || []
+  
+  if (loadClass) return 'loading..'
+  
   return (
     <div className="space-y-6">
+      <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+        <div className="col-span-1 bg-white border-2 rounded-lg justify-items-center content-center py-4">
+          <div className="grid grid-cols-4 gap-2 pl-2 ">
+            <div className="col-span-1 bg-purple-100 border-purple-50 border-2 p-2 rounded-lg flex items-center justify-center">
+              <User className="w-9 h-9 text-purple-400" />
+            </div>
+
+            <div className="col-span-3 grid content-center">
+              <div className="grid grid-rows-2">
+                <div className="row-span-1">
+                  <p className="text-base text-stone-400">Profile Murid</p>
+                </div>
+
+                <div className="row-span-1">
+                  <p className="text-base">{(userPayload?.me?.name?.charAt(0).toUpperCase() || '') + (userPayload?.me?.name?.slice(1) || '') || ""} - Kelas {findClass?.name ?? ''}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-span-1 bg-white border-2 rounded-lg justify-items-center content-center py-4">
+          <div className="grid grid-cols-4 gap-2 pl-2 ">
+            <div className="col-span-1 bg-teal-100 border-teal-50 border-2 p-2 rounded-lg flex items-center justify-center">
+              <Contact className="w-9 h-9 text-teal-400" />
+            </div>
+
+            <div className="col-span-3 grid content-center">
+              <div className="grid grid-rows-2">
+                <div className="row-span-1">
+                  <p className="text-base text-stone-400">Wali Kelas</p>
+                </div>
+
+                <div className="row-span-1">
+                  <p className="text-base">{findClass.guardian.name ?? "Belum Ada"}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="grid md:grid-cols-4 grid-cols-1 gap-4">
         <div className="col-span-1 bg-white border-2 rounded-lg justify-items-center content-center py-4">
           <div className="grid grid-cols-4 gap-2 pl-2 ">
@@ -114,7 +167,7 @@ export default function DashboardStudent() {
                 </div>
 
                 <div className="row-span-1">
-                  <p className="text-base">2</p>
+                  <p className="text-base">{absensi.length || '0'}</p>
                 </div>
               </div>
             </div>

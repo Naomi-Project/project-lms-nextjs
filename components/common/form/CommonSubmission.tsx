@@ -77,13 +77,13 @@ const CommonSubmission: React.FC<CommonSubmissionProps> = ({ name, label, dataDe
     setQuestionEco(updatedQuestions);
   };
   return (
-    <FormItem>
+    <FormItem className="">
       <FormLabel>{label}</FormLabel>
       <FormControl>
       <div className="flex flex-col gap-4">
         {
           questionEco.map((item, index) => (
-          <div key={index} className="border p-4 rounded-lg relative">
+          <div key={index} className="border p-4 rounded-lg">
           {/* Input Pertanyaan */}
           <div className="flex flex-col">
             <Label htmlFor={`title-${index}`}>{item.question ? `${index + 1}. ${item.question}` : "Judul Pertanyaan Ke " + (index + 1)}</Label>

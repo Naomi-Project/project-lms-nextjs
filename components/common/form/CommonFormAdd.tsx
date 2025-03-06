@@ -333,21 +333,21 @@ export function CommonFormAdd<T extends Record<any, any>>(
         <p className="text-sm pr-2">Kembali</p>
       </Toggle>
       <div className="w-full h-auto">
-        <div className="w-full flex flex-col bg-white border rounded-lg mt-8">
+        <div className={`w-full flex flex-col mb-5 bg-white rounded-lg ${props.isSubmission ? ""  : "mt-8 border"}`}>
           <div className={`px-4 py-2`}>
             <h1>{props.title}</h1>
           </div>
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="flex py-4 px-4 flex-wrap"
+              className="flex py-4 px-4  flex-wrap w-full"
             >
               {props.sections.map((section, index) => (
-                <div key={index} className="w-full">
+                <div key={index} className="w-full ">
                   {section.fields.map((fieldGroup, groupIndex) => (
                     <div
                       key={groupIndex}
-                      className="mb-4 w-full flex flex-wrap"
+                      className="w-full flex flex-wrap"
                     >
                       {fieldGroup.map((dataField, indexField) => (
                         <div
@@ -466,7 +466,7 @@ export function CommonFormAdd<T extends Record<any, any>>(
                   ))}
                 </div>
               ))}
-              <Button type="submit" disabled={isSubmit}>{isSubmit ? (
+              <Button type="submit" className="mt-3" disabled={isSubmit}>{isSubmit ? (
                 <div role="status">
                 <svg aria-hidden="true" className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />

@@ -21,7 +21,6 @@ export default function PresenceStudent() {
     const { data: absen, loading } = useGetAttendancesQuery()
     const { data: userPayload } = useUserPayloadQuery()
     const filteringDataStudent: any[] = filterStudent?.users.filter((item: any) => item.id === userPayload?.me.id && item.role === "STUDENT") || [];
-    // const studentsInClass: any[] = (filteringDataStudent[0] as { students: any[] })?.students || [];
     const studentsInClass: any[] = absen?.attendances.filter((item) => item.studentId === userPayload?.me.id) || []
     if (loading) {
       return (
@@ -77,7 +76,11 @@ export default function PresenceStudent() {
         );
       },
     },
-  ];   
+    ];
+    const present = studentsInClass.filter((item) => item.status === 'PRESENT') || []
+    const permit = studentsInClass.filter((item) => item.status === 'PERMIT') || []
+    const sick = studentsInClass.filter((item) => item.status === 'SICK') || []
+    const bolos = studentsInClass.filter((item) => item.status === 'ABSENT') || []
   return (
     <div className="min-h-screen">
       <div className="grid md:grid-cols-4 grid-cols-2 gap-4">
@@ -94,7 +97,7 @@ export default function PresenceStudent() {
                 </div>
 
                 <div className="row-span-1">
-                  <p className="text-base font-bold">8</p>
+                  <p className="text-base font-bold">{present.length}</p>
                 </div>
               </div>
             </div>
@@ -114,7 +117,7 @@ export default function PresenceStudent() {
                 </div>
 
                 <div className="row-span-1">
-                  <p className="text-base font-bold">24</p>
+                  <p className="text-base font-bold">{permit.length}</p>
                 </div>
               </div>
             </div>
@@ -134,7 +137,7 @@ export default function PresenceStudent() {
                 </div>
 
                 <div className="row-span-1">
-                  <p className="text-base font-bold">12</p>
+                  <p className="text-base font-bold">{sick.length}</p>
                 </div>
               </div>
             </div>
@@ -150,11 +153,11 @@ export default function PresenceStudent() {
             <div className="col-span-3">
               <div className="grid grid-rows-2">
                 <div className="row-span-1">
-                  <p className="text-sm text-stone-400">Absen</p>
+                  <p className="text-sm text-stone-400">Tidak Hadir</p>
                 </div>
 
                 <div className="row-span-1">
-                  <p className="text-base font-bold">2</p>
+                  <p className="text-base font-bold">{bolos.length}</p>
                 </div>
               </div>
             </div>
@@ -166,8 +169,9 @@ export default function PresenceStudent() {
         <DataTable
           columns={columns}
           data={studentsInClass}
-          filterName="name"
-          filterPlaceholder="Cari Siswa.."
+          filterName="date"
+          hideSearch
+          filterPlaceholder="Cari Tanggal.."
         />
       </div>
     </div>

@@ -52,7 +52,7 @@ const ListCardMateri = ({ canDelete = true, role = "student", search, filter }: 
   const [deleteMaterial, { loading }] = useDeleteMaterialMutation();
 
   return (
-    <div className={`grid gap-4 ${materi.length > 0 ? 'md:grid-cols-4 grid-cols-2' : 'md:grid-cols-1 grid-cols-1'}`}>
+    <div className={`grid gap-4 ${materi.length > 0 ? 'md:grid-cols-3 grid-cols-2' : 'md:grid-cols-1 grid-cols-1'}`}>
       {materi.length > 0 ? materi.map((data, index: number) => (
         <div className="col-span-1" key={index}>
           <Link href={`/managements/${role}/material/detail/${data.id}`}>

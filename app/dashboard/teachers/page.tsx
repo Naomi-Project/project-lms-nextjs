@@ -48,7 +48,6 @@ export default function DashboardTeacher() {
     value: data.id,
   })) || []
   const classroomsData: any = classrooms?.classrooms?.find((item) => item?.guardian?.id === userPayload?.me?.id) || {};
-  console.log(classroomsData)
   return (
     <div className="h-auto">
     <div className="grid mb-3 grid-cols-1 gap-4">

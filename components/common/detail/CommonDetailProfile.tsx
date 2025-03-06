@@ -6,7 +6,7 @@ import ButtonDelete from "@/components/ui/buttonDelete";
 import { Toggle } from "@/components/ui/toggle";
 import { useDeleteFamilyMutation } from "@/graphql/generated";
 import { getValueByPath } from "@/lib/getter";
-import { Pencil } from "lucide-react";
+import { Pencil, School } from "lucide-react";
 import Image from "next/image";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface CommonSectionField<T extends Record<any, any>> {
@@ -26,6 +26,8 @@ export interface CommonDetailPageProps<T extends Record<any, any>> {
     image: string;
     name: string;
     jobdesk: string;
+    profileIcon?: string;
+    hideAddFamily?: boolean;
     epEdit?: string;
     epAddFamily?: string;
     data: T;
@@ -48,24 +50,34 @@ export function CommonDetailPage<T extends Record<any, any>>(
             <div className="border-2 rounded-lg flex flex-col justify-center md:row pt-5 pb-8 md:py-0 items-center relative mt-8 bg-white">
                 <div className="grid md:grid-cols-12 grid-cols-4 gap-4 p-4">
                     <div className="md:col-span-1 col-span-1">
-                        <Image
-                            src={props.image || ""}
-                            width={100}
-                            height={100}
-                            alt="user"
-                            className="w-16 h-16 object-cover rounded-lg mx-auto"
-                            priority={true}
-                        />
+                        {
+                            props.profileIcon ? (
+                                <div className="w-16 h-16 flex items-center justify-center bg-gray-200 rounded-md">
+                                    {
+                                        props.profileIcon === 'school' ? <School /> : ''
+                                    }
+                                </div>
+                            ) : (
+                                <Image
+                                    src={props.image || ""}
+                                    width={100}
+                                    height={100}
+                                    alt="user"
+                                    className="w-16 h-16 object-cover rounded-lg mx-auto"
+                                    priority={true}
+                                />
+                            )
+                        }
                     </div>
 
-                    <div className="md:col-span-11 col-span-1 my-auto">
+                    <div className="md:col-span-11 col-span-1 text-nowrap my-auto">
                         <h1 className="font-bold text-sm">{props.name}</h1>
                         <Badge className="bg-blue-100 text-primary shadow-none font-light">{props.jobdesk}</Badge>
                     </div>
                 </div>
                 <div className="md:absolute right-10 gap-3 flex flex-wrap">
                     <Button className="bg-blue-500 shadow-none text-white" onClick={() => window.location.href = props.epEdit ?? ''}><Pencil /> Edit</Button>
-                    <ButtonAdd endpoint={props.epAddFamily || "/managements/teacher/profile/families/create"} className="bg-green-500 text-white shadow-none hover:bg-green-600" label="Tambah Keluarga" />
+                    <ButtonAdd endpoint={props.epAddFamily || "/managements/teacher/profile/families/create"} className={`bg-green-500 text-white shadow-none hover:bg-green-600" label="Tambah Keluarga ${props.hideAddFamily ? 'hidden' : ''}`} />
                 </div>
             </div>
             <div>

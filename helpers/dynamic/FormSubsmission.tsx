@@ -55,7 +55,7 @@ const FormHelpersAdd = ({ idAssignment, dataDefault }: FHelper) => {
           {
             key: "extendedData",
             label: "Soal-soal",
-            class: "md:w-full lg:w-full",
+            class: "md:w-full lg:w-full w-full",
             emptyValue: "-",
             type: "submission",
             placeholder: "",

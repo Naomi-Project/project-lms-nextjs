@@ -107,7 +107,7 @@ export default function TasksDetail({ role = "teacher", dataDefault, idAssignmen
       </div>
 
       {/* 🔹 isi soal */}
-      <div className="border-none rounded-lg py-5 px- mt-10 bg-white">
+      <div className="border-none rounded-lg py-5 mb-10 mt-10 bg-white">
         <div className="grid grid-cols-10 gap-4 px-2 ">
           <div className="md:col-span-1 col-span-2 grid justify-items-center md:border-r-2 border-slate-400">
             <div className="p-2 md:border-2 rounded-full border-slate-400">

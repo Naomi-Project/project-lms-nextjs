@@ -5,8 +5,8 @@ import ButtonAdd from "@/components/ui/buttonAdd";
 
 
 import { Tabs, TabsContent } from "@/components/ui/tabs";
-import StudentTable from "./datatable";
 import { useGetUsersQuery } from "@/graphql/generated";
+import StudentTable from "./datatable";
 
 
 export default function ManagerStudent() {

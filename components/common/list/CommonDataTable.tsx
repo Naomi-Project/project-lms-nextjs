@@ -38,6 +38,7 @@ type DataTableProps<TData> = {
   filterName: string;
   data: TData[];
   isAttendance?: boolean;
+  hideSearch?: boolean;
   isBulkAction?: boolean;
   filterPlaceholder?: string;
   setSelectedStudents?: (selectedRows: TData[]) => void;
@@ -48,6 +49,7 @@ export function DataTable<TData>({
   columns,
   data,
   isAttendance,
+  hideSearch,
   isBulkAction,
   setSelectedStudents,
   filterName = "id",
@@ -182,7 +184,7 @@ export function DataTable<TData>({
             onChange={(event) =>
               table.getColumn(filterName)?.setFilterValue(event.target.value)
             }
-            className="max-w-sm"
+            className={`max-w-sm ${hideSearch ? "hidden" : ''}`}
           />
         </div>
         <DropdownMenu>

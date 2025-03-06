@@ -82,12 +82,6 @@ export const ManagerMenu = [
         visibility: true,
       },
       {
-        title: "Profile Sekolah",
-        href: "/managements/manager/pricing",
-        icon: Wallet,
-        visibility: true,
-      },
-      {
         title: "Kurikulum",
         href: "/managements/manager/kurikulum",
         icon: BookA,
@@ -97,6 +91,12 @@ export const ManagerMenu = [
         title: "Semester",
         href: "/managements/manager/semester",
         icon: BookA,
+        visibility: true,
+      },
+      {
+        title: "Profile Sekolah",
+        href: "/managements/manager/profile",
+        icon: Wallet,
         visibility: true,
       },
     ]

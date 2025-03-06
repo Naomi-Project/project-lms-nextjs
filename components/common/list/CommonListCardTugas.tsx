@@ -84,6 +84,8 @@ const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: L
   }, [search, filter, tugasDenganKelas]);
 
   const [deleteAssignments, { loading }] = useDeleteAssignmentMutation();
+  console.log(tugas)
+  // const isDone = tugas.find((item => item.submissions))
 
   return (
     <div className={`w-full grid  gap-4 mt-2 ${tugas.length > 0 ? 'md:grid-cols-4 grid-cols-1' : 'md:grid-cols-1 grid-cols-1'}`}>
@@ -96,10 +98,17 @@ const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: L
                   <div className="flex flex-wrap gap-4">
                     <CardTitle
                       className={`fontligh text-xs py-1 w-auto px-3 rounded-full text-center font-bold ${
-                        data.submissions?.length > 0 ? "bg-blue-100 text-blue-400" : "bg-red-100 text-red-400"
+                        data?.submissions?.find((item) => item?.studentId === userId) ? "bg-blue-100 text-blue-400 hidden" : "bg-red-100 text-red-400"
                       }`}
                     >
-                      {data.submissions?.length > 0 ? "Sudah Dikerjakan" : "Belum Dikerjakan"}
+                      {data.submissions.find((item) => item.studentId === userId) ? "Sudah Dikerjakan" : "Belum Dikerjakan"}
+                    </CardTitle>
+                    <CardTitle
+                      className={`fontligh text-xs py-1 w-auto px-3 rounded-full text-center font-bold ${
+                        data?.submissions?.find((item) => item?.studentId === userId) ? "bg-blue-100 text-blue-400" : "bg-red-100 text-red-400"
+                      }`}
+                    >
+                      {data.submissions.find((item) => item.studentId === userId) ? 'Nilai Mu ' + data.submissions.find((item) => item.studentId === userId)?.score?.value + '' : "Tidak ada Nilai"}
                     </CardTitle>
                   </div>
                   {canDelete && (

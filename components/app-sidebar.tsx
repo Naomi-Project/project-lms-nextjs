@@ -78,7 +78,7 @@ export function AppSidebar() {
 
         <SidebarContent>
           {/* ADMINISTRASI */}
-          <SidebarGroup className={isAdmin ? "" : "hidden"}>
+          <SidebarGroup className={isAdmin ? "" : ""}>
             <SidebarGroupLabel className="font-bold">Administrasi</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
@@ -151,7 +151,7 @@ export function AppSidebar() {
           </SidebarGroup>
 
           {/* GURU - WALI KELAS */}
-          <SidebarGroup className={isTeacher && isGuardian ? "" : "hidden"}>
+          <SidebarGroup className={isTeacher && isGuardian ? "" : ""}>
             <SidebarGroupLabel className="font-bold">Guru</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
@@ -193,7 +193,7 @@ export function AppSidebar() {
           </SidebarGroup>
 
           {/* MURID */}
-          <SidebarGroup className={isStudent ? "" : "hidden"}>
+          <SidebarGroup className={isStudent ? "" : ""}>
             <SidebarGroupLabel className="font-bold">Murid</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
