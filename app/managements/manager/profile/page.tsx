@@ -83,7 +83,7 @@ export default function ManagerProfileManager() {
     npsn: findSchoolByUser.npsn ?? "",
     tingkatSekolah: findSchoolByUser.name ?? "",
     akreditasi: findSchoolByUser.accreditation ?? "",
-    tahunBerdiri: format(findSchoolByUser.foundAt, 'yyyy-MM-dd') ?? "",
+    tahunBerdiri: format((findSchoolByUser.foundAt ?? ''), 'yyyy-MM-dd') ?? "",
     address: findSchoolByUser.address ?? "",
     phone: parseInt(findSchoolByUser.phone ?? ""),
     email: findSchoolByUser.email ?? "",
