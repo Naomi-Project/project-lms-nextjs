@@ -3,7 +3,7 @@
 import { DataTable } from "@/components/common/list/CommonDataTable";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
-import { useDeleteUserMutation, useGetUsersQuery } from "@/graphql/generated";
+import { useDeleteUserMutation, useGetClassroomsQuery, useGetUsersQuery} from "@/graphql/generated";
 
 
 type Student = {
@@ -22,7 +22,8 @@ type Student = {
   
   
 export default function StudentTable() {
-    const { data, error } = useGetUsersQuery()
+  const { data, error } = useGetUsersQuery()
+  const { data: classrooms } = useGetClassroomsQuery();
     const [deleteUser, { loading }] = useDeleteUserMutation();
     const columns = [
       {
@@ -44,9 +45,9 @@ export default function StudentTable() {
         // cell: () => <span>7A</span>,
       },
       {
-        accessorKey: "address",
-        header: "ALAMAT",
-        cell: ({ row }: any) => <span>{row.getValue("address")}</span>,
+        accessorKey: "class",
+        header: "KELAS",
+        cell: ({ row }: any) => <span>{row.getValue("class")}</span>,
       },
       {
         accessorKey: "phone",
@@ -74,7 +75,20 @@ export default function StudentTable() {
       },
     ];
 
-  const dataStudent: any[] = data?.users.filter(user => user.role === "STUDENT") || [];
+  const classroomsData = classrooms?.classrooms || [];
+
+  let dataStudent: any[] = data?.users.filter(user => user.role === "STUDENT").map(student => {
+    const classFind = classroomsData.filter(sub =>
+      sub.students.some(t => t.id === student.id)
+    );
+
+    // Gabungkan data student dengan subjects yang ditemukan
+    return {
+      ...student,
+      class: classFind.map(sub => sub.name).join(" | ") || "-",
+    };
+  }) || [];
+
 
   return (
     <DataTable

@@ -4,7 +4,7 @@ import { DataTable } from "@/components/common/list/CommonDataTable";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
 import { AttendanceStatus, useCreateAttendanceMutation, useDeleteAnnouncementMutation, useDeleteAttendanceMutation, useGetAttendancesQuery, useGetClassroomsQuery, useGetMaterialsQuery, useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";
-import { endOfDay, format, startOfDay } from "date-fns";
+import { endOfDay, format, isSameDay, startOfDay, subDays } from "date-fns";
 import {
   Select,
   SelectContent,
@@ -16,6 +16,8 @@ import { Button } from "@/components/ui/button";
 import * as React from 'react'
 import { Badge } from "@/components/ui/badge";
 import Swal from "sweetalert2";
+import { id } from "date-fns/locale";
+
 
   
   
@@ -26,6 +28,9 @@ export default function AttendancesTable() {
     const [deleteAttendance, { loading }] = useDeleteAttendanceMutation();
     const [attendanceStatus, setAttendanceStatus] = React.useState<{ [key: string]: string }>({});
     const [selectedStudents, setSelectedStudents] = React.useState<any[]>([])
+    const today = startOfDay(new Date()); 
+    const yesterday = subDays(today, 1);  
+    const todayData = format(new Date(), "EEEE, dd MMMM yyyy", { locale: id });
 
     const columns = [
       {
@@ -34,11 +39,21 @@ export default function AttendancesTable() {
         cell: ({ row }: any) => <span className="">{row.getValue('name')}</span>,
       },
       {
+        accessorKey: "nisn",
+        header: "NISN",
+        cell: ({ row }: any) => <span className="">{row.getValue('nisn')}</span>,
+      },
+      // {
+      //   accessorKey: "phone",
+      //   header: "NO. HP ORTU",
+      //   cell: ({ row }: any) => <span className="">{row.getValue('phone')}</span>,
+      // },
+      {
         accessorKey: "action",
         header: "ABSENSI",
         cell: ({ row }: any) => {
           const existingAttendance = absen?.attendances.find(
-            (item) => item.studentId === row.original.id
+            (item) => item.studentId === row.original.id && isSameDay(new Date(item.date), today)
           );
     
           // Jika sudah absen, tampilkan status
@@ -217,8 +232,9 @@ export default function AttendancesTable() {
   };
   
   const resetAbsen = () => {
+    // console.log(absen?.attendances.filter((item) => item.classroomId === filteringDataGuardian[0].id  && isSameDay(new Date(item.date), today)))
     // return
-    absen?.attendances.filter((item) => item.classroomId === filteringDataGuardian[0].id).map(async(item) => {
+    absen?.attendances.filter((item) => item.classroomId === filteringDataGuardian[0].id  && isSameDay(new Date(item.date), today)).map(async(item) => {
       try {
         await deleteAttendance({
           variables: {
@@ -241,11 +257,14 @@ export default function AttendancesTable() {
   return (
     <>
     <div className="flex justify-between flex-wrap gap-10 border-2 bg-white rounded-lg px-10 py-10">
-        <h1 className="text-3xl font-bold">Absensi Hari Ini</h1>
+        <div>
+          <h1 className="text-3xl font-bold">Absensi Hari Ini - {todayData}</h1>
+          <p>Semua absen akan tereset otomatis setiap harinya.</p>
+        </div>
         <div className="flex gap-6">
-          <Button variant="default" className="bg-red-600 hover:bg-red-700" onClick={() => resetAbsen()}>
+          {/* <Button variant="default" className="bg-red-600 hover:bg-red-700" onClick={() => resetAbsen()}>
             Reset Absensi
-          </Button>
+          </Button> */}
           <Button variant="default" onClick={() => handleAttendanceSubmit(selectedStudents)}>
             Lakukan Absensi
           </Button>

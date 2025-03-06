@@ -1,10 +1,6 @@
 'use client'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+/* eslint-disable */
+import { useState } from "react";
 import {
   Sidebar,
   SidebarContent,
@@ -17,15 +13,48 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { HeadofficeMenu, ManagerMenu, StudentMenu, TeacherMenu } from "@/lib/constants";
-import { User2 } from "lucide-react";
+import { ChevronDown, ChevronRight, User2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "../image/logo.png";
 import ButtonLogout from "./ui/buttonLogout";
 import ProfileSidebar from "./ui/profileSidebar";
+import Splash from "./splash";
+import { useLoadingQueries } from "@/hooks/useLoadingQueries";
+import { useGetAnnouncementsQuery, useGetAssignmentsQuery, useGetClassroomsQuery, useGetMaterialsQuery, useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";
 
-export function AppSidebar() {
+export function AppSidebar() { 
+  const { data: userPayload, loading: userPayloadLoading } = useUserPayloadQuery()
+  const { loading: usersLoading } = useGetUsersQuery()
+  const { loading: announcementLoading } = useGetAnnouncementsQuery()
+  const { loading: taskLoading } = useGetAssignmentsQuery()
+  const { loading: materiLoading } = useGetMaterialsQuery()
+  const { data: classrooms, loading: classLoading } = useGetClassroomsQuery()
+  const [openSubMenus, setOpenSubMenus] = useState<any>({});
+  
+  if (userPayloadLoading || classLoading || usersLoading || announcementLoading || taskLoading || materiLoading) return <Splash />
+  
+  // pengecekan role sesuai menu
+  const isAdmin = userPayload?.me.role === "ADMIN"
+  const isHeadOffice = userPayload?.me.role === "STAFF"
+  const isTeacher = userPayload?.me.role === "TEACHER"
+  const isStudent = userPayload?.me.role === "STUDENT"
+
+  // Fungsi untuk toggle dropdown pada sub-menu
+  const toggleSubMenu = (menuTitle: any) => {
+    setOpenSubMenus((prev: any) => ({
+      ...prev,
+      [menuTitle]: !prev[menuTitle],
+    }));
+  };
+  
   return (
     <div className="bg-white">
       <Sidebar className="bg-white">
@@ -44,41 +73,67 @@ export function AppSidebar() {
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarHeader>
+
         <SidebarContent>
-          {/* administration menu */}
-          <SidebarGroup>
-            <SidebarGroupLabel className="font-bold">
-              Administrasi
-            </SidebarGroupLabel>
+          {/* ADMINISTRASI */}
+          <SidebarGroup className={isAdmin ? "" : ""}>
+            <SidebarGroupLabel className="font-bold">Administrasi</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {ManagerMenu.map((item, index) =>
-                  item.visibility == true ? (
+                  item.visibility ? (
                     <SidebarMenuItem key={index}>
-                      <SidebarMenuButton asChild>
-                        <a href={item.href}>
-                          <item.icon className="mr-2 h-4 w-4" />
-                          {item.title}
-                        </a>
-                      </SidebarMenuButton>
+                      {/* Jika ada sub-menu */}
+                      {item.subMenu ? (
+                        <>
+                          <SidebarMenuButton
+                            className="flex justify-between items-center w-full"
+                            onClick={() => toggleSubMenu(item.title)}
+                          >
+                            <span className="flex items-center">
+                              <item.icon className="mr-2 h-4 w-4" />
+                              {item.title}
+                            </span>
+                            {openSubMenus[item.title] ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+                          </SidebarMenuButton>
+                          {openSubMenus[item.title] && (
+                            <div className="ml-6 border-l border-gray-300">
+                              {item.subMenu.map((sub, subIndex) => (
+                                <div key={subIndex} className="ml-2">
+                                  <SidebarMenuButton asChild>
+                                    <a href={sub.href}>
+                                      {/* <sub.icon className="mr-2 h-4 w-4" /> */}
+                                      {sub.title}
+                                    </a>
+                                  </SidebarMenuButton>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        // Jika tidak ada submenu, tampilkan sebagai menu biasa
+                        <SidebarMenuButton asChild>
+                          <a href={item.href}>
+                            <item.icon className="mr-2 h-4 w-4" />
+                            {item.title}
+                          </a>
+                        </SidebarMenuButton>
+                      )}
                     </SidebarMenuItem>
-                  ) : (
-                    <></>
-                  )
+                  ) : null
                 )}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
 
-          {/* main menu */}
-          <SidebarGroup>
-            <SidebarGroupLabel className="font-bold">
-              Headoffice
-            </SidebarGroupLabel>
+          {/* HEAD OFFICE */}
+          <SidebarGroup className={isHeadOffice ? "" : "hidden"}>
+            <SidebarGroupLabel className="font-bold">Headoffice</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {HeadofficeMenu.map((item, index) =>
-                  item.visibility == true ? (
+                  item.visibility ? (
                     <SidebarMenuItem key={index}>
                       <SidebarMenuButton asChild>
                         <a href={item.href}>
@@ -87,23 +142,19 @@ export function AppSidebar() {
                         </a>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
-                  ) : (
-                    <></>
-                  )
+                  ) : null
                 )}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
 
-          {/* main menu */}
-          <SidebarGroup>
-            <SidebarGroupLabel className="font-bold">
-              Guru
-            </SidebarGroupLabel>
+          {/* GURU */}
+          <SidebarGroup className={isTeacher ? "" : "hidden"}>
+            <SidebarGroupLabel className="font-bold">Guru</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {TeacherMenu.map((item, index) =>
-                  item.visibility == true ? (
+                  item.visibility ? (
                     <SidebarMenuItem key={index}>
                       <SidebarMenuButton asChild>
                         <a href={item.href}>
@@ -112,23 +163,19 @@ export function AppSidebar() {
                         </a>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
-                  ) : (
-                    <></>
-                  )
+                  ) : null
                 )}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
 
-          {/* main menu */}
-          <SidebarGroup>
-            <SidebarGroupLabel className="font-bold">
-              Murid
-            </SidebarGroupLabel>
+          {/* MURID */}
+          <SidebarGroup className={isStudent ? "" : "hidden"}>
+            <SidebarGroupLabel className="font-bold">Murid</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {StudentMenu.map((item, index) =>
-                  item.visibility == true ? (
+                  item.visibility ? (
                     <SidebarMenuItem key={index}>
                       <SidebarMenuButton asChild>
                         <a href={item.href}>
@@ -137,14 +184,13 @@ export function AppSidebar() {
                         </a>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
-                  ) : (
-                    <></>
-                  )
+                  ) : null
                 )}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
+
         <SidebarFooter>
           <SidebarGroup>
             <SidebarGroupLabel>Akun</SidebarGroupLabel>
@@ -155,15 +201,11 @@ export function AppSidebar() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56">
                   <DropdownMenuItem>
-                    <Link
-                      href="/managements/student/profile"
-                      className="w-full"
-                    >
+                    <Link href="/managements/student/profile" className="w-full">
                       <div className="grid grid-cols-10 gap-4">
                         <div className="col-span-1">
                           <User2 className="mr-2 h-4 w-4" />
                         </div>
-
                         <div className="col-span-9">
                           <p>Profile</p>
                         </div>

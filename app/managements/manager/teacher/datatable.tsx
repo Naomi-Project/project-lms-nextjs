@@ -3,7 +3,7 @@
 import { DataTable } from "@/components/common/list/CommonDataTable";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
-import { useDeleteUserMutation, useGetSubjectsQuery, useGetUsersQuery } from "@/graphql/generated";
+import { useDeleteUserMutation, useGetClassroomsQuery, useGetSubjectsQuery, useGetUsersQuery } from "@/graphql/generated";
 
 type Teacher = {
     id: string;
@@ -22,6 +22,7 @@ type Teacher = {
 export default function TeacherTable() {
     const { data } = useGetUsersQuery();
     const { data: subject } = useGetSubjectsQuery();
+    const { data: classrooms } = useGetClassroomsQuery();
     const [deleteUser, { loading }] = useDeleteUserMutation();
     const columns = [
       {
@@ -48,9 +49,9 @@ export default function TeacherTable() {
         cell: ({ row }: any) => <span>{row.getValue("subjects")}</span>,
       },
       {
-        accessorKey: "phone",
-        header: "PHONE",
-        cell: ({ row }: any) => <span>{row.getValue("phone")}</span>,
+        accessorKey: "guardian",
+        header: "WALI KELAS",
+        cell: ({ row }: any) => <span>{row.getValue("guardian")}</span>,
       },
       {
         accessorKey: "school",
@@ -68,6 +69,7 @@ export default function TeacherTable() {
     ];
   // Ambil semua subjects
 const subjectsData = subject?.subjects || [];
+const classroomsData = classrooms?.classrooms || [];
 
 // Proses data teachers dengan subjects
 const dataTeacher: any[] = data?.users
@@ -77,11 +79,15 @@ const dataTeacher: any[] = data?.users
     const teacherSubjects = subjectsData.filter(sub =>
       sub.teachers.some(t => t.id === teacher.id)
     );
+    const guardianFind = classroomsData.filter(sub =>
+      sub.guardian.id === teacher.id
+    );
 
     // Gabungkan data teacher dengan subjects yang ditemukan
     return {
       ...teacher,
-      subjects: teacherSubjects.map(sub => sub.name).join(" | ") || "-", // Ambil nama subject
+      subjects: teacherSubjects.map(sub => sub.name).join(" | ") || "-",
+      guardian: guardianFind.map(cls => cls.name).join(" | ") || "-",
     };
   }) || [];
 
