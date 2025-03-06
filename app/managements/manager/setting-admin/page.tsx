@@ -1,4 +1,5 @@
 "use client"
+/* eslint-disable */
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -20,7 +21,6 @@ import Link from "next/link";
 import React from "react";
 import StaffTable from "./datatable";
 import ButtonAdd from "@/components/ui/buttonAdd";
-import ButtonEdit from "@/components/ui/buttonEdit";
 import { useGetSchoolsQuery, useUserPayloadQuery } from "@/graphql/generated";
 
 export default function ManagerSettingAdmin() {

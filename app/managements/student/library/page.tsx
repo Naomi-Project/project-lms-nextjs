@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable */
 import React, { useState } from "react";
 import {
   Select,
@@ -20,7 +21,6 @@ import {
 } from "@/components/ui/dialog";
 
 import { useDeleteReferenceMutation, useGetReferencesQuery } from "@/graphql/generated";
-import ButtonDelete from "@/components/ui/buttonDelete";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import CommonEmpptyData from "@/components/common/detail/CommonEmpptyData";

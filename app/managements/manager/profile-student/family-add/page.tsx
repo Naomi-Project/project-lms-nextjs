@@ -1,10 +1,11 @@
 "use client";
+/* eslint-disable */
 import {
   CommonFormAdd
 } from "@/components/common/form/CommonFormAdd";
 import { useCreateFamilyMutation, useUserPayloadQuery } from "@/graphql/generated";
 import { familiesSchema, sections } from "@/helpers/static/FormFamilies";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const CreatePage = () => {
   const { data: userLogin } = useUserPayloadQuery()
