@@ -172,7 +172,11 @@ const FormHelpersEdit = ({ context }: HelpersProps) => {
       });
     return
   }
+  
+  if (loadSchool) return
+
   const findSchoolByUser: any = schools?.schools.find((item) => item.users.some((usr) => usr.id === userFind.id)) || {}
+
   const data: Form = {
     name: findSchoolByUser.name ?? "",
     npsn: findSchoolByUser.npsn ?? "",
