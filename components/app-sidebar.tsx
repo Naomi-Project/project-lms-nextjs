@@ -44,7 +44,7 @@ export function AppSidebar() {
   
   // pengecekan role sesuai menu
   const isAdmin = userPayload?.me.role === "ADMIN"
-  const isHeadOffice = userPayload?.me.role === "STAFF"
+  const isHeadOffice = userPayload?.me.role === "STAFF" || userPayload?.me.role === "PRINCIPAL"
   const isTeacher = userPayload?.me.role === "TEACHER"
   const isGuardian = classRoom?.classrooms.find((item) => item.guardian.id === userPayload?.me.id) ? true : false
   const isStudent = userPayload?.me.role === "STUDENT"
@@ -78,7 +78,7 @@ export function AppSidebar() {
 
         <SidebarContent>
           {/* ADMINISTRASI */}
-          <SidebarGroup className={isAdmin ? "" : "hidden"}>
+          <SidebarGroup className={isAdmin && isHeadOffice ? "" : "hidden"}>
             <SidebarGroupLabel className="font-bold">Administrasi</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
@@ -224,7 +224,7 @@ export function AppSidebar() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56">
                   <DropdownMenuItem>
-                    <Link href="/managements/student/profile" className="w-full">
+                    <Link href={userPayload?.me.role === "STUDENT" ? "/managements/student/profile" : userPayload?.me.role === "TEACHER" ? "/managements/teacher/profile" : userPayload?.me.role === "ADMIN" ? "/managements/manager/profile" : userPayload?.me.role === "STAFF" || userPayload?.me.role === "PRINCIPAL" ? "/managements/manager/profile" : ""} className="w-full">
                       <div className="grid grid-cols-10 gap-4">
                         <div className="col-span-1">
                           <User2 className="mr-2 h-4 w-4" />

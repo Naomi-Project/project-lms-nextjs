@@ -161,9 +161,9 @@ export default function LibraryStudent() {
                 <div className="bg-blue-100 cursor-pointer rounded-md flex items-center justify-center py-2 px-4" onClick={() => window.open(item.url, "_blank")}>
                   <Link className="text-blue-400 mx-auto" />
                 </div>
-                <div className="bg-red-100 cursor-pointer rounded-md flex items-center justify-center py-2 px-4">
+                {/* <div className="bg-red-100 cursor-pointer rounded-md flex items-center justify-center py-2 px-4">
                   <ButtonDelete hideLable id={item.id} mutation={deleteReference} noBg customClassNoBg="shadow-none bg-transparent hover:bg-transparent text-red-400 p-0 w-full" />
-                </div>
+                </div> */}
               </div>
             </div>
           ))

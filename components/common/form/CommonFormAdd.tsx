@@ -41,6 +41,7 @@ import Swal from "sweetalert2";
 import { setTimeout } from "timers";
 import SelectMultiple2 from "./CommonSelectMultiple2";
 import { usePathname, useRouter } from "next/navigation";
+import CommonDatePicker2 from "./CommonDatePicker2";
 
 export interface CommonFormAddField<T extends Record<any, any>> {
   key: keyof T & string;
@@ -430,6 +431,7 @@ export function CommonFormAdd<T extends Record<any, any>>(
                             <SelectMultiple2 name={String(dataField.key)} label={dataField.label} options={dataField.dataSelect ?? []} />
                           ) : dataField.type === "date_picker" ? (
                             <CommonDatePicker name={String(dataField.key)} label={dataField.label} />
+                            // <CommonDatePicker2 name={String(dataField.key)} label={dataField.label} />
                           ) : dataField.type === "date_time" ? (
                             <CommonDateTimePicker name={String(dataField.key)} label={dataField.label} />
                           ) : dataField.type === "md" ? (

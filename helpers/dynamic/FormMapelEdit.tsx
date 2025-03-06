@@ -129,7 +129,7 @@ const FormHelpersEdit = () => {
     return (
       <p>Loading..</p>
     );
-  }  
+  }
   
   // const fixData = { ...data?.subject, startDate: format(new Date(data?.subject?.startDate || 0), "yyyy-MM-dd"), endDate: format(new Date(data?.subject?.endDate || 0), "yyyy-MM-dd") }
   const fixData = {...data?.subject, teacherId: data?.subject.teachers[0].id, gradeId: data?.subject.grade.id, curriculumId: data?.subject.curriculum.id}

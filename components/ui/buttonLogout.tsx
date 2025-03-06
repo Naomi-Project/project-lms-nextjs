@@ -4,10 +4,20 @@ import Link from 'next/link'
 import React from 'react'
 
 const ButtonLogout = () => {
-    const handleLogout = () => {
-        localStorage.removeItem('authToken')
-        window.location.href = "/"
-    }
+    const handleLogout = async () => {
+      try {
+        await fetch("/api/logout", { method: "GET" });
+    
+        // Hapus token dari localStorage (opsional, jika ada)
+        localStorage.removeItem("authToken");
+    
+        // Redirect user ke halaman login
+        window.location.href = "/";
+      } catch (error) {
+        console.error("❌ Logout failed:", error);
+      }
+    };
+    
   return (
     <Link href='' onClick={() => handleLogout()} className="w-full">
       <div className="grid grid-cols-10 gap-4">

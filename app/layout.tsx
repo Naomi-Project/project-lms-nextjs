@@ -2,6 +2,7 @@ import { Toaster } from "@/components/ui/sonner";
 import CustomApolloProvider from "@/lib/ApolloProvider";
 import localFont from "next/font/local";
 import "./globals.css";
+// import { useUserRole } from "@/hooks/useUserRole";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,6 +26,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // useUserRole();
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>

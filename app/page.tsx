@@ -35,75 +35,55 @@ export default function LoginPage() {
 
   // new code from react auth login
   const handleLogin = async (e: any) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      setIsError(false)
+      setIsError(false);
+      let response;
+  
       if (role === "manager" || role === "admin") {
-        const response = await login({
+        response = await login({
           variables: {
-            data: {
-              username: username,
-              password: password,
-            }
-          }
-        })
-
-        
-  
-        if (response.data?.login.authToken) {
-          localStorage.setItem("authToken", response.data.login.authToken);
-          Swal.fire({
-            title: "Berhasil Login!",
-            text: "Anda telah berhasil login!",
-            icon: "success",
-            timer: 2000,
-            timerProgressBar: true,
-          }).then((result) => {
-            if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
-              // history.back(); 
-              // router.push('/dashboard')
-              window.location.href = "/dashboard/managers"
-            }
-          });
-        }
-        return true
+            data: { username, password },
+          },
+        });
       } else if (role === "teacher" || role === "student") {
-        const response = await login({
+        response = await login({
           variables: {
-            data: {
-              username: String(number),
-              password: "",
-            }
-          }
-        })
+            data: { username: number, password: "" },
+          },
+        });
+      }
   
-        if (response.data?.login.authToken) {
-          localStorage.setItem("authToken", response.data.login.authToken);
-          Swal.fire({
-            title: "Berhasil Login!",
-            text: "Anda telah berhasil login!",
-            icon: "success",
-            timer: 2000,
-            timerProgressBar: true,
-          }).then((result) => {
-            if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
-              // history.back(); 
-              // router.push('/dashboard')
-              if (role === "teacher") {
-                window.location.href = "/dashboard/teachers"
-              } else if (role === "student") {
-                window.location.href = "/dashboard/students"
-              }
-            }
-          });
-        }
-        return true
+      if (response?.data?.login.authToken) {
+        localStorage.setItem("authToken", response?.data.login.authToken);
+  
+        // Kirim token ke API untuk menyimpan ke cookies
+        await fetch("/api/set-cookie", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ token: response?.data.login.authToken }),
+        });
+  
+        Swal.fire({
+          title: "Berhasil Login!",
+          text: "Anda telah berhasil login!",
+          icon: "success",
+          timer: 2000,
+          timerProgressBar: true,
+        }).then((result) => {
+          if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
+            window.location.href = "/dashboard/managers";
+          }
+        });
       }
     } catch (err) {
-      setIsError(true)
+      setIsError(true);
       console.error("Login error:", err);
     }
   };
+  
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-blue-900">

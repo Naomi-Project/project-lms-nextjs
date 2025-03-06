@@ -1,3 +1,4 @@
+"use client"
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -19,8 +20,14 @@ import Link from "next/link";
 import React from "react";
 import StaffTable from "./datatable";
 import ButtonAdd from "@/components/ui/buttonAdd";
+import ButtonEdit from "@/components/ui/buttonEdit";
+import { useGetSchoolsQuery, useUserPayloadQuery } from "@/graphql/generated";
 
 export default function ManagerSettingAdmin() {
+  const { data: schools, loading: loadSchool } = useGetSchoolsQuery()
+  const { data: userLogin, loading } = useUserPayloadQuery()
+  const findSchoolByUser: any = schools?.schools.find((item) => item.users.some((usr) => usr.id === userLogin?.me.id)) || {}
+  
   return (
     <div className="min-h-screen">
       <div className="flex justify-start">
@@ -55,7 +62,26 @@ export default function ManagerSettingAdmin() {
         </ToggleGroup>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 mt-4">
+      <div className="grid grid-cols-1 gap-4 mt-4">
+        <div className="col-span-1 border-2 rounded-lg bg-white p-5">
+          <div className="flex justify-between">
+            <div className="">
+              <h1 className="text-slate-400 text-base">Nama Sekolah</h1>
+
+              <p className="font-bold text-3xl mt-3">{findSchoolByUser.name}</p>
+
+              <p className="text-base mt-1">+{findSchoolByUser.phone}</p>
+            </div>
+
+            <div className="">
+              <Link href={'/managements/manager/profile'}>
+                <Button variant={'default'}>Edit</Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className=" hidden grid-cols-2 gap-4 mt-4">
         <div className="col-span-1 border-2 rounded-lg bg-white p-5">
           <div className="flex justify-between">
             <div className="">

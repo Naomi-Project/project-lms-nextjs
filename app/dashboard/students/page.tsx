@@ -49,7 +49,7 @@ export default function DashboardStudent() {
   const findClass: any = classrooms?.classrooms.find((item) => item.students.some((item) => item.id === userPayload?.me.id)) || []
   const absensi: any[] = absen?.attendances.filter((item) => item.studentId === userPayload?.me.id) || []
   
-  if (loadClass) return 'loading..'
+  if (loadClass || loading) return 'loading..'
   
   return (
     <div className="space-y-6">
@@ -86,7 +86,7 @@ export default function DashboardStudent() {
                 </div>
 
                 <div className="row-span-1">
-                  <p className="text-base">{findClass.guardian.name ?? "Belum Ada"}</p>
+                  <p className="text-base">{findClass?.guardian?.name ?? "Belum Ada"}</p>
                 </div>
               </div>
             </div>

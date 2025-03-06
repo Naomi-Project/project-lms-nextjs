@@ -17,16 +17,18 @@ const CreatePage = () => {
   });
   const [createFamily] = useCreateFamilyMutation();
 
-  useEffect(() => {
-    setDataMutationDefault({...dataMutationDefault, userId: userLogin?.me.id ?? ""})
-  }, [userLogin?.me.id, dataMutationDefault])
+  // useEffect(() => {
+  //   setDataMutationDefault({...dataMutationDefault, userId: userLogin?.me.id ?? ""})
+  // }, [userLogin?.me.id, dataMutationDefault])
+ 
+  const dataFix: any = {...dataMutationDefault, userId: userLogin?.me.id ?? ''}
   return (
     <CommonFormAdd
       lable="Families"
       title="Buat Data Keluarga"
       method="POST"
       mutation={createFamily}
-      dataMutation={dataMutationDefault}
+      dataMutation={dataFix || []}
       isUseDefaultMutation={true}
       setDataMutation={setDataMutationDefault}
       schema={familiesSchema}
