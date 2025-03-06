@@ -16,6 +16,7 @@ import {
   ClipboardList,
   Fence,
   Plus,
+  School,
   Search,
 } from "lucide-react";
 import Link from "next/link";
@@ -23,7 +24,7 @@ import React, { useState } from "react";
 
 
 import ListCardTugas from "@/components/common/list/CommonListCardTugas";
-import { useGetAssignmentsQuery, useGetMaterialsQuery, useGetSubjectsQuery } from "@/graphql/generated";
+import { useGetAssignmentsQuery, useGetClassroomsQuery, useGetMaterialsQuery, useGetSubjectsQuery, useUserPayloadQuery } from "@/graphql/generated";
 
 interface dataSelectTypes {
   label: string;
@@ -32,6 +33,8 @@ interface dataSelectTypes {
 
 export default function DashboardTeacher() {
   const { data: tugas, error } = useGetAssignmentsQuery()
+  const { data: classrooms } = useGetClassroomsQuery();
+  const { data: userPayload } = useUserPayloadQuery();
   const { data: materi } = useGetMaterialsQuery()
   const assignmentNotFinishLength = tugas?.assignments.filter((item) => item.submissions?.length == 0).length ?? "loading.."
   const assignmentLength = tugas?.assignments.length ?? "loading.."
@@ -44,11 +47,32 @@ export default function DashboardTeacher() {
     label: data.name,
     value: data.id,
   })) || []
-  if (error) {
-  }
+  const classroomsData: any = classrooms?.classrooms?.find((item) => item?.guardian?.id === userPayload?.me?.id) || {};
+  console.log(classroomsData)
   return (
     <div className="h-auto">
-      <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
+    <div className="grid mb-3 grid-cols-1 gap-4">
+      <div className="col-span-1 bg-white border-2 rounded-lg justify-items-center content-center py-4">
+        <div className="grid grid-cols-4 gap-2 ">
+          <div className="col-span-1 p-2 rounded-lg bg-purple-50 flex items-center justify-center">
+            <School className="w-9 h-9 text-purple-400" />
+          </div>
+
+          <div className="col-span-3 grid content-center">
+            <div className="grid grid-rows-2">
+              <div className="row-span-1">
+                <p className="text-sm text-stone-400">Wali kelas</p>
+              </div>
+
+              <div className="row-span-1">
+                <p className="text-base font-bold">{classroomsData ? classroomsData?.name : "Bukan wali kelas"}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      <div className="grid mb-3 md:grid-cols-3 grid-cols-1 gap-4">
         <div className="col-span-1 bg-white border-2 rounded-lg justify-items-center content-center py-4">
           <div className="grid grid-cols-4 gap-2 ">
             <div className="col-span-1 p-2 rounded-lg bg-orange-50 flex items-center justify-center">

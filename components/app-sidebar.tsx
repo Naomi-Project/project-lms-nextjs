@@ -76,7 +76,7 @@ export function AppSidebar() {
 
         <SidebarContent>
           {/* ADMINISTRASI */}
-          <SidebarGroup className={isAdmin ? "" : ""}>
+          <SidebarGroup className={isAdmin ? "" : "hidden"}>
             <SidebarGroupLabel className="font-bold">Administrasi</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>

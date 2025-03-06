@@ -34,10 +34,16 @@ const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: L
 
   // Filter tugas berdasarkan kelas siswa yang login
   const rawData = useMemo(() => {
-    if (userRole === "STUDENT") {
+    if (userRole === "STUDENT" && role === 'student') {
       return data?.assignments.filter((assignment) =>
         assignment.classrooms.some((cls) =>
-          cls.students.some((student) => student.id === userId) || cls.guardian.id === userId
+          cls.students.some((student) => student.id === userId)
+        )
+      ) || [];
+    } else if (userRole === "TEACHER" && role === 'teacher') {
+      return data?.assignments.filter((assignment) =>
+        assignment.classrooms.some((cls) =>
+          cls.guardian.id === userId
         )
       ) || [];
     }

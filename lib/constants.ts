@@ -163,7 +163,7 @@ export const HeadofficeMenu = [
 export const TeacherMenu = [
 
   {
-    title: "Tugas",
+    title: "Dashboard Tugas",
     href: "/dashboard/teachers",
     icon: Book,
     visibility: true,
