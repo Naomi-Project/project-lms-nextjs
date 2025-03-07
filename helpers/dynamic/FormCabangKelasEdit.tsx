@@ -21,6 +21,7 @@ import { useParams } from "next/navigation";
 import { CommonFormEdit } from "@/components/common/form/CommonFormEdit";
 
 const cabangKelasSchema = z.object({
+  id: z.string().min(1, "ID kelas wajib diisi"),
   name: z.string().min(1, "Nama kelas wajib diisi"),
   gradeId: z.string().min(1, "Induk kelas wajib diisi"),
   guardianId: z.string().min(1, "Wali wajib diisi"),
@@ -31,6 +32,7 @@ const cabangKelasSchema = z.object({
 });
 
 interface Form {
+  id: string;
   gradeId: string;
   guardianId: string;
   // termId: string;
@@ -78,8 +80,8 @@ const FormHelpersEdit = () => {
   
   // Ambil daftar wali kelas (guardian)
   const guardians = classroomData?.classrooms
-    // ?.filter((cls) => cls.guardian) // Pastikan kelas punya wali kelas
-    // .map((cls) => cls.guardian.id); // Ambil ID wali kelas
+    ?.filter((cls) => cls.guardian) // Pastikan kelas punya wali kelas
+    .map((cls) => cls.guardian.id); // Ambil ID wali kelas
   
   // Filter hanya guru yang BELUM menjadi wali kelas
   const onlyOneGuardian = secondData?.users
@@ -102,12 +104,11 @@ const FormHelpersEdit = () => {
     }))
   ) || [];
 
-  if (loading || loadClass || !data?.classroom || !dataTeachers) {
+  if (loading || loadClass || !data?.classroom || !dataTeachers || !id) {
     return <div>Loading..</div>;
   }
   let findGrade: any = grade?.grades?.find((item) => item?.classrooms?.some((cs) => cs.id === data?.classroom?.id))
   findGrade = findGrade.id ?? ''
-  console.log(findGrade)
   const sections: CommonFormAddSection<Form>[] = [
     {
       fields: [
@@ -126,6 +127,13 @@ const FormHelpersEdit = () => {
             dataSelect: dataGrades,
             emptyValue: "-",
             placeholder: "Pilih Induk Kelas..",
+          },
+          {
+            key: "id",
+            label: "ID Kelas",
+            emptyValue: "-",
+            hidden: true,
+            placeholder: "Masukan nama kelas..",
           },
         ],
         [
@@ -147,6 +155,7 @@ const FormHelpersEdit = () => {
             dataSelect: dataStudents,
             class: "md:w-full lg:w-full",
             emptyValue: "-",
+            disabled: true,
             placeholder: "Pilih Siswa..",
           },
         ],
@@ -174,6 +183,7 @@ const FormHelpersEdit = () => {
   
   const fixData = data?.classroom
   ? {
+      id: data.classroom.id || "",
       name: data.classroom.name || "", // Jika name tidak ada, beri default ""
       gradeId: findGrade ?? "", // Pastikan gradeId sesuai dengan ID yang ada
       guardianId: data.classroom.guardian?.id || "", // Pastikan guardianId ada
@@ -187,6 +197,7 @@ const FormHelpersEdit = () => {
         lable="Kelas"
         title="Edit Kelas"
         method="PUT"
+        isEditCabangKelas
         mutation={updateClassroom}
         dataGet={fixData}
         schema={cabangKelasSchema}

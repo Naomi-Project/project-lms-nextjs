@@ -34,6 +34,7 @@ import CommonDatePicker from "./CommonDatePicker";
 import CommonDateTimePicker from "./CommonDateTimePicker";
 import Swal from "sweetalert2";
 import CommonSelectMultiple from "./CommonSelectMultiple";
+import { useCreateEnrollmentMutation, useGetEnrollmentsQuery, useUpdateEnrollmentMutation } from "@/graphql/generated";
 
 export interface CommonFormEditField<T extends Record<any, any>> {
   key: keyof T & string;
@@ -57,6 +58,7 @@ export interface CommonFormEditProps<T extends Record<any, any>> {
   method: string;
   hideBackButton?: boolean;
   isRelation?: boolean | undefined;
+  isEditCabangKelas?: boolean | undefined;
   noTitle?: boolean | undefined;
   relation1?: string | undefined;
   convertFloat?: string | undefined;
@@ -92,6 +94,12 @@ export function CommonFormEdit<T extends Record<any, any>>(
         ...values,
       };
 
+      if (props.isEditCabangKelas == true) {
+        console.log(updatedData)
+        updateClass(updatedData)
+        return
+      }
+
       if (props.convertFloat === 'amount') {
         const newData = {...updatedData, amount: parseFloat(updatedData.amount)}
         executeMutation(newData)
@@ -123,6 +131,76 @@ export function CommonFormEdit<T extends Record<any, any>>(
     });
   };
 
+  const [updateEnrollment] = useUpdateEnrollmentMutation();
+  // const { data: enrollmentGet } = useGetEnrollmentsQuery()
+    const [createEnrollment] = useCreateEnrollmentMutation();
+  const updateClass = async (dataMut: any) => {
+    const cleanData = {
+      id: dataMut.id,
+      name: dataMut.name,
+      gradeId: dataMut.gradeId,
+      guardianId: dataMut.guardianId,
+    }
+    try {
+      const res = await props.mutation({
+        variables: {
+          data: cleanData,
+        },
+      })
+
+      const resClass = res?.data?.updateClassroom;
+      // console.log(enrollmentGet)
+      // console.log(dataMut)
+      // return
+      if (!resClass?.id) {
+        throw new Error("Gagal mendapatkan ID kelas.");
+      }
+      
+            
+      // 3️⃣ Looping dan update setiap siswa ke kelas
+      // for (const studentId of dataMut.students) {
+      //     const enrolId = resClass?.enrollments?.find((item: any) => item.studentId === studentId) || {}
+      //     if (!enrolId) {
+      //       console.log('woi buat woi')
+      //         await createEnrollment({
+      //         variables: {
+      //           data: {
+      //             studentId: studentId,
+      //             classroomId: resClass.id,
+      //             termId: dataMut.termId,
+      //             pricingId: dataMut.pricingId
+      //           },
+      //         },
+      //       });
+      //       return
+      //     }
+      //     console.log('enrol id: ', enrolId)
+      //     await updateEnrollment({
+      //     variables: {
+      //       data: {
+      //         id: enrolId.id ?? '',
+      //         studentId: studentId,
+      //         classroomId: resClass.id,
+      //       },
+      //     },
+      //   });
+      // }
+      Swal.fire({
+        title: "Berhasil!",
+        text: "Data telah berhasil diedit!",
+        icon: "success",
+        timer: 2000,
+        timerProgressBar: true,
+      }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
+          history.back(); 
+        }
+      });
+    } catch (er) {
+      console.log(er)
+      alert(er)
+    }
+  }
   const executeMutation = async (dataMut: any) => {
     const {
       __typename,
@@ -159,10 +237,7 @@ export function CommonFormEdit<T extends Record<any, any>>(
           timerProgressBar: true,
         }).then((result) => {
           if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
-            location.reload()
-            setTimeout(() => {
-              history.back(); 
-            }, 500);
+            history.back(); 
           }
         });
       }
@@ -245,7 +320,7 @@ export function CommonFormEdit<T extends Record<any, any>>(
                               )}
                             />
                           ) : dataField.type === "select_multiple" ? (
-                            <CommonSelectMultiple dataSelect={dataField.dataSelect ?? []} name={String(dataField.key)} label={dataField.label} placeholder={dataField.placeholder} />
+                            <CommonSelectMultiple disabled={dataField.disabled} dataSelect={dataField.dataSelect ?? []} name={String(dataField.key)} label={dataField.label} placeholder={dataField.placeholder} />
                           ) : dataField.type === "date_picker" ? (
                             <CommonDatePicker
                               name={String(dataField.key)}

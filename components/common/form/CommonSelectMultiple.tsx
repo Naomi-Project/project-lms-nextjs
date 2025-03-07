@@ -24,6 +24,7 @@ interface CommonSelectMultipleProps {
   dataSelect: any[];
   dataDefault?: string[];
   placeholder?: string;
+  disabled?: boolean;
 }
 
 const CommonSelectMultiple: React.FC<CommonSelectMultipleProps> = ({
@@ -32,6 +33,7 @@ const CommonSelectMultiple: React.FC<CommonSelectMultipleProps> = ({
   dataSelect,
   dataDefault = [],
   placeholder = "Pilih opsi...",
+  disabled = false,
 }) => {
   const { control, setValue, watch } = useFormContext();
   const selectedValues = watch(name) || [];
@@ -57,6 +59,7 @@ const CommonSelectMultiple: React.FC<CommonSelectMultipleProps> = ({
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
+                    disabled={disabled || false}
                     ref={buttonRef}
                     variant="outline"
                     className="w-full justify-between"

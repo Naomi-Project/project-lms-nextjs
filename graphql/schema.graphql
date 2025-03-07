@@ -1390,6 +1390,15 @@ mutation UpdateClassroom($data: UpdateClassroomInput!) {
   updateClassroom(data: $data) {
     id
     name
+    guardian {
+      id
+      name
+      nuptk
+    }
+    enrollments {
+      id
+      studentId
+    }
   }
 }
 

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -93,6 +94,7 @@ export type Classroom = {
   __typename?: 'Classroom';
   assignments: Array<Assignment>;
   attendances: Array<Attendance>;
+  enrollments: Array<Enrollment>;
   guardian: User;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
@@ -1669,7 +1671,7 @@ export type UpdateClassroomMutationVariables = Exact<{
 }>;
 
 
-export type UpdateClassroomMutation = { __typename?: 'Mutation', updateClassroom: { __typename?: 'Classroom', id: string, name: string } };
+export type UpdateClassroomMutation = { __typename?: 'Mutation', updateClassroom: { __typename?: 'Classroom', id: string, name: string, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, enrollments: Array<{ __typename?: 'Enrollment', id: string, studentId: string }> } };
 
 export type DeleteClassroomMutationVariables = Exact<{
   data: Scalars['String']['input'];
@@ -5394,6 +5396,15 @@ export const UpdateClassroomDocument = gql`
   updateClassroom(data: $data) {
     id
     name
+    guardian {
+      id
+      name
+      nuptk
+    }
+    enrollments {
+      id
+      studentId
+    }
   }
 }
     `;
