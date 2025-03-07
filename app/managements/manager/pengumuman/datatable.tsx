@@ -16,7 +16,16 @@ type Pengumuman = {
   };
   
   
-  export default function AnnouncementTable() {
+export default function AnnouncementTable() {
+  const truncateText = (text: string, wordLimit: number = 10) => {
+      if (!text) return "";
+      const words = text.split(" ");
+      if (words.length > wordLimit) {
+        return words.slice(0, wordLimit).join(" ") + "..."; // Potong hingga 100 kata dan tambahkan "..."
+      }
+      return text;
+    };
+
     const { data } = useGetAnnouncementsQuery();
 
     const [deleteAnnouncement, {loading}] = useDeleteAnnouncementMutation()
@@ -36,7 +45,9 @@ type Pengumuman = {
       {
         accessorKey: "content",
         header: "CONTENT",
-        cell: ({ row }: any) => <span>{row.getValue("content")}</span>,
+        cell: ({ row }: any) => (
+          <div dangerouslySetInnerHTML={{ __html: truncateText(row.getValue("content"))}} />
+        )        
       },
       {
         accessorKey: "target",

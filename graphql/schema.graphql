@@ -773,15 +773,9 @@ mutation UpdateSubject($data: UpdateSubjectInput!) {
     id
     name
     code
-    grade {
-      id
-    }
-    teachers {
-      id
-    }
-    curriculum {
-      id
-    } 
+    gradeId
+    teacherId
+    curriculumId
     description
   }
 }
@@ -1390,6 +1384,8 @@ mutation UpdateClassroom($data: UpdateClassroomInput!) {
   updateClassroom(data: $data) {
     id
     name
+    guardianId
+    gradeId
   }
 }
 

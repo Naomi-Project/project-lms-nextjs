@@ -12,7 +12,6 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -97,9 +96,10 @@ export default function Header() {
                       <DialogContent>
                         <DialogHeader>
                           <DialogTitle>{item.title} - {format(item.createdAt, 'yyyy-MM-dd HH:mm:ss')}</DialogTitle>
-                          <DialogDescription>
-                            {item.content}
-                          </DialogDescription>
+                          <div>
+                            {/* {item.content} */}
+                            <div dangerouslySetInnerHTML={{__html: item.content}} />
+                          </div>
                         </DialogHeader>
                       </DialogContent>
                     </Dialog>                    

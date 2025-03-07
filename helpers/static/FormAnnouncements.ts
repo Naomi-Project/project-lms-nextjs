@@ -28,15 +28,6 @@ export const sections: CommonFormAddSection<Form>[] = [
             placeholder: "Masukkan judul pengumuman..",
           },
           {
-            key: "content",
-            label: "Isi pengumuman",
-            emptyValue: "-",
-            placeholder: "Masukan isi pengumuman..",
-          },
-        ],
-        // fields group 2
-        [
-          {
             key: "target",
             label: "Target Pengumuman",
             emptyValue: "-",
@@ -46,8 +37,18 @@ export const sections: CommonFormAddSection<Form>[] = [
               { label: "Staff", value: "STAFF" },
               { label: "Siswa", value: "STUDENT" }
             ],
-            class: "md:w-full lg:w-full",
             placeholder: "Pilih Target pengumuman..",
+          },
+        ],
+        // fields group 2
+        [
+          {
+            key: "content",
+            label: "Isi pengumuman",
+            emptyValue: "-",
+            type: "md",
+            class: "md:w-full lg:w-full",
+            placeholder: "Masukan isi pengumuman..",
           },
         ],
       ],
