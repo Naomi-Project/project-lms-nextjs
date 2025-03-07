@@ -18,7 +18,7 @@ const karyawanSchema = z.object({
   name: z.string().min(1, "Nama wajib diisi"),
   username: z.string().min(1, "Password wajib diisi"),
   password: z.string().min(1, "NUPTK wajib diisi"),
-  nuptk: z.string().min(1, 'NUPTK wajib diisi'),
+  nuptk: z.string().optional(),
   role: z.string().optional(),
   nik: z.string().optional(),
   phone: z
@@ -124,7 +124,7 @@ const FormHelpersAdd = () => {
           [
             {
               key: "nuptk",
-              label: "Nomor Unik Pendidik dan Tenaga Kependidikan",
+              label: "Nomor Unik Pendidik dan Tenaga Kependidikan (Opsional)",
               emptyValue: "-",
               placeholder: "Masukkan NUPTK..",
             },
@@ -189,8 +189,6 @@ const FormHelpersAdd = () => {
       lable="karyawan"
       title="Buat Data Karyawan"
       method="POST"
-      isRelation={true}
-      valuerRelation1="nuptk"
       mutation={createUser}
       dataMutation={fixData}
       setDataMutation={setDataMutationDefault}

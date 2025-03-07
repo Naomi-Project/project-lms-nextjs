@@ -42,12 +42,11 @@ export default function StaffTable() {
         header: "USERNAME",
         cell: ({ row }: any) => <span>{row.getValue("username")}</span>,
       },
-      {
-        accessorKey: "nuptk",
-        header: "NUPTK",
-        cell: ({ row }: any) => <span>{row.getValue("nuptk")}</span>,
-        // cell: ({ row }: any) => <span>7A</span>,
-      },
+      // {
+      //   accessorKey: "nuptk",
+      //   header: "NUPTK",
+      //   cell: ({ row }: any) => <span>{row.getValue("nuptk")}</span>,
+      // },
       {
         accessorKey: "school",
         header: "SEKOLAH",

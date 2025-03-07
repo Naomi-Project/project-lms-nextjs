@@ -3,13 +3,14 @@
 import { DataTable } from "@/components/common/list/CommonDataTable";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
-import { useDeleteTermMutation, useDeleteUserMutation, useGetTermsQuery, useGetUsersQuery } from "@/graphql/generated";
+import { useDeleteTermMutation, useDeleteUserMutation, useGetSchoolsQuery, useGetTermsQuery, useGetUsersQuery } from "@/graphql/generated";
 import { format } from "date-fns";
 
   
   
 export default function TermTable() {
     const { data } = useGetTermsQuery()
+    const { data: schools, loading: loadschools } = useGetSchoolsQuery()
     const [deleteTerm, { loading }] = useDeleteTermMutation();
     const columns = [
       {
@@ -25,10 +26,10 @@ export default function TermTable() {
         cell: ({ row }: any) => <span>{row.getValue('name')}</span>,
       },
       {
-        accessorKey: "schoolId",
+        accessorKey: "schoolName",
         header: "NAMA SEKOLAH",
-        // cell: ({ row }: any) => <span>{row.getValue('schoolId')}</span>,
-        cell: ({ row }: any) => <span>SMP YAPENDIK 1</span>,
+        cell: ({ row }: any) => <span>{row.getValue('schoolName')}</span>,
+        // cell: ({ row }: any) => <span>SMP YAPENDIK 1</span>,
       },
       {
         accessorKey: "startDate",
@@ -50,8 +51,16 @@ export default function TermTable() {
       },
     ];
 
-  const dataTerm: any[] = data?.terms || [];
+    // const findSchool = schools?.schools.find
+    let dataTerm: any[] = data?.terms || [];
 
+    dataTerm = dataTerm.map((item) => ({
+      ...item,
+      schoolName: schools?.schools.find((sc) => sc.id === item.schoolId)?.name ?? ''
+    }));
+    console.log(dataTerm)
+
+    if (loadschools) return ''
   return (
     <DataTable
       columns={columns}

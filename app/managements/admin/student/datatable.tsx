@@ -62,7 +62,7 @@ export default function StudentTable() {
       {
         accessorKey: "school",
         header: "SEKOLAH",
-        cell: ({ row }: any) => <span>{row.original.school.name ?? '-'}</span>,
+        cell: ({ row }: any) => <span>{row.original.school ?? '-'}</span>,
       },
     ];
 

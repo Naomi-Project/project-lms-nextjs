@@ -63,7 +63,7 @@ export default function StudentTable() {
       {
         accessorKey: "school",
         header: "SEKOLAH",
-        cell: ({ row }: any) => <span>{row.original.school.name ?? '-'}</span>,
+        cell: ({ row }: any) => <span>{row.original.school ?? '-'}</span>,
       },
       {
         accessorKey: "action",
@@ -85,7 +85,7 @@ export default function StudentTable() {
     // Gabungkan data student dengan subjects yang ditemukan
     return {
       ...student,
-      school: student.school?.name || "-",
+      school: student?.school?.name || "-",
       class: classFind.map(sub => sub.name).join(" | ") || "-",
     };
   }) || [];

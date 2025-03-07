@@ -17,9 +17,9 @@ const karyawanSchema = z.object({
   name: z.string().min(1, "Nama wajib diisi"),
   username: z.string().min(1, "Password wajib diisi"),
   password: z.string().optional(),
-  nuptk: z.string().min(1, 'NUPTK wajib diisi'),
+  nuptk: z.string().optional(),
   role: z.string().optional(),
-  nik: z.string().min(1, "NIK wajib diisi"),
+  nik: z.string().optional(),
   phone: z
     .string()
     .regex(/^(\+62|62|0)[0-9]{9,13}$/, "Nomor telepon tidak valid"),
@@ -109,6 +109,7 @@ const FormHelpersAdd = () => {
             label: "Nomor Unik Pendidik dan Tenaga Kependidikan",
             emptyValue: "-",
             type: 'number',
+            hidden: true,
             class: 'w-full',
             placeholder: "Masukkan NUPTK..",
           },

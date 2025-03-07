@@ -80,6 +80,7 @@ export function CommonDetail<T extends Record<any, any>>(
   const [paymentAmount, setPaymentAmount] = React.useState("");
   const [updatePayment] = useUpdatePaymentMutation()
   const handlePaymentSubmit = async () => {
+    // if 
     try {
       // const res = await updateEnrollment({
       //   variables: {
