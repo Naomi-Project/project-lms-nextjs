@@ -98,6 +98,9 @@ const rolePermissions: Record<string, string[]> = {
   "/managements/admin/library": ["STAFF"], 
   "/managements/admin/library/create": ["STAFF"], 
   "/managements/admin/library/edit": ["STAFF"], 
+  "/managements/admin/setting-admin": ["STAFF"], 
+  "/managements/admin/setting-admin/create": ["STAFF"], 
+  "/managements/admin/setting-admin/edit": ["STAFF"], 
   
   // menu for role teacher only
   "/dashboard/teachers": ["TEACHER"],

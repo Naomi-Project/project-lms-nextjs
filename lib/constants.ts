@@ -129,6 +129,12 @@ export const HeadofficeMenu = [
     visibility: true,
   },
   {
+    title: "Management Admin",
+    href: "/managements/admin/setting-admin",
+    icon: Settings,
+    visibility: true,
+  },
+  {
     title: "Keuangan",
     href: "/managements/admin/keuangan",
     icon: DollarSign,

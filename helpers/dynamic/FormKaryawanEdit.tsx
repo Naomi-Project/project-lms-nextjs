@@ -26,7 +26,7 @@ const karyawanSchema = z.object({
   address: z.string().min(1, "Alamat wajib diisi"),
   gender: z.string().min(1, "Gender wajib dipilih"),
   dateOfBirth: z.string().min(1, "Tgl Ulang Tahun Wajib diisi"),
-  schoolId: z.string().min(1, "Sekolah user wajib dipilih"),
+  schoolId: z.string().optional(),
 });
 
 interface Form {
@@ -40,7 +40,7 @@ interface Form {
   gender: string;
   dateOfBirth: string;
   address: string;
-  schoolId: string;
+  schoolId?: string;
 }
 
 interface dataSelectTypes {
@@ -105,16 +105,19 @@ const FormHelpersAdd = () => {
         // fields group 2
         [
           {
-            key: "nik",
-            label: "NIK (Nomor Induk Keluarga)",
-            emptyValue: "-",
-            placeholder: "Masukkan NIK..",
-          },
-          {
             key: "nuptk",
             label: "Nomor Unik Pendidik dan Tenaga Kependidikan",
             emptyValue: "-",
+            type: 'number',
+            class: 'w-full',
             placeholder: "Masukkan NUPTK..",
+          },
+          {
+            key: "nik",
+            label: "NIK (Nomor Induk Keluarga)",
+            emptyValue: "-",
+            hidden: true,
+            placeholder: "Masukkan NIK..",
           },
         ],
         [
@@ -171,6 +174,7 @@ const FormHelpersAdd = () => {
     );
   }  
   const fixData = { ...dataEdit?.user, dateOfBirth: format(new Date(dataEdit?.user?.dateOfBirth), "yyyy-MM-dd"), schoolId: dataEdit?.user.school?.id ?? "" }
+  console.log(fixData)
   return (
       <CommonFormEdit
         lable="Karyawan"

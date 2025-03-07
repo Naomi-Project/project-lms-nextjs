@@ -27,7 +27,7 @@ const karyawanSchema = z.object({
   address: z.string().min(1, "Alamat wajib diisi"),
   gender: z.string().min(1, "Gender wajib dipilih"),
   dateOfBirth: z.string().min(1, "Tgl Ulang Tahun Wajib diisi"),
-  schoolId: z.string().min(1, "Sekolah user wajib dipilih"),
+  schoolId: z.string().optional(),
 });
 
 interface Form {
@@ -41,7 +41,7 @@ interface Form {
   gender: string;
   dateOfBirth: string;
   address: string;
-  schoolId: string;
+  schoolId?: string;
 }
 
 interface dataSelectTypes {
@@ -148,6 +148,7 @@ const FormHelpersAdd = () => {
               key: "phone",
               label: "No. Telfon",
               emptyValue: "-",
+              type: 'number',
               placeholder: "6284238342..",
             },
             {
@@ -165,10 +166,10 @@ const FormHelpersAdd = () => {
           [
             {
               key: "schoolId",
-              label: "Sekolah",
+              label: "Sekolah (opsional)",
               emptyValue: "-",
               type: "select",
-              disabled: true,
+              // disabled: true,
               dataSelect: dataSchool,
               placeholder: "Pilih Sekolah untuk pengguna ini..",
             },
