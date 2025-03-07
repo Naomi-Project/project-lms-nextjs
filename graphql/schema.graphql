@@ -1391,6 +1391,9 @@ mutation UpdateClassroom($data: UpdateClassroomInput!) {
   updateClassroom(data: $data) {
     id
     name
+    grade {
+      id
+    }
     guardian {
       id
       name

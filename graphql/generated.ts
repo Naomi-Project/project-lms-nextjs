@@ -1672,7 +1672,7 @@ export type UpdateClassroomMutationVariables = Exact<{
 }>;
 
 
-export type UpdateClassroomMutation = { __typename?: 'Mutation', updateClassroom: { __typename?: 'Classroom', id: string, name: string, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, enrollments: Array<{ __typename?: 'Enrollment', id: string, studentId: string }> } };
+export type UpdateClassroomMutation = { __typename?: 'Mutation', updateClassroom: { __typename?: 'Classroom', id: string, name: string, grade: { __typename?: 'Grade', id: string }, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, enrollments: Array<{ __typename?: 'Enrollment', id: string, studentId: string }> } };
 
 export type DeleteClassroomMutationVariables = Exact<{
   data: Scalars['String']['input'];
@@ -5398,6 +5398,9 @@ export const UpdateClassroomDocument = gql`
   updateClassroom(data: $data) {
     id
     name
+    grade {
+      id
+    }
     guardian {
       id
       name

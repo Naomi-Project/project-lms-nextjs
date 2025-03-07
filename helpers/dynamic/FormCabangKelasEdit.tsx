@@ -52,7 +52,7 @@ const FormHelpersEdit = () => {
   const { id } = params;
   const { data, loading: loadClass } = useGetClassroomQuery({
     variables: {
-      data: id as string,
+      data: id as string ?? '',
     },
     skip: !id,
   })
@@ -80,8 +80,8 @@ const FormHelpersEdit = () => {
   
   // Ambil daftar wali kelas (guardian)
   const guardians = classroomData?.classrooms
-    ?.filter((cls) => cls.guardian) // Pastikan kelas punya wali kelas
-    .map((cls) => cls.guardian.id); // Ambil ID wali kelas
+    // ?.filter((cls) => cls.guardian) // Pastikan kelas punya wali kelas
+    // .map((cls) => cls.guardian.id); // Ambil ID wali kelas
   
   // Filter hanya guru yang BELUM menjadi wali kelas
   const onlyOneGuardian = secondData?.users
@@ -156,6 +156,7 @@ const FormHelpersEdit = () => {
             class: "md:w-full lg:w-full",
             emptyValue: "-",
             disabled: true,
+            hidden: true,
             placeholder: "Pilih Siswa..",
           },
         ],

@@ -320,7 +320,7 @@ export function CommonFormEdit<T extends Record<any, any>>(
                               )}
                             />
                           ) : dataField.type === "select_multiple" ? (
-                            <CommonSelectMultiple disabled={dataField.disabled} dataSelect={dataField.dataSelect ?? []} name={String(dataField.key)} label={dataField.label} placeholder={dataField.placeholder} />
+                            <CommonSelectMultiple hidden={dataField.hidden} disabled={dataField.disabled} dataSelect={dataField.dataSelect ?? []} name={String(dataField.key)} label={dataField.label} placeholder={dataField.placeholder} />
                           ) : dataField.type === "date_picker" ? (
                             <CommonDatePicker
                               name={String(dataField.key)}
