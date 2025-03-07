@@ -4,8 +4,6 @@ import { NextResponse } from "next/server";
 console.log("✅ Middleware Loaded"); // Debug
 
 async function getUserRole(token: string | null): Promise<string | null> {
-  console.log("🔄 Fetching User Role...");
-
   if (!token) {
     console.warn("⚠️ No Authorization Token Found");
     return null;
@@ -16,7 +14,7 @@ async function getUserRole(token: string | null): Promise<string | null> {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`, // Kirim token ke GraphQL
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         query: `
@@ -35,8 +33,6 @@ async function getUserRole(token: string | null): Promise<string | null> {
     }
 
     const result = await response.json();
-    console.log("🔍 GraphQL Response:", result);
-
     return result.data?.me?.role || null;
   } catch (error) {
     console.error("❌ Error Fetching GraphQL:", error);
@@ -45,160 +41,84 @@ async function getUserRole(token: string | null): Promise<string | null> {
 }
 
 const rolePermissions: Record<string, string[]> = {
-  // default dashboard
-  "/dashboard": ["ADMIN", "PRINCIPAL", "STAFF"], 
+  // Admin, Principal, Staff routes
+  "/dashboard": ["ADMIN", "PRINCIPAL", "STAFF"],
+  "/dashboard/managers": ["ADMIN", "PRINCIPAL", "STAFF"],
+  "/managements/manager": ["ADMIN", "PRINCIPAL", "STAFF"],
+  "/dashboard/admins": ["STAFF"],
+  "/managements/admin": ["STAFF"],
 
-  // menu for role admin only
-  "/dashboard/managers": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/class": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/class/induk/create": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/class/cabang/create": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/class/cabang/edit": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/mata-pelajaran": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/mata-pelajaran/create": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/mata-pelajaran/edit": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/keuangan": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/keuangan/detail": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/keuangan/create": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/student": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/student/create": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/student/edit": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/teacher": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/teacher/create": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/teacher/edit": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/pengumuman": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/pengumuman/create": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/pengumuman/edit": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/setting-admin": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/setting-admin/create": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/setting-admin/edit": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/pricing": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/pricing/create": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/pricing/edit": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/kurikulum": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/kurikulum/create": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/kurikulum/edit": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/semester": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/semester/create": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/semester/edit": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/profile": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  "/managements/manager/profile/edit": ["ADMIN", "PRINCIPAL", "STAFF"], 
-  
-  // menu for role headoffice or staff and pricincipal only
-  "/dashboard/admins": ["STAFF"], 
-  "/managements/admin": ["STAFF"], 
-  "/managements/admin/sekolah": ["STAFF"], 
-  "/managements/admin/sekolah/create": ["STAFF"], 
-  "/managements/admin/sekolah/edit": ["STAFF"], 
-  "/managements/admin/keuangan": ["STAFF"], 
-  "/managements/admin/student": ["STAFF"], 
-  "/managements/admin/teacher": ["STAFF"], 
-  "/managements/admin/pengumuman": ["STAFF"], 
-  "/managements/admin/libary": ["STAFF"], 
-  "/managements/admin/libary/create": ["STAFF"], 
-  "/managements/admin/libary/edit": ["STAFF"], 
-  
-  // menu for role teacher only
+  // Teacher routes
   "/dashboard/teachers": ["TEACHER"],
-  "/managements/teacher": ["TEACHER"], 
-  "/managements/teacher/task-create": ["TEACHER"], 
-  "/managements/teacher/task-detail": ["TEACHER"], 
-  "/managements/teacher/nilai": ["TEACHER"], 
-  "/managements/teacher/material": ["TEACHER"], 
-  "/managements/teacher/material/create": ["TEACHER"], 
-  "/managements/teacher/material/edit": ["TEACHER"], 
-  "/managements/teacher/material/detail": ["TEACHER"], 
-  "/managements/teacher/class": ["TEACHER"], 
-  "/managements/teacher/presence": ["TEACHER"], 
-  "/managements/teacher/schedule": ["TEACHER"], 
-  "/managements/teacher/libary": ["TEACHER"], 
-  "/managements/teacher/libary/create": ["TEACHER"], 
-  "/managements/teacher/profile": ["TEACHER"], 
-  "/managements/teacher/profile/edit": ["TEACHER"], 
-  "/managements/teacher/profile/family-add": ["TEACHER"], 
-  
-  // menu for role student only
+  "/managements/teacher": ["TEACHER"],
+
+  // Student routes
   "/dashboard/students": ["STUDENT"],
   "/managements/student": ["STUDENT"],
-  "/managements/student/task-detail": ["STUDENT"],
-  "/managements/student/material": ["STUDENT"],
-  "/managements/student/material/detail": ["STUDENT"],
-  "/managements/student/presence": ["STUDENT"],
-  "/managements/student/schedule": ["STUDENT"],
-  "/managements/student/libary": ["STUDENT"],
-  "/managements/student/profile": ["STUDENT"],
-  "/managements/student/profile/edit": ["STUDENT"],
-  "/managements/student/profile/family-add": ["STUDENT"],
 };
 
+// Helper to normalize route — remove UUIDs and trailing slashes
+function normalizeRoute(path: string): string {
+  return path.replace(/\/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$/, "").replace(/\/$/, "");
+}
 
 export async function middleware(req: NextRequest) {
-  console.log("📢 Middleware Executing for:", req.nextUrl.pathname);
-
+  const urlPath = req.nextUrl.pathname;
+  const route = normalizeRoute(urlPath);
+  const referer = req.headers.get("referer");
   const token = req.cookies.get("authToken")?.value || null;
+
+  console.log("📢 Middleware Executing for:", urlPath);
+  console.log("🔎 Normalized Route:", route);
+  console.log("🔙 Previous Page (Referer):", referer);
   console.log("🔑 Token:", token);
 
   const userRole = await getUserRole(token);
-  console.log("👤 User Role:", userRole);
+  console.log("👤 Fetched User Role:", userRole);
 
-  let route = req.nextUrl.pathname;
-  route = route.replace(/\/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$/, "");
-  console.log("🔎 Normalized Route for Checking:", route);
-
-  const referer = req.headers.get("referer");
-  console.log("🔙 Previous Page (Referer):", referer);
-
+  // Redirect if accessing root ("/") while logged in
   if (route === "/" && userRole) {
-    console.log("🔄 User sudah login, redirect ke 403");
+    console.log("🔄 Already logged in, redirecting to /403");
     return NextResponse.redirect(new URL("/403", req.url));
   }
 
+  // Redirect unauthenticated users (no role and not at root)
   if (!userRole) {
     if (route !== "/") {
-      console.warn("⛔ User belum login, redirect ke halaman login");
+      console.warn("⛔ Unauthenticated, redirecting to login");
       return NextResponse.redirect(new URL("/", req.url));
     }
+    return NextResponse.next();
   }
+
+  // Permission check — only check routes that have permissions defined
   if (route in rolePermissions) {
     const allowedRoles = rolePermissions[route];
-
-    if (!allowedRoles.includes(userRole ?? '')) {
-      console.warn(`⛔ User role "${userRole}" TIDAK BOLEH mengakses ${route}`);
-      return NextResponse.redirect(new URL("/303", req.url));
-    } else {
-      console.log(`✅ User role "${userRole}" DIPERBOLEHKAN mengakses ${route}`);
+    if (!allowedRoles.includes(userRole)) {
+      console.warn(`⛔ Access Denied — Role "${userRole}" cannot access ${route}`);
+      return NextResponse.redirect(new URL("/403", req.url));
     }
+    console.log(`✅ Access Granted — Role "${userRole}" allowed for ${route}`);
   } else {
-    console.warn(`⛔ Tidak ada izin untuk akses: ${route}`);
-    return NextResponse.redirect(new URL("/303", req.url));
+    // Deny access to undefined routes
+    console.warn(`⛔ No permissions defined for: ${route}`);
+    return NextResponse.redirect(new URL("/403", req.url));
   }
 
-  console.log(`✅ User "${userRole}" memiliki akses ke ${route}`);
   return NextResponse.next();
 }
 
-// path to execute this middleware
 export const config = {
   matcher: [
-    // auth 
-    "/",
-    "/dashboard/:path*",
-
-    // administrasi or managers
-    "/dashboard/managers/:path*",
+    "/", 
+    "/dashboard/:path*", 
+    "/dashboard/managers/:path*", 
     "/managements/manager/:path*",
-    
-    // headoffice
-    "/dashboard/admins/:path*",
+    "/dashboard/admins/:path*", 
     "/managements/admin/:path*",
-    
-    // teacher 
-    "/dashboard/teachers/:path*",
+    "/dashboard/teachers/:path*", 
     "/managements/teacher/:path*",
-
-    // student 
-    "/dashboard/students/:path*",
+    "/dashboard/students/:path*", 
     "/managements/student/:path*",
   ],
 };
