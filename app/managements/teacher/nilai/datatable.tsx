@@ -81,7 +81,7 @@ export default function SubmissionTable({
   if (error) {
     console.error("Error fetching submissions:", error);
   }
-
+  console.log(filteredData)
   return (
     <DataTable
       columns={columns}

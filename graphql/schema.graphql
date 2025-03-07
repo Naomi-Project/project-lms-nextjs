@@ -1130,6 +1130,7 @@ query GetSubmissions {
     }
     student {
       id
+      name
       username
       role
     }
