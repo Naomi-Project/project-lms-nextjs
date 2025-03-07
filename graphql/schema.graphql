@@ -773,7 +773,7 @@ mutation UpdateSubject($data: UpdateSubjectInput!) {
     id
     name
     code
-    gradeId {
+    grade {
       id
     }
     teacher {

@@ -128,8 +128,10 @@ const rolePermissions: Record<string, string[]> = {
   "/managements/student/schedule": ["STUDENT"],
   "/managements/student/library": ["STUDENT"],
   "/managements/student/profile": ["STUDENT"],
-  "/managements/student/profile/edit": ["STUDENT"],
-  "/managements/student/profile/family-add": ["STUDENT"],
+  // "/managements/manager/profile/edit": ["STUDENT"],
+  "/managements/manager/profile/family-add": ["STUDENT"],
+  "/managements/manager/profile-student/edit": ["STUDENT"],
+  "/managements/manager/profile-student/family-add": ["STUDENT"],
 };
 
 
