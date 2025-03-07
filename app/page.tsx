@@ -74,7 +74,12 @@ export default function LoginPage() {
           timerProgressBar: true,
         }).then((result) => {
           if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
-            window.location.href = "/dashboard/managers";
+
+            if (role === 'admin' || role === 'manager') {
+              window.location.href = "/dashboard/managers";
+            } else if (role === 'student' || role === 'teacher') {
+              window.location.href = "/dashboard/" + role + "s";
+            }
           }
         });
       }
