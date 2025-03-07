@@ -773,9 +773,15 @@ mutation UpdateSubject($data: UpdateSubjectInput!) {
     id
     name
     code
-    gradeId
-    teacherId
-    curriculumId
+    gradeId {
+      id
+    }
+    teacher {
+      id
+    }
+    curriculum {
+      id
+    }
     description
   }
 }
@@ -1125,6 +1131,7 @@ query GetSubmissions {
     student {
       id
       username
+      name
       role
     }
     assignment {

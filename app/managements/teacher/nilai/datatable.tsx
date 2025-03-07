@@ -21,6 +21,7 @@ export default function SubmissionTable({
 
   // 🔹 Data asli dari query
   const dataSubmission: any[] = data?.submissions || [];
+  console.log(dataSubmission)
 
   // 🔹 Filter data berdasarkan state dari ExamTeacher.tsx
   const filteredData = dataSubmission.filter((submission) => {
@@ -42,9 +43,9 @@ export default function SubmissionTable({
       cell: ({ row }: any) => <span>{row.index + 1}</span>,
     },
     {
-      accessorKey: "student.username",
+      accessorKey: "name",
       header: "NAMA SISWA",
-      cell: ({ row }: any) => <span>{row.original.student?.username || "-"}</span>,
+      cell: ({ row }: any) => <span>{row.original.student?.name || "-"}</span>,
     },
     {
       accessorKey: "assignment.title",
