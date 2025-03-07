@@ -24,8 +24,8 @@ const cabangKelasSchema = z.object({
   name: z.string().min(1, "Nama kelas wajib diisi"),
   gradeId: z.string().min(1, "Induk kelas wajib diisi"),
   guardianId: z.string().min(1, "Wali wajib diisi"),
-  termId: z.string().min(1, "Wali wajib diisi"),
-  pricingId: z.string().min(1, "Tagihan/SPP wajib dipilih"),
+  // termId: z.string().min(1, "Wali wajib diisi"),
+  // pricingId: z.string().min(1, "Tagihan/SPP wajib dipilih"),
   students: z.array(z.string()).min(1, "Minimal pilih satu siswa"), 
   // schedules: z.string().min(1, "Nama wali wajib diisi"),
 });
@@ -33,8 +33,8 @@ const cabangKelasSchema = z.object({
 interface Form {
   gradeId: string;
   guardianId: string;
-  termId: string;
-  pricingId: string;
+  // termId: string;
+  // pricingId: string;
   students: string[];
   name: string;
   // schedules: string
@@ -56,6 +56,7 @@ const FormHelpersEdit = () => {
   })
   // Query pertama: Ambil data grades
   const { data: firstData } = useGetGradesQuery()
+  const { data: grade } = useGetGradesQuery()
   const { data: school } = useGetSchoolsQuery()
   const { data: thirdData } = useGetPricingsQuery()
   const { data: user, loading } = useUserPayloadQuery(); 
@@ -77,8 +78,8 @@ const FormHelpersEdit = () => {
   
   // Ambil daftar wali kelas (guardian)
   const guardians = classroomData?.classrooms
-    ?.filter((cls) => cls.guardian) // Pastikan kelas punya wali kelas
-    .map((cls) => cls.guardian.id); // Ambil ID wali kelas
+    // ?.filter((cls) => cls.guardian) // Pastikan kelas punya wali kelas
+    // .map((cls) => cls.guardian.id); // Ambil ID wali kelas
   
   // Filter hanya guru yang BELUM menjadi wali kelas
   const onlyOneGuardian = secondData?.users
@@ -104,6 +105,9 @@ const FormHelpersEdit = () => {
   if (loading || loadClass || !data?.classroom || !dataTeachers) {
     return <div>Loading..</div>;
   }
+  let findGrade: any = grade?.grades?.find((item) => item?.classrooms?.some((cs) => cs.id === data?.classroom?.id))
+  findGrade = findGrade.id ?? ''
+  console.log(findGrade)
   const sections: CommonFormAddSection<Form>[] = [
     {
       fields: [
@@ -147,22 +151,22 @@ const FormHelpersEdit = () => {
           },
         ],
         [
-          {
-            key: "termId",
-            label: "Semester untuk kelas",
-            type: "select",
-            dataSelect: dataTerms,
-            emptyValue: "-",
-            placeholder: "Pilih Semester..",
-          },
-          {
-            key: "pricingId",
-            label: "Tagihan Untuk Semua Siswa Dikelas ini",
-            type: "select",
-            dataSelect: dataPricings,
-            emptyValue: "-",
-            placeholder: "Pilih Tagihan..",
-          },
+          // {
+          //   key: "termId",
+          //   label: "Semester untuk kelas",
+          //   type: "select",
+          //   dataSelect: dataTerms,
+          //   emptyValue: "-",
+          //   placeholder: "Pilih Semester..",
+          // },
+          // {
+          //   key: "pricingId",
+          //   label: "Tagihan Untuk Semua Siswa Dikelas ini",
+          //   type: "select",
+          //   dataSelect: dataPricings,
+          //   emptyValue: "-",
+          //   placeholder: "Pilih Tagihan..",
+          // },
         ]
       ],
     },
@@ -171,10 +175,10 @@ const FormHelpersEdit = () => {
   const fixData = data?.classroom
   ? {
       name: data.classroom.name || "", // Jika name tidak ada, beri default ""
-      gradeId: "", // Pastikan gradeId sesuai dengan ID yang ada
+      gradeId: findGrade ?? "", // Pastikan gradeId sesuai dengan ID yang ada
       guardianId: data.classroom.guardian?.id || "", // Pastikan guardianId ada
-      termId: "", // Jika term ada, ambil ID-nya
-      pricingId: "", // Jika pricing ada, ambil ID-nya
+      // termId: "", // Jika term ada, ambil ID-nya
+      // pricingId: "", // Jika pricing ada, ambil ID-nya
       students: data.classroom.students?.map((student) => student.id) || [], // Ambil hanya ID murid
     }
   : null; // Jika `data?.classroom` masih `undefined`, biarkan `fixData` tetap `null`

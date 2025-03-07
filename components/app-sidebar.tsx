@@ -79,7 +79,6 @@ export function AppSidebar() {
         <SidebarContent>
           {/* ADMINISTRASI */}
           <SidebarGroup className={isAdmin || isHeadOffice ? "" : "hidden"}>
-            <SidebarGroupLabel className="font-bold">Administrasi</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {ManagerMenu.map((item, index) =>

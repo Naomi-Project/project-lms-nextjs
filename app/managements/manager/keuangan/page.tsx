@@ -21,7 +21,7 @@ import { useGetEnrollmentsQuery } from "@/graphql/generated";
 
 
 export default function ManagerKeuangan() {
-  const { data } = useGetEnrollmentsQuery();
+  const { data, error } = useGetEnrollmentsQuery();
   const studentsPaid = data?.enrollments.filter((item) => item?.payment?.status === 'SUCCESS')
   const studentsNotPaid = data?.enrollments.filter((item) => item?.payment?.status === 'PENDING')
   // Hitung total semua SPP yang belum terbayar
@@ -31,6 +31,8 @@ export default function ManagerKeuangan() {
   const totalSppBelumTerbayar = studentsNotPaid?.reduce((total, item) => {
     return total + (item.payment?.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
   }, 0);
+
+  console.log(error)
   
 
   return (

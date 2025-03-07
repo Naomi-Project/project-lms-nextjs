@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -160,8 +159,10 @@ export type CreateMaterialInput = {
 };
 
 export type CreatePaymentInput = {
+  dueDate?: InputMaybe<Scalars['Timestamp']['input']>;
   enrollmentId: Scalars['ID']['input'];
   method: PaymentMethod;
+  paidDate?: InputMaybe<Scalars['Timestamp']['input']>;
   pricingId: Scalars['ID']['input'];
   reference?: InputMaybe<Scalars['String']['input']>;
   status: PaymentStatus;
@@ -678,9 +679,11 @@ export type MutationUpdateUserArgs = {
 
 export type Payment = {
   __typename?: 'Payment';
+  dueDate?: Maybe<Scalars['Timestamp']['output']>;
   enrollment?: Maybe<Enrollment>;
   id: Scalars['ID']['output'];
   method: PaymentMethod;
+  paidDate?: Maybe<Scalars['Timestamp']['output']>;
   pricing?: Maybe<Pricing>;
   reference: Scalars['String']['output'];
   status: PaymentStatus;
@@ -1039,9 +1042,11 @@ export type UpdateMaterialInput = {
 };
 
 export type UpdatePaymentInput = {
+  dueDate?: InputMaybe<Scalars['Timestamp']['input']>;
   enrollmentId?: InputMaybe<Scalars['ID']['input']>;
   id: Scalars['ID']['input'];
   method?: InputMaybe<PaymentMethod>;
+  paidDate?: InputMaybe<Scalars['Timestamp']['input']>;
   pricingId?: InputMaybe<Scalars['ID']['input']>;
   reference?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<PaymentStatus>;
@@ -1744,26 +1749,26 @@ export type GetPaymentQueryVariables = Exact<{
 }>;
 
 
-export type GetPaymentQuery = { __typename?: 'Query', payment: { __typename?: 'Payment', id: string, status: PaymentStatus, reference: string, method: PaymentMethod, pricing?: { __typename?: 'Pricing', id: string, name: string, amount: number, createdAt?: any | null, updatedAt?: any | null } | null, enrollment?: { __typename?: 'Enrollment', id: string } | null } };
+export type GetPaymentQuery = { __typename?: 'Query', payment: { __typename?: 'Payment', id: string, status: PaymentStatus, reference: string, dueDate?: any | null, paidDate?: any | null, method: PaymentMethod, pricing?: { __typename?: 'Pricing', id: string, name: string, amount: number, createdAt?: any | null, updatedAt?: any | null } | null, enrollment?: { __typename?: 'Enrollment', id: string } | null } };
 
 export type GetPaymentsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetPaymentsQuery = { __typename?: 'Query', payments: Array<{ __typename?: 'Payment', id: string, status: PaymentStatus, reference: string, method: PaymentMethod, pricing?: { __typename?: 'Pricing', id: string, name: string, amount: number, createdAt?: any | null, updatedAt?: any | null } | null, enrollment?: { __typename?: 'Enrollment', id: string } | null }> };
+export type GetPaymentsQuery = { __typename?: 'Query', payments: Array<{ __typename?: 'Payment', id: string, status: PaymentStatus, reference: string, dueDate?: any | null, paidDate?: any | null, method: PaymentMethod, pricing?: { __typename?: 'Pricing', id: string, name: string, amount: number, createdAt?: any | null, updatedAt?: any | null } | null, enrollment?: { __typename?: 'Enrollment', id: string } | null }> };
 
 export type CreatePaymentMutationVariables = Exact<{
   data: CreatePaymentInput;
 }>;
 
 
-export type CreatePaymentMutation = { __typename?: 'Mutation', createPayment: { __typename?: 'Payment', id: string, status: PaymentStatus, reference: string, method: PaymentMethod, pricing?: { __typename?: 'Pricing', id: string } | null, enrollment?: { __typename?: 'Enrollment', id: string } | null } };
+export type CreatePaymentMutation = { __typename?: 'Mutation', createPayment: { __typename?: 'Payment', id: string, status: PaymentStatus, reference: string, method: PaymentMethod, dueDate?: any | null, paidDate?: any | null, pricing?: { __typename?: 'Pricing', id: string } | null, enrollment?: { __typename?: 'Enrollment', id: string } | null } };
 
 export type UpdatePaymentMutationVariables = Exact<{
   data: UpdatePaymentInput;
 }>;
 
 
-export type UpdatePaymentMutation = { __typename?: 'Mutation', updatePayment: { __typename?: 'Payment', id: string, status: PaymentStatus, reference: string, method: PaymentMethod, pricing?: { __typename?: 'Pricing', id: string } | null, enrollment?: { __typename?: 'Enrollment', id: string } | null } };
+export type UpdatePaymentMutation = { __typename?: 'Mutation', updatePayment: { __typename?: 'Payment', id: string, status: PaymentStatus, reference: string, method: PaymentMethod, dueDate?: any | null, paidDate?: any | null, pricing?: { __typename?: 'Pricing', id: string } | null, enrollment?: { __typename?: 'Enrollment', id: string } | null } };
 
 export type DeletePaymentMutationVariables = Exact<{
   data: Scalars['String']['input'];
@@ -5887,6 +5892,8 @@ export const GetPaymentDocument = gql`
     id
     status
     reference
+    dueDate
+    paidDate
     method
     pricing {
       id
@@ -5940,6 +5947,8 @@ export const GetPaymentsDocument = gql`
     id
     status
     reference
+    dueDate
+    paidDate
     method
     pricing {
       id
@@ -5993,6 +6002,8 @@ export const CreatePaymentDocument = gql`
     status
     reference
     method
+    dueDate
+    paidDate
     pricing {
       id
     }
@@ -6035,6 +6046,8 @@ export const UpdatePaymentDocument = gql`
     status
     reference
     method
+    dueDate
+    paidDate
     pricing {
       id
     }

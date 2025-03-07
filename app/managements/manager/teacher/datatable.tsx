@@ -56,7 +56,7 @@ export default function TeacherTable() {
       {
         accessorKey: "school",
         header: "SEKOLAH",
-        cell: ({ row }: any) => <span>{row.original.school.name}</span>,
+        cell: ({ row }: any) => <span>{row.original.school.name ?? '-'}</span>,
       },
       {
         accessorKey: "action",
@@ -86,11 +86,13 @@ const dataTeacher: any[] = data?.users
     // Gabungkan data teacher dengan subjects yang ditemukan
     return {
       ...teacher,
+      school: teacher.school?.name || "-",
       subjects: teacherSubjects.map(sub => sub.name).join(" | ") || "-",
       guardian: guardianFind.map(cls => cls.name).join(" | ") || "-",
     };
   }) || [];
 
+  console.log(dataTeacher)
   return (
     <DataTable
       columns={columns}

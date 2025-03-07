@@ -776,12 +776,12 @@ mutation UpdateSubject($data: UpdateSubjectInput!) {
     grade {
       id
     }
-    teacher {
+    teachers {
       id
     }
     curriculum {
       id
-    }
+    } 
     description
   }
 }
@@ -1131,7 +1131,6 @@ query GetSubmissions {
     student {
       id
       username
-      name
       role
     }
     assignment {
@@ -1391,8 +1390,6 @@ mutation UpdateClassroom($data: UpdateClassroomInput!) {
   updateClassroom(data: $data) {
     id
     name
-    guardianId
-    gradeId
   }
 }
 
@@ -1547,6 +1544,8 @@ query GetPayment($data: String!) {
     id
     status
     reference
+    dueDate
+    paidDate
     method
     pricing {
       id
@@ -1566,6 +1565,8 @@ query GetPayments {
     id
     status
     reference
+    dueDate
+    paidDate
     method
     pricing {
       id
@@ -1586,6 +1587,8 @@ mutation CreatePayment($data: CreatePaymentInput!) {
     status
     reference
     method
+    dueDate
+    paidDate
     pricing {
       id
     }
@@ -1601,6 +1604,8 @@ mutation UpdatePayment($data: UpdatePaymentInput!) {
     status
     reference
     method
+    dueDate
+    paidDate
     pricing {
       id
     }

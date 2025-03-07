@@ -138,8 +138,8 @@ export function CommonFormEdit<T extends Record<any, any>>(
       school,
       teachers,
       curriculum,
-      // grade,
-      gradeId,
+      grade,
+      // gradeId,
       grades,
       assignments,
       ...cleanData
