@@ -55,7 +55,7 @@ export default function TeacherTable() {
       {
         accessorKey: "school",
         header: "SEKOLAH",
-        cell: ({ row }: any) => <span>{row.original.school.name}</span>,
+        cell: ({ row }: any) => <span>{row.original.school.name ?? '-'}</span>,
       },
     ];
   // Ambil semua subjects
@@ -73,6 +73,7 @@ const dataTeacher: any[] = data?.users
     // Gabungkan data teacher dengan subjects yang ditemukan
     return {
       ...teacher,
+      school: teacher.school?.name || "-",
       subjects: teacherSubjects.map(sub => sub.name).join(" | ") || "-", // Ambil nama subject
     };
   }) || [];

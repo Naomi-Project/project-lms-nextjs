@@ -62,11 +62,16 @@ export default function StudentTable() {
       {
         accessorKey: "school",
         header: "SEKOLAH",
-        cell: ({ row }: any) => <span>{row.original.school.name}</span>,
+        cell: ({ row }: any) => <span>{row.original.school.name ?? '-'}</span>,
       },
     ];
 
-  const dataStudent: any[] = data?.users.filter(user => user.role === "STUDENT") || [];
+  const dataStudent: any[] = data?.users.filter(user => user.role === "STUDENT").map((item) => {
+    return {
+      ...item,
+      school: item.school?.name || "-",
+    }
+  }) || [];
 
   return (
     <DataTable

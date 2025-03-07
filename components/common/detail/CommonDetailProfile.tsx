@@ -77,7 +77,7 @@ export function CommonDetailPage<T extends Record<any, any>>(
                 </div>
                 <div className="md:absolute right-10 gap-3 flex flex-wrap">
                     <Button className="bg-blue-500 shadow-none text-white" onClick={() => window.location.href = props.epEdit ?? ''}><Pencil /> Edit</Button>
-                    <ButtonAdd endpoint={props.epAddFamily || "/managements/teacher/profile/families/create"} className={`bg-green-500 text-white shadow-none hover:bg-green-600" label="Tambah Keluarga ${props.hideAddFamily ? 'hidden' : ''}`} />
+                    <ButtonAdd endpoint={props.epAddFamily || "/managements/teacher/profile/families/create"} label="Tambah Keluarga" className={`bg-green-500 text-white shadow-none hover:bg-green-600 ${props.hideAddFamily ? 'hidden' : ''}`} />
                 </div>
             </div>
             <div>
