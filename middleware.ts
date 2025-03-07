@@ -57,7 +57,7 @@ const rolePermissions: Record<string, string[]> = {
   "/managements/student": ["STUDENT"],
 };
 
-// Helper to normalize route — remove UUIDs and trailing slashes
+// Helper untuk normalisasi path — hapus UUID dan trailing slash
 function normalizeRoute(path: string): string {
   return path.replace(/\/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$/, "").replace(/\/$/, "");
 }
@@ -65,44 +65,42 @@ function normalizeRoute(path: string): string {
 export async function middleware(req: NextRequest) {
   const urlPath = req.nextUrl.pathname;
   const route = normalizeRoute(urlPath);
-  const referer = req.headers.get("referer");
   const token = req.cookies.get("authToken")?.value || null;
 
   console.log("📢 Middleware Executing for:", urlPath);
   console.log("🔎 Normalized Route:", route);
-  console.log("🔙 Previous Page (Referer):", referer);
   console.log("🔑 Token:", token);
 
   const userRole = await getUserRole(token);
   console.log("👤 Fetched User Role:", userRole);
 
-  // Redirect if accessing root ("/") while logged in
+  // Kalau sudah login dan akses "/", arahkan ke dashboard
   if (route === "/" && userRole) {
-    console.log("🔄 Already logged in, redirecting to /403");
-    return NextResponse.redirect(new URL("/403", req.url));
+    console.log("🔄 Already logged in, redirecting to /dashboard");
+    return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
-  // Redirect unauthenticated users (no role and not at root)
+  // Kalau tidak ada token (belum login), redirect ke halaman login
   if (!userRole) {
     if (route !== "/") {
-      console.warn("⛔ Unauthenticated, redirecting to login");
+      console.warn("⛔ No token, redirecting to login");
       return NextResponse.redirect(new URL("/", req.url));
     }
     return NextResponse.next();
   }
 
-  // Permission check — only check routes that have permissions defined
+  // Cek akses berdasarkan rolePermissions
   if (route in rolePermissions) {
     const allowedRoles = rolePermissions[route];
     if (!allowedRoles.includes(userRole)) {
-      console.warn(`⛔ Access Denied — Role "${userRole}" cannot access ${route}`);
-      return NextResponse.redirect(new URL("/403", req.url));
+      console.warn(`⛔ Role "${userRole}" tidak punya akses ke ${route}, redirect ke login`);
+      return NextResponse.redirect(new URL("/", req.url));
     }
-    console.log(`✅ Access Granted — Role "${userRole}" allowed for ${route}`);
+    console.log(`✅ Role "${userRole}" punya akses ke ${route}`);
   } else {
-    // Deny access to undefined routes
-    console.warn(`⛔ No permissions defined for: ${route}`);
-    return NextResponse.redirect(new URL("/403", req.url));
+    // Kalau route tidak terdaftar, anggap tidak punya akses dan redirect ke login
+    console.warn(`⛔ Route ${route} tidak terdaftar di rolePermissions, redirect ke login`);
+    return NextResponse.redirect(new URL("/", req.url));
   }
 
   return NextResponse.next();
@@ -110,15 +108,15 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    "/", 
-    "/dashboard/:path*", 
-    "/dashboard/managers/:path*", 
+    "/",
+    "/dashboard/:path*",
+    "/dashboard/managers/:path*",
     "/managements/manager/:path*",
-    "/dashboard/admins/:path*", 
+    "/dashboard/admins/:path*",
     "/managements/admin/:path*",
-    "/dashboard/teachers/:path*", 
+    "/dashboard/teachers/:path*",
     "/managements/teacher/:path*",
-    "/dashboard/students/:path*", 
+    "/dashboard/students/:path*",
     "/managements/student/:path*",
   ],
 };
