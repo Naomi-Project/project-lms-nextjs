@@ -16,7 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { TrendingDown } from "lucide-react";
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { TrendingUp } from "lucide-react";
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 import {
@@ -26,21 +26,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useGetClassroomsQuery, useGetEnrollmentsQuery, useGetGradesQuery, useGetUsersQuery } from "@/graphql/generated";
+import { useGetClassroomsQuery, useGetEnrollmentsQuery, useGetGradesQuery, useGetPaymentsQuery, useGetSchoolsQuery, useGetUsersQuery } from "@/graphql/generated";
 import { parseISO } from "date-fns";
 import { format } from "date-fns";
+import { Button } from "@/components/ui/button";
 
-const chartData = [
-  { month: "January", payment: 186 },
-  { month: "February", payment: 305 },
-  { month: "March", payment: 237 },
-  { month: "April", payment: 73 },
-  { month: "May", payment: 209 },
-  { month: "June", payment: 214 },
-];
 const chartConfig = {
   payment: {
-    label: "Pemasukan Dalam Rp (Juta): ",
+    label: "Pemasukan Dalam Rp : ",
     color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig;
@@ -48,20 +41,83 @@ const chartConfig = {
 export default function ManagerDashboard() {
   // widget tagihan spp
   const { data } = useGetEnrollmentsQuery();
+  const { data: schools } = useGetSchoolsQuery();
   const studentsPaid = data?.enrollments.filter((item) => item?.payment?.status === 'SUCCESS')
   const studentsNotPaid = data?.enrollments.filter((item) => item?.payment?.status === 'PENDING')
   // Hitung total semua SPP yang belum terbayar
   const totalSppSudahTerbayar = studentsPaid?.reduce((total, item) => {
     return total + (item.payment?.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
   }, 0);
+  const monthOptionDatePricing = Array.from(
+    new Set(
+      studentsPaid
+        ?.map((item) => new Date(item.payment?.paidDate).getMonth().toString())
+    )
+  )?.map((item) => ({
+    label: item,
+    value: item,
+  }))
+
+  console.log(monthOptionDatePricing)
   const totalSppBelumTerbayar = studentsNotPaid?.reduce((total, item) => {
     return total + (item.payment?.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
   }, 0);
+
+  const [selectedSchool, setSelectedSchool] = useState<string | null>(null);
+  const [selectedYear, setSelectedYear] = useState<string>("semua_tahun");
+  
+  const [chartData, setChartData] = useState<any>([])
+  const findSuccessPayment = data?.enrollments.filter((item) => item.payment?.status === "SUCCESS")
+  const optionYear = Array.from(
+    new Set(
+      findSuccessPayment
+        ?.map((item) => new Date(item.payment?.paidDate).getFullYear().toString())
+    )
+  ).map((year) => ({
+    label: year,
+    value: year,
+  }));
+  
+  const filteredData = useMemo(() => {
+    // if (!findSuccessPayment) return
+    return findSuccessPayment?.filter((item) => {
+      const paymentYear = new Date(item.payment?.paidDate).getFullYear().toString();
+      const schoolId = item.student?.school?.id;
+  
+      // Filter sekolah (jika ada pilihan sekolah)
+      if (selectedSchool && schoolId !== selectedSchool) {
+        return false;
+      }
+  
+      // Filter tahun (jika tidak memilih semua tahun)
+      if (selectedYear !== "semua_tahun" && paymentYear !== selectedYear) {
+        return false;
+      }
+  
+      return true;
+    }).map((item) => ({
+      month: format(new Date(item.payment?.paidDate), "MMMM"), // Format bulan
+      payment: item.payment?.pricing?.amount || 0,
+    }));
+  }, [findSuccessPayment, selectedSchool, selectedYear]);
+
+  const resetFilters = () => {
+    setSelectedSchool(null);
+    setSelectedYear("semua_tahun");
+  };  
+
+  // **Perbarui state hanya jika data benar-benar berubah**
+  useEffect(() => {
+    if (JSON.stringify(chartData) !== JSON.stringify(filteredData)) {
+      setChartData(filteredData);
+    }
+  }, [filteredData]);
 
   // widget total guru dan murid
   const { data: userLoad } = useGetUsersQuery()
   const student = userLoad?.users.filter((item) => item.role === 'STUDENT') || []
   const teacher = userLoad?.users.filter((item) => item.role === 'TEACHER') || []
+
   const groupByMonthYear = (users: any) => {
     return users?.reduce((acc: any, user: any) => {
       if (!user.createdAt) return acc;
@@ -347,22 +403,24 @@ export default function ManagerDashboard() {
         <Card>
           <CardHeader>
             <div className="flex justify-between">
+              <div className="flex gap-5">
               <div className="">
                 <CardTitle>
-                  <Select>
+                  <Select onValueChange={setSelectedSchool} value={selectedSchool ?? 'Histori Total Pemasukan'}>
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Histori Total Pemasukan" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="jakarta">
-                        SMP Negeri 1 Jakarta
-                      </SelectItem>
-                      <SelectItem value="semarang">
-                        SMP Negeri 1 Semarang
-                      </SelectItem>
-                      <SelectItem value="yogyakarta">
-                        SMP Negeri 1 Yogyakarta
-                      </SelectItem>
+                        <SelectItem value='Histori Total Pemasukan'>
+                          Histori Total Pemasukan
+                        </SelectItem>
+                      {
+                        schools && schools?.schools.map((item, index) => (
+                        <SelectItem key={index} value={item.id}>
+                          {item.name}
+                        </SelectItem>
+                        ))
+                      }
                     </SelectContent>
                   </Select>
                 </CardTitle>
@@ -370,18 +428,26 @@ export default function ManagerDashboard() {
                   Histori dari semua pemasukan cabang setiap bulan
                 </CardDescription>
               </div>
-
               <div className="">
-                <Select>
+                <Select onValueChange={setSelectedYear} value={selectedYear} defaultValue={selectedYear}>
                   <SelectTrigger className="w-full font-bold">
-                    <SelectValue placeholder="2025" />
+                    <SelectValue placeholder="Semua Tahun" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="2025">2025</SelectItem>
-                    <SelectItem value="2024">2024</SelectItem>
-                    <SelectItem value="2023">2023</SelectItem>
+                    <SelectItem value="semua_tahun">Semua Tahun</SelectItem>
+                    {
+                      optionYear && optionYear.map((item, index) => (
+                        <SelectItem value={item.value} key={index}>{item.label}</SelectItem>
+                      ))
+                    }
                   </SelectContent>
                 </Select>
+              </div>
+              </div>
+              <div>
+              <Button onClick={resetFilters} variant="outline">
+                Reset Filter
+              </Button>
               </div>
             </div>
           </CardHeader>

@@ -340,6 +340,8 @@ query GetEnrollment($id: String!) {
     payment {
       id
       status
+      paidDate
+      dueDate
       method
       enrollment {
         id
@@ -386,11 +388,18 @@ query GetEnrollments {
       id
       name
       nisn
+      school {
+        id
+        name
+        npsn
+      }
     }
     payment {
       id
       status
       method
+      dueDate
+      paidDate
       enrollment {
         id
       }

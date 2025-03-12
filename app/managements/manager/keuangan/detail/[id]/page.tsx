@@ -7,6 +7,7 @@ import {
 import { useGetEnrollmentQuery } from "@/graphql/generated";
 import user from "@/image/user.jpeg";
 import { useParams } from "next/navigation";
+import { format } from "date-fns";
 import React from "react";
 
 interface Finance {
@@ -69,18 +70,30 @@ const DetailPage = () => {
       ] satisfies CommonSectionField<Finance>[],
     },
   ];
+  
+  const dueDate = enrollment?.enrollment?.payment?.dueDate ?? null;
+  const paidDate = enrollment?.enrollment?.payment?.paidDate ?? null;
+  // if (!dueDate || !paidDate) return
 
   const payments = [
     {
-      // invoice: "Sabtu, 28 maret 2024",
-      status: enrollment?.enrollment.payment?.status,
-      amount: data.amount,
+      invoice: format(paidDate, 'yyyy-MM-dd') ?? '-',
+      status: enrollment?.enrollment.payment?.status ?? "PENDING",
+      amount: data.amount ?? '0',
     },
   ];
   // const ricianTagihan = Object.entries(enrollment?.enrollment.payment.map)
   const ricianTagihan = [
     { name: enrollment?.enrollment.payment?.pricing?.name, harga: enrollment?.enrollment.payment?.pricing?.amount },
   ];
+
+
+  const formattedDueDate = new Intl.DateTimeFormat("id-ID", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  }).format(new Date(dueDate));
+
   return (
     <div className="min-h-screen">
       <CommonDetail
@@ -95,11 +108,11 @@ const DetailPage = () => {
         termId={enrollment?.enrollment.termId ?? ''}
         pricingId={enrollment?.enrollment.payment?.pricing?.id ?? ''}
         tagihan={data.amount.slice(2) ?? 0}
-        jatuhTempo="23 Mei 2025"
+        jatuhTempo={formattedDueDate ?? ''}
         image={user.src}
         data={data}
         ricianTagihan={ricianTagihan}
-        riwayatPembayaran={payments}
+        riwayatPembayaran={enrollment?.enrollment.payment?.status === 'SUCCESS' ? payments : [ ]}
         sections={sections}
       ></CommonDetail>
     </div>

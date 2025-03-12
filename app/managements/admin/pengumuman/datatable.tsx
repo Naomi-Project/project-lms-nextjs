@@ -1,6 +1,7 @@
 "use client";
 /* eslint-disable */
 import { DataTable } from "@/components/common/list/CommonDataTable";
+import header from "@/components/header";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
 import { useDeleteAnnouncementMutation, useGetAnnouncementsQuery } from "@/graphql/generated";
@@ -18,6 +19,15 @@ type Pengumuman = {
   
   export default function AnnouncementTable() {
     const { data } = useGetAnnouncementsQuery();
+    const truncateText = (text: string, wordLimit: number = 10) => {
+      if (!text) return "";
+      const words = text.split(" ");
+      if (words.length > wordLimit) {
+        return words.slice(0, wordLimit).join(" ") + "..."; // Potong hingga 100 kata dan tambahkan "..."
+      }
+      return text;
+    };
+
 
     const [deleteAnnouncement, {loading}] = useDeleteAnnouncementMutation()
     const columns = [
@@ -36,7 +46,9 @@ type Pengumuman = {
       {
         accessorKey: "content",
         header: "CONTENT",
-        cell: ({ row }: any) => <span>{row.getValue("content")}</span>,
+        cell: ({ row }: any) => (
+          <div dangerouslySetInnerHTML={{ __html: truncateText(row.getValue("content"))}} />
+        ),
       },
       {
         accessorKey: "target",

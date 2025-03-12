@@ -6,7 +6,7 @@ import ButtonDelete from "@/components/ui/buttonDelete";
 import { Toggle } from "@/components/ui/toggle";
 import { useDeleteFamilyMutation } from "@/graphql/generated";
 import { getValueByPath } from "@/lib/getter";
-import { Pencil, School } from "lucide-react";
+import { MoveLeft, Pencil, School } from "lucide-react";
 import Image from "next/image";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface CommonSectionField<T extends Record<any, any>> {
@@ -76,6 +76,11 @@ export function CommonDetailPage<T extends Record<any, any>>(
                     </div>
                 </div>
                 <div className="md:absolute right-10 gap-3 flex flex-wrap">
+                    {
+                        props.jobdesk === 'Murid' ? (
+                            <Button className="bg-orange-500 hover:bg-orange-600 shadow-none text-white" onClick={() => window.location.href = props.epEdit ?? ''}><MoveLeft /> Pindah Kelas</Button>
+                        ) : ''
+                    }
                     <Button className="bg-blue-500 shadow-none text-white" onClick={() => window.location.href = props.epEdit ?? ''}><Pencil /> Edit</Button>
                     <ButtonAdd endpoint={props.epAddFamily || "/managements/teacher/profile/families/create"} label="Tambah Keluarga" className={`bg-green-500 text-white shadow-none hover:bg-green-600 ${props.hideAddFamily ? 'hidden' : ''}`} />
                 </div>

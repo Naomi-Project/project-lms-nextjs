@@ -100,6 +100,7 @@ export function CommonDetail<T extends Record<any, any>>(
             reference: "Bayar tagihan " + 'aja',
             enrollmentId: props.enrollmentId,
             status: PaymentStatus.Success,
+            paidDate: new Date(),
             method: paymentMethod === 'CASH' ? PaymentMethod.Cash : PaymentMethod.Online,
             pricingId: props.pricingId
           }
@@ -316,10 +317,10 @@ export function CommonDetail<T extends Record<any, any>>(
           <Table>
             <TableHeader className="bg-slate-200">
               <TableRow>
-                {/* <TableHead className="w-6/12 font-bold text-black">
+                <TableHead className="w-4/12 font-bold text-black">
                   RIWAYAT PEMBAYARAN
-                </TableHead> */}
-                <TableHead className="w-8/12 font-bold text-black border-l-2 border-slate-300">
+                </TableHead>
+                <TableHead className="w-4/12 font-bold text-black border-l-2 border-slate-300">
                   STATUS
                 </TableHead>
                 <TableHead className="w-4/12 font-bold text-black border-l-2 border-slate-300">
@@ -330,7 +331,7 @@ export function CommonDetail<T extends Record<any, any>>(
             <TableBody>
               {props.riwayatPembayaran.map((invoice: any, index: number) => (
                 <TableRow key={index}>
-                  {/* <TableCell>{invoice.invoice}</TableCell> */}
+                  <TableCell>{invoice.invoice ?? '-'}</TableCell>
                   <TableCell className={`${invoice.status === 'PENDING' ? 'text-orange-400' : invoice.status === 'SUCCESS' ? 'text-green-600' : 'text-red-600'} font-semibold border-l-2`}>
                     {invoice.status}
                   </TableCell>

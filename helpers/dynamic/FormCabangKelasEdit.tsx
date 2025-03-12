@@ -52,7 +52,7 @@ const FormHelpersEdit = () => {
   const { id } = params;
   const { data, loading: loadClass } = useGetClassroomQuery({
     variables: {
-      data: id as string ?? '',
+      data: id as string,
     },
     skip: !id,
   })
@@ -107,12 +107,11 @@ const FormHelpersEdit = () => {
   if (loading || loadClass || !data?.classroom || !dataTeachers || !id) {
     return <div>Loading..</div>;
   }
-  let findGrade: any = grade?.grades?.find((item) => item?.classrooms?.some((cs) => cs.id === data?.classroom?.id))
+  let findGrade: any = grade?.grades?.find((item) => item?.classrooms?.some((cs) => cs.id === data?.classroom?.id)) || {}
   findGrade = findGrade.id ?? ''
   const sections: CommonFormAddSection<Form>[] = [
     {
       fields: [
-        // fields group 1
         [
           {
             key: "name",

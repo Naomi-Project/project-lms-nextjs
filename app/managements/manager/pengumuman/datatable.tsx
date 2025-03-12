@@ -47,7 +47,7 @@ export default function AnnouncementTable() {
         header: "CONTENT",
         cell: ({ row }: any) => (
           <div dangerouslySetInnerHTML={{ __html: truncateText(row.getValue("content"))}} />
-        )        
+        )
       },
       {
         accessorKey: "target",

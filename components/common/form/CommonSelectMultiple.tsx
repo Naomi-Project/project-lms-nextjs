@@ -61,7 +61,7 @@ const CommonSelectMultiple: React.FC<CommonSelectMultipleProps> = ({
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
-                    // disabled={disabled || false}
+                    disabled={disabled || false}
                     ref={buttonRef}
                     variant="outline"
                     className={`w-full justify-between ${hidden ? "hidden" : ''}`}

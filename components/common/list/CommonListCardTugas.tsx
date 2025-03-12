@@ -105,7 +105,7 @@ const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: L
                     </CardTitle>
                     <CardTitle
                       className={`fontligh text-xs py-1 w-auto px-3 rounded-full text-center font-bold ${
-                        data?.submissions?.find((item) => item?.studentId === userId) ? "bg-blue-100 text-blue-400" : "bg-red-100 text-red-400"
+                        data?.submissions?.find((item) => item?.studentId === userId) ? "bg-blue-100 text-blue-400" : "hidden"
                       }`}
                     >
                       {data.submissions.find((item) => item.studentId === userId) ? 'Nilai Mu ' + data.submissions.find((item) => item.studentId === userId)?.score?.value + '' : "Tidak ada Nilai"}
