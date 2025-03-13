@@ -49,7 +49,7 @@ export default function LibraryStudent() {
       item.title.toLowerCase().includes(searchTerm.toLowerCase())
       // item?.author?.name.toLowerCase().includes(searchTerm.toLowerCase());
 
-    return categoryMatch && searchMatch;
+    return item.title !== '-' && categoryMatch && searchMatch;
   });
 
   return (
@@ -90,7 +90,7 @@ export default function LibraryStudent() {
           filteredReferences.map((item, index) => (
             <div
               key={index}
-              className="grid grid-cols-1 md:grid-cols-12 rounded-md container pr-20 py-5 gap-4 px-4 bg-white border-b border-slate-300"
+              className="grid grid-cols-2 md:grid-cols-12 rounded-md container pr-20 py-5 gap-4 px-4 bg-white border-b border-slate-300"
             >
               <div className="md:col-span-10 col-span-8 pl-4">
                 <Dialog>
@@ -105,14 +105,14 @@ export default function LibraryStudent() {
                           <a href={item.url}>{item.url}</a>
                           <p dangerouslySetInnerHTML={{ __html: item.description }}></p>
                           <div className="text-gray-500 flex gap-3 my-3 p-0 justify-start">
-                            {item?.tags?.map((tag, indextag) => (
+                            {item?.tags && item?.tags?.length > 0 && item.tags[0] !== '' ? item?.tags?.map((tag, indextag) => (
                               <Badge
                                 key={indextag}
                                 className="bg-white border p-0 py-1 hover:bg-transparent px-3 shadow-none text-gray-600 border-gray-200"
                               >
                                 #{tag}
                               </Badge>
-                            ))}
+                            )) : ''}
                           </div>
                         </div>
                       </DialogDescription>
@@ -120,18 +120,18 @@ export default function LibraryStudent() {
                   </DialogContent>
                 </Dialog>
                 <div className="text-gray-500 flex gap-3 my-3 p-0 justify-start">
-                  {item?.tags?.map((tag, indextag) => (
+                  {item?.tags && item?.tags?.length > 0 && item.tags[0] !== '' ? item?.tags?.map((tag, indextag) => (
                     <Badge
                       key={indextag}
                       className="bg-white border p-0 py-1 hover:bg-transparent px-3 shadow-none text-gray-600 border-gray-200"
                     >
                       {tag}
                     </Badge>
-                  ))}
+                  )) : ''}
                 </div>
 
-                <div className="md:w-4/12 w-8/12 mt-4">
-                  <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+                <div className="md:w-4/12 w-full mt-4">
+                  <div className="grid md:grid-cols-2 grid-cols-2 gap-4">
                     <div className="col-span-1 border-r-2 border-slate-400">
                       <div className="grid grid-cols-5 gap-2">
                         <div className="col-span-1 grid justify-items-end">

@@ -40,13 +40,13 @@ export default function TasksDetail({ role = "teacher", dataDefault, idAssignmen
           </div>
           <div className="flex gap-2">
             <Calendar className="h-4 w-4 text-slate-400" />
-            <p className="text-slate-400">{format(dueDate, 'yyyy-MM-dd')}</p>
+            <p className="text-slate-400">{format(dueDate, 'yyyy-MM-dd HH:mm:dd')}</p>
           </div>
         </div>
       </div>
 
       {/* 🔹 deskripsi soal */}
-      <div className={`border-2 rounded-lg py-5 px-10 mt-10 shadow-sm bg-white ${role === "teacher" ? "hidden" : ""}`}>
+      <div className={`border-2 rounded-lg py-5 px-5 mt-10 shadow-sm bg-white ${role === "teacher" ? "hidden" : ""}`}>
         <div className="grid grid-cols-10 gap-4">
           <div className="md:col-span-1 col-span-2 grid justify-items-center md:border-r-2 border-slate-400">
             <div className="p-2 md:border-2 rounded-full border-slate-400">

@@ -55,7 +55,7 @@ export default function MaterialDetail({ data, name, code = "", subject, semeste
       <div className="border-2 rounded-lg py-5 px-5 mt-10 bg-white">
         <div className="grid grid-cols-10 gap-4">
           <div className="md:col-span-1 col-span-2 grid justify-items-center border-r-2 border-slate-400">
-            <div className="p-2 border-2 rounded-full border-slate-400">
+            <div className="p-2  rounded-full border-slate-400">
               <BookOpen />
             </div>
           </div>
@@ -78,7 +78,7 @@ export default function MaterialDetail({ data, name, code = "", subject, semeste
       <div className="border-2 rounded-lg py-5 px-5 mt-10 bg-white">
         <div className="grid grid-cols-10 gap-4">
           <div className="md:col-span-1 col-span-2 grid justify-items-center border-r-2 border-slate-400">
-            <div className="p-2 border-2 rounded-full border-slate-400">
+            <div className="p-2 rounded-full border-slate-400">
               <LibraryBig />
             </div>
           </div>

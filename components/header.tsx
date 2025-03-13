@@ -93,9 +93,10 @@ export default function Header() {
                             <span className="text-gray-500">{format(item.createdAt, 'yyyy-MM-dd HH:mm:ss')}</span>
                           </div>
                       </DialogTrigger>
-                      <DialogContent>
+                      <DialogContent className="w-[90%] rounded-md">
                         <DialogHeader>
-                          <DialogTitle>{item.title} - {format(item.createdAt, 'yyyy-MM-dd HH:mm:ss')}</DialogTitle>
+                          {/* <DialogTitle>{item.title} - {format(item.createdAt, 'yyyy-MM-dd HH:mm:ss')}</DialogTitle> */}
+                          <DialogTitle>{item.title}</DialogTitle>
                           <div>
                             {/* {item.content} */}
                             <div dangerouslySetInnerHTML={{__html: item.content}} />

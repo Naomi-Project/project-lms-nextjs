@@ -119,8 +119,8 @@ const FormHelpersAdd = () => {
         [
           {
             key: "extendedData",
-            label: "Soal-soal - Pastikan semua soal punya jawaban dengan klik checkbox untuk mengunci jawaban",
-            class: "md:w-full lg:w-full",
+            label: "Soal-soal | Pastikan semua soal punya jawaban dengan klik checkbox untuk mengunci jawaban",
+            class: "md:w-full lg:w-full mt-3",
             emptyValue: "-",
             type: "soal_builder",
             placeholder: "",

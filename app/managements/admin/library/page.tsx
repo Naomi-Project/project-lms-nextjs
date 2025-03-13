@@ -102,7 +102,7 @@ export default function LibraryAdmin() {
                   <DialogTrigger>
                     <h1 className="text-base">{item.title ?? "Referensi Unknown"}</h1>
                   </DialogTrigger>
-                  <DialogContent>
+                  <DialogContent className="w-[90%] rounded-md">
                     <DialogHeader>
                       <DialogTitle>{item.title} - {item.type}</DialogTitle>
                       <DialogDescription>
@@ -110,14 +110,14 @@ export default function LibraryAdmin() {
                           <a href={item.url}>{item.url}</a>
                           <p dangerouslySetInnerHTML={{ __html: item.description }}></p>
                           <div className="text-gray-500 flex gap-3 my-3 p-0 justify-start">
-                            {item?.tags?.map((tag, indextag) => (
+                            {item?.tags && item?.tags?.length > 0 && item.tags[0] !== '' ? item?.tags?.map((tag, indextag) => (
                               <Badge
                                 key={indextag}
                                 className="bg-white border p-0 py-1 hover:bg-transparent px-3 shadow-none text-gray-600 border-gray-200"
                               >
-                                #{tag}
+                                # {tag}
                               </Badge>
-                            ))}
+                            )) : ''}
                           </div>
                         </div>
                       </DialogDescription>
@@ -125,14 +125,14 @@ export default function LibraryAdmin() {
                   </DialogContent>
                 </Dialog>
                 <div className="text-gray-500 flex gap-3 my-3 p-0 justify-start">
-                  {item?.tags?.map((tag, indextag) => (
+                  {item?.tags && item?.tags?.length >  0 && item.tags[0] !== '' ? item?.tags?.map((tag, indextag) => (
                     <Badge
                       key={indextag}
                       className="bg-white border p-0 py-1 hover:bg-transparent px-3 shadow-none text-gray-600 border-gray-200"
                     >
                       {tag}
                     </Badge>
-                  ))}
+                  )) : ''}
                 </div>
 
                 <div className="md:w-4/12 w-8/12 mt-4">

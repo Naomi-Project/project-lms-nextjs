@@ -236,7 +236,7 @@ export function CommonFormAdd<T extends Record<any, any>>(
       }
       Swal.fire({
         title: "Berhasil Dibuat!",
-        text: "Data telah berhasil dibuat!",
+        text: "Data telah berhasil dibuat! silakan reload halaman.",
         icon: "success",
         timer: 2000,
         timerProgressBar: true,
@@ -275,7 +275,7 @@ export function CommonFormAdd<T extends Record<any, any>>(
       }
       Swal.fire({
         title: "Berhasil Submit!",
-        text: "Berhasil Merekam Jawaban Tugas ini!",
+        text: "Berhasil Merekam Jawaban Tugas ini! silakan reload halaman.",
         icon: "success",
       }).then((result) => {
         if (result.isConfirmed) {

@@ -15,7 +15,7 @@ import { z } from "zod";
 export const referenceSchema = z.object({
   title: z.string().min(1, "Judul Referensi wajib diisi"),
   description: z.string().min(1, "Deskripsi Referensi wajib diisi"),
-  tags: z.string().min(1, "Tags minimal 1 dan wajib diisi"),
+  tags: z.string().optional(),
   type: z.string().min(1, "Tipe Referensi wajib dipilih"),
   url: z.string().min(1, "Isi Referensi wajib diisi"),
   authorId: z.string().min(1, "Author Referensi wajib diisi"),
@@ -24,7 +24,7 @@ export const referenceSchema = z.object({
 export interface Form {
   title: string;
   description: string;
-  tags: string;
+  tags?: string;
   type: string;
   url: string;
   authorId: string;
@@ -58,7 +58,7 @@ const CreatePage = () => {
             setMdValue: setDesc,
             label: "Deskripsi Referensi",
             emptyValue: "-",
-            class: "md:w-full lg:w-full",
+            class: "w-full md:w-full lg:w-full",
             placeholder: "Masukkan deskripsi referensi..",
           },
         ],
@@ -75,7 +75,7 @@ const CreatePage = () => {
               { label: "ARTICLE", value: "ARTICLE" },
               { label: "OTHER", value: "OTHER" },
             ],
-            class: "md:w-full lg:w-full",
+            class: "w-full mt-2 md:w-full lg:w-full",
             placeholder: "Pilih tipe referensi..",
           },
         ],
@@ -84,7 +84,7 @@ const CreatePage = () => {
             key: "url",
             label: "Isi referensi (dalam bentuk url)",
             emptyValue: "-",
-            class: "md:w-full lg:w-full",
+            class: "w-full mt-2 md:w-full lg:w-full",
             placeholder: "Masukkan isi referensi berupa url..",
           },
         ],

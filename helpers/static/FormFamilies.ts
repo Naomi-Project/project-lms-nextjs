@@ -66,7 +66,7 @@ export const sections: CommonFormAddSection<Form>[] = [
             label: "Hubungan",
             emptyValue: "-",
             type: "select",
-            class: 'md:w-full lg:w-full',
+            class: 'w-full md:w-full lg:w-full',
             dataSelect: Relasi,
             placeholder: "Masukkan Nama Kelas..",
           },

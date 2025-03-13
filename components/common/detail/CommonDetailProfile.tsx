@@ -75,7 +75,7 @@ export function CommonDetailPage<T extends Record<any, any>>(
                         <Badge className="bg-blue-100 text-primary shadow-none font-light">{props.jobdesk}</Badge>
                     </div>
                 </div>
-                <div className="md:absolute right-10 gap-3 flex flex-wrap">
+                <div className="md:absolute right-10 gap-3 px-4 flex flex-wrap">
                     {
                         props.jobdesk === 'Murid' ? (
                             <Button className="bg-orange-500 hover:bg-orange-600 shadow-none text-white" onClick={() => window.location.href = props.epEdit ?? ''}><MoveLeft /> Pindah Kelas</Button>

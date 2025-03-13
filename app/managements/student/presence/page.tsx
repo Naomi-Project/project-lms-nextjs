@@ -34,7 +34,7 @@ export default function PresenceStudent() {
       cell: ({ row }: any) => (
         <span className="">
           {row.getValue('date')
-            ? format(new Date(row.getValue('date')), 'yyyy-MM-dd')
+            ? format(new Date(row.getValue('date')), 'yyyy-MM-dd HH:mm:dd')
             : '-'}
         </span>
       ),      
@@ -85,7 +85,7 @@ export default function PresenceStudent() {
     <div className="min-h-screen">
       <div className="grid md:grid-cols-4 grid-cols-2 gap-4">
         <div className="col-span-1 border-2 rounded-lg justify-items-center content-center py-2 bg-white">
-          <div className="grid grid-cols-4 gap-2 ">
+          <div className="grid grid-cols-2 md:ml-2 md:grid-cols-4 gap-2 ">
             <div className="col-span-1 bg-green-100 border-green-100 border-2 p-2 rounded-lg flex items-center justify-center">
               <CalendarCheck2 className="w-9 h-9 text-green-400" />
             </div>
@@ -105,7 +105,7 @@ export default function PresenceStudent() {
         </div>
 
         <div className="col-span-1 border-2 rounded-lg justify-items-center content-center py-2 bg-white">
-          <div className="grid grid-cols-4 gap-2">
+          <div className="grid grid-cols-2 md:ml-2 md:grid-cols-4 gap-2">
             <div className="col-span-1 bg-orange-100 border-orange-100 border-2 p-2 rounded-lg flex items-center justify-center">
               <Hourglass className="w-9 h-9 text-orange-400" />
             </div>
@@ -125,7 +125,7 @@ export default function PresenceStudent() {
         </div>
 
         <div className="col-span-1 border-2 rounded-lg justify-items-center content-center py-2 bg-white">
-          <div className="grid grid-cols-4 gap-2">
+          <div className="grid grid-cols-2 md:ml-2 md:grid-cols-4 gap-2">
             <div className="col-span-1 bg-orange-100 border-orange-100 border-2 p-2 rounded-lg flex items-center justify-center">
               <Thermometer className="w-9 h-9 text-orange-400" />
             </div>
@@ -145,7 +145,7 @@ export default function PresenceStudent() {
         </div>
 
         <div className="col-span-1 border-2 rounded-lg justify-items-center content-center py-2 bg-white">
-          <div className="grid grid-cols-4 gap-2">
+          <div className="grid grid-cols-2 md:ml-2 md:grid-cols-4 gap-2">
             <div className="col-span-1 bg-red-100 border-red-100 border-2 p-2 rounded-lg flex items-center justify-center">
               <CalendarOff className="w-9 h-9 text-red-400" />
             </div>

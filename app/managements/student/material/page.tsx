@@ -25,7 +25,7 @@ export default function MaterialStudent() {
   })) || []
   return (
     <div className="min-h-screen">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between gap-3 items-center">
         <div className="bg-white rounded-lg">
           <Select defaultValue="" onValueChange={(value) => setFilter(value)}>
             <SelectTrigger className="w-full">
