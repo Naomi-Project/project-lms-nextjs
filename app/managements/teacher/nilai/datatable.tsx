@@ -48,22 +48,22 @@ export default function SubmissionTable({
       cell: ({ row }: any) => <span>{row.original.student?.name || "-"}</span>,
     },
     {
-      accessorKey: "assignment.title",
+      accessorKey: "assignment_title",
       header: "NAMA TUGAS",
       cell: ({ row }: any) => <span>{row.original.assignment?.title || "-"}</span>,
     },
     {
-      accessorKey: "assignment.subject.name",
+      accessorKey: "subject_name",
       header: "MATA PELAJARAN",
       cell: ({ row }: any) => <span>{row.original.assignment?.subject?.name || "-"}</span>,
     },
     {
-      accessorKey: "assignment.type",
+      accessorKey: "assignment",
       header: "TIPE TUGAS",
       cell: ({ row }: any) => <span>{row.original.assignment?.type || "-"}</span>,
     },
     {
-      accessorKey: "score.value",
+      accessorKey: "score",
       header: "NILAI",
       cell: ({ row }: any) => <span>{row.original.score?.value ?? "Belum Dinilai"}</span>,
     },
@@ -86,7 +86,7 @@ export default function SubmissionTable({
     <DataTable
       columns={columns}
       data={filteredData} // 🔹 Data yang sudah difilter
-      filterName="student.username"
+      filterName="no"
       filterPlaceholder="Cari Nama Siswa..."
     />
   );
