@@ -376,9 +376,22 @@ export const StudentMenu = [
   },
   {
     title: "Profile Siswa",
-    href: "/managements/student/profile",
     icon: UserPen,
     visibility: true,
+    subMenu: [
+      {
+        title: "Profile ku",
+        href: "/managements/student/profile",
+        icon: UserPen,
+        visibility: true,
+      },
+      {
+        title: "Pembayaran SPP",
+        href: "/managements/student/profile-payment",
+        icon: UserPen,
+        visibility: true,
+      },
+    ],
   },
   {
     title: "Laporan Presensi",
@@ -389,12 +402,6 @@ export const StudentMenu = [
   {
     title: "Laporan Nilai",
     href: "/managements/student/profile-value",
-    icon: UserPen,
-    visibility: false,
-  },
-  {
-    title: "Pembayaran SPP",
-    href: "/managements/student/profile-payment",
     icon: UserPen,
     visibility: false,
   },

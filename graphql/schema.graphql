@@ -1669,6 +1669,7 @@ query GetPricings {
     id
     name
     amount
+    
     createdAt
     updatedAt
   }

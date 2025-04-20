@@ -33,7 +33,7 @@ import dynamic from "next/dynamic";
 import CommonEditor from "./CommonEditor";
 import CommonSoalBuilder from "./CommonSoalBuilder";
 import CommonSubmission from "./CommonSubmission";
-import { PaymentMethod, PaymentStatus, useCreateEnrollmentMutation, useCreatePaymentMutation, useCreateSubmissionMutation } from "@/graphql/generated";
+import { PaymentMethod, PaymentStatus, useCreateEnrollmentMutation, useCreatePaymentMutation, useCreateSubmissionMutation, useDeleteClassroomMutation } from "@/graphql/generated";
 import CommonDatePicker from "./CommonDatePicker";
 import CommonDateTimePicker from "./CommonDateTimePicker";
 import CommonSelectMultiple from "./CommonSelectMultiple";
@@ -201,6 +201,7 @@ export function CommonFormAdd<T extends Record<any, any>>(
   
    // if mutation class
   const [createEnrollment] = useCreateEnrollmentMutation();
+  const [deleteClassroom] = useDeleteClassroomMutation();
 
   const filledStudentToClass = async (values: any) => {
     // return
@@ -223,17 +224,31 @@ export function CommonFormAdd<T extends Record<any, any>>(
       
       // 3️⃣ Looping dan daftarkan setiap siswa ke kelas
       for (const studentId of values.students) {
+        try {
           await createEnrollment({
-          variables: {
-            data: {
-              studentId: studentId,
-              classroomId: resClass.id,
-              termId: values.termId,
-              pricingId: values.pricingId
+            variables: {
+              data: {
+                studentId,
+                classroomId: resClass.id,
+                termId: values.termId,
+                pricingId: values.pricingId,
+              },
             },
-          },
-        });
+          });
+        } catch (enrollmentError) {
+          console.error("Enrollment gagal:", enrollmentError);
+  
+          // 3️⃣ Hapus kelas jika salah satu enrollment gagal
+          await deleteClassroom({
+            variables: {
+              data: resClass.id,
+            },
+          });
+  
+          throw new Error("Enrollment gagal. Kelas dibatalkan.");
+        }
       }
+
       Swal.fire({
         title: "Berhasil Dibuat!",
         text: "Data telah berhasil dibuat! silakan reload halaman.",
@@ -245,9 +260,20 @@ export function CommonFormAdd<T extends Record<any, any>>(
           handleCreateSuccess()
         }
       });
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error creating data:", err);
       setIsSubmit(false)
+      Swal.fire({
+        title: "Gagal Membuat kelas",
+        text: err.message,
+        icon: "error",
+        timer: 2500,
+        timerProgressBar: true,
+      }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
+          location.reload()
+        }
+      });
     }
   };
   

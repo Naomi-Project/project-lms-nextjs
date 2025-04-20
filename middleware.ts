@@ -104,8 +104,8 @@ const rolePermissions: Record<string, string[]> = {
   
   // menu for role teacher only
   "/dashboard/teachers": ["TEACHER"],
-  "/managements/teacher": ["TEACHER"], 
-  "/managements/teacher/tasks-create": ["TEACHER"], 
+  "/managements/teacher": ["TEACHER"],
+  "/managements/teacher/tasks-create": ["TEACHER"],
   "/managements/teacher/tasks-detail": ["TEACHER"], 
   "/managements/teacher/nilai": ["TEACHER"], 
   "/managements/teacher/material": ["TEACHER"], 
@@ -131,6 +131,7 @@ const rolePermissions: Record<string, string[]> = {
   "/managements/student/schedule": ["STUDENT"],
   "/managements/student/library": ["STUDENT"],
   "/managements/student/profile": ["STUDENT"],
+  "/managements/student/profile-payment": ["STUDENT"],
   // "/managements/manager/profile/edit": ["STUDENT"],
   "/managements/manager/profile/family-add": ["STUDENT"],
   "/managements/manager/profile-student/edit": ["STUDENT"],
