@@ -485,6 +485,92 @@ export default function ManagerDashboard() {
           </CardContent>
         </Card>
       </div>
+      <div className="rounded-lg bg-white mt-10">
+        <Card>
+          <CardHeader>
+            <div className="flex justify-between">
+              <div className="flex gap-5">
+              <div className="">
+                <CardTitle>
+                  <Select onValueChange={setSelectedSchool} value={selectedSchool ?? 'Histori Total Siswa/I'}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Histori Total Siswa/I" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value='Histori Total Siswa/I'>
+                          Histori Total Siswa/I
+                        </SelectItem>
+                      {
+                        schools && schools?.schools.map((item, index) => (
+                        <SelectItem key={index} value={item.id}>
+                          {item.name}
+                        </SelectItem>
+                        ))
+                      }
+                    </SelectContent>
+                  </Select>
+                </CardTitle>
+                <CardDescription className="mt-2">
+                  Histori dari semua pemasukan data siswa setiap bulan
+                </CardDescription>
+              </div>
+              <div className="">
+                <Select onValueChange={setSelectedYear} value={selectedYear} defaultValue={selectedYear}>
+                  <SelectTrigger className="w-full font-bold">
+                    <SelectValue placeholder="Semua Tahun" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="semua_tahun">Semua Tahun</SelectItem>
+                    {
+                      optionYear && optionYear.map((item, index) => (
+                        <SelectItem value={item.value} key={index}>{item.label}</SelectItem>
+                      ))
+                    }
+                  </SelectContent>
+                </Select>
+              </div>
+              </div>
+              <div>
+              <Button onClick={resetFilters} variant="outline">
+                Reset Filter
+              </Button>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="h-96">
+            <ChartContainer config={chartConfig} className="w-full h-full">
+              <LineChart
+                accessibilityLayer
+                data={chartData}
+                margin={{
+                  left: 12,
+                  right: 12,
+                }}
+              >
+                <CartesianGrid vertical={true} />
+                <XAxis
+                  dataKey="month"
+                  tickLine={false}
+                  axisLine={false}
+                  tickMargin={8}
+                  tickFormatter={(value) => value.slice(0, 3)}
+                />
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent hideLabel />}
+                />
+                <Line
+                  dataKey="payment"
+                  type="linear"
+                  stroke="var(--color-payment)"
+                  strokeWidth={2}
+                  dot={false}
+                />
+              </LineChart>
+            </ChartContainer>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
