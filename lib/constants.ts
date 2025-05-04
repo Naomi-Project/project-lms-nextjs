@@ -132,7 +132,7 @@ export const HeadofficeMenu = [
     title: "Management Admin",
     href: "/managements/admin/setting-admin",
     icon: Settings,
-    visibility: true,
+    visibility: false,
   },
   {
     title: "Keuangan",
@@ -162,7 +162,26 @@ export const HeadofficeMenu = [
     title: "Perpustakaan Digital",
     href: "/managements/admin/library",
     icon: Library,
+    visibility: false,
+  },
+  {
+    title: "Pengaturan",
+    icon: Settings,
     visibility: true,
+    subMenu: [
+      // {
+      //   title: "Management Admin",
+      //   href: "/managements/admin/setting-admin",
+      //   icon: Settings,
+      //   visibility: false,
+      // },
+      {
+        title: "Profile Management",
+        href: "/managements/manager/profile",
+        icon: Settings,
+        visibility: true,
+      },
+    ]
   },
 ]
 

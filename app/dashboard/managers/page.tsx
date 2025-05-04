@@ -36,12 +36,26 @@ const chartConfig = {
     label: "Pemasukan Dalam Rp : ",
     color: "hsl(var(--chart-2))",
   },
+  student: {
+    label: "Total Siswa/I : ",
+    color: "hsl(var(--chart-2))",
+  },
+  month: {
+    label: "Bulan : ",
+    color: "hsl(var(--chart-3))",
+  },
 } satisfies ChartConfig;
 
 export default function ManagerDashboard() {
   // widget tagihan spp
   const { data } = useGetEnrollmentsQuery();
   const { data: schools } = useGetSchoolsQuery();
+
+  // widget total guru dan murid
+  const { data: userLoad } = useGetUsersQuery()
+  const student = userLoad?.users.filter((item) => item.role === 'STUDENT') || []
+  const teacher = userLoad?.users.filter((item) => item.role === 'TEACHER') || []
+
   const studentsPaid = data?.enrollments.filter((item) => item?.payment?.status === 'SUCCESS')
   const studentsNotPaid = data?.enrollments.filter((item) => item?.payment?.status === 'PENDING')
   // Hitung total semua SPP yang belum terbayar
@@ -58,20 +72,32 @@ export default function ManagerDashboard() {
     value: item,
   }))
 
-  console.log(monthOptionDatePricing)
   const totalSppBelumTerbayar = studentsNotPaid?.reduce((total, item) => {
     return total + (item.payment?.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
   }, 0);
 
   const [selectedSchool, setSelectedSchool] = useState<string | null>(null);
   const [selectedYear, setSelectedYear] = useState<string>("semua_tahun");
+  const [selectedSchoolStudent, setSelectedSchoolStudent] = useState<string | null>(null);
+  const [selectedYearStudent, setSelectedYearStudent] = useState<string>("semua_tahun");
   
-  const [chartData, setChartData] = useState<any>([])
+  const [paymentData, setPaymentData] = useState<any>([])
+  const [studentData, setStudentData] = useState<any>([])
   const findSuccessPayment = data?.enrollments.filter((item) => item.payment?.status === "SUCCESS")
   const optionYear = Array.from(
     new Set(
       findSuccessPayment
         ?.map((item) => new Date(item.payment?.paidDate).getFullYear().toString())
+    )
+  ).map((year) => ({
+    label: year,
+    value: year,
+  }));
+
+  const optionYear2 = Array.from(
+    new Set(
+      student
+        ?.map((item) => new Date(item.dateOfBirth).getFullYear().toString())
     )
   ).map((year) => ({
     label: year,
@@ -101,22 +127,47 @@ export default function ManagerDashboard() {
     }));
   }, [findSuccessPayment, selectedSchool, selectedYear]);
 
+  const filteredStudent = useMemo(() => {
+    if (!student) return [];
+  
+    const monthlyCounts: { [key: string]: number } = {};
+  
+    student.forEach(item => {
+      const dateOfBirth = item.dateOfBirth;
+      if (dateOfBirth) {
+        const date = new Date(parseInt(dateOfBirth)); // Parse Unix timestamp
+        const month = format(date, "MMMM"); // Get month name
+        monthlyCounts[month] = (monthlyCounts[month] || 0) + 1;
+      }
+    });
+  
+    // Convert the object to an array of objects for easier use in a chart
+    const result = Object.entries(monthlyCounts).map(([month, count]) => ({
+      month,
+      student: count,
+    }));
+  
+    return result;
+  }, [student]);
+  
+
   const resetFilters = () => {
     setSelectedSchool(null);
     setSelectedYear("semua_tahun");
+    setSelectedSchoolStudent(null);
+    setSelectedYearStudent("semua_tahun");
   };  
 
   // **Perbarui state hanya jika data benar-benar berubah**
   useEffect(() => {
-    if (JSON.stringify(chartData) !== JSON.stringify(filteredData)) {
-      setChartData(filteredData);
+    if (JSON.stringify(paymentData) !== JSON.stringify(filteredData)) {
+      setPaymentData(filteredData);
     }
-  }, [filteredData]);
-
-  // widget total guru dan murid
-  const { data: userLoad } = useGetUsersQuery()
-  const student = userLoad?.users.filter((item) => item.role === 'STUDENT') || []
-  const teacher = userLoad?.users.filter((item) => item.role === 'TEACHER') || []
+    if (JSON.stringify(studentData) !== JSON.stringify(filteredStudent)) {
+      setStudentData(filteredStudent);
+      console.log(student)
+    }
+  }, [filteredData, filteredStudent]);
 
   const groupByMonthYear = (users: any) => {
     return users?.reduce((acc: any, user: any) => {
@@ -162,6 +213,7 @@ export default function ManagerDashboard() {
 
   return (
     <div className="min-h-screen overflow-x-hidden">
+      <>
       {/* <div className="flex justify-between rounded-lg bg-white p-4">
         <div className="">
           <h1 className="text-slate-400 text-base">Tahun Akademik</h1>
@@ -254,6 +306,7 @@ export default function ManagerDashboard() {
           </Dialog>
         </div>
       </div> */}
+      </>
 
       <div className="md:grid grid-cols-2 gap-4 mt-6">
         <div className="col-span-1 bg-white rounded-lg p-4">
@@ -308,15 +361,15 @@ export default function ManagerDashboard() {
       <div className="md:grid grid-cols-2 gap-4 mt-6">
             <div className="col-span-1">
               <div className="grid grid-cols-2 gap-4 h-full">
-              <div className="col-span-1 bg-white p-2 rounded-lg">
-              <div className="grid grid-cols-3 gap-4">
+              <div className="col-span-1 bg-white p-5 rounded-lg">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-1">
                 <div className="col-span-2 my-auto">
                   <p className="text-base">Total Siswa</p>
                 </div>
 
-                <div className={`col-span-1 rounded-lg p-2 border-2 ${studentTrendData.change >= 0 ? "border-green-500 bg-green-100" : "border-red-500 bg-red-100"}`}>
-                  <div className="grid grid-cols-2">
-                    <div className="col-span-1">
+                <div className={`w-auto overflow-hidden rounded-lg p-2 border-2 ${studentTrendData.change >= 0 ? "border-green-500 bg-green-100" : "border-red-500 bg-red-100"}`}>
+                  <div className="flex gap-1 items-center w-auto">
+                    <div className="">
                       {studentTrendData.change >= 0 ? (
                         <TrendingUp className="text-green-500" />
                       ) : (
@@ -324,8 +377,8 @@ export default function ManagerDashboard() {
                       )}
                     </div>
 
-                    <div className="col-span-1 my-auto">
-                      <p className={`text-xs ${studentTrendData.change >= 0 ? "text-green-500" : "text-red-500"}`}>
+                    <div className="">
+                      <p className={`text-xs  ${studentTrendData.change >= 0 ? "text-green-500" : "text-red-500"}`}>
                         {studentTrendData.percent}%
                       </p>
                     </div>
@@ -344,15 +397,15 @@ export default function ManagerDashboard() {
               </div>
 
 
-              <div className="col-span-1 bg-white p-2 rounded-lg">
-              <div className="grid grid-cols-3 gap-4">
+              <div className="col-span-1 bg-white p-5 rounded-lg">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-1">
                 <div className="col-span-2 my-auto">
                   <p className="text-base">Total Guru</p>
                 </div>
 
-                <div className={`col-span-1 rounded-lg p-2 border-2 ${teacherTrendData.change >= 0 ? "border-green-500 bg-green-100" : "border-red-500 bg-red-100"}`}>
-                  <div className="grid grid-cols-2">
-                    <div className="col-span-1">
+                <div className={`w-auto rounded-lg p-2 border-2 ${teacherTrendData.change >= 0 ? "border-green-500 bg-green-100" : "border-red-500 bg-red-100"}`}>
+                  <div className="flex gap-1 items-center w-auto">
+                    <div className="">
                       {teacherTrendData.change >= 0 ? (
                         <TrendingUp className="text-green-500" />
                       ) : (
@@ -360,7 +413,7 @@ export default function ManagerDashboard() {
                       )}
                     </div>
 
-                    <div className="col-span-1 my-auto">
+                    <div className="">
                       <p className={`text-xs ${teacherTrendData.change >= 0 ? "text-green-500" : "text-red-500"}`}>
                         {teacherTrendData.percent}%
                       </p>
@@ -455,7 +508,7 @@ export default function ManagerDashboard() {
             <ChartContainer config={chartConfig} className="w-full h-full">
               <LineChart
                 accessibilityLayer
-                data={chartData}
+                data={paymentData}
                 margin={{
                   left: 12,
                   right: 12,
@@ -492,7 +545,7 @@ export default function ManagerDashboard() {
               <div className="flex gap-5">
               <div className="">
                 <CardTitle>
-                  <Select onValueChange={setSelectedSchool} value={selectedSchool ?? 'Histori Total Siswa/I'}>
+                  <Select onValueChange={setSelectedSchoolStudent} value={selectedSchoolStudent ?? 'Histori Total Siswa/I'}>
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Histori Total Siswa/I" />
                     </SelectTrigger>
@@ -515,14 +568,14 @@ export default function ManagerDashboard() {
                 </CardDescription>
               </div>
               <div className="">
-                <Select onValueChange={setSelectedYear} value={selectedYear} defaultValue={selectedYear}>
+                <Select onValueChange={setSelectedYearStudent} value={selectedYearStudent} defaultValue={selectedYearStudent}>
                   <SelectTrigger className="w-full font-bold">
                     <SelectValue placeholder="Semua Tahun" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="semua_tahun">Semua Tahun</SelectItem>
                     {
-                      optionYear && optionYear.map((item, index) => (
+                      optionYear2 && optionYear2.map((item, index) => (
                         <SelectItem value={item.value} key={index}>{item.label}</SelectItem>
                       ))
                     }
@@ -541,7 +594,7 @@ export default function ManagerDashboard() {
             <ChartContainer config={chartConfig} className="w-full h-full">
               <LineChart
                 accessibilityLayer
-                data={chartData}
+                data={studentData}
                 margin={{
                   left: 12,
                   right: 12,
@@ -560,7 +613,14 @@ export default function ManagerDashboard() {
                   content={<ChartTooltipContent hideLabel />}
                 />
                 <Line
-                  dataKey="payment"
+                  dataKey="student"
+                  type="linear"
+                  stroke="var(--color-payment)"
+                  strokeWidth={2}
+                  dot={false}
+                />
+                <Line
+                  dataKey="month"
                   type="linear"
                   stroke="var(--color-payment)"
                   strokeWidth={2}

@@ -1,19 +1,6 @@
 "use client";
-
-
-
-
-
-
-
-
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React from "react";
-
-
-
-
 import PaymentTable from "./datatableLunas";
 import PaymentTablePending from "./datatableBelumLunas";
 import { useGetEnrollmentsQuery } from "@/graphql/generated";
@@ -36,12 +23,12 @@ export default function AdminKeuangan() {
   return (
     <div className="min-h-screen">
       <div className="md:grid grid-cols-2 gap-4">
-        <div className="col-span-1 bg-white rounded-lg p-4">
+        <div className="col-span-1 bg-white rounded-lg relative overflow-hidden border border-gray-300 p-4">
           <p className="text-base text-slate-400">Pemasukan</p>
 
           <p className="font-bold text-3xl mt-2">{totalSppSudahTerbayar?.toLocaleString("id-ID")}</p>
 
-          <p className="text-sm mt-6">{studentsPaid?.length} Siswa sudah membayar</p>
+          <p className="text-sm mt-6 bg-gray-100 absolute bottom-0 start-0 w-full py-3 container px-5">{studentsPaid?.length} Siswa/I</p>
           {/* <div className="w-8/12 mt-7">
             <div className="grid grid-cols-2 gap-4">
               <div className="col-span-1">
@@ -75,14 +62,14 @@ export default function AdminKeuangan() {
           </div> */}
         </div>
 
-        <div className="md:mt-0 mt-4 col-span-1 bg-white rounded-lg p-4">
+        <div className="md:mt-0 mt-4 col-span-1 bg-white rounded-lg relative overflow-hidden h-[140px] border border-gray-300 p-4">
           <p className="text-base text-slate-400">SPP Belum Terbayar</p>
 
           <p className="font-bold text-3xl text-red-500 mt-2">
             {totalSppBelumTerbayar?.toLocaleString("id-ID")}
           </p>
 
-          <p className="text-sm mt-6">{studentsNotPaid?.length} Siswa belum membayar</p>
+          <p className="text-sm mt-6 bg-gray-100 absolute bottom-0 start-0 w-full py-3 container px-5">{studentsNotPaid?.length} Siswa/I</p>
         </div>
       </div>
 

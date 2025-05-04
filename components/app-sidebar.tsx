@@ -136,12 +136,43 @@ export function AppSidebar() {
                 {HeadofficeMenu.map((item, index) =>
                   item.visibility ? (
                     <SidebarMenuItem key={index}>
-                      <SidebarMenuButton asChild>
-                        <a href={item.href}>
-                          <item.icon className="mr-2 h-4 w-4" />
-                          {item.title}
-                        </a>
-                      </SidebarMenuButton>
+                      {/* Jika ada sub-menu */}
+                      {item.subMenu ? (
+                        <>
+                          <SidebarMenuButton
+                            className="flex justify-between items-center w-full"
+                            onClick={() => toggleSubMenu(item.title)}
+                          >
+                            <span className="flex items-center">
+                              <item.icon className="mr-2 h-4 w-4" />
+                              {item.title}
+                            </span>
+                            {openSubMenus[item.title] ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+                          </SidebarMenuButton>
+                          {openSubMenus[item.title] && (
+                            <div className="ml-6 border-l border-gray-300">
+                              {item.subMenu.map((sub, subIndex) => (
+                                <div key={subIndex} className="ml-2">
+                                  <SidebarMenuButton asChild>
+                                    <a href={sub.href}>
+                                      {/* <sub.icon className="mr-2 h-4 w-4" /> */}
+                                      {sub.title}
+                                    </a>
+                                  </SidebarMenuButton>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        // Jika tidak ada submenu, tampilkan sebagai menu biasa
+                        <SidebarMenuButton asChild>
+                          <a href={item.href}>
+                            <item.icon className="mr-2 h-4 w-4" />
+                            {item.title}
+                          </a>
+                        </SidebarMenuButton>
+                      )}
                     </SidebarMenuItem>
                   ) : null
                 )}
