@@ -70,6 +70,8 @@ query GetUsers {
     gender
     address
     phone
+    createdAt
+    updatedAt
     classroom {
       id
       name

@@ -133,7 +133,7 @@ export default function ManagerDashboard() {
     const monthlyCounts: { [key: string]: number } = {};
   
     student.forEach(item => {
-      const dateOfBirth = item.dateOfBirth;
+      const dateOfBirth = item.createdAt;
       if (dateOfBirth) {
         const date = new Date(parseInt(dateOfBirth)); // Parse Unix timestamp
         const month = format(date, "MMMM"); // Get month name
@@ -174,7 +174,10 @@ export default function ManagerDashboard() {
       if (!user.createdAt) return acc;
   
       // Ubah tanggal ke format "YYYY-MM"
-      const monthYear = format(parseISO(user.createdAt), "yyyy-MM");
+    const createdAtDate = new Date(user.createdAt);
+
+    // Ubah tanggal ke format "YYYY-MM"
+    const monthYear = format(createdAtDate, "yyyy-MM");
   
       // Jika bulan sudah ada, tambahkan 1, jika tidak, set ke 1
       acc[monthYear] = (acc[monthYear] || 0) + 1;
@@ -602,11 +605,11 @@ export default function ManagerDashboard() {
               >
                 <CartesianGrid vertical={true} />
                 <XAxis
-                  dataKey="month"
+                  dataKey="student"
                   tickLine={false}
                   axisLine={false}
                   tickMargin={8}
-                  tickFormatter={(value) => value.slice(0, 3)}
+                  // tickFormatter={(value) => value.slice(0, 3)}
                 />
                 <ChartTooltip
                   cursor={false}

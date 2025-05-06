@@ -1,9 +1,5 @@
 "use client"
 import ButtonAdd from "@/components/ui/buttonAdd";
-
-
-
-
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import Link from "next/link";
 import React from "react";
@@ -49,7 +45,7 @@ export default function ClassManager() {
       <div className="mt-5">
         <div className="flex justify-between items-center">
           <h1 className="font-bold">Cabang/Sub Kelas</h1>
-        <ButtonAdd endpoint="/managements/manager/class/cabang/create" label="Buat Cabang/Sub Kelas" />
+          <ButtonAdd endpoint="/managements/manager/class/cabang/create" label="Buat Cabang/Sub Kelas" />
         </div>
 
           <ListClass title={"list class"} />

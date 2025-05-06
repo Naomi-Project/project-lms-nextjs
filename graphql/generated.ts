@@ -1143,6 +1143,7 @@ export type User = {
   __typename?: 'User';
   address: Scalars['String']['output'];
   classroom?: Maybe<Classroom>;
+  createdAt: Scalars['Timestamp']['output'];
   dateOfBirth: Scalars['Timestamp']['output'];
   families: Array<Family>;
   gender: Gender;
@@ -1157,6 +1158,7 @@ export type User = {
   schoolId?: Maybe<Scalars['String']['output']>;
   submissions?: Maybe<Array<Submission>>;
   teaching?: Maybe<Array<Classroom>>;
+  updatedAt: Scalars['Timestamp']['output'];
   username: Scalars['String']['output'];
 };
 
@@ -1190,7 +1192,7 @@ export type GetUserQuery = { __typename?: 'Query', user: { __typename?: 'User', 
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, name?: string | null, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string, classroom?: { __typename?: 'Classroom', id: string, name: string, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, subject?: { __typename?: 'Subject', id: string, name: string } | null }> } | null, families: Array<{ __typename?: 'Family', id: string, name: string, contact: string, relationship: Relationship }>, school?: { __typename?: 'School', id: string, name: string, accreditation: Accreditation } | null }> };
+export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, name?: string | null, username: string, role: Role, nik?: string | null, nuptk?: string | null, nisn?: string | null, dateOfBirth: any, gender: Gender, address: string, phone: string, createdAt: any, updatedAt: any, classroom?: { __typename?: 'Classroom', id: string, name: string, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, subject?: { __typename?: 'Subject', id: string, name: string } | null }> } | null, families: Array<{ __typename?: 'Family', id: string, name: string, contact: string, relationship: Relationship }>, school?: { __typename?: 'School', id: string, name: string, accreditation: Accreditation } | null }> };
 
 export type CreateUserMutationVariables = Exact<{
   data: CreateUserInput;
@@ -1977,6 +1979,8 @@ export const GetUsersDocument = gql`
     gender
     address
     phone
+    createdAt
+    updatedAt
     classroom {
       id
       name
