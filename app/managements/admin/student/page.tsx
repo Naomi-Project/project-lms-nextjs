@@ -1,8 +1,4 @@
 'use client'
-
-
-
-
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import StudentTable from "./datatable";
 import { useGetUsersQuery } from "@/graphql/generated";

@@ -67,23 +67,23 @@ export default function StudentTable() {
       header: "SEKOLAH",
       cell: ({ row }: any) => <span>{row.original.school ?? "-"}</span>,
     },
-    {
-      accessorKey: "action",
-      header: "ACTION",
-      cell: ({ row }: any) => (
-        <div className="flex gap-3">
-          <ButtonEdit
-            endpoint="/managements/manager/student/edit/"
-            id={row.original.id}
-          />
-          <ButtonDelete
-            mutation={deleteUser}
-            loading={loading}
-            id={row.original.id}
-          />
-        </div>
-      ),
-    },
+    // {
+    //   accessorKey: "action",
+    //   header: "ACTION",
+    //   cell: ({ row }: any) => (
+    //     <div className="flex gap-3">
+    //       <ButtonEdit
+    //         endpoint="/managements/manager/student/edit/"
+    //         id={row.original.id}
+    //       />
+    //       <ButtonDelete
+    //         mutation={deleteUser}
+    //         loading={loading}
+    //         id={row.original.id}
+    //       />
+    //     </div>
+    //   ),
+    // },
   ];
 
   const classroomsData = classrooms?.classrooms || [];

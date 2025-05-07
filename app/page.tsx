@@ -109,8 +109,8 @@ export default function LoginPage() {
               }
             >
               <TabsList className="flex justify-around">
-                <TabsTrigger value="manager">Manager</TabsTrigger>
-                <TabsTrigger value="admin">Admin</TabsTrigger>
+                <TabsTrigger value="manager">Head Office</TabsTrigger>
+                <TabsTrigger value="admin">Cabang</TabsTrigger>
                 <TabsTrigger value="teacher">Guru</TabsTrigger>
                 <TabsTrigger value="student">Murid</TabsTrigger>
               </TabsList>
