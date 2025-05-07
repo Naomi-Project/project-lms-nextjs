@@ -3,7 +3,7 @@ import React from "react";
 import { CommonDetailPage } from "@/components/common/detail/CommonDetailProfile";
 import type { CommonDetailSection, CommonSectionField } from "@/components/common/detail/CommonDetailProfile";
 import user from "@/image/user.jpeg";
-import { useGetEnrollmentsQuery, useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";
+import { useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";
 import { format } from "date-fns";
 import Swal from "sweetalert2";
 
@@ -31,7 +31,7 @@ interface Student {
 export default function ManagerProfileStudent() {
   const { data: userLogin, loading } = useUserPayloadQuery()
   const { data: allUser, loading: loadAllUser } = useGetUsersQuery()
-  const { data: enrollment } = useGetEnrollmentsQuery()
+  // const { data: enrollment } = useGetEnrollmentsQuery()
 
   if (loading) {
     return 'loading'

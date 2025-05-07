@@ -56,8 +56,8 @@ export function CommonDetailPage<T extends Record<any, any>>(
                 }
             })
 
-            const resNewClass = res?.data?.updateEnrollment;
-            
+            // const resNewClass = res?.data?.updateEnrollment;
+
             if (res) {
                 Swal.fire({
                     title: "Berhasil!",
