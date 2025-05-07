@@ -1,6 +1,6 @@
 "use client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import React from "react";
+import React, { useMemo } from "react";
 import PaymentTable from "./datatableLunas";
 import PaymentTablePending from "./datatableBelumLunas";
 import { useGetEnrollmentsQuery } from "@/graphql/generated";
@@ -9,16 +9,22 @@ import { useGetEnrollmentsQuery } from "@/graphql/generated";
 
 export default function AdminKeuangan() {
   const { data } = useGetEnrollmentsQuery();
-  const studentsPaid = data?.enrollments.filter((item) => item?.payment?.status === 'SUCCESS')
-  const studentsNotPaid = data?.enrollments.filter((item) => item?.payment?.status === 'PENDING')
-  // Hitung total semua SPP yang belum terbayar
-  const totalSppSudahTerbayar = studentsPaid?.reduce((total, item) => {
-    return total + (item.payment?.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
-  }, 0);
-  const totalSppBelumTerbayar = studentsNotPaid?.reduce((total, item) => {
-    return total + (item.payment?.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
-  }, 0);
-  
+  const studentsPaid = data?.enrollments.filter((item) => item?.payments?.some((item) => item.status === 'SUCCESS'))
+  const studentsNotPaid = data?.enrollments.filter((item) => item?.payments?.some((item) => item.status === 'PENDING'))
+  // Hitung total semua SPP yang sudah terbayar bulan ini
+  const totalSppSudahTerbayar = useMemo(() => {
+    return studentsPaid?.reduce((total, item) => {
+      const successfulPayment = item.payments?.find((payment) => payment?.status === 'SUCCESS');
+      return total + (successfulPayment?.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
+    }, 0);
+  }, [studentsPaid]);
+
+  const totalSppBelumTerbayar = useMemo(() => {
+    return studentsNotPaid?.reduce((total, item) => {
+      const pendingPayment = item.payments?.find((payment) => payment?.status === 'PENDING');
+      return total + (pendingPayment?.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
+    }, 0);
+  }, [studentsNotPaid]);
 
   return (
     <div className="min-h-screen">
