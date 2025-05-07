@@ -13,6 +13,9 @@ import Swal from "sweetalert2";
 
 interface Student {
   id: string
+  enrollment_id: number
+  term_id: number
+  classroom_id: number
   name: string
   address: string
   role: string
@@ -28,6 +31,8 @@ interface Student {
 export default function ManagerProfileStudent() {
   const { data: userLogin, loading } = useUserPayloadQuery()
   const { data: allUser, loading: loadAllUser } = useGetUsersQuery()
+  // const { data: enrollment } = useGetEnrollmentsQuery()
+
   if (loading) {
     return 'loading'
   } else if (loadAllUser) {
@@ -37,9 +42,11 @@ export default function ManagerProfileStudent() {
       Swal.fire({
         title: "Access Denied!",
         text: "Kamu tidak ada akses ke profile ini!",
-        icon: "success",
+        icon: "error",
+        timer: 2000,
+        timerProgressBar: true,
       }).then((result) => {
-        if (result.isConfirmed) {
+        if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
           location.reload()
           setTimeout(() => {
             history.back(); 
@@ -51,20 +58,36 @@ export default function ManagerProfileStudent() {
   const userPayload = userLogin?.me.role !== 'STUDENT' ? null : userLogin
   const userFind = allUser?.users.find((item) => item.id === userPayload?.me.id)
   if (userFind == null) {
-    alert('data user tidak ditemukan')
+    Swal.fire({
+      title: "Error!",
+      text: "Data tidak ditemukan!",
+      icon: "info",
+      timer: 2000,
+      timerProgressBar: true,
+    }).then((result) => {
+      if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
+        location.reload()
+        setTimeout(() => {
+          history.back(); 
+        }, 500);
+      }
+    });
     return
   }
    const data: Student = {
-    id: userFind.id ?? "",
-    role: userFind.role === 'STUDENT' ? 'Murid' : "Tidak Diketahui",
-    name: userFind.name ?? "",
-    address: userFind.address ?? "",
-    nisn: parseInt(userFind.nisn ?? ""),
-    phone: parseInt(userFind.phone ?? ""),
-    nik: parseInt(userFind.nik ?? ""),
-    dateOfBirth: format(userFind.dateOfBirth, 'yyyy-mm-dd') ?? "",
-    gender: userFind.gender === 'MALE' ? "Laki-laki" : "Perempuan",
-    classroom: userFind.classroom?.name ?? "Belum ada kelas",
+      id: userFind.id ?? "",
+      role: userFind.role === 'STUDENT' ? 'Murid' : "Tidak Diketahui",
+      enrollment_id: 1,
+      term_id: 1,
+      name: userFind.name ?? "",
+      address: userFind.address ?? "",
+      nisn: parseInt(userFind.nisn ?? ""),
+      phone: parseInt(userFind.phone ?? ""),
+      nik: parseInt(userFind.nik ?? ""),
+      dateOfBirth: format(userFind.dateOfBirth, 'yyyy-MM-dd') ?? "",
+      gender: userFind.gender === 'MALE' ? "Laki-laki" : "Perempuan",
+      classroom_id: parseInt(userFind?.classroom?.id ?? '0') ?? 0,
+      classroom: userFind.classroom?.name ?? "Belum ada kelas",
   }
   const sections: CommonDetailSection<Student>[] = [
     {
@@ -129,6 +152,7 @@ export default function ManagerProfileStudent() {
       <CommonDetailPage
         title="Student Profile"
         name={data.name}
+        enrollment_id={data.enrollment_id}
         epAddFamily="/managements/manager/profile-student/family-add/"
         epEdit={"/managements/manager/profile-student/edit/" + data.id}
         jobdesk={data.role}

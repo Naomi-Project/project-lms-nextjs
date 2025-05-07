@@ -24,7 +24,7 @@ export interface CommonDetailSection<T extends Record<any, any>> {
 
 export interface CommonDetailPageProps<T extends Record<any, any>> {
     title: string;
-    enrollment_id: number;
+    enrollment_id?: number;
     image: string;
     name: string;
     jobdesk: string;
@@ -48,7 +48,7 @@ export function CommonDetailPage<T extends Record<any, any>>(
             const res = await updateEnrollment({
                 variables: {
                     data: {
-                        id: props.enrollment_id.toString(),
+                        id: props?.enrollment_id?.toString() ?? '',
                         classroomId: props.data.classroom_id,
                         studentId: props.data.id,
                         termId: props.data.term_id
