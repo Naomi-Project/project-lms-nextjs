@@ -86,7 +86,7 @@ const rolePermissions: Record<string, string[]> = {
   "/managements/manager/profile/edit": ["ADMIN", "PRINCIPAL", "STAFF"], 
   
   // menu for role headoffice or staff and pricincipal only
-  "/dashboard/admins": ["STAFF"], 
+  "/dashboard/admins": ["STAFF", "ADMIN"], 
   "/managements/admin": ["STAFF"], 
   "/managements/admin/sekolah": ["STAFF"], 
   "/managements/admin/sekolah/create": ["STAFF"], 

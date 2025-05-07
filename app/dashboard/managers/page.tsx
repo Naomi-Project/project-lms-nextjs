@@ -27,8 +27,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useGetClassroomsQuery, useGetEnrollmentsQuery, useGetGradesQuery, useGetPaymentsQuery, useGetSchoolsQuery, useGetUsersQuery } from "@/graphql/generated";
-import { parseISO } from "date-fns";
-import { format } from "date-fns";
+import { format, isThisMonth } from "date-fns";
 import { Button } from "@/components/ui/button";
 
 const chartConfig = {
@@ -46,7 +45,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export default function ManagerDashboard() {
+export default function AdminDashboard() {
   // widget tagihan spp
   const { data } = useGetEnrollmentsQuery();
   const { data: schools } = useGetSchoolsQuery();
@@ -55,108 +54,156 @@ export default function ManagerDashboard() {
   const { data: userLoad } = useGetUsersQuery()
   const student = userLoad?.users.filter((item) => item.role === 'STUDENT') || []
   const teacher = userLoad?.users.filter((item) => item.role === 'TEACHER') || []
+  console.log("data enrolments: ", data?.enrollments)
 
-  const studentsPaid = data?.enrollments.filter((item) => item?.payment?.status === 'SUCCESS')
-  const studentsNotPaid = data?.enrollments.filter((item) => item?.payment?.status === 'PENDING')
-  // Hitung total semua SPP yang belum terbayar
-  const totalSppSudahTerbayar = studentsPaid?.reduce((total, item) => {
-    return total + (item.payment?.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
-  }, 0);
-  const monthOptionDatePricing = Array.from(
-    new Set(
-      studentsPaid
-        ?.map((item) => new Date(item.payment?.paidDate).getMonth().toString())
-    )
-  )?.map((item) => ({
-    label: item,
-    value: item,
-  }))
+  const enrollmentsThisMonth = useMemo(() => {
+    return data?.enrollments.map(enrollment => ({
+      ...enrollment,
+      payments: enrollment.payments?.filter(payment => payment?.paidDate && isThisMonth(new Date(payment.paidDate))) || [],
+    })) || [];
+  }, [data?.enrollments]);
 
-  const totalSppBelumTerbayar = studentsNotPaid?.reduce((total, item) => {
-    return total + (item.payment?.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
-  }, 0);
+  const studentsPaid = useMemo(() => {
+    return enrollmentsThisMonth.filter((item) =>
+      item?.payments?.some((payment) => payment?.status === 'SUCCESS')
+    );
+  }, [enrollmentsThisMonth]);
+
+  const studentsNotPaid = useMemo(() => {
+    return enrollmentsThisMonth.filter((item) =>
+      item?.payments?.some((payment) => payment?.status === 'PENDING')
+    );
+  }, [enrollmentsThisMonth]);
+
+  // Hitung total semua SPP yang sudah terbayar bulan ini
+  const totalSppSudahTerbayar = useMemo(() => {
+    return studentsPaid?.reduce((total, item) => {
+      const successfulPayment = item.payments?.find((payment) => payment?.status === 'SUCCESS');
+      return total + (successfulPayment?.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
+    }, 0);
+  }, [studentsPaid]);
+
+  const monthOptionDatePricing = useMemo(() => {
+    return Array.from(
+      new Set(
+        studentsPaid
+          ?.flatMap((item) =>
+            item.payments
+              ?.filter((payment) => payment?.status === 'SUCCESS')
+              .map((payment) => new Date(payment.paidDate).getMonth().toString())
+          )
+      )
+    )?.map((item) => ({
+      label: item,
+      value: item,
+    }));
+  }, [studentsPaid]);
+
+  const totalSppBelumTerbayar = useMemo(() => {
+    return studentsNotPaid?.reduce((total, item) => {
+      const pendingPayment = item.payments?.find((payment) => payment?.status === 'PENDING');
+      return total + (pendingPayment?.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
+    }, 0);
+  }, [studentsNotPaid]);
 
   const [selectedSchool, setSelectedSchool] = useState<string | null>(null);
   const [selectedYear, setSelectedYear] = useState<string>("semua_tahun");
   const [selectedSchoolStudent, setSelectedSchoolStudent] = useState<string | null>(null);
   const [selectedYearStudent, setSelectedYearStudent] = useState<string>("semua_tahun");
-  
+
   const [paymentData, setPaymentData] = useState<any>([])
   const [studentData, setStudentData] = useState<any>([])
-  const findSuccessPayment = data?.enrollments.filter((item) => item.payment?.status === "SUCCESS")
-  const optionYear = Array.from(
-    new Set(
-      findSuccessPayment
-        ?.map((item) => new Date(item.payment?.paidDate).getFullYear().toString())
-    )
-  ).map((year) => ({
-    label: year,
-    value: year,
-  }));
+  const findSuccessPayment = useMemo(() => {
+    return enrollmentsThisMonth.filter((item) =>
+      item.payments?.some((payment) => payment?.status === "SUCCESS")
+    );
+  }, [enrollmentsThisMonth]);
 
-  const optionYear2 = Array.from(
-    new Set(
-      student
-        ?.map((item) => new Date(item.dateOfBirth).getFullYear().toString())
-    )
-  ).map((year) => ({
-    label: year,
-    value: year,
-  }));
-  
+  const optionYear = useMemo(() => {
+    return Array.from(
+      new Set(
+        findSuccessPayment
+          ?.flatMap((item) =>
+            item.payments
+              ?.filter((payment) => payment?.status === 'SUCCESS')
+              .map((payment) => new Date(payment.paidDate).getFullYear().toString())
+          )
+      )
+    ).map((year) => ({
+      label: year,
+      value: year,
+    }));
+  }, [findSuccessPayment]);
+
+  const optionYear2 = useMemo(() => {
+    return Array.from(
+      new Set(
+        student
+          ?.map((item) => new Date(item.dateOfBirth).getFullYear().toString())
+      )
+    ).map((year) => ({
+      label: year,
+      value: year,
+    }));
+  }, [student]);
+
   const filteredData = useMemo(() => {
-    // if (!findSuccessPayment) return
     return findSuccessPayment?.filter((item) => {
-      const paymentYear = new Date(item.payment?.paidDate).getFullYear().toString();
+      const successfulPayment = item.payments?.find((payment) => payment?.status === 'SUCCESS');
+      if (!successfulPayment?.paidDate) return false;
+      const paymentYear = new Date(successfulPayment.paidDate).getFullYear().toString();
       const schoolId = item.student?.school?.id;
-  
+
       // Filter sekolah (jika ada pilihan sekolah)
       if (selectedSchool && schoolId !== selectedSchool) {
         return false;
       }
-  
+
       // Filter tahun (jika tidak memilih semua tahun)
       if (selectedYear !== "semua_tahun" && paymentYear !== selectedYear) {
         return false;
       }
-  
+
       return true;
-    }).map((item) => ({
-      month: format(new Date(item.payment?.paidDate), "MMMM"), // Format bulan
-      payment: item.payment?.pricing?.amount || 0,
-    }));
+    }).map((item) => {
+      const successfulPayment = item.payments?.find((payment) => payment?.status === 'SUCCESS');
+      return ({
+        month: format(new Date(successfulPayment?.paidDate), "MMMM"), // Format bulan
+        payment: successfulPayment?.pricing?.amount || 0,
+      });
+    });
   }, [findSuccessPayment, selectedSchool, selectedYear]);
 
   const filteredStudent = useMemo(() => {
     if (!student) return [];
-  
+
     const monthlyCounts: { [key: string]: number } = {};
-  
+
     student.forEach(item => {
-      const dateOfBirth = item.createdAt;
-      if (dateOfBirth) {
-        const date = new Date(parseInt(dateOfBirth)); // Parse Unix timestamp
+      const createdAtDate = item.createdAt;
+      if (createdAtDate && isThisMonth(new Date(parseInt(createdAtDate)))) { // Filter siswa yang dibuat bulan ini
+        const date = new Date(parseInt(createdAtDate)); // Parse Unix timestamp
         const month = format(date, "MMMM"); // Get month name
         monthlyCounts[month] = (monthlyCounts[month] || 0) + 1;
       }
     });
-  
+
     // Convert the object to an array of objects for easier use in a chart
     const result = Object.entries(monthlyCounts).map(([month, count]) => ({
       month,
       student: count,
     }));
-  
+
     return result;
   }, [student]);
-  
+
 
   const resetFilters = () => {
     setSelectedSchool(null);
     setSelectedYear("semua_tahun");
     setSelectedSchoolStudent(null);
     setSelectedYearStudent("semua_tahun");
-  };  
+  };
 
   // **Perbarui state hanya jika data benar-benar berubah**
   useEffect(() => {
@@ -165,27 +212,26 @@ export default function ManagerDashboard() {
     }
     if (JSON.stringify(studentData) !== JSON.stringify(filteredStudent)) {
       setStudentData(filteredStudent);
-      console.log(student)
     }
   }, [filteredData, filteredStudent]);
 
   const groupByMonthYear = (users: any) => {
     return users?.reduce((acc: any, user: any) => {
-      if (!user.createdAt) return acc;
-  
-      // Ubah tanggal ke format "YYYY-MM"
-    const createdAtDate = new Date(user.createdAt);
+      if (!user.createdAt) return acc; // Filter berdasarkan bulan ini
 
-    // Ubah tanggal ke format "YYYY-MM"
-    const monthYear = format(createdAtDate, "yyyy-MM");
-  
+      // Ubah tanggal ke format "YYYY-MM"
+      const createdAtDate = new Date(user.createdAt);
+
+      // Ubah tanggal ke format "YYYY-MM"
+      const monthYear = format(createdAtDate, "yyyy-MM");
+
       // Jika bulan sudah ada, tambahkan 1, jika tidak, set ke 1
       acc[monthYear] = (acc[monthYear] || 0) + 1;
-  
+
       return acc;
     }, {});
   };
-  
+
   // Hitung jumlah siswa/guru per bulan
   const studentTrends = groupByMonthYear(student);
   const teacherTrends = groupByMonthYear(teacher);
@@ -194,25 +240,26 @@ export default function ManagerDashboard() {
     const months = Object.keys(trends).sort(); // Urutkan bulan secara kronologis
     const latestMonth = months[months.length - 1]; // Bulan terbaru
     const prevMonth = months[months.length - 2]; // Bulan sebelumnya
-  
+
     if (!latestMonth || !prevMonth) return { change: 0, percent: 0 }; // Jika data kurang dari 2 bulan, return 0
-  
+
     const latestCount = trends[latestMonth] || 0;
     const prevCount = trends[prevMonth] || 0;
-  
+
     const change = latestCount - prevCount;
     const percent = prevCount > 0 ? ((change / prevCount) * 100).toFixed(2) : 100;
-  
+
     return { change, percent };
   };
-  
+
   // Hitung tren siswa dan guru
   const studentTrendData = calculateTrend(studentTrends);
   const teacherTrendData = calculateTrend(teacherTrends);
-  
+
   // widget total angkatan dan kelas
   const { data: grade } = useGetGradesQuery()
   const { data: classrooms } = useGetClassroomsQuery()
+
 
   return (
     <div className="min-h-screen overflow-x-hidden">
@@ -315,7 +362,7 @@ export default function ManagerDashboard() {
         <div className="col-span-1 bg-white rounded-lg p-4">
           <p className="text-base text-slate-400">Pemasukan</p>
 
-          <p className="font-bold text-3xl mt-2">Rp. {totalSppSudahTerbayar?.toLocaleString("id-ID")}</p>
+          <p className="font-bold text-3xl mt-2">Rp. {totalSppSudahTerbayar?.toLocaleString("id-ID") ?? '0'}</p>
 
           <div className="w-8/12 mt-7">
             <div className="grid grid-cols-2 gap-4">
@@ -354,7 +401,7 @@ export default function ManagerDashboard() {
           <p className="text-base text-slate-400">SPP Belum Terbayar</p>
 
           <p className="font-bold text-3xl text-red-500 mt-2">
-            Rp. {totalSppBelumTerbayar?.toLocaleString("id-ID")}
+            Rp. {totalSppBelumTerbayar?.toLocaleString("id-ID") ?? '0'}
           </p>
 
           <p className="text-sm mt-6">{studentsNotPaid?.length} Siswa</p>

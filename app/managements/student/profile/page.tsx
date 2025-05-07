@@ -3,7 +3,7 @@ import React from "react";
 import { CommonDetailPage } from "@/components/common/detail/CommonDetailProfile";
 import type { CommonDetailSection, CommonSectionField } from "@/components/common/detail/CommonDetailProfile";
 import user from "@/image/user.jpeg";
-import { useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";
+import { useGetEnrollmentsQuery, useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";
 import { format } from "date-fns";
 import Swal from "sweetalert2";
 
@@ -13,6 +13,9 @@ import Swal from "sweetalert2";
 
 interface Student {
   id: string
+  enrollment_id: number
+  term_id: number
+  classroom_id: number
   name: string
   address: string
   role: string
@@ -28,6 +31,8 @@ interface Student {
 export default function ManagerProfileStudent() {
   const { data: userLogin, loading } = useUserPayloadQuery()
   const { data: allUser, loading: loadAllUser } = useGetUsersQuery()
+  const { data: enrollment } = useGetEnrollmentsQuery()
+
   if (loading) {
     return 'loading'
   } else if (loadAllUser) {
@@ -70,16 +75,19 @@ export default function ManagerProfileStudent() {
     return
   }
    const data: Student = {
-    id: userFind.id ?? "",
-    role: userFind.role === 'STUDENT' ? 'Murid' : "Tidak Diketahui",
-    name: userFind.name ?? "",
-    address: userFind.address ?? "",
-    nisn: parseInt(userFind.nisn ?? ""),
-    phone: parseInt(userFind.phone ?? ""),
-    nik: parseInt(userFind.nik ?? ""),
-    dateOfBirth: format(userFind.dateOfBirth, 'yyyy-MM-dd') ?? "",
-    gender: userFind.gender === 'MALE' ? "Laki-laki" : "Perempuan",
-    classroom: userFind.classroom?.name ?? "Belum ada kelas",
+      id: userFind.id ?? "",
+      role: userFind.role === 'STUDENT' ? 'Murid' : "Tidak Diketahui",
+      enrollment_id: 1,
+      term_id: 1,
+      name: userFind.name ?? "",
+      address: userFind.address ?? "",
+      nisn: parseInt(userFind.nisn ?? ""),
+      phone: parseInt(userFind.phone ?? ""),
+      nik: parseInt(userFind.nik ?? ""),
+      dateOfBirth: format(userFind.dateOfBirth, 'yyyy-MM-dd') ?? "",
+      gender: userFind.gender === 'MALE' ? "Laki-laki" : "Perempuan",
+      classroom_id: parseInt(userFind?.classroom?.id ?? '0') ?? 0,
+      classroom: userFind.classroom?.name ?? "Belum ada kelas",
   }
   const sections: CommonDetailSection<Student>[] = [
     {
@@ -144,6 +152,7 @@ export default function ManagerProfileStudent() {
       <CommonDetailPage
         title="Student Profile"
         name={data.name}
+        enrollment_id={data.enrollment_id}
         epAddFamily="/managements/manager/profile-student/family-add/"
         epEdit={"/managements/manager/profile-student/edit/" + data.id}
         jobdesk={data.role}

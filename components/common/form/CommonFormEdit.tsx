@@ -95,7 +95,6 @@ export function CommonFormEdit<T extends Record<any, any>>(
       };
 
       if (props.isEditCabangKelas == true) {
-        console.log(updatedData)
         updateClass(updatedData)
         return
       }
@@ -149,9 +148,6 @@ export function CommonFormEdit<T extends Record<any, any>>(
       })
 
       const resClass = res?.data?.updateClassroom;
-      // console.log(enrollmentGet)
-      // console.log(dataMut)
-      // return
       if (!resClass?.id) {
         throw new Error("Gagal mendapatkan ID kelas.");
       }

@@ -16,7 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { TrendingDown } from "lucide-react";
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { TrendingUp } from "lucide-react";
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 import {
@@ -26,56 +26,212 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useGetClassroomsQuery, useGetEnrollmentsQuery, useGetGradesQuery, useGetUsersQuery } from "@/graphql/generated";
-import { parseISO } from "date-fns";
-import { format } from "date-fns";
+import { useGetClassroomsQuery, useGetEnrollmentsQuery, useGetGradesQuery, useGetPaymentsQuery, useGetSchoolsQuery, useGetUsersQuery } from "@/graphql/generated";
+import { format, isThisMonth } from "date-fns";
+import { Button } from "@/components/ui/button";
 
-const chartData = [
-  { month: "January", payment: 186 },
-  { month: "February", payment: 305 },
-  { month: "March", payment: 237 },
-  { month: "April", payment: 73 },
-  { month: "May", payment: 209 },
-  { month: "June", payment: 214 },
-];
 const chartConfig = {
   payment: {
-    label: "Pemasukan Dalam Rp (Juta): ",
+    label: "Pemasukan Dalam Rp : ",
     color: "hsl(var(--chart-2))",
+  },
+  student: {
+    label: "Total Siswa/I : ",
+    color: "hsl(var(--chart-2))",
+  },
+  month: {
+    label: "Bulan : ",
+    color: "hsl(var(--chart-3))",
   },
 } satisfies ChartConfig;
 
 export default function AdminDashboard() {
   // widget tagihan spp
   const { data } = useGetEnrollmentsQuery();
-  const studentsPaid = data?.enrollments.filter((item) => item?.payment?.status === 'SUCCESS')
-  const studentsNotPaid = data?.enrollments.filter((item) => item?.payment?.status === 'PENDING')
-  // Hitung total semua SPP yang belum terbayar
-  const totalSppSudahTerbayar = studentsPaid?.reduce((total, item) => {
-    return total + (item.payment?.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
-  }, 0);
-  const totalSppBelumTerbayar = studentsNotPaid?.reduce((total, item) => {
-    return total + (item.payment?.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
-  }, 0);
+  const { data: schools } = useGetSchoolsQuery();
 
   // widget total guru dan murid
   const { data: userLoad } = useGetUsersQuery()
   const student = userLoad?.users.filter((item) => item.role === 'STUDENT') || []
   const teacher = userLoad?.users.filter((item) => item.role === 'TEACHER') || []
+  console.log("data enrolments: ", data?.enrollments)
+
+  const enrollmentsThisMonth = useMemo(() => {
+    return data?.enrollments.map(enrollment => ({
+      ...enrollment,
+      payments: enrollment.payments?.filter(payment => payment?.paidDate && isThisMonth(new Date(payment.paidDate))) || [],
+    })) || [];
+  }, [data?.enrollments]);
+
+  const studentsPaid = useMemo(() => {
+    return enrollmentsThisMonth.filter((item) =>
+      item?.payments?.some((payment) => payment?.status === 'SUCCESS')
+    );
+  }, [enrollmentsThisMonth]);
+
+  const studentsNotPaid = useMemo(() => {
+    return enrollmentsThisMonth.filter((item) =>
+      item?.payments?.some((payment) => payment?.status === 'PENDING')
+    );
+  }, [enrollmentsThisMonth]);
+
+  // Hitung total semua SPP yang sudah terbayar bulan ini
+  const totalSppSudahTerbayar = useMemo(() => {
+    return studentsPaid?.reduce((total, item) => {
+      const successfulPayment = item.payments?.find((payment) => payment?.status === 'SUCCESS');
+      return total + (successfulPayment?.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
+    }, 0);
+  }, [studentsPaid]);
+
+  const monthOptionDatePricing = useMemo(() => {
+    return Array.from(
+      new Set(
+        studentsPaid
+          ?.flatMap((item) =>
+            item.payments
+              ?.filter((payment) => payment?.status === 'SUCCESS')
+              .map((payment) => new Date(payment.paidDate).getMonth().toString())
+          )
+      )
+    )?.map((item) => ({
+      label: item,
+      value: item,
+    }));
+  }, [studentsPaid]);
+
+  const totalSppBelumTerbayar = useMemo(() => {
+    return studentsNotPaid?.reduce((total, item) => {
+      const pendingPayment = item.payments?.find((payment) => payment?.status === 'PENDING');
+      return total + (pendingPayment?.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
+    }, 0);
+  }, [studentsNotPaid]);
+
+  const [selectedSchool, setSelectedSchool] = useState<string | null>(null);
+  const [selectedYear, setSelectedYear] = useState<string>("semua_tahun");
+  const [selectedSchoolStudent, setSelectedSchoolStudent] = useState<string | null>(null);
+  const [selectedYearStudent, setSelectedYearStudent] = useState<string>("semua_tahun");
+
+  const [paymentData, setPaymentData] = useState<any>([])
+  const [studentData, setStudentData] = useState<any>([])
+  const findSuccessPayment = useMemo(() => {
+    return enrollmentsThisMonth.filter((item) =>
+      item.payments?.some((payment) => payment?.status === "SUCCESS")
+    );
+  }, [enrollmentsThisMonth]);
+
+  const optionYear = useMemo(() => {
+    return Array.from(
+      new Set(
+        findSuccessPayment
+          ?.flatMap((item) =>
+            item.payments
+              ?.filter((payment) => payment?.status === 'SUCCESS')
+              .map((payment) => new Date(payment.paidDate).getFullYear().toString())
+          )
+      )
+    ).map((year) => ({
+      label: year,
+      value: year,
+    }));
+  }, [findSuccessPayment]);
+
+  const optionYear2 = useMemo(() => {
+    return Array.from(
+      new Set(
+        student
+          ?.map((item) => new Date(item.dateOfBirth).getFullYear().toString())
+      )
+    ).map((year) => ({
+      label: year,
+      value: year,
+    }));
+  }, [student]);
+
+  const filteredData = useMemo(() => {
+    return findSuccessPayment?.filter((item) => {
+      const successfulPayment = item.payments?.find((payment) => payment?.status === 'SUCCESS');
+      if (!successfulPayment?.paidDate) return false;
+      const paymentYear = new Date(successfulPayment.paidDate).getFullYear().toString();
+      const schoolId = item.student?.school?.id;
+
+      // Filter sekolah (jika ada pilihan sekolah)
+      if (selectedSchool && schoolId !== selectedSchool) {
+        return false;
+      }
+
+      // Filter tahun (jika tidak memilih semua tahun)
+      if (selectedYear !== "semua_tahun" && paymentYear !== selectedYear) {
+        return false;
+      }
+
+      return true;
+    }).map((item) => {
+      const successfulPayment = item.payments?.find((payment) => payment?.status === 'SUCCESS');
+      return ({
+        month: format(new Date(successfulPayment?.paidDate), "MMMM"), // Format bulan
+        payment: successfulPayment?.pricing?.amount || 0,
+      });
+    });
+  }, [findSuccessPayment, selectedSchool, selectedYear]);
+
+  const filteredStudent = useMemo(() => {
+    if (!student) return [];
+
+    const monthlyCounts: { [key: string]: number } = {};
+
+    student.forEach(item => {
+      const createdAtDate = item.createdAt;
+      if (createdAtDate && isThisMonth(new Date(parseInt(createdAtDate)))) { // Filter siswa yang dibuat bulan ini
+        const date = new Date(parseInt(createdAtDate)); // Parse Unix timestamp
+        const month = format(date, "MMMM"); // Get month name
+        monthlyCounts[month] = (monthlyCounts[month] || 0) + 1;
+      }
+    });
+
+    // Convert the object to an array of objects for easier use in a chart
+    const result = Object.entries(monthlyCounts).map(([month, count]) => ({
+      month,
+      student: count,
+    }));
+
+    return result;
+  }, [student]);
+
+
+  const resetFilters = () => {
+    setSelectedSchool(null);
+    setSelectedYear("semua_tahun");
+    setSelectedSchoolStudent(null);
+    setSelectedYearStudent("semua_tahun");
+  };
+
+  // **Perbarui state hanya jika data benar-benar berubah**
+  useEffect(() => {
+    if (JSON.stringify(paymentData) !== JSON.stringify(filteredData)) {
+      setPaymentData(filteredData);
+    }
+    if (JSON.stringify(studentData) !== JSON.stringify(filteredStudent)) {
+      setStudentData(filteredStudent);
+    }
+  }, [filteredData, filteredStudent]);
+
   const groupByMonthYear = (users: any) => {
     return users?.reduce((acc: any, user: any) => {
-      if (!user.createdAt) return acc;
-  
+      if (!user.createdAt) return acc; // Filter berdasarkan bulan ini
+
       // Ubah tanggal ke format "YYYY-MM"
-      const monthYear = format(parseISO(user.createdAt), "yyyy-MM");
-  
+      const createdAtDate = new Date(user.createdAt);
+
+      // Ubah tanggal ke format "YYYY-MM"
+      const monthYear = format(createdAtDate, "yyyy-MM");
+
       // Jika bulan sudah ada, tambahkan 1, jika tidak, set ke 1
       acc[monthYear] = (acc[monthYear] || 0) + 1;
-  
+
       return acc;
     }, {});
   };
-  
+
   // Hitung jumlah siswa/guru per bulan
   const studentTrends = groupByMonthYear(student);
   const teacherTrends = groupByMonthYear(teacher);
@@ -84,28 +240,30 @@ export default function AdminDashboard() {
     const months = Object.keys(trends).sort(); // Urutkan bulan secara kronologis
     const latestMonth = months[months.length - 1]; // Bulan terbaru
     const prevMonth = months[months.length - 2]; // Bulan sebelumnya
-  
+
     if (!latestMonth || !prevMonth) return { change: 0, percent: 0 }; // Jika data kurang dari 2 bulan, return 0
-  
+
     const latestCount = trends[latestMonth] || 0;
     const prevCount = trends[prevMonth] || 0;
-  
+
     const change = latestCount - prevCount;
     const percent = prevCount > 0 ? ((change / prevCount) * 100).toFixed(2) : 100;
-  
+
     return { change, percent };
   };
-  
+
   // Hitung tren siswa dan guru
   const studentTrendData = calculateTrend(studentTrends);
   const teacherTrendData = calculateTrend(teacherTrends);
-  
+
   // widget total angkatan dan kelas
   const { data: grade } = useGetGradesQuery()
   const { data: classrooms } = useGetClassroomsQuery()
 
+
   return (
     <div className="min-h-screen overflow-x-hidden">
+      <>
       {/* <div className="flex justify-between rounded-lg bg-white p-4">
         <div className="">
           <h1 className="text-slate-400 text-base">Tahun Akademik</h1>
@@ -198,12 +356,13 @@ export default function AdminDashboard() {
           </Dialog>
         </div>
       </div> */}
+      </>
 
       <div className="md:grid grid-cols-2 gap-4 mt-6">
         <div className="col-span-1 bg-white rounded-lg p-4">
           <p className="text-base text-slate-400">Pemasukan</p>
 
-          <p className="font-bold text-3xl mt-2">Rp. {totalSppSudahTerbayar?.toLocaleString("id-ID")}</p>
+          <p className="font-bold text-3xl mt-2">Rp. {totalSppSudahTerbayar?.toLocaleString("id-ID") ?? '0'}</p>
 
           <div className="w-8/12 mt-7">
             <div className="grid grid-cols-2 gap-4">
@@ -242,7 +401,7 @@ export default function AdminDashboard() {
           <p className="text-base text-slate-400">SPP Belum Terbayar</p>
 
           <p className="font-bold text-3xl text-red-500 mt-2">
-            Rp. {totalSppBelumTerbayar?.toLocaleString("id-ID")}
+            Rp. {totalSppBelumTerbayar?.toLocaleString("id-ID") ?? '0'}
           </p>
 
           <p className="text-sm mt-6">{studentsNotPaid?.length} Siswa</p>
@@ -252,15 +411,15 @@ export default function AdminDashboard() {
       <div className="md:grid grid-cols-2 gap-4 mt-6">
             <div className="col-span-1">
               <div className="grid grid-cols-2 gap-4 h-full">
-              <div className="col-span-1 bg-white p-2 rounded-lg">
-              <div className="grid grid-cols-3 gap-4">
+              <div className="col-span-1 bg-white p-5 rounded-lg">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-1">
                 <div className="col-span-2 my-auto">
                   <p className="text-base">Total Siswa</p>
                 </div>
 
-                <div className={`col-span-1 rounded-lg p-2 border-2 ${studentTrendData.change >= 0 ? "border-green-500 bg-green-100" : "border-red-500 bg-red-100"}`}>
-                  <div className="grid grid-cols-2">
-                    <div className="col-span-1">
+                <div className={`w-auto overflow-hidden rounded-lg p-2 border-2 ${studentTrendData.change >= 0 ? "border-green-500 bg-green-100" : "border-red-500 bg-red-100"}`}>
+                  <div className="flex gap-1 items-center w-auto">
+                    <div className="">
                       {studentTrendData.change >= 0 ? (
                         <TrendingUp className="text-green-500" />
                       ) : (
@@ -268,8 +427,8 @@ export default function AdminDashboard() {
                       )}
                     </div>
 
-                    <div className="col-span-1 my-auto">
-                      <p className={`text-xs ${studentTrendData.change >= 0 ? "text-green-500" : "text-red-500"}`}>
+                    <div className="">
+                      <p className={`text-xs  ${studentTrendData.change >= 0 ? "text-green-500" : "text-red-500"}`}>
                         {studentTrendData.percent}%
                       </p>
                     </div>
@@ -288,15 +447,15 @@ export default function AdminDashboard() {
               </div>
 
 
-              <div className="col-span-1 bg-white p-2 rounded-lg">
-              <div className="grid grid-cols-3 gap-4">
+              <div className="col-span-1 bg-white p-5 rounded-lg">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-1">
                 <div className="col-span-2 my-auto">
                   <p className="text-base">Total Guru</p>
                 </div>
 
-                <div className={`col-span-1 rounded-lg p-2 border-2 ${teacherTrendData.change >= 0 ? "border-green-500 bg-green-100" : "border-red-500 bg-red-100"}`}>
-                  <div className="grid grid-cols-2">
-                    <div className="col-span-1">
+                <div className={`w-auto rounded-lg p-2 border-2 ${teacherTrendData.change >= 0 ? "border-green-500 bg-green-100" : "border-red-500 bg-red-100"}`}>
+                  <div className="flex gap-1 items-center w-auto">
+                    <div className="">
                       {teacherTrendData.change >= 0 ? (
                         <TrendingUp className="text-green-500" />
                       ) : (
@@ -304,7 +463,7 @@ export default function AdminDashboard() {
                       )}
                     </div>
 
-                    <div className="col-span-1 my-auto">
+                    <div className="">
                       <p className={`text-xs ${teacherTrendData.change >= 0 ? "text-green-500" : "text-red-500"}`}>
                         {teacherTrendData.percent}%
                       </p>
@@ -347,22 +506,24 @@ export default function AdminDashboard() {
         <Card>
           <CardHeader>
             <div className="flex justify-between">
+              <div className="flex gap-5">
               <div className="">
                 <CardTitle>
-                  <Select>
+                  <Select onValueChange={setSelectedSchool} value={selectedSchool ?? 'Histori Total Pemasukan'}>
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Histori Total Pemasukan" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="jakarta">
-                        SMP Negeri 1 Jakarta
-                      </SelectItem>
-                      <SelectItem value="semarang">
-                        SMP Negeri 1 Semarang
-                      </SelectItem>
-                      <SelectItem value="yogyakarta">
-                        SMP Negeri 1 Yogyakarta
-                      </SelectItem>
+                        <SelectItem value='Histori Total Pemasukan'>
+                          Histori Total Pemasukan
+                        </SelectItem>
+                      {
+                        schools && schools?.schools.map((item, index) => (
+                        <SelectItem key={index} value={item.id}>
+                          {item.name}
+                        </SelectItem>
+                        ))
+                      }
                     </SelectContent>
                   </Select>
                 </CardTitle>
@@ -370,18 +531,26 @@ export default function AdminDashboard() {
                   Histori dari semua pemasukan cabang setiap bulan
                 </CardDescription>
               </div>
-
               <div className="">
-                <Select>
+                <Select onValueChange={setSelectedYear} value={selectedYear} defaultValue={selectedYear}>
                   <SelectTrigger className="w-full font-bold">
-                    <SelectValue placeholder="2025" />
+                    <SelectValue placeholder="Semua Tahun" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="2025">2025</SelectItem>
-                    <SelectItem value="2024">2024</SelectItem>
-                    <SelectItem value="2023">2023</SelectItem>
+                    <SelectItem value="semua_tahun">Semua Tahun</SelectItem>
+                    {
+                      optionYear && optionYear.map((item, index) => (
+                        <SelectItem value={item.value} key={index}>{item.label}</SelectItem>
+                      ))
+                    }
                   </SelectContent>
                 </Select>
+              </div>
+              </div>
+              <div>
+              <Button onClick={resetFilters} variant="outline">
+                Reset Filter
+              </Button>
               </div>
             </div>
           </CardHeader>
@@ -389,7 +558,7 @@ export default function AdminDashboard() {
             <ChartContainer config={chartConfig} className="w-full h-full">
               <LineChart
                 accessibilityLayer
-                data={chartData}
+                data={paymentData}
                 margin={{
                   left: 12,
                   right: 12,
@@ -409,6 +578,99 @@ export default function AdminDashboard() {
                 />
                 <Line
                   dataKey="payment"
+                  type="linear"
+                  stroke="var(--color-payment)"
+                  strokeWidth={2}
+                  dot={false}
+                />
+              </LineChart>
+            </ChartContainer>
+          </CardContent>
+        </Card>
+      </div>
+      <div className="rounded-lg bg-white mt-10">
+        <Card>
+          <CardHeader>
+            <div className="flex justify-between">
+              <div className="flex gap-5">
+              <div className="">
+                <CardTitle>
+                  <Select onValueChange={setSelectedSchoolStudent} value={selectedSchoolStudent ?? 'Histori Total Siswa/I'}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Histori Total Siswa/I" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value='Histori Total Siswa/I'>
+                          Histori Total Siswa/I
+                        </SelectItem>
+                      {
+                        schools && schools?.schools.map((item, index) => (
+                        <SelectItem key={index} value={item.id}>
+                          {item.name}
+                        </SelectItem>
+                        ))
+                      }
+                    </SelectContent>
+                  </Select>
+                </CardTitle>
+                <CardDescription className="mt-2">
+                  Histori dari semua pemasukan data siswa setiap bulan
+                </CardDescription>
+              </div>
+              <div className="">
+                <Select onValueChange={setSelectedYearStudent} value={selectedYearStudent} defaultValue={selectedYearStudent}>
+                  <SelectTrigger className="w-full font-bold">
+                    <SelectValue placeholder="Semua Tahun" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="semua_tahun">Semua Tahun</SelectItem>
+                    {
+                      optionYear2 && optionYear2.map((item, index) => (
+                        <SelectItem value={item.value} key={index}>{item.label}</SelectItem>
+                      ))
+                    }
+                  </SelectContent>
+                </Select>
+              </div>
+              </div>
+              <div>
+              <Button onClick={resetFilters} variant="outline">
+                Reset Filter
+              </Button>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="h-96">
+            <ChartContainer config={chartConfig} className="w-full h-full">
+              <LineChart
+                accessibilityLayer
+                data={studentData}
+                margin={{
+                  left: 12,
+                  right: 12,
+                }}
+              >
+                <CartesianGrid vertical={true} />
+                <XAxis
+                  dataKey="student"
+                  tickLine={false}
+                  axisLine={false}
+                  tickMargin={8}
+                  // tickFormatter={(value) => value.slice(0, 3)}
+                />
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent hideLabel />}
+                />
+                <Line
+                  dataKey="student"
+                  type="linear"
+                  stroke="var(--color-payment)"
+                  strokeWidth={2}
+                  dot={false}
+                />
+                <Line
+                  dataKey="month"
                   type="linear"
                   stroke="var(--color-payment)"
                   strokeWidth={2}

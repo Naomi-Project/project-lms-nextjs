@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button";
 import ButtonAdd from "@/components/ui/buttonAdd";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import { Toggle } from "@/components/ui/toggle";
-import { useDeleteFamilyMutation } from "@/graphql/generated";
+import { useDeleteFamilyMutation, useUpdateEnrollmentMutation } from "@/graphql/generated";
 import { getValueByPath } from "@/lib/getter";
 import { MoveLeft, Pencil, School } from "lucide-react";
 import Image from "next/image";
+import Swal from "sweetalert2";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface CommonSectionField<T extends Record<any, any>> {
     key: keyof T & string;
@@ -23,6 +24,7 @@ export interface CommonDetailSection<T extends Record<any, any>> {
 
 export interface CommonDetailPageProps<T extends Record<any, any>> {
     title: string;
+    enrollment_id: number;
     image: string;
     name: string;
     jobdesk: string;
@@ -38,6 +40,41 @@ export function CommonDetailPage<T extends Record<any, any>>(
     props: CommonDetailPageProps<T>
 ) {
     const [deleteFamily] = useDeleteFamilyMutation()
+    const [updateEnrollment] = useUpdateEnrollmentMutation()
+    // console.log(props.data)
+
+    const pindahKelas = async () => {
+        try {
+            const res = await updateEnrollment({
+                variables: {
+                    data: {
+                        id: props.enrollment_id.toString(),
+                        classroomId: props.data.classroom_id,
+                        studentId: props.data.id,
+                        termId: props.data.term_id
+                    }
+                }
+            })
+
+            const resNewClass = res?.data?.updateEnrollment;
+            
+            if (res) {
+                Swal.fire({
+                    title: "Berhasil!",
+                    text: "Anda Telah pindah ke kelas!",
+                    icon: "success",
+                    timer: 2000,
+                    timerProgressBar: true,
+                }).then((result) => {
+                    if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
+                    history.back(); 
+                    }
+                });
+            }
+        } catch (e) {
+            console.error(e)
+        }
+    }
     return (
         <>
             <Toggle
@@ -78,7 +115,7 @@ export function CommonDetailPage<T extends Record<any, any>>(
                 <div className="md:absolute right-10 gap-3 px-4 flex flex-wrap">
                     {
                         props.jobdesk === 'Murid' ? (
-                            <Button className="bg-orange-500 hover:bg-orange-600 shadow-none text-white" onClick={() => window.location.href = props.epEdit ?? ''}><MoveLeft /> Pindah Kelas</Button>
+                            <Button className="bg-orange-500 hover:bg-orange-600 shadow-none text-white" onClick={() => pindahKelas()}><MoveLeft /> Pindah Kelas</Button>
                         ) : ''
                     }
                     <Button className="bg-blue-500 shadow-none text-white" onClick={() => window.location.href = props.epEdit ?? ''}><Pencil /> Edit</Button>

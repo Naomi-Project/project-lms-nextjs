@@ -73,7 +73,7 @@ export const ManagerMenu = [
         title: "Management Admin",
         href: "/managements/manager/setting-admin",
         // icon: Settings,
-        visibility: true,
+        visibility: false,
       },
       {
         title: "Penetapan SPP",
@@ -169,12 +169,12 @@ export const HeadofficeMenu = [
     icon: Settings,
     visibility: true,
     subMenu: [
-      // {
-      //   title: "Management Admin",
-      //   href: "/managements/admin/setting-admin",
-      //   icon: Settings,
-      //   visibility: false,
-      // },
+      {
+        title: "Management Admin",
+        href: "/managements/manager/setting-admin",
+        icon: Settings,
+        visibility: true,
+      },
       {
         title: "Profile Management",
         href: "/managements/manager/profile",

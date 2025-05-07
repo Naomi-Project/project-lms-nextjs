@@ -231,7 +231,7 @@ export function CommonFormAdd<T extends Record<any, any>>(
                 studentId,
                 classroomId: resClass.id,
                 termId: values.termId,
-                pricingId: values.pricingId,
+                // pricingId: values.pricingId,
               },
             },
           });

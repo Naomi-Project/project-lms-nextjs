@@ -35,6 +35,7 @@ export default function DashboardStudent() {
   const { data: absen, loading } = useGetAttendancesQuery()
   const assignmentNotFinishLength = tugas?.assignments.filter((item) => item.submissions?.length == 0).length ?? "loading.."
   const assignmentLength = tugas?.assignments.length ?? "loading.."
+  console.log(tugas)
   const materialLength = materi?.materials.length ?? "loading.."
 
   const [search, setSearch] = useState<string>('')

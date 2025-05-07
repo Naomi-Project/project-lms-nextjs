@@ -339,7 +339,7 @@ query GetEnrollment($id: String!) {
       name
       nisn
     }
-    payment {
+    payments {
       id
       status
       paidDate
@@ -396,7 +396,7 @@ query GetEnrollments {
         npsn
       }
     }
-    payment {
+    payments {
       id
       status
       method
@@ -420,7 +420,7 @@ mutation CreateEnrollment($data: CreateEnrollmentInput!) {
   createEnrollment(data: $data) {
     id
     studentId
-    classroomId
+    classroomId 
     termId
   }
 }
