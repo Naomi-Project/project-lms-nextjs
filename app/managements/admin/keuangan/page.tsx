@@ -9,12 +9,12 @@ import { useGetEnrollmentsQuery } from "@/graphql/generated";
 
 export default function AdminKeuangan() {
   const { data } = useGetEnrollmentsQuery();
-  const studentsPaid = data?.enrollments.filter((item) => item?.payments?.some((item) => item.status === 'SUCCESS'))
+  const studentsPaid = data?.enrollments.filter((item) => item?.payments?.some((item) => item.status === 'PAID'))
   const studentsNotPaid = data?.enrollments.filter((item) => item?.payments?.some((item) => item.status === 'PENDING'))
   // Hitung total semua SPP yang sudah terbayar bulan ini
   const totalSppSudahTerbayar = useMemo(() => {
     return studentsPaid?.reduce((total, item) => {
-      const successfulPayment = item.payments?.find((payment) => payment?.status === 'SUCCESS');
+      const successfulPayment = item.payments?.find((payment) => payment?.status === 'PAID');
       return total + (successfulPayment?.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
     }, 0);
   }, [studentsPaid]);

@@ -48,8 +48,9 @@ const chartConfig = {
 export default function AdminDashboard() {
   // widget tagihan spp
   const { data } = useGetEnrollmentsQuery();
+  const { data: payments } = useGetPaymentsQuery();
   const { data: schools } = useGetSchoolsQuery();
-
+  // console.log('data payments: ', payments)
   // widget total guru dan murid
   const { data: userLoad } = useGetUsersQuery()
   const student = userLoad?.users.filter((item) => item.role === 'STUDENT') || []
@@ -59,13 +60,13 @@ export default function AdminDashboard() {
   const enrollmentsThisMonth = useMemo(() => {
     return data?.enrollments.map(enrollment => ({
       ...enrollment,
-      payments: enrollment.payments?.filter(payment => payment?.paidDate && isThisMonth(new Date(payment.paidDate))) || [],
+      payments: enrollment.payments?.filter(payment => payment?.createdAt && isThisMonth(new Date(payment.createdAt))) || [],
     })) || [];
   }, [data?.enrollments]);
 
   const studentsPaid = useMemo(() => {
     return enrollmentsThisMonth.filter((item) =>
-      item?.payments?.some((payment) => payment?.status === 'SUCCESS')
+      item?.payments?.some((payment) => payment?.status === 'PAID')
     );
   }, [enrollmentsThisMonth]);
 
@@ -78,7 +79,7 @@ export default function AdminDashboard() {
   // Hitung total semua SPP yang sudah terbayar bulan ini
   const totalSppSudahTerbayar = useMemo(() => {
     return studentsPaid?.reduce((total, item) => {
-      const successfulPayment = item.payments?.find((payment) => payment?.status === 'SUCCESS');
+      const successfulPayment = item.payments?.find((payment) => payment?.status === 'PAID');
       return total + (successfulPayment?.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
     }, 0);
   }, [studentsPaid]);
@@ -89,8 +90,8 @@ export default function AdminDashboard() {
         studentsPaid
           ?.flatMap((item) =>
             item.payments
-              ?.filter((payment) => payment?.status === 'SUCCESS')
-              .map((payment) => new Date(payment.paidDate).getMonth().toString())
+              ?.filter((payment) => payment?.status === 'PAID')
+              .map((payment) => new Date(payment.createdAt).getMonth().toString())
           )
       )
     )?.map((item) => ({
@@ -115,7 +116,7 @@ export default function AdminDashboard() {
   const [studentData, setStudentData] = useState<any>([])
   const findSuccessPayment = useMemo(() => {
     return enrollmentsThisMonth.filter((item) =>
-      item.payments?.some((payment) => payment?.status === "SUCCESS")
+      item.payments?.some((payment) => payment?.status === "PAID")
     );
   }, [enrollmentsThisMonth]);
 
@@ -125,8 +126,8 @@ export default function AdminDashboard() {
         findSuccessPayment
           ?.flatMap((item) =>
             item.payments
-              ?.filter((payment) => payment?.status === 'SUCCESS')
-              .map((payment) => new Date(payment.paidDate).getFullYear().toString())
+              ?.filter((payment) => payment?.status === 'PAID')
+              .map((payment) => new Date(payment.createdAt).getFullYear().toString())
           )
       )
     ).map((year) => ({
@@ -149,9 +150,9 @@ export default function AdminDashboard() {
 
   const filteredData = useMemo(() => {
     return findSuccessPayment?.filter((item) => {
-      const successfulPayment = item.payments?.find((payment) => payment?.status === 'SUCCESS');
-      if (!successfulPayment?.paidDate) return false;
-      const paymentYear = new Date(successfulPayment.paidDate).getFullYear().toString();
+      const successfulPayment = item.payments?.find((payment) => payment?.status === 'PAID');
+      if (!successfulPayment?.createdAt) return false;
+      const paymentYear = new Date(successfulPayment.createdAt).getFullYear().toString();
       const schoolId = item.student?.school?.id;
 
       // Filter sekolah (jika ada pilihan sekolah)
@@ -166,9 +167,9 @@ export default function AdminDashboard() {
 
       return true;
     }).map((item) => {
-      const successfulPayment = item.payments?.find((payment) => payment?.status === 'SUCCESS');
+      const successfulPayment = item.payments?.find((payment) => payment?.status === 'PAID');
       return ({
-        month: format(new Date(successfulPayment?.paidDate), "MMMM"), // Format bulan
+        month: format(new Date(successfulPayment?.createdAt), "MMMM"), // Format bulan
         payment: successfulPayment?.pricing?.amount || 0,
       });
     });
@@ -263,100 +264,6 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen overflow-x-hidden">
-      <>
-      {/* <div className="flex justify-between rounded-lg bg-white p-4">
-        <div className="">
-          <h1 className="text-slate-400 text-base">Tahun Akademik</h1>
-
-          <p className="font-bold text-3xl mt-2">2024/2025</p>
-
-          <p className="text-blue-500 text-sm mt-2">Juli 2024 - Juni 2025</p>
-        </div>
-
-        <div className="">
-          <Dialog>
-            <div className="md:mr-0 flex items-center h-full mr-4">
-              <DialogTrigger asChild>
-                <Button variant="default">
-                  <Plus /> Buat Tahun Akademik
-                </Button>
-              </DialogTrigger>
-            </div>
-            <DialogContent className="md:w-3/12 w-96 rounded-lg">
-              <DialogHeader>
-                <DialogTitle className="text-center">
-                  Buat Tahun Akademik
-                </DialogTitle>
-              </DialogHeader>
-              <div className="">
-                <Label htmlFor="name" className="text-right">
-                  Mulai Tahun Akademik Baru
-                </Label>
-
-                <Select>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Bulan" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <ScrollArea className="h-40">
-                        <SelectItem value="januari">Januari</SelectItem>
-                        <SelectItem value="februari">Februari</SelectItem>
-                        <SelectItem value="maret">Maret</SelectItem>
-                        <SelectItem value="april">April</SelectItem>
-                        <SelectItem value="mei">Mei</SelectItem>
-                        <SelectItem value="juni">Juni</SelectItem>
-                        <SelectItem value="juli">Juli</SelectItem>
-                        <SelectItem value="agustus">Agustus</SelectItem>
-                        <SelectItem value="september">September</SelectItem>
-                        <SelectItem value="oktober">Oktober</SelectItem>
-                        <SelectItem value="november">November</SelectItem>
-                        <SelectItem value="desember">Desember</SelectItem>
-                      </ScrollArea>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="">
-                <Label htmlFor="name" className="text-right">
-                  Akhir Tahun Akademik Baru
-                </Label>
-
-                <Select>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Bulan" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <ScrollArea className="h-40">
-                        <SelectItem value="januari">Januari</SelectItem>
-                        <SelectItem value="februari">Februari</SelectItem>
-                        <SelectItem value="maret">Maret</SelectItem>
-                        <SelectItem value="april">April</SelectItem>
-                        <SelectItem value="mei">Mei</SelectItem>
-                        <SelectItem value="juni">Juni</SelectItem>
-                        <SelectItem value="juli">Juli</SelectItem>
-                        <SelectItem value="agustus">Agustus</SelectItem>
-                        <SelectItem value="september">September</SelectItem>
-                        <SelectItem value="oktober">Oktober</SelectItem>
-                        <SelectItem value="november">November</SelectItem>
-                        <SelectItem value="desember">Desember</SelectItem>
-                      </ScrollArea>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
-              <DialogFooter className="mt-5">
-                <Button type="submit" variant="default" className="w-full">
-                  Selesai
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        </div>
-      </div> */}
-      </>
 
       <div className="md:grid grid-cols-2 gap-4 mt-6">
         <div className="col-span-1 bg-white rounded-lg p-4">

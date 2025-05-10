@@ -1,4 +1,5 @@
 'use client'
+/* eslint-disable */
 import {
   CommonDetail,
   CommonDetailSection,
@@ -8,7 +9,7 @@ import { useGetEnrollmentQuery } from "@/graphql/generated";
 import user from "@/image/user.jpeg";
 import { useParams } from "next/navigation";
 import { format, isThisMonth } from "date-fns";
-import React from "react";
+import React, { useMemo } from "react";
 
 interface Finance {
   name: string;
@@ -29,7 +30,13 @@ const DetailPage = () => {
     }, 
     skip: !id,
   })
-  const paymenttThisMonth = enrollment?.enrollment?.payments?.find((item) => isThisMonth(new Date(parseInt(item.paidDate)))) 
+  const paymenttThisMonth = enrollment?.enrollment?.payments?.find((item) => isThisMonth(new Date(parseInt(item.createdAt))))
+
+  const akumulateTagihanSpp = useMemo(() => {
+    return enrollment?.enrollment.payments?.filter((item) => item.status === "PENDING" || item.status === "FAILED").reduce((total, item) => {
+      return total + (item.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
+    }, 0);
+  }, []);
 
   const data: Finance = {
     name: enrollment?.enrollment.student?.name ?? "",
@@ -39,7 +46,7 @@ const DetailPage = () => {
       style: "currency",
       currency: "IDR",
       minimumFractionDigits: 0,
-    }).format(paymenttThisMonth?.pricing?.amount ?? 0),    
+    }).format(akumulateTagihanSpp ?? 0),    
     payMethod: "Manual",
     class: enrollment?.enrollment.classroom?.name ?? "",
     phone: 123,
@@ -72,28 +79,34 @@ const DetailPage = () => {
     },
   ];
   
-  const dueDate = paymenttThisMonth?.dueDate ?? null;
-  const paidDate = paymenttThisMonth?.paidDate ?? null;
-  // if (!dueDate || !paidDate) return
+  if (!paymenttThisMonth)
+    return 'loading..'
+  
 
-  const payments = [
-    {
-      invoice: format(paidDate, 'yyyy-MM-dd') ?? '-',
-      status: paymenttThisMonth?.status ?? "PENDING",
-      amount: data.amount ?? '0',
-    },
-  ];
-  // const ricianTagihan = Object.entries(enrollment?.enrollment.payment.map)
-  const ricianTagihan = [
-    { name: paymenttThisMonth?.pricing?.name, harga: paymenttThisMonth?.pricing?.amount },
-  ];
+  const invoicesNonPaid = enrollment?.enrollment?.payments?.filter((item: any) => (item.updatedAt && isThisMonth(new Date(parseInt(item.updatedAt))) && item.status === 'PENDING' || item.status === 'FAILED')).map((item: any) => ({
+    ...item,
+    name: item.pricing?.name,
+    status: item.status,
+    paymentId: item.id,
+    amount: item.pricing?.amount ?? 0,
+    harga: new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    }).format(item.pricing?.amount ?? 0),
+  }));
 
-
-  const formattedDueDate = new Intl.DateTimeFormat("id-ID", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  }).format(new Date(dueDate));
+  console.log(enrollment?.enrollment?.payments)
+  const invoicesPaid = enrollment?.enrollment?.payments?.filter((item: any) => (item.updatedAt && isThisMonth(new Date(parseInt(item.updatedAt))) && item.status === 'PAID')).map((item: any) => ({
+    ...item,
+    invoice: item.invoice,
+    status: item.status,
+    amount: new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    }).format(item.pricing?.amount ?? 0),
+  }));
 
   return (
     <div className="min-h-screen">
@@ -109,11 +122,11 @@ const DetailPage = () => {
         termId={enrollment?.enrollment.termId ?? ''}
         pricingId={paymenttThisMonth?.pricing?.id ?? ''}
         tagihan={data.amount.slice(2) ?? 0}
-        jatuhTempo={formattedDueDate ?? ''}
+        // jatuhTempo={formattedDueDate ?? ''}
         image={user.src}
         data={data}
-        ricianTagihan={ricianTagihan}
-        riwayatPembayaran={paymenttThisMonth?.status === 'SUCCESS' ? payments : [ ]}
+        ricianTagihan={invoicesNonPaid}
+        riwayatPembayaran={invoicesPaid ?? []}
         sections={sections}
       ></CommonDetail>
     </div>

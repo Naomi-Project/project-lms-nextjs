@@ -341,10 +341,12 @@ query GetEnrollment($id: String!) {
     }
     payments {
       id
-      status
-      paidDate
-      dueDate
       method
+      createdAt
+      updatedAt
+      status
+      url
+      invoice
       enrollment {
         id
       }
@@ -400,8 +402,10 @@ query GetEnrollments {
       id
       status
       method
-      dueDate
-      paidDate
+      url
+      invoice
+      createdAt
+      updatedAt
       enrollment {
         id
       }
@@ -420,8 +424,11 @@ mutation CreateEnrollment($data: CreateEnrollmentInput!) {
   createEnrollment(data: $data) {
     id
     studentId
-    classroomId 
+    classroomId
     termId
+    pricing {
+      id
+    }
   }
 }
 
@@ -432,6 +439,9 @@ mutation UpdateEnrollment($data: UpdateEnrollmentInput!) {
     studentId
     classroomId
     termId
+    pricing {
+      id
+    }
   }
 }
 
@@ -1567,9 +1577,11 @@ query GetPayment($data: String!) {
   payment(id: $data) {
     id
     status
-    reference
-    dueDate
-    paidDate
+    invoice
+    url
+    amount
+    createdAt
+    updatedAt
     method
     pricing {
       id
@@ -1588,9 +1600,11 @@ query GetPayments {
   payments {
     id
     status
-    reference
-    dueDate
-    paidDate
+    invoice
+    url
+    amount
+    createdAt
+    updatedAt
     method
     pricing {
       id
@@ -1605,37 +1619,14 @@ query GetPayments {
   }
 }
 
-mutation CreatePayment($data: CreatePaymentInput!) {
-  createPayment(data: $data) {
-    id
-    status
-    reference
-    method
-    dueDate
-    paidDate
-    pricing {
-      id
-    }
-    enrollment {
-      id
-    }
-  }
-}
-
 mutation UpdatePayment($data: UpdatePaymentInput!) {
   updatePayment(data: $data) {
     id
-    status
-    reference
+    amount
+    invoice
     method
-    dueDate
-    paidDate
-    pricing {
-      id
-    }
-    enrollment {
-      id
-    }
+    url
+    status
   }
 }
 
@@ -1643,7 +1634,6 @@ mutation DeletePayment($data: String!) {
   deletePayment(id: $data) {
     id
     status
-    reference
     method
     pricing {
       id
@@ -1671,7 +1661,6 @@ query GetPricings {
     id
     name
     amount
-    
     createdAt
     updatedAt
   }
@@ -1701,3 +1690,14 @@ mutation DeletePricing($data: String!) {
   }
 }
 ### Pricing endregion
+
+
+
+mutation createCheckoutPayment($data: CreateCheckoutInput!) {
+  createCheckoutPayment(data: $data) {
+    invoiceNumber
+    amount
+    url
+  }
+}
+### Checkout endregion

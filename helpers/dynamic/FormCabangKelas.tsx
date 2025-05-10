@@ -94,7 +94,7 @@ const FormHelpersAdd = () => {
       label: termItem.name ?? "",  // Ambil nama dari term
       value: termItem.id,     // Ambil ID dari term
     }))
-  ) || [];
+  ) || []
 
   const sections: CommonFormAddSection<Form>[] = [
     {

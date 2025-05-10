@@ -33,7 +33,7 @@ import dynamic from "next/dynamic";
 import CommonEditor from "./CommonEditor";
 import CommonSoalBuilder from "./CommonSoalBuilder";
 import CommonSubmission from "./CommonSubmission";
-import { PaymentMethod, PaymentStatus, useCreateEnrollmentMutation, useCreatePaymentMutation, useCreateSubmissionMutation, useDeleteClassroomMutation } from "@/graphql/generated";
+import { PaymentMethod, PaymentStatus, useCreateEnrollmentMutation, useCreateSubmissionMutation, useDeleteClassroomMutation } from "@/graphql/generated";
 import CommonDatePicker from "./CommonDatePicker";
 import CommonDateTimePicker from "./CommonDateTimePicker";
 import CommonSelectMultiple from "./CommonSelectMultiple";
@@ -204,6 +204,7 @@ export function CommonFormAdd<T extends Record<any, any>>(
   const [deleteClassroom] = useDeleteClassroomMutation();
 
   const filledStudentToClass = async (values: any) => {
+    // console.log(values)
     // return
     try {
       const classroomResponse = await props.mutation({
@@ -231,7 +232,7 @@ export function CommonFormAdd<T extends Record<any, any>>(
                 studentId,
                 classroomId: resClass.id,
                 termId: values.termId,
-                // pricingId: values.pricingId,
+                pricingId: values.pricingId,
               },
             },
           });
@@ -241,7 +242,7 @@ export function CommonFormAdd<T extends Record<any, any>>(
           // 3️⃣ Hapus kelas jika salah satu enrollment gagal
           await deleteClassroom({
             variables: {
-              data: resClass.id,
+              data: resClass.id.toString() ?? '',
             },
           });
   

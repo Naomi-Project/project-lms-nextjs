@@ -26,7 +26,6 @@ function ListClass<T extends Record<any, any>>(
   if (loading) return "loading.."
   if (error) return <p>Error while fetch classroom: {error.message}</p>
   
-  
   return (
     <>
     <div className={`md:grid ${cleanData.length > 0 ? 'grid-cols-4' : "grid-cols-1"} mt-4 gap-4`}>
@@ -36,7 +35,7 @@ function ListClass<T extends Record<any, any>>(
         <div className="w-full h-full shadow rounded-md bg-white">
           <div className="w-full h-full p-4">
             <div className="flex justify-between">
-              <h1 className="text-base font-bold">Kelas {dt.name}</h1>
+              <h1 className="text-base font-bold">{dt.name}</h1>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button className="">

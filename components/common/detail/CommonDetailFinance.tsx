@@ -15,6 +15,7 @@ import * as React from "react";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -39,7 +40,8 @@ import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { PaymentMethod, PaymentStatus, useUpdatePaymentMutation } from "@/graphql/generated";
+import { PaymentMethod, PaymentStatus, useCreateCheckoutPaymentMutation, useUpdatePaymentMutation } from "@/graphql/generated";
+import { Checkbox } from "@/components/ui/checkbox";
 import Swal from "sweetalert2";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface CommonSectionField<T extends Record<any, any>> {
@@ -53,12 +55,18 @@ export interface CommonDetailSection<T extends Record<any, any>> {
   fields: CommonSectionField<T>[];
 }
 
+interface CheckoutItem {
+  invoice: string;
+  paymentId: string;
+  amount: number; // atau string jika amount berupa string
+}
+
 export interface CommonDetailProps<T extends Record<any, any>> {
   title: string;
   image: string;
   name: string;
   tagihan: string;
-  jatuhTempo: string;
+  jatuhTempo?: string;
   payStatus?: string;
   enrollmentId: string;
   studentId: string;
@@ -79,55 +87,77 @@ export function CommonDetail<T extends Record<any, any>>(
   const [paymentMethod, setPaymentMethod] = React.useState("");
   const [paymentAmount, setPaymentAmount] = React.useState("");
   const [updatePayment] = useUpdatePaymentMutation()
-  const handlePaymentSubmit = async () => {
-    // if 
+  
+  const [checkoutData, setCheckoutData] = React.useState<CheckoutItem[]>([]);
+
+  const setCheckout = (invoice: string, paymentId: string, amount: number, isChecked: boolean) => {
+    if (isChecked) {
+      setCheckoutData(prev => [...prev, { invoice, paymentId, amount }]);
+    } else {
+      setCheckoutData(prev => prev.filter(item => item.paymentId !== paymentId));
+    }
+  }
+
+  const isChecked = (paymentId: string) => {
+    return checkoutData.some(item => item.paymentId === paymentId);
+  }
+
+  const checkoutSpp = async () => {
     try {
-      // const res = await updateEnrollment({
-      //   variables: {
-      //     data: {
-      //       id: props.enrollmentId,
-      //       studentId: props.studentId,
-      //       classroomId: props.classroomId,
-      //       termId: props.termId,
-      //       pricingId: props.pricingId
-      //     }
-      //   }
-      // })
-      const res = await updatePayment({
-        variables: {
-          data: {
-            id: props.paymentId,
-            reference: "Bayar tagihan " + 'aja',
-            enrollmentId: props.enrollmentId,
-            status: PaymentStatus.Success,
-            paidDate: new Date(),
-            method: paymentMethod === 'CASH' ? PaymentMethod.Cash : PaymentMethod.Online,
-            pricingId: props.pricingId
-          }
-        }
-      })
-      if (res) {
+      if (checkoutData.length == 0) {
           Swal.fire({
-            title: "Berhasil Bayar!",
-            text: "Tagihan telah berhasil dibayar!",
-            icon: "success",
+            title: "Perhatian!",
+            text: "Silakan pilih tagihan terlebih dahulu.",
+            icon: "warning",
+            showConfirmButton: false,
             timer: 2000,
             timerProgressBar: true,
-          }).then((result) => {
-            if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
-              location.reload()
-              setTimeout(() => {
-                history.back(); 
-              }, 500);
-            }
           });
-      } else {
-        alert('gagal bayar')
+          return
       }
-    } catch (e) {
-      alert('erorr')
+      const updatePromises = checkoutData.map(item => 
+        updatePayment({
+          variables: {
+            data: {
+              id: item.paymentId,
+              amount: item.amount,
+              status: PaymentStatus.Paid,
+              invoice: item.invoice,
+              url: "",
+              method: PaymentMethod.Cash,
+            }
+          }
+        })
+      );
+    
+      const results = await Promise.all(updatePromises);
+
+      if (results) {
+        Swal.fire({
+          title: "Berhasil!",
+          text: `Berhasil membayar ${checkoutData.length} spp siswa/i dengan metode CASH.`,
+          icon: "success",
+          timer: 3000,
+          timerProgressBar: true,
+        }).then((result) => {
+          if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
+            location.reload();
+          }
+        });
+        return
+      }
+    
+    
+    } catch (e: any) {
+      console.error(e)
+      Swal.fire({
+        title: "Error!",
+        text: "Gagal membuat pembayaran. Silakan coba lagi. error: " + e?.message,
+        icon: "error",
+      });
     }
-  };
+  }
+  
   return (
     <>
       <Toggle
@@ -163,7 +193,7 @@ export function CommonDetail<T extends Record<any, any>>(
           <div className="grid grid-cols-2 gap-4">
             <div className="col-span-1">
               <h1 className="text-base text-slate-400">
-                Tagihan SPP
+                Tagihan Akumulasi SPP
               </h1>
               {/* <h1 className="text-base text-slate-400">
                 Tagihan SPP Bulan Ini
@@ -173,7 +203,7 @@ export function CommonDetail<T extends Record<any, any>>(
             </div>
 
             <div className={`col-span-1 flex justify-end mt-2 ${props.payStatus === 'SUCCESS' ? 'hidden' : ''}`}>
-              <div className="border-2 rounded-lg p-2">
+              {/* <div className="border-2 rounded-lg p-2">
                 <div className="grid grid-cols-5 mx-auto">
                   <div className="col-span-2 flex items-center justify-center">
                     <div className="bg-red-100 p-2 rounded-lg flex items-center justify-center w-9/12">
@@ -185,7 +215,7 @@ export function CommonDetail<T extends Record<any, any>>(
                     <p className="text-sm">{props.jatuhTempo}</p>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className={`col-span-1 flex justify-end mt-2 ${props.payStatus === 'SUCCESS' ? '' : 'hidden'}`}>
               <Badge variant='outline' className="bg-blue-100 text-primary">Telah Lunas</Badge>
@@ -200,85 +230,43 @@ export function CommonDetail<T extends Record<any, any>>(
                   <span>Bayar {props.data.payMethod ?? "Manual"}</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="md:w-3/12 rounded-lg">
+              <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                  <DialogTitle className="text-center">
-                    Detail Tagihan
-                  </DialogTitle>
+                  <DialogTitle>Pembayaran Tagihan SPP</DialogTitle>
+                  <DialogDescription>
+                    Pilih tagihan SPP yang belum terbayar
+                  </DialogDescription>
                 </DialogHeader>
-                <div className="border-2 rounded-lg p-5">
-                  <h1 className="text-base text-slate-400">Total Tagihan</h1>
-
-                  <p className="text-2xl font-bold mt-3">Rp {props.tagihan}</p>
+                <div className="flex flex-col gap-4 py-4">
+                  {props.ricianTagihan.length > 0 ? props.ricianTagihan.map((invoice: any, index: number) => (
+                        <div className=" border py-5 px-3 rounded-md border-gray-300 flex items-start space-x-2" key={index}>
+                          <Checkbox id="terms" className="" 
+                            checked={isChecked(invoice.paymentId)}
+                            onCheckedChange={(checked) => 
+                              setCheckout(invoice.name, invoice.paymentId, invoice.amount, checked as boolean)
+                            }
+                            />
+                          <div className="flex flex-col gap-1">
+                            <label
+                              htmlFor="terms"
+                              className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            >
+                              {invoice.name}
+                            </label>
+                            <label className="text-sm text-gray-500">
+                              {invoice.harga}
+                            </label>
+  
+                          </div>
+                        </div>
+                    )) : (
+                      <div className="w-full text- py-5">
+                        Belum ada tagihan.
+                      </div>
+                    )}
                 </div>
-
-                <div className="grid grid-cols-2 gap-2 mt-4">
-                  <div className="col-span-1">
-                    {/* <Label htmlFor="name" className="text-right">
-                      Tanggal Pembayaran
-                    </Label> */}
-                    <Label htmlFor="name" className="text-right">
-                      Metode Pembayaran
-                    </Label>
-                    <Select onValueChange={setPaymentMethod}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Cash, Online" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="CASH">Cash</SelectItem>
-                      <SelectItem value="ONLINE">Online</SelectItem>
-                    </SelectContent>
-                  </Select>
-
-
-
-                    {/* <div className="">
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <Button
-                            variant={"outline"}
-                            className={cn(
-                              "w-full justify-start text-left font-normal",
-                              !date && "text-muted-foreground"
-                            )}
-                          >
-                            <CalendarIcon />
-                            {date ? (
-                              format(date, "PPP")
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={date}
-                            onSelect={setDate}
-                            initialFocus
-                          />
-                        </PopoverContent>
-                      </Popover>
-                    </div> */}
-                  </div>
-
-                  <div className="col-span-1">
-                    <Label htmlFor="name" className="text-right">
-                      Nominal Pembayaran
-                    </Label>
-
-                    <Input 
-                      type="text" 
-                      placeholder="Jumlah Pembayaran"
-                      value={paymentAmount}
-                      onChange={(e) => setPaymentAmount(e.target.value)}
-                    />
-                  </div>
-                </div>
-                <DialogFooter className="mt-5">
-                  <Button type="button" onClick={handlePaymentSubmit} variant="default" className="w-full">
-                    Selesai
-                  </Button>
+                <DialogFooter>
+                  <Button type="button" onClick={() => checkoutSpp()} className="w-full">Continue</Button>
                 </DialogFooter>
               </DialogContent>
             </Dialog>
@@ -291,11 +279,12 @@ export function CommonDetail<T extends Record<any, any>>(
           >
             <AccordionItem value="item-1">
               <AccordionTrigger className="flex mt-5 w-full text-center justify-center">
-                Lihat Rincian
+                Lihat Rincian Tagihan
               </AccordionTrigger>
               <AccordionContent>
                 <p className="text-sm mt-5 text-slate-400">Rincian</p>
                 {
+                  props.ricianTagihan.length > 0 ?
                     props.ricianTagihan.map((data: any, index: number) => (
                     <div key={index} className="grid grid-cols-2 gap-4 border-b-2 mt-3">
                     <div className="col-span-1">
@@ -303,10 +292,12 @@ export function CommonDetail<T extends Record<any, any>>(
                     </div>
 
                     <div className="col-span-1 text-right">
-                        <p>Rp. {data.harga}</p>
+                        <p>{data.harga}</p>
                     </div>
                     </div>
-                    ))
+                    )) : (
+                      'Belum ada tagihan pembayaran.'
+                    )
                 }
               </AccordionContent>
             </AccordionItem>
@@ -329,15 +320,19 @@ export function CommonDetail<T extends Record<any, any>>(
               </TableRow>
             </TableHeader>
             <TableBody>
-              {props.riwayatPembayaran.map((invoice: any, index: number) => (
+              {props.riwayatPembayaran.length > 0 ? props.riwayatPembayaran.map((invoice: any, index: number) => (
                 <TableRow key={index}>
-                  <TableCell>{invoice.invoice ?? '-'}</TableCell>
-                  <TableCell className={`${invoice.status === 'PENDING' ? 'text-orange-400' : invoice.status === 'SUCCESS' ? 'text-green-600' : 'text-red-600'} font-semibold border-l-2`}>
+                  <TableCell>{invoice.invoice.toString() ?? '-'}</TableCell>
+                  <TableCell className={`${invoice.status === 'PENDING' ? 'text-orange-400' : invoice.status === 'PAID' ? 'text-green-600' : 'text-red-600'} font-semibold border-l-2`}>
                     {invoice.status}
                   </TableCell>
                   <TableCell>{invoice.amount}</TableCell>
                 </TableRow>
-              ))}
+              )) : (
+                <TableRow>
+                  <TableCell>Belum Ada Riwayat Pembayaran.</TableCell>
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </div>

@@ -89,6 +89,13 @@ export type Authentication = {
   user: User;
 };
 
+export type Checkout = {
+  __typename?: 'Checkout';
+  amount: Scalars['Float']['output'];
+  invoiceNumber: Scalars['String']['output'];
+  url: Scalars['String']['output'];
+};
+
 export type Classroom = {
   __typename?: 'Classroom';
   assignments: Array<Assignment>;
@@ -125,6 +132,11 @@ export type CreateAttendanceInput = {
   studentId: Scalars['ID']['input'];
 };
 
+export type CreateCheckoutInput = {
+  enrollmentId: Scalars['ID']['input'];
+  paymentIds: Array<Scalars['String']['input']>;
+};
+
 export type CreateClassroomInput = {
   gradeId: Scalars['ID']['input'];
   guardianId: Scalars['ID']['input'];
@@ -137,6 +149,7 @@ export type CreateCurriculumInput = {
 
 export type CreateEnrollmentInput = {
   classroomId: Scalars['ID']['input'];
+  pricingId: Scalars['ID']['input'];
   studentId: Scalars['ID']['input'];
   termId: Scalars['ID']['input'];
 };
@@ -157,16 +170,6 @@ export type CreateMaterialInput = {
   referenceIds?: InputMaybe<Array<Scalars['ID']['input']>>;
   subjectId: Scalars['ID']['input'];
   title: Scalars['String']['input'];
-};
-
-export type CreatePaymentInput = {
-  dueDate?: InputMaybe<Scalars['Timestamp']['input']>;
-  enrollmentId: Scalars['ID']['input'];
-  method: PaymentMethod;
-  paidDate?: InputMaybe<Scalars['Timestamp']['input']>;
-  pricingId: Scalars['ID']['input'];
-  reference?: InputMaybe<Scalars['String']['input']>;
-  status: PaymentStatus;
 };
 
 export type CreatePricingInput = {
@@ -272,6 +275,7 @@ export type Enrollment = {
   createdAt?: Maybe<Scalars['Timestamp']['output']>;
   id: Scalars['ID']['output'];
   payments?: Maybe<Array<Payment>>;
+  pricing?: Maybe<Pricing>;
   student?: Maybe<User>;
   studentId: Scalars['ID']['output'];
   term?: Maybe<Term>;
@@ -330,13 +334,13 @@ export type Mutation = {
   createAnnouncement: Announcement;
   createAssignment: Assignment;
   createAttendance: Array<Attendance>;
+  createCheckoutPayment: Checkout;
   createClassroom: Classroom;
   createCurriculum: Curriculum;
   createEnrollment: Enrollment;
   createFamily: Family;
   createGrade: Grade;
   createMaterial: Material;
-  createPayment: Payment;
   createPricing: Pricing;
   createReference: Reference;
   createSchedule: Schedule;
@@ -403,6 +407,11 @@ export type MutationCreateAttendanceArgs = {
 };
 
 
+export type MutationCreateCheckoutPaymentArgs = {
+  data: CreateCheckoutInput;
+};
+
+
 export type MutationCreateClassroomArgs = {
   data: CreateClassroomInput;
 };
@@ -430,11 +439,6 @@ export type MutationCreateGradeArgs = {
 
 export type MutationCreateMaterialArgs = {
   data: CreateMaterialInput;
-};
-
-
-export type MutationCreatePaymentArgs = {
-  data: CreatePaymentInput;
 };
 
 
@@ -680,14 +684,16 @@ export type MutationUpdateUserArgs = {
 
 export type Payment = {
   __typename?: 'Payment';
-  dueDate?: Maybe<Scalars['Timestamp']['output']>;
+  amount: Scalars['Float']['output'];
+  createdAt: Scalars['Timestamp']['output'];
   enrollment?: Maybe<Enrollment>;
   id: Scalars['ID']['output'];
+  invoice: Scalars['String']['output'];
   method: PaymentMethod;
-  paidDate?: Maybe<Scalars['Timestamp']['output']>;
   pricing?: Maybe<Pricing>;
-  reference: Scalars['String']['output'];
   status: PaymentStatus;
+  updatedAt: Scalars['Timestamp']['output'];
+  url: Scalars['String']['output'];
 };
 
 export enum PaymentMethod {
@@ -697,8 +703,8 @@ export enum PaymentMethod {
 
 export enum PaymentStatus {
   Failed = 'FAILED',
-  Pending = 'PENDING',
-  Success = 'SUCCESS'
+  Paid = 'PAID',
+  Pending = 'PENDING'
 }
 
 export type Pricing = {
@@ -1016,6 +1022,7 @@ export type UpdateCurriculumInput = {
 export type UpdateEnrollmentInput = {
   classroomId?: InputMaybe<Scalars['ID']['input']>;
   id: Scalars['ID']['input'];
+  pricingId?: InputMaybe<Scalars['ID']['input']>;
   studentId?: InputMaybe<Scalars['ID']['input']>;
   termId?: InputMaybe<Scalars['ID']['input']>;
 };
@@ -1042,14 +1049,12 @@ export type UpdateMaterialInput = {
 };
 
 export type UpdatePaymentInput = {
-  dueDate?: InputMaybe<Scalars['Timestamp']['input']>;
-  enrollmentId?: InputMaybe<Scalars['ID']['input']>;
+  amount?: InputMaybe<Scalars['Float']['input']>;
   id: Scalars['ID']['input'];
+  invoice?: InputMaybe<Scalars['String']['input']>;
   method?: InputMaybe<PaymentMethod>;
-  paidDate?: InputMaybe<Scalars['Timestamp']['input']>;
-  pricingId?: InputMaybe<Scalars['ID']['input']>;
-  reference?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<PaymentStatus>;
+  url?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdatePricingInput = {
@@ -1284,26 +1289,26 @@ export type GetEnrollmentQueryVariables = Exact<{
 }>;
 
 
-export type GetEnrollmentQuery = { __typename?: 'Query', enrollment: { __typename?: 'Enrollment', id: string, studentId: string, classroomId: string, termId: string, term?: { __typename?: 'Term', id: string, name: string } | null, classroom?: { __typename?: 'Classroom', id: string, name: string, students: Array<{ __typename?: 'User', id: string, name?: string | null, nisn?: string | null }>, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null } } | null, student?: { __typename?: 'User', id: string, name?: string | null, nisn?: string | null } | null, payments?: Array<{ __typename?: 'Payment', id: string, status: PaymentStatus, paidDate?: any | null, dueDate?: any | null, method: PaymentMethod, enrollment?: { __typename?: 'Enrollment', id: string } | null, pricing?: { __typename?: 'Pricing', id: string, name: string, amount: number } | null }> | null } };
+export type GetEnrollmentQuery = { __typename?: 'Query', enrollment: { __typename?: 'Enrollment', id: string, studentId: string, classroomId: string, termId: string, term?: { __typename?: 'Term', id: string, name: string } | null, classroom?: { __typename?: 'Classroom', id: string, name: string, students: Array<{ __typename?: 'User', id: string, name?: string | null, nisn?: string | null }>, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null } } | null, student?: { __typename?: 'User', id: string, name?: string | null, nisn?: string | null } | null, payments?: Array<{ __typename?: 'Payment', id: string, method: PaymentMethod, createdAt: any, updatedAt: any, status: PaymentStatus, url: string, invoice: string, enrollment?: { __typename?: 'Enrollment', id: string } | null, pricing?: { __typename?: 'Pricing', id: string, name: string, amount: number } | null }> | null } };
 
 export type GetEnrollmentsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetEnrollmentsQuery = { __typename?: 'Query', enrollments: Array<{ __typename?: 'Enrollment', id: string, studentId: string, classroomId: string, termId: string, createdAt?: any | null, term?: { __typename?: 'Term', id: string, name: string, curriculum: { __typename?: 'Curriculum', id: string, name: string } } | null, classroom?: { __typename?: 'Classroom', id: string, name: string, students: Array<{ __typename?: 'User', id: string, name?: string | null, nisn?: string | null }>, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null } } | null, student?: { __typename?: 'User', id: string, name?: string | null, nisn?: string | null, school?: { __typename?: 'School', id: string, name: string, npsn: string } | null } | null, payments?: Array<{ __typename?: 'Payment', id: string, status: PaymentStatus, method: PaymentMethod, dueDate?: any | null, paidDate?: any | null, enrollment?: { __typename?: 'Enrollment', id: string } | null, pricing?: { __typename?: 'Pricing', id: string, name: string, amount: number } | null }> | null }> };
+export type GetEnrollmentsQuery = { __typename?: 'Query', enrollments: Array<{ __typename?: 'Enrollment', id: string, studentId: string, classroomId: string, termId: string, createdAt?: any | null, term?: { __typename?: 'Term', id: string, name: string, curriculum: { __typename?: 'Curriculum', id: string, name: string } } | null, classroom?: { __typename?: 'Classroom', id: string, name: string, students: Array<{ __typename?: 'User', id: string, name?: string | null, nisn?: string | null }>, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null } } | null, student?: { __typename?: 'User', id: string, name?: string | null, nisn?: string | null, school?: { __typename?: 'School', id: string, name: string, npsn: string } | null } | null, payments?: Array<{ __typename?: 'Payment', id: string, status: PaymentStatus, method: PaymentMethod, url: string, invoice: string, createdAt: any, updatedAt: any, enrollment?: { __typename?: 'Enrollment', id: string } | null, pricing?: { __typename?: 'Pricing', id: string, name: string, amount: number } | null }> | null }> };
 
 export type CreateEnrollmentMutationVariables = Exact<{
   data: CreateEnrollmentInput;
 }>;
 
 
-export type CreateEnrollmentMutation = { __typename?: 'Mutation', createEnrollment: { __typename?: 'Enrollment', id: string, studentId: string, classroomId: string, termId: string } };
+export type CreateEnrollmentMutation = { __typename?: 'Mutation', createEnrollment: { __typename?: 'Enrollment', id: string, studentId: string, classroomId: string, termId: string, pricing?: { __typename?: 'Pricing', id: string } | null } };
 
 export type UpdateEnrollmentMutationVariables = Exact<{
   data: UpdateEnrollmentInput;
 }>;
 
 
-export type UpdateEnrollmentMutation = { __typename?: 'Mutation', updateEnrollment: { __typename?: 'Enrollment', id: string, studentId: string, classroomId: string, termId: string } };
+export type UpdateEnrollmentMutation = { __typename?: 'Mutation', updateEnrollment: { __typename?: 'Enrollment', id: string, studentId: string, classroomId: string, termId: string, pricing?: { __typename?: 'Pricing', id: string } | null } };
 
 export type DeleteEnrollmentMutationVariables = Exact<{
   id: Scalars['String']['input'];
@@ -1751,33 +1756,26 @@ export type GetPaymentQueryVariables = Exact<{
 }>;
 
 
-export type GetPaymentQuery = { __typename?: 'Query', payment: { __typename?: 'Payment', id: string, status: PaymentStatus, reference: string, dueDate?: any | null, paidDate?: any | null, method: PaymentMethod, pricing?: { __typename?: 'Pricing', id: string, name: string, amount: number, createdAt?: any | null, updatedAt?: any | null } | null, enrollment?: { __typename?: 'Enrollment', id: string } | null } };
+export type GetPaymentQuery = { __typename?: 'Query', payment: { __typename?: 'Payment', id: string, status: PaymentStatus, invoice: string, url: string, amount: number, createdAt: any, updatedAt: any, method: PaymentMethod, pricing?: { __typename?: 'Pricing', id: string, name: string, amount: number, createdAt?: any | null, updatedAt?: any | null } | null, enrollment?: { __typename?: 'Enrollment', id: string } | null } };
 
 export type GetPaymentsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetPaymentsQuery = { __typename?: 'Query', payments: Array<{ __typename?: 'Payment', id: string, status: PaymentStatus, reference: string, dueDate?: any | null, paidDate?: any | null, method: PaymentMethod, pricing?: { __typename?: 'Pricing', id: string, name: string, amount: number, createdAt?: any | null, updatedAt?: any | null } | null, enrollment?: { __typename?: 'Enrollment', id: string } | null }> };
-
-export type CreatePaymentMutationVariables = Exact<{
-  data: CreatePaymentInput;
-}>;
-
-
-export type CreatePaymentMutation = { __typename?: 'Mutation', createPayment: { __typename?: 'Payment', id: string, status: PaymentStatus, reference: string, method: PaymentMethod, dueDate?: any | null, paidDate?: any | null, pricing?: { __typename?: 'Pricing', id: string } | null, enrollment?: { __typename?: 'Enrollment', id: string } | null } };
+export type GetPaymentsQuery = { __typename?: 'Query', payments: Array<{ __typename?: 'Payment', id: string, status: PaymentStatus, invoice: string, url: string, amount: number, createdAt: any, updatedAt: any, method: PaymentMethod, pricing?: { __typename?: 'Pricing', id: string, name: string, amount: number, createdAt?: any | null, updatedAt?: any | null } | null, enrollment?: { __typename?: 'Enrollment', id: string } | null }> };
 
 export type UpdatePaymentMutationVariables = Exact<{
   data: UpdatePaymentInput;
 }>;
 
 
-export type UpdatePaymentMutation = { __typename?: 'Mutation', updatePayment: { __typename?: 'Payment', id: string, status: PaymentStatus, reference: string, method: PaymentMethod, dueDate?: any | null, paidDate?: any | null, pricing?: { __typename?: 'Pricing', id: string } | null, enrollment?: { __typename?: 'Enrollment', id: string } | null } };
+export type UpdatePaymentMutation = { __typename?: 'Mutation', updatePayment: { __typename?: 'Payment', id: string, amount: number, invoice: string, method: PaymentMethod, url: string, status: PaymentStatus } };
 
 export type DeletePaymentMutationVariables = Exact<{
   data: Scalars['String']['input'];
 }>;
 
 
-export type DeletePaymentMutation = { __typename?: 'Mutation', deletePayment: { __typename?: 'Payment', id: string, status: PaymentStatus, reference: string, method: PaymentMethod, pricing?: { __typename?: 'Pricing', id: string } | null, enrollment?: { __typename?: 'Enrollment', id: string } | null } };
+export type DeletePaymentMutation = { __typename?: 'Mutation', deletePayment: { __typename?: 'Payment', id: string, status: PaymentStatus, method: PaymentMethod, pricing?: { __typename?: 'Pricing', id: string } | null, enrollment?: { __typename?: 'Enrollment', id: string } | null } };
 
 export type GetPricingQueryVariables = Exact<{
   data: Scalars['String']['input'];
@@ -1811,6 +1809,13 @@ export type DeletePricingMutationVariables = Exact<{
 
 
 export type DeletePricingMutation = { __typename?: 'Mutation', deletePricing: { __typename?: 'Pricing', id: string, name: string, amount: number } };
+
+export type CreateCheckoutPaymentMutationVariables = Exact<{
+  data: CreateCheckoutInput;
+}>;
+
+
+export type CreateCheckoutPaymentMutation = { __typename?: 'Mutation', createCheckoutPayment: { __typename?: 'Checkout', invoiceNumber: string, amount: number, url: string } };
 
 
 export const LoginDocument = gql`
@@ -2650,10 +2655,12 @@ export const GetEnrollmentDocument = gql`
     }
     payments {
       id
-      status
-      paidDate
-      dueDate
       method
+      createdAt
+      updatedAt
+      status
+      url
+      invoice
       enrollment {
         id
       }
@@ -2742,8 +2749,10 @@ export const GetEnrollmentsDocument = gql`
       id
       status
       method
-      dueDate
-      paidDate
+      url
+      invoice
+      createdAt
+      updatedAt
       enrollment {
         id
       }
@@ -2796,6 +2805,9 @@ export const CreateEnrollmentDocument = gql`
     studentId
     classroomId
     termId
+    pricing {
+      id
+    }
   }
 }
     `;
@@ -2832,6 +2844,9 @@ export const UpdateEnrollmentDocument = gql`
     studentId
     classroomId
     termId
+    pricing {
+      id
+    }
   }
 }
     `;
@@ -5917,9 +5932,11 @@ export const GetPaymentDocument = gql`
   payment(id: $data) {
     id
     status
-    reference
-    dueDate
-    paidDate
+    invoice
+    url
+    amount
+    createdAt
+    updatedAt
     method
     pricing {
       id
@@ -5972,9 +5989,11 @@ export const GetPaymentsDocument = gql`
   payments {
     id
     status
-    reference
-    dueDate
-    paidDate
+    invoice
+    url
+    amount
+    createdAt
+    updatedAt
     method
     pricing {
       id
@@ -6021,65 +6040,15 @@ export type GetPaymentsQueryHookResult = ReturnType<typeof useGetPaymentsQuery>;
 export type GetPaymentsLazyQueryHookResult = ReturnType<typeof useGetPaymentsLazyQuery>;
 export type GetPaymentsSuspenseQueryHookResult = ReturnType<typeof useGetPaymentsSuspenseQuery>;
 export type GetPaymentsQueryResult = Apollo.QueryResult<GetPaymentsQuery, GetPaymentsQueryVariables>;
-export const CreatePaymentDocument = gql`
-    mutation CreatePayment($data: CreatePaymentInput!) {
-  createPayment(data: $data) {
-    id
-    status
-    reference
-    method
-    dueDate
-    paidDate
-    pricing {
-      id
-    }
-    enrollment {
-      id
-    }
-  }
-}
-    `;
-export type CreatePaymentMutationFn = Apollo.MutationFunction<CreatePaymentMutation, CreatePaymentMutationVariables>;
-
-/**
- * __useCreatePaymentMutation__
- *
- * To run a mutation, you first call `useCreatePaymentMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreatePaymentMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createPaymentMutation, { data, loading, error }] = useCreatePaymentMutation({
- *   variables: {
- *      data: // value for 'data'
- *   },
- * });
- */
-export function useCreatePaymentMutation(baseOptions?: Apollo.MutationHookOptions<CreatePaymentMutation, CreatePaymentMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreatePaymentMutation, CreatePaymentMutationVariables>(CreatePaymentDocument, options);
-      }
-export type CreatePaymentMutationHookResult = ReturnType<typeof useCreatePaymentMutation>;
-export type CreatePaymentMutationResult = Apollo.MutationResult<CreatePaymentMutation>;
-export type CreatePaymentMutationOptions = Apollo.BaseMutationOptions<CreatePaymentMutation, CreatePaymentMutationVariables>;
 export const UpdatePaymentDocument = gql`
     mutation UpdatePayment($data: UpdatePaymentInput!) {
   updatePayment(data: $data) {
     id
-    status
-    reference
+    amount
+    invoice
     method
-    dueDate
-    paidDate
-    pricing {
-      id
-    }
-    enrollment {
-      id
-    }
+    url
+    status
   }
 }
     `;
@@ -6114,7 +6083,6 @@ export const DeletePaymentDocument = gql`
   deletePayment(id: $data) {
     id
     status
-    reference
     method
     pricing {
       id
@@ -6343,3 +6311,38 @@ export function useDeletePricingMutation(baseOptions?: Apollo.MutationHookOption
 export type DeletePricingMutationHookResult = ReturnType<typeof useDeletePricingMutation>;
 export type DeletePricingMutationResult = Apollo.MutationResult<DeletePricingMutation>;
 export type DeletePricingMutationOptions = Apollo.BaseMutationOptions<DeletePricingMutation, DeletePricingMutationVariables>;
+export const CreateCheckoutPaymentDocument = gql`
+    mutation createCheckoutPayment($data: CreateCheckoutInput!) {
+  createCheckoutPayment(data: $data) {
+    invoiceNumber
+    amount
+    url
+  }
+}
+    `;
+export type CreateCheckoutPaymentMutationFn = Apollo.MutationFunction<CreateCheckoutPaymentMutation, CreateCheckoutPaymentMutationVariables>;
+
+/**
+ * __useCreateCheckoutPaymentMutation__
+ *
+ * To run a mutation, you first call `useCreateCheckoutPaymentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCheckoutPaymentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createCheckoutPaymentMutation, { data, loading, error }] = useCreateCheckoutPaymentMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateCheckoutPaymentMutation(baseOptions?: Apollo.MutationHookOptions<CreateCheckoutPaymentMutation, CreateCheckoutPaymentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateCheckoutPaymentMutation, CreateCheckoutPaymentMutationVariables>(CreateCheckoutPaymentDocument, options);
+      }
+export type CreateCheckoutPaymentMutationHookResult = ReturnType<typeof useCreateCheckoutPaymentMutation>;
+export type CreateCheckoutPaymentMutationResult = Apollo.MutationResult<CreateCheckoutPaymentMutation>;
+export type CreateCheckoutPaymentMutationOptions = Apollo.BaseMutationOptions<CreateCheckoutPaymentMutation, CreateCheckoutPaymentMutationVariables>;

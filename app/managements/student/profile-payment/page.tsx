@@ -1,6 +1,6 @@
 'use client'
 /* eslint-disable */
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { CalendarDays, Wallet } from "lucide-react";
-import { useGetEnrollmentsQuery, useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";
+import { useCreateCheckoutPaymentMutation, useGetEnrollmentsQuery, useGetUsersQuery, useUpdatePaymentMutation, useUserPayloadQuery } from "@/graphql/generated";
 import {
   Dialog,
   DialogContent,
@@ -27,58 +27,186 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox";
+import { isThisMonth } from "date-fns";
+import Swal from "sweetalert2";
 
-// const invoices = [
-//   {
-//     invoice: "Sabtu, 28 maret 2024",
-//     status: "Berhasil",
-//     amount: "Rp. 1.000.000",
-//   },
-// ];
 
 export default function StudentProfilePayment() {
     const { data: userPayload } = useUserPayloadQuery();
     const { data: allUser } = useGetUsersQuery();
     const userFind = allUser?.users.find((item) => item.id === userPayload?.me.id)
     const { data } = useGetEnrollmentsQuery();
-    const dataPayment: unknown[] = data?.enrollments || [];
-    // const inovoicesPaid = dataPayment.filter((item) => item?.payment?.status === "SUCCESS")
-    const invoices = dataPayment.filter((item: any) => item.student.nisn === userFind?.nisn && item.payment.status === 'SUCCESS').map((item: any) => ({
+    const dataPayment: any[] = data?.enrollments || [];
+    // const paymenttThisMonth = enrollment?.enrollment?.payments?.find((item) => isThisMonth(new Date(parseInt(item.createdAt)))) 
+    
+    const enrollmentThisUser = dataPayment.filter((item: any) => item.student.nisn === userFind?.nisn)
+    
+    const invoices = enrollmentThisUser[0]?.payments?.filter((item: any) => item.updatedAt && isThisMonth(new Date(parseInt(item.updatedAt))) && item.status === 'PAID').map((item: any) => ({
       ...item,
-      invoice: item.payment.paidDate,
-      status: item.payment.status,
+      invoice: item.pricing.name,
+      status: item.status,
       amount: new Intl.NumberFormat("id-ID", {
         style: "currency",
         currency: "IDR",
         minimumFractionDigits: 0,
-      }).format(item.payment.pricing?.amount ?? 0),
+      }).format(item.pricing?.amount ?? 0),
     }));
-    const invoicesNonPaid = dataPayment.filter((item: any) => item.student.nisn === userFind?.nisn && (item.payment.status === 'PENDING' || item.payment.status === 'FAILED')).map((item: any) => ({
+    
+    const invoicesNonPaid = enrollmentThisUser[0]?.payments?.filter((item: any) => item.updatedAt && isThisMonth(new Date(parseInt(item.updatedAt))) && item.status === 'PENDING' || item.status === 'FAILED').map((item: any) => ({
       ...item,
-      name: item.payment.pricing.name,
-      status: item.payment.status,
+      name: item.pricing?.name,
+      enrollmentId: item.id,
+      paymentId: item.id,
+      status: item.status,
       amount: new Intl.NumberFormat("id-ID", {
         style: "currency",
         currency: "IDR",
         minimumFractionDigits: 0,
-      }).format(item.payment.pricing?.amount ?? 0),
+      }).format(item.pricing?.amount ?? 0),
     }));
-    // const reminderInvoice = dataPayment.filter((item) => item.payment.dueDate)
-    // console.log(inovoicesPaid)
+
+    const [checkoutData, setCheckoutData] = useState<string[]>([]);
+
+    const setCheckout = (paymentId: string, isChecked: boolean) => {
+      if (isChecked) {
+        setCheckoutData(prev => [...prev, paymentId]);
+      } else {
+        setCheckoutData(prev => prev.filter(id => id !== paymentId));
+      }
+    }
+
+    const isChecked = (paymentId: string) => {
+      return checkoutData.includes(paymentId);
+    }
+
+    const [createCheckoutPayment] = useCreateCheckoutPaymentMutation()
+    const checkoutSpp = async (enrollmentId: string) => {
+      try {
+        if (checkoutData.length == 0) {
+            Swal.fire({
+              title: "Perhatian!",
+              text: "Silakan pilih tagihan terlebih dahulu.",
+              icon: "warning",
+              timer: 2000,
+              showConfirmButton: false,
+              timerProgressBar: true,
+            });
+            return
+        }
+
+        // Tampilkan loading
+        Swal.fire({
+          title: "Memproses...",
+          text: "Sedang membuat invoice pembayaran",
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          }
+        });
+
+        const res = await createCheckoutPayment({
+          variables: {
+            data: {
+              enrollmentId: enrollmentId.toString(),
+              paymentIds: checkoutData
+            }
+          }
+        })
+
+        if (!res?.data?.createCheckoutPayment) {
+          Swal.fire({
+            title: "Error!",
+            text: "Gagal membuat pembayaran online. Silakan coba lagi.",
+            icon: "error",
+          });
+          throw new Error("Gagal membuat pembayaran");
+        }
+
+        if (res) {
+          console.log(res)
+
+          const updatePromises = checkoutData.map(paymentId => 
+            updateUrlAndInvoicePayment(
+              paymentId, 
+              res?.data?.createCheckoutPayment.url ?? "", 
+              res?.data?.createCheckoutPayment.invoiceNumber ?? ''
+            )
+          );
+          
+          await Promise.all(updatePromises);
+
+          Swal.fire({
+            title: "Berhasil!",
+            text: "Berhasil membuat invoice pembayaran tagihan, silakan selesaikan pembayaran melalui online payment.",
+            icon: "success",
+            timer: 3000,
+            timerProgressBar: true,
+          }).then((result) => {
+            if (result.isConfirmed || Swal.DismissReason.timer) {
+              const urlDoku = res.data?.createCheckoutPayment.url
+              window.open(urlDoku)
+            }
+          });
+          return
+        }
+      } catch (e) {
+        console.error(e)
+        Swal.fire({
+          title: "Error!",
+          text: "Gagal membuat pembayaran. Silakan coba lagi.",
+          icon: "error",
+        });
+      }
+    }
+
+    const [updatePayment] = useUpdatePaymentMutation()
+    const updateUrlAndInvoicePayment = async (id: string, url: string, invoice: string) => {
+      try {
+        const res = await updatePayment({
+          variables: {
+            data: {
+              id,
+              url,
+              invoice
+            }
+          }
+        })
+
+        if (res) {
+          return true
+        }
+
+      } catch (e) {
+        alert(e)
+        console.error(e)
+      }
+    }
+
+    const studentsNotPaid = data?.enrollments.filter((item) => item.studentId === userPayload?.me?.id && item?.payments?.some((item) => item.status === 'PENDING'))
+    const akumulateTagihanSpp = useMemo(() => {
+      return studentsNotPaid?.reduce((total, item) => {
+        const pendingPayment = item.payments?.find((payment) => payment?.status === 'PENDING');
+        return total + (pendingPayment?.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
+      }, 0);
+    }, [studentsNotPaid]);
+
+    const handleClickAdmin = () => {
+      const nomorAdmin = "6287774487198"
+      window.open("https://wa.me/" + nomorAdmin)
+    }
+
   return (
     <div className="min-h-screen">
       <div className="border-2 rounded-lg p-4 mt-6 bg-white">
         <div className="grid grid-cols-2 gap-4">
           <div className="col-span-1">
-            <h1 className="text-base text-slate-400">Tagihan SPP Bulan Ini</h1>
+            <h1 className="text-base text-slate-400">Tagihan Akumulasi SPP</h1>
 
-            <p className="text-2xl font-bold">Rp. 6.000.000</p>
+            <p className="text-2xl font-bold">Rp. {akumulateTagihanSpp?.toLocaleString("id-ID")}</p>
           </div>
 
-          <div className="col-span-1 flex justify-end">
+          {/* <div className="col-span-1 flex justify-end">
             <div className="border-2 rounded-lg p-2">
               <div className="grid grid-cols-5 gap-2 ml-5">
                 <div className="col-span-1 bg-red-100 md:p-2 p-1 rounded-lg flex items-center justify-center">
@@ -90,7 +218,7 @@ export default function StudentProfilePayment() {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
 
         <div className="flex gap-2 mt-2">
@@ -110,87 +238,69 @@ export default function StudentProfilePayment() {
                 </DialogDescription>
               </DialogHeader>
               <div className="flex flex-col gap-4 py-4">
-                <div className=" border py-5 px-3 rounded-md border-gray-300 flex items-start space-x-2">
-                  <Checkbox id="terms" className="" />
-                  <div className="flex flex-col gap-1">
-                    <label
-                      htmlFor="terms"
-                      className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
-                      Maret
-                    </label>
-                    <label className="text-sm text-gray-500">
-                      Rp 500.000
-                    </label>
+                {invoicesNonPaid && invoicesNonPaid.length > 0 ? invoicesNonPaid.map((invoice: any, index: number) => (
+                      <div className=" border py-5 px-3 rounded-md border-gray-300 flex items-start space-x-2" key={index}>
+                        <Checkbox id="terms" className="" 
+                          checked={isChecked(invoice.paymentId)}
+                          onCheckedChange={(checked) => 
+                            setCheckout(invoice.paymentId, checked as boolean)
+                          }
+                         />
+                        <div className="flex flex-col gap-1">
+                          <label
+                            htmlFor="terms"
+                            className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                          >
+                            {invoice.name}
+                          </label>
+                          <label className="text-sm text-gray-500">
+                            {invoice.amount}
+                          </label>
 
-                  </div>
-                </div>
-                <div className=" border py-5 px-3 rounded-md border-gray-300 flex items-start space-x-2">
-                  <Checkbox id="terms" className="" />
-                  <div className="flex flex-col gap-1">
-                    <label
-                      htmlFor="terms"
-                      className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
-                      Maret
-                    </label>
-                    <label className="text-sm text-gray-500">
-                      Rp 500.000
-                    </label>
-
-                  </div>
-                </div>
-                <div className=" border py-5 px-3 rounded-md border-gray-300 flex items-start space-x-2">
-                  <Checkbox id="terms" className="" />
-                  <div className="flex flex-col gap-1">
-                    <label
-                      htmlFor="terms"
-                      className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
-                      Maret
-                    </label>
-                    <label className="text-sm text-gray-500">
-                      Rp 500.000
-                    </label>
-
-                  </div>
-                </div>
+                        </div>
+                      </div>
+                  )) : (
+                    <div className="w-full text- py-5">
+                      Belum ada tagihan.
+                    </div>
+                  )}
               </div>
               <DialogFooter>
-                <Button type="submit" className="w-full">Continue</Button>
+                <Button type="button" onClick={() => checkoutSpp(dataPayment?.find((item: any) => item.student.nisn === userFind?.nisn).id)} className="w-full">Continue</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
           </div>
 
           <div className="">
-            <Button variant="outline">Hubungi Admin</Button>
+            <Button variant="outline" onClick={() => handleClickAdmin()}>Hubungi Admin</Button>
           </div>
         </div>
 
         <Accordion type="single" collapsible className="w-full mt-5 border-t-2">
           <AccordionItem value="item-1">
             <AccordionTrigger className="flex justify-center">
-              Lihat Rincian
+              Lihat Rincian Tagihan
             </AccordionTrigger>
             <AccordionContent>
               <p className="text-sm text-slate-400">Rincian</p>
+              <div>
+                {invoicesNonPaid && invoicesNonPaid.length > 0 ? invoicesNonPaid.map((invoice: any, index: number) => (
+                  <div className="grid grid-cols-2 gap-4 border-b pb-2 mt-2" key={index}>
+                    <div className="col-span-1">
+                      <p>{invoice.name}</p>
+                    </div>
 
-              {invoicesNonPaid.length > 0 ? invoicesNonPaid.map((invoice) => (
-                <div className="grid grid-cols-2 gap-4 border-b-2 mt-3">
-                  <div className="col-span-1">
-                    <p>{invoice.name}</p>
+                    <div className="col-span-1 text-right">
+                      <p>{invoice.amount}</p>
+                    </div>
                   </div>
-
-                  <div className="col-span-1 text-right">
-                    <p>Rp. {invoice.amount}</p>
+                )) : (
+                  <div className="w-full text- py-5">
+                    Belum ada riwayat.
                   </div>
-                </div>
-              )) : (
-                <div className="w-full text- py-5">
-                  Belum ada riwayat.
-                </div>
-              )}
+                )}
+              </div>
             </AccordionContent>
           </AccordionItem>
         </Accordion>
@@ -212,8 +322,8 @@ export default function StudentProfilePayment() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {invoices.length > 0 ? invoices.map((invoice) => (
-              <TableRow key={invoice.invoice}>
+            {invoices && invoices.length > 0 ? invoices.map((invoice: any, index: number) => (
+              <TableRow key={index}>
                 <TableCell>{invoice.invoice}</TableCell>
                 <TableCell className="text-green-400 border-l-2">
                   {invoice.status}

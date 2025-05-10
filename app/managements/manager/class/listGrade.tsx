@@ -38,7 +38,7 @@ function ListGrade<T extends Record<any, any>>(
         <div className="w-full h-full p-2">
           <div className="md:flex justify-between">
             <h1 className="md:text-lg text-base text-left font-bold">
-              Kelas {dt.name} 
+              {dt.name} 
             </h1>
 
             <div className="md:mt-0 mt-1 w-20 rounded-lg flex items-center justify-center bg-blue-100 p-1">
