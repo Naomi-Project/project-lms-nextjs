@@ -11,7 +11,7 @@ import {
   useGetPricingsQuery,
   useGetUsersQuery,
 } from "@/graphql/generated";
-import { format } from "date-fns";
+import { format, isThisMonth } from "date-fns";
 
 export default function PaymentTable() {
   const { data } = useGetEnrollmentsQuery();
@@ -41,31 +41,55 @@ export default function PaymentTable() {
     },
     {
       accessorKey: "amount",
-      header: "JUMLAH TAGIHAN",
+      header: "TAGIHAN DIBAYAR",
       cell: ({ row }: any) => <span>{row.getValue("amount")}</span>,
     },
+    // {
+    //   accessorKey: "status",
+    //   header: "STATUS TAGIHAN",
+    //   cell: ({ row }: any) => <span>{row.original.payment?.status ?? "Tidak Ada Status"}</span>
+    // },
     {
-      accessorKey: "status",
-      header: "STATUS TAGIHAN",
-      cell: ({ row }: any) => <span>{row.original.payment?.status ?? "Tidak Ada Status"}</span>
+      accessorKey: "action",
+      header: "ACTION",
+      cell: ({ row }: any) => (
+        <div className="flex gap-3">
+          <ButtonEdit
+            label="Detail Tagihan"
+            hideIcon
+            endpoint="/managements/manager/keuangan/detail/"
+            id={row.original.id}
+          />
+        </div>
+      ),
     },
   ];
 
   const dataPayment: unknown[] = data?.enrollments || [];
-  var fixData = dataPayment.map((item: any) => ({
-    ...item,
-    nisn: item.student.nisn,
-    name: item.student.name,
-    amount: new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(item.payment.pricing?.amount ?? 0),    
-    class: item.classroom.name,
-  }));
-  // untuk data murid yang sudah lunas
-  fixData = fixData.filter((item) => item.payment.status === 'SUCCESS')
+  var fixData = dataPayment.map((item: any) => {
+      // Calculate total amount for the current month
+      const totalAmount = item.payments.filter((item: any) => item.status === "PAID").reduce((sum: number, payment: any) => {
+        if (payment.createdAt && isThisMonth(new Date(payment.createdAt))) {
+          return sum + payment.pricing.amount;
+        }
+        return sum;
+      }, 0);
+    
+      return {
+        ...item,
+        nisn: item.student.nisn,
+        name: item.student.name,
+        amount: new Intl.NumberFormat("id-ID", {
+          style: "currency",
+          currency: "IDR",
+          minimumFractionDigits: 0,
+        }).format(totalAmount), // Use the calculated totalAmount
+        class: item.classroom.name,
+      };
+    });
   
+  // untuk data murid yang sudah lunas
+    fixData = fixData.filter((item) => item.payments.some((item: any) => item.createdAt && isThisMonth(new Date(item.createdAt)) && item.status === "PAID"))
 
   return (
     <DataTable
