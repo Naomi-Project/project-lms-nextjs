@@ -24,7 +24,7 @@ interface Finance {
 const DetailPage = () => {
   const params = useParams();
   const { id } = params;
-  const { data: enrollment } = useGetEnrollmentQuery({
+  const { data: enrollment, loading } = useGetEnrollmentQuery({
     variables: {
       id: id as string
     }, 
@@ -36,7 +36,7 @@ const DetailPage = () => {
     return enrollment?.enrollment.payments?.filter((item) => item.status === "PENDING" || item.status === "FAILED").reduce((total, item) => {
       return total + (item.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
     }, 0);
-  }, []);
+  }, [enrollment]);
 
   const data: Finance = {
     name: enrollment?.enrollment.student?.name ?? "",
@@ -46,7 +46,7 @@ const DetailPage = () => {
       style: "currency",
       currency: "IDR",
       minimumFractionDigits: 0,
-    }).format(akumulateTagihanSpp ?? 0),    
+    }).format(akumulateTagihanSpp ?? 0),
     payMethod: "Manual",
     class: enrollment?.enrollment.classroom?.name ?? "",
     phone: 123,
@@ -80,6 +80,9 @@ const DetailPage = () => {
   ];
   
   if (!paymenttThisMonth)
+    return 'loading..'
+
+  if (!akumulateTagihanSpp && loading)
     return 'loading..'
   
 
@@ -121,7 +124,7 @@ const DetailPage = () => {
         classroomId={enrollment?.enrollment.classroomId ?? ''}
         termId={enrollment?.enrollment.termId ?? ''}
         pricingId={paymenttThisMonth?.pricing?.id ?? ''}
-        tagihan={data.amount.slice(2) ?? 0}
+        tagihan={data?.amount}
         // jatuhTempo={formattedDueDate ?? ''}
         image={user.src}
         data={data}

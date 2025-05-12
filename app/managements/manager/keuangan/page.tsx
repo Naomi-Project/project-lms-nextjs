@@ -1,13 +1,5 @@
 "use client";
-
-
-
-
-
-
-
-
-
+/* eslint-disable */
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React, { useMemo } from "react";
 
@@ -16,29 +8,68 @@ import React, { useMemo } from "react";
 
 import PaymentTable from "./datatableLunas";
 import PaymentTablePending from "./datatableBelumLunas";
-import { useGetEnrollmentsQuery } from "@/graphql/generated";
+import { useGetEnrollmentsQuery, useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";
 
 
 
 export default function ManagerKeuangan() {
   const { data } = useGetEnrollmentsQuery();
-  const studentsPaid = data?.enrollments.filter((item) => item?.payments?.some((item) => item.status === 'PAID'))
-  const studentsNotPaid = data?.enrollments.filter((item) => item?.payments?.some((item) => item.status === 'PENDING'))
+  const { data: payload, loading } = useUserPayloadQuery();
+  const { data: userLoad, loading: userLoading } = useGetUsersQuery()
+  const schoolId = userLoad?.users.find((item) => item.id === payload?.me?.id)
+
+  const enrollmentThisSchool = useMemo(() => {
+    return data?.enrollments.filter((item) => item?.student?.schoolId === schoolId?.schoolId)
+  }, [data?.enrollments, userLoad?.users])
+
+  const enrollmentsThisMonth = useMemo(() => {
+    return enrollmentThisSchool?.map(enrollment => ({
+      ...enrollment,
+      payments: enrollment.payments || [],
+    })) || [];
+  }, [data?.enrollments]);
+  
+  const studentsPaid = useMemo(() => {
+    return enrollmentsThisMonth.filter((item: any) =>
+      item?.payments?.some((payment: any) => payment?.status === 'PAID')
+    );
+  }, [enrollmentsThisMonth]);
+
+  const studentsNotPaid = useMemo(() => {
+    return enrollmentsThisMonth.filter((item: any) =>
+      item?.payments?.find((payment: any) => payment?.status === 'PENDING')
+    );
+  }, [enrollmentsThisMonth]);
   // Hitung total semua SPP yang sudah terbayar bulan ini
   const totalSppSudahTerbayar = useMemo(() => {
-    return studentsPaid?.reduce((total, item) => {
-      const successfulPayment = item.payments?.find((payment) => payment?.status === 'PAID');
-      return total + (successfulPayment?.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
-    }, 0);
+    return studentsPaid?.reduce((total: any, student: any) => {
+      // Hitung semua pembayaran PAID untuk student ini
+      const paidAmount = student.payments?.reduce((studentTotal: any, payment: any) => {
+        return payment.status === 'PAID' 
+          ? studentTotal + (payment.amount || 0) 
+          : studentTotal;
+      }, 0) || 0;
+      
+      return total + paidAmount;
+    }, 0) || 0;
   }, [studentsPaid]);
 
   const totalSppBelumTerbayar = useMemo(() => {
-    return studentsNotPaid?.reduce((total, item) => {
-      const pendingPayment = item.payments?.find((payment) => payment?.status === 'PENDING');
-      return total + (pendingPayment?.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
-    }, 0);
+    return studentsNotPaid?.reduce((total: any, student: any) => {
+      // Hitung total pembayaran pending untuk setiap student
+      const studentPendingPayments = student.payments?.reduce((studentTotal: any, payment: any) => {
+        return payment.status === 'PENDING' 
+          ? studentTotal + (payment.amount || 0) 
+          : studentTotal;
+      }, 0) || 0;
+      
+      return total + studentPendingPayments;
+    }, 0) || 0;
   }, [studentsNotPaid]);
+
   
+  if (loading) return 'loading..'
+  if (userLoading) return 'loading..'
 
   return (
     <div className="min-h-screen">
@@ -49,37 +80,6 @@ export default function ManagerKeuangan() {
           <p className="font-bold text-3xl mt-2">{totalSppSudahTerbayar?.toLocaleString("id-ID")}</p>
 
           <p className="text-sm mt-6">{studentsPaid?.length} Siswa sudah membayar</p>
-          {/* <div className="w-8/12 mt-7">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="col-span-1">
-                <Select defaultValue="januari">
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Filter" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="januari">Januari</SelectItem>
-                    <SelectItem value="februari">Februari</SelectItem>
-                    <SelectItem value="maret">Maret</SelectItem>
-                    <SelectItem value="april">April</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="col-span-1">
-                <Select defaultValue="2024">
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Filter" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="2024">2024</SelectItem>
-                    <SelectItem value="2023">2023</SelectItem>
-                    <SelectItem value="2022">2022</SelectItem>
-                    <SelectItem value="2021">2021</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-          </div> */}
         </div>
 
         <div className="md:mt-0 mt-4 col-span-1 bg-white rounded-lg p-4">

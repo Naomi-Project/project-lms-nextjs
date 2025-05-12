@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { CalendarDays, Wallet } from "lucide-react";
-import { useCreateCheckoutPaymentMutation, useGetEnrollmentsQuery, useGetUsersQuery, useUpdatePaymentMutation, useUserPayloadQuery } from "@/graphql/generated";
+import { useCreateCheckoutPaymentMutation, useGetCheckPaymentQuery, useGetEnrollmentsQuery, useGetUsersQuery, useUpdatePaymentMutation, useUserPayloadQuery } from "@/graphql/generated";
 import {
   Dialog,
   DialogContent,
@@ -30,7 +30,8 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { isThisMonth } from "date-fns";
 import Swal from "sweetalert2";
-
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 export default function StudentProfilePayment() {
     const { data: userPayload } = useUserPayloadQuery();
@@ -38,6 +39,7 @@ export default function StudentProfilePayment() {
     const userFind = allUser?.users.find((item) => item.id === userPayload?.me.id)
     const { data } = useGetEnrollmentsQuery();
     const dataPayment: any[] = data?.enrollments || [];
+    console.log(dataPayment)
     // const paymenttThisMonth = enrollment?.enrollment?.payments?.find((item) => isThisMonth(new Date(parseInt(item.createdAt)))) 
     
     const enrollmentThisUser = dataPayment.filter((item: any) => item.student.nisn === userFind?.nisn)
@@ -81,6 +83,9 @@ export default function StudentProfilePayment() {
     }
 
     const [createCheckoutPayment] = useCreateCheckoutPaymentMutation()
+    const [isPaymentDialogOpen, setIsPaymentDialogOpen] = useState(false);
+    const [paymentUrl, setPaymentUrl] = useState("");
+    const [invoiceNumber, setInvoiceNumber] = useState("");
     const checkoutSpp = async (enrollmentId: string) => {
       try {
         if (checkoutData.length == 0) {
@@ -125,6 +130,12 @@ export default function StudentProfilePayment() {
 
         if (res) {
           console.log(res)
+          
+          Swal.close();
+          // Set URL pembayaran dan buka dialog
+          setPaymentUrl(res.data.createCheckoutPayment.url ?? "");
+          setIsPaymentDialogOpen(true);
+          setInvoiceNumber(res.data.createCheckoutPayment.invoiceNumber ?? "");
 
           const updatePromises = checkoutData.map(paymentId => 
             updateUrlAndInvoicePayment(
@@ -133,29 +144,23 @@ export default function StudentProfilePayment() {
               res?.data?.createCheckoutPayment.invoiceNumber ?? ''
             )
           );
-          
+           
           await Promise.all(updatePromises);
 
-          Swal.fire({
-            title: "Berhasil!",
-            text: "Berhasil membuat invoice pembayaran tagihan, silakan selesaikan pembayaran melalui online payment.",
-            icon: "success",
-            timer: 3000,
-            timerProgressBar: true,
-          }).then((result) => {
-            if (result.isConfirmed || Swal.DismissReason.timer) {
+          // disini saya mau buka dialog confirm pembayaran
+          setTimeout(() => {
               const urlDoku = res.data?.createCheckoutPayment.url
               window.open(urlDoku)
-            }
-          });
+          }, 800);
+
           return
         }
       } catch (e) {
         console.error(e)
         Swal.fire({
           title: "Error!",
-          text: "Gagal membuat pembayaran. Silakan coba lagi.",
           icon: "error",
+          text: "Gagal membuat pembayaran. Silakan coba lagi.",
         });
       }
     }
@@ -183,19 +188,52 @@ export default function StudentProfilePayment() {
       }
     }
 
-    const studentsNotPaid = data?.enrollments.filter((item) => item.studentId === userPayload?.me?.id && item?.payments?.some((item) => item.status === 'PENDING'))
-    const akumulateTagihanSpp = useMemo(() => {
-      return studentsNotPaid?.reduce((total, item) => {
-        const pendingPayment = item.payments?.find((payment) => payment?.status === 'PENDING');
-        return total + (pendingPayment?.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
-      }, 0);
-    }, [studentsNotPaid]);
+    const studentsNotPaid = data?.enrollments.find((item) => item.studentId === userPayload?.me?.id && item?.payments?.some((item) => item.status === 'PENDING'))
+    
+      const akumulateTagihanSpp = useMemo(() => {
+        return studentsNotPaid?.payments?.filter((item) => item.status === "PENDING" || item.status === "FAILED").reduce((total, item) => {
+          return total + (item.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
+        }, 0);
+      }, [studentsNotPaid]);
 
     const handleClickAdmin = () => {
       const nomorAdmin = "6287774487198"
       window.open("https://wa.me/" + nomorAdmin)
     }
 
+    const { data: checkPayment } = useGetCheckPaymentQuery({
+        variables: {
+          data: invoiceNumber
+        }
+    })
+
+    const handleConfirmPayment = async () => {
+      try {
+        // Tampilkan loading
+        Swal.fire({
+          title: "Memeriksa Pembayaran...",
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          }
+        });
+
+        // Tutup loading
+        Swal.close();
+        
+        // Panggil API check payment
+        window.location.href = '/managements/student/profile-payment/payments/' + invoiceNumber
+      } catch (error) {
+        console.error("Error checking payment:", error);
+        Swal.fire({
+          title: "Error",
+          text: "Gagal memverifikasi pembayaran",
+          icon: "error",
+        });
+      }
+    };
+    
+    
   return (
     <div className="min-h-screen">
       <div className="border-2 rounded-lg p-4 mt-6 bg-white">
@@ -203,7 +241,7 @@ export default function StudentProfilePayment() {
           <div className="col-span-1">
             <h1 className="text-base text-slate-400">Tagihan Akumulasi SPP</h1>
 
-            <p className="text-2xl font-bold">Rp. {akumulateTagihanSpp?.toLocaleString("id-ID")}</p>
+            <p className="text-2xl font-bold">Rp. {akumulateTagihanSpp?.toLocaleString("id-ID") ?? 0}</p>
           </div>
 
           {/* <div className="col-span-1 flex justify-end">
@@ -220,7 +258,22 @@ export default function StudentProfilePayment() {
             </div>
           </div> */}
         </div>
-
+        
+        {/* dialog confirm payment gateaway */}
+        <Dialog open={isPaymentDialogOpen} onOpenChange={setIsPaymentDialogOpen}>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Konfirmasi Pembayaran</DialogTitle>
+              <DialogDescription>
+                Pembayaran Online telah dibuat, silakan selesaikan dan klik button konfirmasi ketika sudah menyelesaikan pembayaran.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button type="submit" className="w-full" onClick={() => handleConfirmPayment()}>Konfirmasi Pembayaran</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+        {/* dialog confirm payment gateaway */}
         <div className="flex gap-2 mt-2">
           <div className="">
           <Dialog>
@@ -230,7 +283,7 @@ export default function StudentProfilePayment() {
                 <span>Bayar Tagihan</span>
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="w-[320px] rounded-lg md:w-[425px] h-[400px] md:h-[500px] overflow-y-scroll">
               <DialogHeader>
                 <DialogTitle>Pembayaran Tagihan SPP</DialogTitle>
                 <DialogDescription>
@@ -297,7 +350,7 @@ export default function StudentProfilePayment() {
                   </div>
                 )) : (
                   <div className="w-full text- py-5">
-                    Belum ada riwayat.
+                    Belum ada tagihan.
                   </div>
                 )}
               </div>

@@ -26,9 +26,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useGetClassroomsQuery, useGetEnrollmentsQuery, useGetGradesQuery, useGetPaymentsQuery, useGetSchoolsQuery, useGetUsersQuery } from "@/graphql/generated";
+import { useGetClassroomsQuery, useGetEnrollmentsQuery, useGetGradesQuery, useGetPaymentsQuery, useGetSchoolsQuery, useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";
 import { format, isThisMonth } from "date-fns";
 import { Button } from "@/components/ui/button";
+import { map } from "zod";
 
 const chartConfig = {
   payment: {
@@ -50,61 +51,60 @@ export default function AdminDashboard() {
   const { data } = useGetEnrollmentsQuery();
   const { data: payments } = useGetPaymentsQuery();
   const { data: schools } = useGetSchoolsQuery();
-  // console.log('data payments: ', payments)
-  // widget total guru dan murid
-  const { data: userLoad } = useGetUsersQuery()
-  const student = userLoad?.users.filter((item) => item.role === 'STUDENT') || []
-  const teacher = userLoad?.users.filter((item) => item.role === 'TEACHER') || []
-  console.log("data enrolments: ", data?.enrollments)
+  const { data: payload, loading } = useUserPayloadQuery();
+  const { data: userLoad, loading: userLoading } = useGetUsersQuery()
+  const schoolId = userLoad?.users.find((item) => item.id === payload?.me?.id)
+  const student = userLoad?.users.filter((item) => item.role === 'STUDENT' && item.schoolId === schoolId?.schoolId) || []
+  const teacher = userLoad?.users.filter((item) => item.role === 'TEACHER' && item.schoolId === schoolId?.schoolId) || []  
 
+
+  const enrollmentThisSchool = useMemo(() => {
+    return data?.enrollments.filter((item) => item?.student?.schoolId === schoolId?.schoolId)
+  }, [data?.enrollments, userLoad?.users])
+  
   const enrollmentsThisMonth = useMemo(() => {
-    return data?.enrollments.map(enrollment => ({
+    return enrollmentThisSchool?.map(enrollment => ({
       ...enrollment,
-      payments: enrollment.payments?.filter(payment => payment?.createdAt && isThisMonth(new Date(payment.createdAt))) || [],
+      payments: enrollment.payments || [],
     })) || [];
   }, [data?.enrollments]);
 
   const studentsPaid = useMemo(() => {
-    return enrollmentsThisMonth.filter((item) =>
-      item?.payments?.some((payment) => payment?.status === 'PAID')
+    return enrollmentsThisMonth.filter((item: any) =>
+      item?.payments?.some((payment: any) => payment?.status === 'PAID')
     );
   }, [enrollmentsThisMonth]);
 
   const studentsNotPaid = useMemo(() => {
-    return enrollmentsThisMonth.filter((item) =>
-      item?.payments?.some((payment) => payment?.status === 'PENDING')
+    return enrollmentsThisMonth.filter((item: any) =>
+      item?.payments?.find((payment: any) => payment?.status === 'PENDING')
     );
   }, [enrollmentsThisMonth]);
 
-  // Hitung total semua SPP yang sudah terbayar bulan ini
   const totalSppSudahTerbayar = useMemo(() => {
-    return studentsPaid?.reduce((total, item) => {
-      const successfulPayment = item.payments?.find((payment) => payment?.status === 'PAID');
-      return total + (successfulPayment?.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
-    }, 0);
-  }, [studentsPaid]);
-
-  const monthOptionDatePricing = useMemo(() => {
-    return Array.from(
-      new Set(
-        studentsPaid
-          ?.flatMap((item) =>
-            item.payments
-              ?.filter((payment) => payment?.status === 'PAID')
-              .map((payment) => new Date(payment.createdAt).getMonth().toString())
-          )
-      )
-    )?.map((item) => ({
-      label: item,
-      value: item,
-    }));
+    return studentsPaid?.reduce((total: any, student: any) => {
+      // Hitung semua pembayaran PAID untuk student ini
+      const paidAmount = student.payments?.reduce((studentTotal: any, payment: any) => {
+        return payment.status === 'PAID' 
+          ? studentTotal + (payment.amount || 0) 
+          : studentTotal;
+      }, 0) || 0;
+      
+      return total + paidAmount;
+    }, 0) || 0;
   }, [studentsPaid]);
 
   const totalSppBelumTerbayar = useMemo(() => {
-    return studentsNotPaid?.reduce((total, item) => {
-      const pendingPayment = item.payments?.find((payment) => payment?.status === 'PENDING');
-      return total + (pendingPayment?.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
-    }, 0);
+    return studentsNotPaid?.reduce((total: any, student: any) => {
+      // Hitung total pembayaran pending untuk setiap student
+      const studentPendingPayments = student.payments?.reduce((studentTotal: any, payment: any) => {
+        return payment.status === 'PENDING' 
+          ? studentTotal + (payment.amount || 0) 
+          : studentTotal;
+      }, 0) || 0;
+      
+      return total + studentPendingPayments;
+    }, 0) || 0;
   }, [studentsNotPaid]);
 
   const [selectedSchool, setSelectedSchool] = useState<string | null>(null);
@@ -259,8 +259,11 @@ export default function AdminDashboard() {
 
   // widget total angkatan dan kelas
   const { data: grade } = useGetGradesQuery()
+  const gradeThisSchool = grade?.grades.map((item) => item.classrooms.filter((cls) => cls.school.id === schoolId?.schoolId)).length
   const { data: classrooms } = useGetClassroomsQuery()
 
+  if (loading) return 'loading..'
+  if (userLoading) return 'loading..'
 
   return (
     <div className="min-h-screen overflow-x-hidden">
@@ -394,16 +397,16 @@ export default function AdminDashboard() {
 
         <div className="md:mt-0 mt-4 col-span-1">
           <div className="grid grid-rows-2 gap-4">
-            <div className="row-span-1 bg-white p-2 rounded-lg">
+            <div className="row-span-1 bg-white p-4 rounded-lg">
               <p className="text-base">Total Angkatan</p>
 
-              <p className="font-bold text-3xl mt-2">{grade?.grades.length}</p>
+              <p className="font-bold text-3xl mt-2">{gradeThisSchool ?? 0}</p>
             </div>
 
-            <div className="row-span-1 bg-white p-2 rounded-lg">
+            <div className="row-span-1 bg-white p-4 rounded-lg">
               <p className="text-base">Total Kelas</p>
 
-              <p className="font-bold text-3xl mt-2">{classrooms?.classrooms.length}</p>
+              <p className="font-bold text-3xl mt-2">{classrooms?.classrooms.length ?? 0}</p>
             </div>
           </div>
         </div>

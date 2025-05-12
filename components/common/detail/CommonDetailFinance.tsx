@@ -137,10 +137,8 @@ export function CommonDetail<T extends Record<any, any>>(
           title: "Berhasil!",
           text: `Berhasil membayar ${checkoutData.length} spp siswa/i dengan metode CASH.`,
           icon: "success",
-          timer: 3000,
-          timerProgressBar: true,
         }).then((result) => {
-          if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
+          if (result.isConfirmed || result.dismiss) {
             location.reload();
           }
         });
@@ -199,7 +197,7 @@ export function CommonDetail<T extends Record<any, any>>(
                 Tagihan SPP Bulan Ini
               </h1> */}
 
-              <p className="text-2xl font-bold">Rp. {props.tagihan ?? 'loading..'}</p>
+              <p className="text-2xl font-bold">{props?.tagihan ?? 'Rp 0'}</p>
             </div>
 
             <div className={`col-span-1 flex justify-end mt-2 ${props.payStatus === 'SUCCESS' ? 'hidden' : ''}`}>
@@ -230,7 +228,7 @@ export function CommonDetail<T extends Record<any, any>>(
                   <span>Bayar {props.data.payMethod ?? "Manual"}</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
+              <DialogContent className="w-[320px] rounded-lg md:w-[425px] h-[400px] md:h-[500px] overflow-y-scroll">
                 <DialogHeader>
                   <DialogTitle>Pembayaran Tagihan SPP</DialogTitle>
                   <DialogDescription>

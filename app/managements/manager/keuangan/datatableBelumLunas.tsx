@@ -68,11 +68,9 @@ export default function PaymentTablePending() {
   const dataPayment: unknown[] = data?.enrollments || [];
   var fixData = dataPayment.map((item: any) => {
     // Calculate total amount for the current month
-    const totalAmount = item.payments.reduce((sum: number, payment: any) => {
-      if (payment.createdAt && isThisMonth(new Date(payment.createdAt))) {
-        return sum + payment.pricing.amount;
-      }
-      return sum;
+    console.log(item)
+    const totalAmount = item.payments.filter((item: any) => item.status === "PENDING").reduce((sum: number, payment: any) => {
+      return sum + payment.pricing.amount;  
     }, 0);
   
     return {

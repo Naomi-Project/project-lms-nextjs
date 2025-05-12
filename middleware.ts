@@ -132,6 +132,7 @@ const rolePermissions: Record<string, string[]> = {
   "/managements/student/library": ["STUDENT"],
   "/managements/student/profile": ["STUDENT"],
   "/managements/student/profile-payment": ["STUDENT"],
+  "/managements/student/profile-payment/payments": ["STUDENT"],
   // "/managements/manager/profile/edit": ["STUDENT"],
   "/managements/manager/profile/family-add": ["STUDENT"],
   "/managements/manager/profile-student/edit": ["STUDENT"],
@@ -149,9 +150,16 @@ export async function middleware(req: NextRequest) {
   console.log("👤 User Role:", userRole);
 
   let route = req.nextUrl.pathname;
-  route = route.replace(/\/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$/, "");
-  console.log("🔎 Normalized Route for Checking:", route);
+  const uuidRegex = /\/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$/;
+  const alphanumericIdRegex = /\/([a-zA-Z0-9-]+)$/;
 
+  if (uuidRegex.test(route)) {
+    route = route.replace(uuidRegex, "");
+  } else if (alphanumericIdRegex.test(route) && route.startsWith("/managements/student/profile-payment/payments/")) {
+    route = route.replace(alphanumericIdRegex, "");
+  }
+  console.log("🔎 Normalized Route for Checking:", route);
+  
   const referer = req.headers.get("referer");
   console.log("🔙 Previous Page (Referer):", referer);
 

@@ -71,6 +71,7 @@ query GetUsers {
     address
     phone
     createdAt
+    schoolId
     updatedAt
     classroom {
       id
@@ -392,6 +393,7 @@ query GetEnrollments {
       id
       name
       nisn
+      schoolId
       school {
         id
         name
@@ -401,9 +403,10 @@ query GetEnrollments {
     payments {
       id
       status
+      amount
       method
-      url
       invoice
+      url
       createdAt
       updatedAt
       enrollment {
@@ -1269,6 +1272,11 @@ query GetGrades {
     classrooms {
       id
       name
+      school {
+        id
+        name
+        npsn
+      }
       students {
         id
         name
@@ -1691,7 +1699,30 @@ mutation DeletePricing($data: String!) {
 }
 ### Pricing endregion
 
-
+query GetCheckPayment($data: String!) {
+  checkPayment(invoiceNumber: $data) {
+    id
+    amount
+    invoice
+    method
+    status
+    url
+    enrollment {
+      id
+      student {
+        id
+        name
+      }
+    }
+    pricing {
+      id
+      name
+      amount
+    }
+    createdAt
+    updatedAt
+  }
+}
 
 mutation createCheckoutPayment($data: CreateCheckoutInput!) {
   createCheckoutPayment(data: $data) {

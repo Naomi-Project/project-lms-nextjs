@@ -41,7 +41,7 @@ export default function PaymentTable() {
     },
     {
       accessorKey: "amount",
-      header: "JUMLAH TAGIHAN",
+      header: "TAGIHAN DIBAYAR",
       cell: ({ row }: any) => <span>{row.getValue("amount")}</span>,
     },
     // {
@@ -68,7 +68,7 @@ export default function PaymentTable() {
   const dataPayment: unknown[] = data?.enrollments || [];
   var fixData = dataPayment.map((item: any) => {
       // Calculate total amount for the current month
-      const totalAmount = item.payments.reduce((sum: number, payment: any) => {
+      const totalAmount = item.payments.filter((item: any) => item.status === "PAID").reduce((sum: number, payment: any) => {
         if (payment.createdAt && isThisMonth(new Date(payment.createdAt))) {
           return sum + payment.pricing.amount;
         }
