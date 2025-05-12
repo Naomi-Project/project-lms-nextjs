@@ -49,20 +49,20 @@ export default function PaymentTablePending() {
     //   header: "STATUS TAGIHAN",
     //   cell: ({ row }: any) => <span>{row.original.payment?.status ?? "Tidak Ada Status"}</span>
     // },
-    {
-      accessorKey: "action",
-      header: "ACTION",
-      cell: ({ row }: any) => (
-        <div className="flex gap-3">
-          <ButtonEdit
-            label="Detail Tagihan"
-            hideIcon
-            endpoint="/managements/manager/keuangan/detail/"
-            id={row.original.id}
-          />
-        </div>
-      ),
-    },
+    // {
+    //   accessorKey: "action",
+    //   header: "ACTION",
+    //   cell: ({ row }: any) => (
+    //     <div className="flex gap-3">
+    //       <ButtonEdit
+    //         label="Detail Tagihan"
+    //         hideIcon
+    //         endpoint="/managements/manager/keuangan/detail/"
+    //         id={row.original.id}
+    //       />
+    //     </div>
+    //   ),
+    // },
   ];
   // const paymenttThisMonth = enrollment?.enrollment?.payments?.find((item) => isThisMonth(new Date(parseInt(item.createdAt))))
   const dataPayment: unknown[] = data?.enrollments || [];
