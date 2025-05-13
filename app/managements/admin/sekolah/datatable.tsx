@@ -2,6 +2,7 @@
 /* eslint-disable */
 import { DataTable } from "@/components/common/list/CommonDataTable";
 import ButtonDelete from "@/components/ui/buttonDelete";
+import ButtonDetail from "@/components/ui/buttonDetail";
 import ButtonEdit from "@/components/ui/buttonEdit";
 import { useDeleteSchoolMutation, useDeleteUserMutation, useGetSchoolsQuery, useGetUsersQuery } from "@/graphql/generated";
 import { format } from "date-fns";
@@ -48,6 +49,7 @@ export default function SchoolTable() {
         accessorKey: "action",
         header: "ACTION",
         cell: ({ row }: any) => <div className="flex gap-3">
+         <ButtonDetail endpoint="/managements/admin/sekolah/detail/" label="Detail Sekolah" customClass="bg-slate-100 text-blue-600 shadow-none hover:text-white" hideIcon id={row.original.id} />
          <ButtonEdit endpoint="/managements/admin/sekolah/edit/" id={row.original.id} />
          <ButtonDelete mutation={deleteSchool} loading={loading} id={row.original.id} />
         </div>,

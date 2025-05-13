@@ -1672,7 +1672,7 @@ export type GetClassroomQuery = { __typename?: 'Query', classroom: { __typename?
 export type GetClassroomsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetClassroomsQuery = { __typename?: 'Query', classrooms: Array<{ __typename?: 'Classroom', id: string, name: string, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, classroomId: string, subjectId: string, subject?: { __typename?: 'Subject', id: string, name: string } | null }>, students: Array<{ __typename?: 'User', id: string, name?: string | null, nisn?: string | null, classroom?: { __typename?: 'Classroom', id: string, name: string, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, subjectId: string, subject?: { __typename?: 'Subject', id: string, name: string } | null }> } | null, school?: { __typename?: 'School', id: string, name: string, npsn: string } | null }> }> };
+export type GetClassroomsQuery = { __typename?: 'Query', classrooms: Array<{ __typename?: 'Classroom', id: string, name: string, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, school: { __typename?: 'School', id: string, name: string, npsn: string }, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, classroomId: string, subjectId: string, subject?: { __typename?: 'Subject', id: string, name: string } | null }>, students: Array<{ __typename?: 'User', id: string, name?: string | null, nisn?: string | null, classroom?: { __typename?: 'Classroom', id: string, name: string, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, subjectId: string, subject?: { __typename?: 'Subject', id: string, name: string } | null }> } | null }> }> };
 
 export type CreateClassroomMutationVariables = Exact<{
   data: CreateClassroomInput;
@@ -5335,6 +5335,11 @@ export const GetClassroomsDocument = gql`
       name
       nuptk
     }
+    school {
+      id
+      name
+      npsn
+    }
     schedules {
       id
       day
@@ -5361,11 +5366,6 @@ export const GetClassroomsDocument = gql`
             name
           }
         }
-      }
-      school {
-        id
-        name
-        npsn
       }
     }
   }

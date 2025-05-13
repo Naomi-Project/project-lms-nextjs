@@ -39,6 +39,9 @@ export default function LoginPage() {
     try {
       setIsError(false);
       let response;
+
+      if (role === 'manager' && !username.includes('staff')) return setIsError(true)
+      if (role === 'admin' && !username.includes('admin')) return setIsError(true)
   
       if (role === "manager" || role === "admin") {
         response = await login({

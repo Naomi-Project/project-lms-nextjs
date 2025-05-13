@@ -1367,6 +1367,11 @@ query GetClassrooms {
       name
       nuptk
     }
+    school {
+      id
+      name
+      npsn
+    }
     schedules {
       id
       day
@@ -1393,11 +1398,6 @@ query GetClassrooms {
             name
           }
         }
-      }
-      school {
-        id
-        name
-        npsn
       }
     }
   }

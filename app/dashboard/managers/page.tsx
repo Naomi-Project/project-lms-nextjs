@@ -48,9 +48,8 @@ const chartConfig = {
 
 export default function AdminDashboard() {
   // widget tagihan spp
-  const { data } = useGetEnrollmentsQuery();
-  const { data: payments } = useGetPaymentsQuery();
   const { data: schools } = useGetSchoolsQuery();
+  const { data, loading: enrolLoading } = useGetEnrollmentsQuery();
   const { data: payload, loading } = useUserPayloadQuery();
   const { data: userLoad, loading: userLoading } = useGetUsersQuery()
   const schoolId = userLoad?.users.find((item) => item.id === payload?.me?.id)
@@ -59,8 +58,8 @@ export default function AdminDashboard() {
 
 
   const enrollmentThisSchool = useMemo(() => {
-    return data?.enrollments.filter((item) => item?.student?.schoolId === schoolId?.schoolId)
-  }, [data?.enrollments, userLoad?.users])
+    return data?.enrollments.filter((item) => item?.student?.schoolId === (schoolId?.schoolId ?? ''))
+  }, [data?.enrollments, schoolId])
   
   const enrollmentsThisMonth = useMemo(() => {
     return enrollmentThisSchool?.map(enrollment => ({
@@ -262,8 +261,12 @@ export default function AdminDashboard() {
   const gradeThisSchool = grade?.grades.map((item) => item.classrooms.filter((cls) => cls.school.id === schoolId?.schoolId)).length
   const { data: classrooms } = useGetClassroomsQuery()
 
+  //total kelas
+  const classroomLength = classrooms?.classrooms.filter((item) => item.school.id === schoolId?.schoolId).length ?? 0
+
   if (loading) return 'loading..'
   if (userLoading) return 'loading..'
+  if (enrolLoading) return 'loading..'
 
   return (
     <div className="min-h-screen overflow-x-hidden">
@@ -406,7 +409,7 @@ export default function AdminDashboard() {
             <div className="row-span-1 bg-white p-4 rounded-lg">
               <p className="text-base">Total Kelas</p>
 
-              <p className="font-bold text-3xl mt-2">{classrooms?.classrooms.length ?? 0}</p>
+              <p className="font-bold text-3xl mt-2">{classroomLength ?? 0}</p>
             </div>
           </div>
         </div>
