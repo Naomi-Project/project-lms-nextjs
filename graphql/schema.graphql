@@ -1449,7 +1449,8 @@ query GetAnnouncement($data: String!) {
     id
     title
     content
-    target
+    schoolIds
+    targets
     createdAt
     updatedAt
   }
@@ -1460,7 +1461,8 @@ query GetAnnouncements {
     id
     title
     content
-    target
+    schoolIds
+    targets
     createdAt
     updatedAt
   }
@@ -1471,7 +1473,8 @@ mutation CreateAnnouncement($data: CreateAnnouncementInput!) {
     id
     title
     content
-    target
+    schoolIds
+    targets
     createdAt
     updatedAt
   }
@@ -1482,7 +1485,7 @@ mutation UpdateAnnouncement($data: UpdateAnnouncementInput!) {
     id
     title
     content
-    target
+    targets
     createdAt
     updatedAt
   }
@@ -1493,7 +1496,7 @@ mutation DeleteAnnouncement($data: String!) {
     id
     title
     content
-    target
+    targets
     createdAt
     updatedAt
   }

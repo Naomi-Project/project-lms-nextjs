@@ -1,5 +1,5 @@
+import ButtonAdd from "@/components/ui/buttonAdd";
 import AnnouncementTable from "./datatable";
-
 
 export default function AdminPengumuman() {
   return (
@@ -7,7 +7,7 @@ export default function AdminPengumuman() {
       <div className="bg-white rounded-lg p-5">
         <div className="md:flex justify-between items-center">
           <div>
-            {/* <ButtonAdd label="Buat Pengumuman" endpoint="/managements/manager/pengumuman/create" /> */}
+            <ButtonAdd label="Buat Pengumuman" endpoint="/managements/admin/pengumuman/create" />
           </div>
 
           {/* <div className="md:mt-0 mt-2 grid grid-cols-3 gap-4">

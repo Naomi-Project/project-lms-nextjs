@@ -10,7 +10,7 @@ const CreatePage = () => {
   const [dataMutationDefault, setDataMutationDefault] = useState({
     title: "",
     content: "",
-    target: "",
+    targets: "",
   });
   const [createAnnouncement] = useCreateAnnouncementMutation();
   return (

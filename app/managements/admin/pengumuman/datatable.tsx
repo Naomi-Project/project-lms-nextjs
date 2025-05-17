@@ -4,14 +4,15 @@ import { DataTable } from "@/components/common/list/CommonDataTable";
 import header from "@/components/header";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
-import { useDeleteAnnouncementMutation, useGetAnnouncementsQuery } from "@/graphql/generated";
+import { useDeleteAnnouncementMutation, useGetAnnouncementsQuery, useGetSchoolsQuery } from "@/graphql/generated";
 import { format } from "date-fns";
 
 type Pengumuman = {
     id: string;
     title: string;
     content: string;
-    target: string;
+    targets: string;
+    cabangs: string[];
     createdAt: string;
     updatedAt: string;
   };
@@ -19,6 +20,7 @@ type Pengumuman = {
   
   export default function AnnouncementTable() {
     const { data } = useGetAnnouncementsQuery();
+    const { data: schools } = useGetSchoolsQuery();
     const truncateText = (text: string, wordLimit: number = 10) => {
       if (!text) return "";
       const words = text.split(" ");
@@ -51,9 +53,14 @@ type Pengumuman = {
         ),
       },
       {
-        accessorKey: "target",
+        accessorKey: "targets",
         header: "TARGET",
-        cell: ({ row }: any) => <span>{row.getValue("target")}</span>,
+        cell: ({ row }: any) => <span>{row.getValue("targets")}</span>,
+      },
+      {
+        accessorKey: "cabangs",
+        header: "CABANG",
+        cell: ({ row }: any) => <span>{row.getValue("cabangs") ?? 'Semua Cabang'}</span>,
       },
       {
         accessorKey: "createdAt",
@@ -65,9 +72,26 @@ type Pengumuman = {
         header: "UPDATED AT",
         cell: ({ row }: any) => <span>{format(row.getValue("updatedAt"), 'yyyy-MM-dd')}</span>,
       },
+      {
+        accessorKey: "action",
+        header: "ACTION",
+        cell: ({ row }: any) => <div className="flex gap-3">
+         <ButtonEdit endpoint="/managements/manager/pengumuman/edit/" id={row.original.id} />
+         <ButtonDelete mutation={deleteAnnouncement} loading={loading} id={row.original.id} />
+        </div>,
+      },
     ];
 
-    const dataPengumuman: any[] = data?.announcements || [];
+  const dataSchools = schools?.schools || []
+  const dataPengumuman: any[] = data?.announcements.map((item) => {
+    return {
+      ...item,
+      cabangs: item?.schoolIds && item?.schoolIds?.length > 0 ? item?.schoolIds?.map((itemSchool, i) => {
+        const findSchool = dataSchools.find((sc) => sc.id === itemSchool)?.name ?? "-"
+        return findSchool ?? 'semua'
+      }) : 'Semua Cabang'
+    }
+  }) || [];
 
   return (
     <DataTable

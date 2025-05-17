@@ -68,6 +68,7 @@ export interface CommonFormAddProps<T extends Record<any, any>> {
   method: string;
   isCreateClass?: boolean | undefined;
   isCreateAssignment?: boolean | undefined;
+  isCreateAnnouncementDynamic?: boolean | undefined;
   isRelation?: boolean | undefined;
   relation1?: string | undefined;
   valuerRelation1?: string | undefined;
@@ -181,7 +182,28 @@ export function CommonFormAdd<T extends Record<any, any>>(
 
       return
     }
-
+    
+    if (props.isCreateAnnouncementDynamic == true) {
+      console.log(values.schoolIds.includes('ALL_CABANG'))
+      if (values.schoolIds[0] === 'ALL_CABANG' && values.schoolIds.length == 1) {
+        const newValues = {...values, schoolIds: []}
+        executeMutation(newValues)
+      } else if (values.schoolIds.includes('ALL_CABANG') && values.schoolIds.length > 1) {
+        Swal.fire({
+          title: "Gagal !",
+          text: "Jika memilih semua cabang, jangan memilih cabang yang lain.",
+          icon: "warning",
+          timer: 2000,
+          timerProgressBar: true,
+        }).then((result) => {
+          if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
+            location.reload()
+          }
+        });
+      }
+      return
+    }
+    
     // kondisi ini dipake jika datamutation default itu isinya sama dengan values
     if (props.isUseDefaultMutation == true) {
       executeMutation(values)

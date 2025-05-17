@@ -29,15 +29,22 @@ export type Announcement = {
   content: Scalars['String']['output'];
   createdAt?: Maybe<Scalars['Timestamp']['output']>;
   id: Scalars['ID']['output'];
-  target: AnnouncementTarget;
+  /** School IDs for announcement: if target includes 'SCHOOL', schoolIds is required, otherwise it will be ignored */
+  schoolIds?: Maybe<Array<Scalars['String']['output']>>;
+  /** Targets for announcement: at least one target is required. Valid targets: SCHOOL, STUDENT, TEACHER, PRINCIPAL, STAFF, ALL */
+  targets: Array<AnnouncementTarget>;
   title: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['Timestamp']['output']>;
 };
 
+/** Target for announcement */
 export enum AnnouncementTarget {
   All = 'ALL',
+  Principal = 'PRINCIPAL',
+  School = 'SCHOOL',
   Staff = 'STAFF',
-  Student = 'STUDENT'
+  Student = 'STUDENT',
+  Teacher = 'TEACHER'
 }
 
 export type Assignment = {
@@ -112,7 +119,10 @@ export type Classroom = {
 
 export type CreateAnnouncementInput = {
   content: Scalars['String']['input'];
-  target: AnnouncementTarget;
+  /** School IDs for announcement: if target includes 'SCHOOL', schoolIds is required, otherwise it will be ignored */
+  schoolIds?: InputMaybe<Array<Scalars['String']['input']>>;
+  /** Targets for announcement: at least one target is required. Valid targets: SCHOOL, STUDENT, TEACHER, PRINCIPAL, STAFF, ALL */
+  targets: Array<Scalars['String']['input']>;
   title: Scalars['String']['input'];
 };
 
@@ -768,6 +778,12 @@ export type QueryAnnouncementArgs = {
 };
 
 
+export type QueryAnnouncementsArgs = {
+  schoolIds?: InputMaybe<Array<Scalars['String']['input']>>;
+  targets?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+
 export type QueryAssignmentArgs = {
   id: Scalars['String']['input'];
 };
@@ -993,7 +1009,10 @@ export type Term = {
 export type UpdateAnnouncementInput = {
   content?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['ID']['input'];
-  target?: InputMaybe<AnnouncementTarget>;
+  /** School IDs for announcement: if target includes 'SCHOOL', schoolIds is required, otherwise it will be ignored */
+  schoolIds?: InputMaybe<Array<Scalars['String']['input']>>;
+  /** Targets for announcement: at least one target is required. Valid targets: SCHOOL, STUDENT, TEACHER, PRINCIPAL, STAFF, ALL */
+  targets?: InputMaybe<Array<Scalars['String']['input']>>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -1700,33 +1719,33 @@ export type GetAnnouncementQueryVariables = Exact<{
 }>;
 
 
-export type GetAnnouncementQuery = { __typename?: 'Query', announcement: { __typename?: 'Announcement', id: string, title: string, content: string, target: AnnouncementTarget, createdAt?: any | null, updatedAt?: any | null } };
+export type GetAnnouncementQuery = { __typename?: 'Query', announcement: { __typename?: 'Announcement', id: string, title: string, content: string, schoolIds?: Array<string> | null, targets: Array<AnnouncementTarget>, createdAt?: any | null, updatedAt?: any | null } };
 
 export type GetAnnouncementsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAnnouncementsQuery = { __typename?: 'Query', announcements: Array<{ __typename?: 'Announcement', id: string, title: string, content: string, target: AnnouncementTarget, createdAt?: any | null, updatedAt?: any | null }> };
+export type GetAnnouncementsQuery = { __typename?: 'Query', announcements: Array<{ __typename?: 'Announcement', id: string, title: string, content: string, schoolIds?: Array<string> | null, targets: Array<AnnouncementTarget>, createdAt?: any | null, updatedAt?: any | null }> };
 
 export type CreateAnnouncementMutationVariables = Exact<{
   data: CreateAnnouncementInput;
 }>;
 
 
-export type CreateAnnouncementMutation = { __typename?: 'Mutation', createAnnouncement: { __typename?: 'Announcement', id: string, title: string, content: string, target: AnnouncementTarget, createdAt?: any | null, updatedAt?: any | null } };
+export type CreateAnnouncementMutation = { __typename?: 'Mutation', createAnnouncement: { __typename?: 'Announcement', id: string, title: string, content: string, schoolIds?: Array<string> | null, targets: Array<AnnouncementTarget>, createdAt?: any | null, updatedAt?: any | null } };
 
 export type UpdateAnnouncementMutationVariables = Exact<{
   data: UpdateAnnouncementInput;
 }>;
 
 
-export type UpdateAnnouncementMutation = { __typename?: 'Mutation', updateAnnouncement: { __typename?: 'Announcement', id: string, title: string, content: string, target: AnnouncementTarget, createdAt?: any | null, updatedAt?: any | null } };
+export type UpdateAnnouncementMutation = { __typename?: 'Mutation', updateAnnouncement: { __typename?: 'Announcement', id: string, title: string, content: string, targets: Array<AnnouncementTarget>, createdAt?: any | null, updatedAt?: any | null } };
 
 export type DeleteAnnouncementMutationVariables = Exact<{
   data: Scalars['String']['input'];
 }>;
 
 
-export type DeleteAnnouncementMutation = { __typename?: 'Mutation', deleteAnnouncement: { __typename?: 'Announcement', id: string, title: string, content: string, target: AnnouncementTarget, createdAt?: any | null, updatedAt?: any | null } };
+export type DeleteAnnouncementMutation = { __typename?: 'Mutation', deleteAnnouncement: { __typename?: 'Announcement', id: string, title: string, content: string, targets: Array<AnnouncementTarget>, createdAt?: any | null, updatedAt?: any | null } };
 
 export type GetReferenceQueryVariables = Exact<{
   data: Scalars['String']['input'];
@@ -5529,7 +5548,8 @@ export const GetAnnouncementDocument = gql`
     id
     title
     content
-    target
+    schoolIds
+    targets
     createdAt
     updatedAt
   }
@@ -5574,7 +5594,8 @@ export const GetAnnouncementsDocument = gql`
     id
     title
     content
-    target
+    schoolIds
+    targets
     createdAt
     updatedAt
   }
@@ -5618,7 +5639,8 @@ export const CreateAnnouncementDocument = gql`
     id
     title
     content
-    target
+    schoolIds
+    targets
     createdAt
     updatedAt
   }
@@ -5656,7 +5678,7 @@ export const UpdateAnnouncementDocument = gql`
     id
     title
     content
-    target
+    targets
     createdAt
     updatedAt
   }
@@ -5694,7 +5716,7 @@ export const DeleteAnnouncementDocument = gql`
     id
     title
     content
-    target
+    targets
     createdAt
     updatedAt
   }
