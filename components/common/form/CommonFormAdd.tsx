@@ -201,6 +201,7 @@ export function CommonFormAdd<T extends Record<any, any>>(
           }
         });
       }
+      executeMutation(values)
       return
     }
     
