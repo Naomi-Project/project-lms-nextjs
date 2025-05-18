@@ -2,10 +2,6 @@
 /* eslint-disable */
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React, { useMemo } from "react";
-
-
-
-
 import PaymentTable from "./datatableLunas";
 import PaymentTablePending from "./datatableBelumLunas";
 import { useGetEnrollmentsQuery, useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";

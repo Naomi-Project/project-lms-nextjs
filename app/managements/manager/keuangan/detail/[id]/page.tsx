@@ -99,7 +99,6 @@ const DetailPage = () => {
     }).format(item.pricing?.amount ?? 0),
   }));
 
-  console.log(enrollment?.enrollment?.payments)
   const invoicesPaid = enrollment?.enrollment?.payments?.filter((item: any) => (item.updatedAt && isThisMonth(new Date(parseInt(item.updatedAt))) && item.status === 'PAID')).map((item: any) => ({
     ...item,
     invoice: item.invoice,

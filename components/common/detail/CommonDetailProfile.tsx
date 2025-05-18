@@ -9,6 +9,17 @@ import { getValueByPath } from "@/lib/getter";
 import { MoveLeft, Pencil, School } from "lucide-react";
 import Image from "next/image";
 import Swal from "sweetalert2";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useState } from "react";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface CommonSectionField<T extends Record<any, any>> {
     key: keyof T & string;
@@ -36,45 +47,70 @@ export interface CommonDetailPageProps<T extends Record<any, any>> {
     sections: CommonDetailSection<T>[];
 }
 
+interface CheckoutItem {
+  classroomId: string;
+}
+
 export function CommonDetailPage<T extends Record<any, any>>(
     props: CommonDetailPageProps<T>
 ) {
     const [deleteFamily] = useDeleteFamilyMutation()
     const [updateEnrollment] = useUpdateEnrollmentMutation()
-    // console.log(props.data)
-
+    
     const pindahKelas = async () => {
+        if (!selectedClassroomId) {
+            Swal.fire({
+            title: "Peringatan!",
+            text: "Silakan pilih kelas tujuan terlebih dahulu",
+            icon: "warning",
+            });
+            return;
+        }
+
         try {
             const res = await updateEnrollment({
-                variables: {
-                    data: {
-                        id: props?.enrollment_id?.toString() ?? '',
-                        classroomId: props.data.classroom_id,
-                        studentId: props.data.id,
-                        termId: props.data.term_id
-                    }
+            variables: {
+                data: {
+                id: props?.data?.enrollment_id?.toString() ?? '',
+                classroomId: selectedClassroomId, // Gunakan selectedClassroomId
+                studentId: props.data.id,
+                termId: props.data.term_id
                 }
-            })
-
-            // const resNewClass = res?.data?.updateEnrollment;
+            }
+            });
 
             if (res) {
-                Swal.fire({
-                    title: "Berhasil!",
-                    text: "Anda Telah pindah ke kelas!",
-                    icon: "success",
-                    timer: 2000,
-                    timerProgressBar: true,
-                }).then((result) => {
-                    if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
-                    history.back(); 
-                    }
-                });
+            Swal.fire({
+                title: "Berhasil!",
+                text: "Anda Telah pindah ke kelas!",
+                icon: "success",
+                timer: 2000,
+                timerProgressBar: true,
+            }).then((result) => {
+                if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
+                location.reload()
+                }
+            });
             }
         } catch (e) {
             console.error(e)
+            Swal.fire({
+            title: "Error!",
+            text: "Terjadi kesalahan saat memproses permintaan",
+            icon: "error",
+            });
         }
-    }
+        }
+
+    const [selectedClassroomId, setSelectedClassroomId] = useState<string>("");
+    const handleClassroomSelect = (clsId: string) => {
+        setSelectedClassroomId(clsId === selectedClassroomId ? "" : clsId);
+    };
+
+    const isChecked = (clsId: string) => {
+        return clsId === selectedClassroomId;
+    };
+    
     return (
         <>
             <Toggle
@@ -115,7 +151,49 @@ export function CommonDetailPage<T extends Record<any, any>>(
                 <div className="md:absolute right-10 gap-3 px-4 flex flex-wrap">
                     {
                         props.jobdesk === 'Murid' ? (
-                            <Button className="bg-orange-500 hover:bg-orange-600 shadow-none text-white" onClick={() => pindahKelas()}><MoveLeft /> Pindah Kelas</Button>
+                                <Dialog>
+                                    <DialogTrigger asChild>
+                                        <Button className="bg-orange-500 hover:bg-orange-600 shadow-none text-white"><MoveLeft /> Pindah Kelas</Button>
+                                    </DialogTrigger>
+                                    <DialogContent className="w-[320px] rounded-lg md:w-[425px] h-[400px] md:h-[500px] overflow-y-scroll">
+                                    <DialogHeader>
+                                        <DialogTitle>Pindah Kelas</DialogTitle>
+                                        <DialogDescription>
+                                        Silakan Pilih kelas yang dituju
+                                        </DialogDescription>
+                                    </DialogHeader>
+                                    <div className="flex flex-col gap-4 py-4">
+                                        {props.data.classrooms.length > 0 ? props.data.classrooms.map((sc: any, index: number) => (
+                                            <div className=" border py-5 px-3 rounded-md border-gray-300 flex items-start space-x-2" key={index}>
+                                                <Checkbox 
+                                                id={`class-${sc.id}`}
+                                                checked={isChecked(sc.id)}
+                                                onCheckedChange={() => handleClassroomSelect(sc.id)}
+                                                />
+                                                <div className="flex flex-col gap-1">
+                                                <label
+                                                    htmlFor="terms"
+                                                    className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                                >
+                                                    {sc.name}
+                                                </label>
+                                                <label className="text-sm text-gray-500">
+                                                    Terdapat {sc.students.length} Siswa/i
+                                                </label>
+                        
+                                                </div>
+                                            </div>
+                                        )) : (
+                                            <div className="w-full text- py-5">
+                                            Belum ada tagihan.
+                                            </div>
+                                        )}
+                                    </div>
+                                    <DialogFooter>
+                                        <Button type="button" onClick={() => pindahKelas()} className="w-full">Continue</Button>
+                                    </DialogFooter>
+                                    </DialogContent>
+                                </Dialog>
                         ) : ''
                     }
                     <Button className="bg-blue-500 shadow-none text-white" onClick={() => window.location.href = props.epEdit ?? ''}><Pencil /> Edit</Button>
