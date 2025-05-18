@@ -89,6 +89,9 @@ const FormHelpersEdit = () => {
             type: "select",
             dataSelect: dataSchool,
             emptyValue: "-",
+            disabled: true,
+            hidden: true,
+            class: "hidden",
             placeholder: "Pilih sekolah..",
           },
           {
@@ -96,6 +99,7 @@ const FormHelpersEdit = () => {
             label: "Kurikulum",
             type: "select",
             dataSelect: dataCurriculum,
+            class: "mt-2",
             emptyValue: "-",
             placeholder: "Pilih kurikulum untuk semester..",
           },
