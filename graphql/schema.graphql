@@ -1410,6 +1410,9 @@ mutation CreateClassroom($data: CreateClassroomInput!) {
     guardian {
       id
     }
+    school {
+      id
+    }
     students {
       id
     }

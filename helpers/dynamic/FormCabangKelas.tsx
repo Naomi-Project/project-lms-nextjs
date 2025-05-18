@@ -10,6 +10,7 @@ import {
   useGetGradesQuery,
   useGetPricingsQuery,
   useGetSchoolsQuery,
+  useGetUserQuery,
   useGetUsersQuery,
   useUserPayloadQuery,
 } from "@/graphql/generated";
@@ -23,7 +24,7 @@ const cabangKelasSchema = z.object({
   termId: z.string().min(1, "Wali wajib diisi"),
   pricingId: z.string().min(1, "Tagihan/SPP wajib dipilih"),
   students: z.array(z.string()).min(1, "Minimal pilih satu siswa"), 
-  // schedules: z.string().min(1, "Nama wali wajib diisi"),
+  schoolId: z.string().min(1, "Sekolah user wajib dipilih"),
 });
 
 interface Form {
@@ -33,7 +34,7 @@ interface Form {
   pricingId: string;
   students: string[];
   name: string;
-  // schedules: string
+  schoolId: string
 }
 
 interface dataSelectTypes {
@@ -47,6 +48,12 @@ const FormHelpersAdd = () => {
   const { data: school } = useGetSchoolsQuery()
   const { data: thirdData } = useGetPricingsQuery()
   const { data: user, loading } = useUserPayloadQuery(); 
+  const { data: findUser, loading: loadFindUser } = useGetUserQuery({
+    variables: {
+      data: user?.me.id ?? ''
+    }, 
+    skip: !user?.me.id
+  })
   const dataGrades: dataSelectTypes[] = firstData?.grades.map((grade) => ({
     label: grade.name,
     value: grade.id,
@@ -95,6 +102,7 @@ const FormHelpersAdd = () => {
       value: termItem.id,     // Ambil ID dari term
     }))
   ) || []
+  const thisSchool = school?.schools.find((item) => item.users.find((us) => us.id === user?.me.id))?.id ?? ''
 
   const sections: CommonFormAddSection<Form>[] = [
     {
@@ -155,6 +163,14 @@ const FormHelpersAdd = () => {
             emptyValue: "-",
             placeholder: "Pilih Tagihan..",
           },
+          {
+            key: "schoolId",
+            label: "Sekolah id",
+            emptyValue: "-",
+            hidden: true,
+            disabled: true,
+            placeholder: "Pilih Sekolah untuk pengguna ini..",
+          },
         ]
       ],
     },
@@ -169,9 +185,11 @@ const FormHelpersAdd = () => {
     pricingId: "",
     name: "",
     students: [],
-    // enrollments: "",
+    // schoolId: '',
     // scheduls: "",
   });
+  if (loadFindUser) return 'loading..'
+  const fixData = {...dataMutationDefault, schoolId: findUser?.user?.school?.id}
   return (
     <CommonFormAdd
       lable="Cabang Kelas"
@@ -180,7 +198,7 @@ const FormHelpersAdd = () => {
       isCreateClass={true}
       isUseDefaultMutation={true}
       mutation={createClassroom}
-      dataMutation={dataMutationDefault}
+      dataMutation={fixData}
       setDataMutation={setDataMutationDefault}
       schema={cabangKelasSchema}
       sections={sections}

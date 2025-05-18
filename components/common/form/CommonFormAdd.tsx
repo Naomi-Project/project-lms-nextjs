@@ -236,6 +236,7 @@ export function CommonFormAdd<T extends Record<any, any>>(
             name: values.name,
             gradeId: values.gradeId,
             guardianId: values.guardianId,
+            schoolId: values.schoolId,
           },
         },
       });
@@ -291,10 +292,8 @@ export function CommonFormAdd<T extends Record<any, any>>(
         title: "Gagal Membuat kelas",
         text: err.message,
         icon: "error",
-        timer: 2500,
-        timerProgressBar: true,
       }).then((result) => {
-        if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
+        if (result.isConfirmed) {
           location.reload()
         }
       });
@@ -362,6 +361,15 @@ export function CommonFormAdd<T extends Record<any, any>>(
     } catch (err) {
       setIsSubmit(false)
       console.error("Error creating data:", err);
+      Swal.fire({
+        title: "Gagal!",
+        text: "Data tidak berhasil dibuat, coba lagi nanti!",
+        icon: "success",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          location.reload()
+        }
+      });
     }
   };
 
