@@ -135,6 +135,12 @@ export default function LoginPage() {
                       type="password"
                       placeholder="Enter your password"
                       value={password}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          handleLogin(e);
+                        }
+                      }}
                       onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
@@ -156,6 +162,12 @@ export default function LoginPage() {
                       type="password"
                       placeholder="Enter your password"
                       value={password}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          handleLogin(e);
+                        }
+                      }}
                       onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
