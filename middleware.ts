@@ -55,6 +55,7 @@ const rolePermissions: Record<string, string[]> = {
   "/managements/manager/class/induk/create": ["ADMIN", "PRINCIPAL", "STAFF"], 
   "/managements/manager/class/cabang/create": ["ADMIN", "PRINCIPAL", "STAFF"], 
   "/managements/manager/class/cabang/edit": ["ADMIN", "PRINCIPAL", "STAFF"], 
+  "/managements/manager/wablast": ["ADMIN", "PRINCIPAL", "STAFF"], 
   "/managements/manager/mata-pelajaran": ["ADMIN", "PRINCIPAL", "STAFF"], 
   "/managements/manager/mata-pelajaran/create": ["ADMIN", "PRINCIPAL", "STAFF"], 
   "/managements/manager/mata-pelajaran/edit": ["ADMIN", "PRINCIPAL", "STAFF"], 

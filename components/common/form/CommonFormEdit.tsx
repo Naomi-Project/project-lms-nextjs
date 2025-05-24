@@ -130,9 +130,6 @@ export function CommonFormEdit<T extends Record<any, any>>(
     });
   };
 
-  const [updateEnrollment] = useUpdateEnrollmentMutation();
-  // const { data: enrollmentGet } = useGetEnrollmentsQuery()
-    const [createEnrollment] = useCreateEnrollmentMutation();
   const updateClass = async (dataMut: any) => {
     const cleanData = {
       id: dataMut.id,

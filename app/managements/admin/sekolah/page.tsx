@@ -1,6 +1,7 @@
 import ButtonAdd from "@/components/ui/buttonAdd";
 import { Tabs, TabsList } from "@/components/ui/tabs";
 import SchoolTable from "./datatable";
+import ButtonExport from "@/components/ui/buttonExport";
 
 
 export default function SekolahPage() {
@@ -10,7 +11,10 @@ export default function SekolahPage() {
         <Tabs defaultValue="aktif" className="w-full">
           <TabsList className="w-full flex justify-between bg-white">
             {/* direct to page */}
-            <ButtonAdd endpoint="/managements/admin/sekolah/create" />
+            <div className="flex gap-4">
+              <ButtonAdd endpoint="/managements/admin/sekolah/create" />
+              <ButtonExport label="Export Data Sekolah" className="bg-orange-500 hover:bg-orange-600" endpoint="/api/export-sekolah-all" />
+            </div>
             {/* direct to page */}
             <div className="grid grid-cols-1 md:gap-4">
               <div className="col-span-1 ml-1">

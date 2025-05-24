@@ -8,16 +8,16 @@ import React, { useMemo } from "react";
 
 import PaymentTable from "./datatableLunas";
 import PaymentTablePending from "./datatableBelumLunas";
-import { useGetEnrollmentsQuery, useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";
+import { useGetEnrollmentsQuery, useGetPaymentsQuery, useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";
 
 
 
 export default function ManagerKeuangan() {
   const { data } = useGetEnrollmentsQuery();
   const { data: payload, loading } = useUserPayloadQuery();
+  const { data: paymentsData } = useGetPaymentsQuery();
   const { data: userLoad, loading: userLoading } = useGetUsersQuery()
   const schoolId = userLoad?.users.find((item) => item.id === payload?.me?.id)
-
   const enrollmentThisSchool = useMemo(() => {
     return data?.enrollments.filter((item) => item?.student?.schoolId === schoolId?.schoolId)
   }, [data?.enrollments, userLoad?.users])

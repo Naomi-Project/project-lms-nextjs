@@ -30,6 +30,7 @@ import { useGetClassroomsQuery, useGetEnrollmentsQuery, useGetGradesQuery, useGe
 import { format, isThisMonth } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { map } from "zod";
+import ButtonExport from "@/components/ui/buttonExport";
 
 const chartConfig = {
   payment: {
@@ -270,7 +271,9 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen overflow-x-hidden">
-
+      <div>
+        <ButtonExport label="Export Ringkasan Data" endpoint="/api/export-sekolah" idSchool={schoolId?.schoolId ?? ''} className="bg-slate-200 text-blue-600 shadow-none hover:text-white w-full" />
+      </div>
       <div className="md:grid grid-cols-2 gap-4 mt-6">
         <div className="col-span-1 bg-white rounded-lg p-4">
           <p className="text-base text-slate-400">Pemasukan</p>

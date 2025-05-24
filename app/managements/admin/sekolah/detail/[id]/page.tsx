@@ -48,6 +48,8 @@ import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { Input } from "@/components/ui/input";
 import { TrendingUp, TrendingDown } from "lucide-react";
 import TeacherTable from "./datatableGuru";
+import ButtonExport from "@/components/ui/buttonExport";
+import { id } from "date-fns/locale";
 
 const chartConfig = {
   payment: {
@@ -300,8 +302,9 @@ const DetailPage = () => {
 
   return (
     <div>
-      <div>
+      <div className="flex justify-between items-center">
         <h1 className="font-bold">Data Sekolah {fixData.name}</h1>
+        <ButtonExport label="Export Ringkasan Data" endpoint="/api/export-sekolah" idSchool={id.toString() ?? ''} className="bg-slate-200 text-blue-600 shadow-none hover:text-white" />
       </div>
       {/* dashboard ui */}
       <div>

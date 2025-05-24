@@ -1629,6 +1629,11 @@ query GetPayments {
     }
     enrollment {
       id
+      student {
+        id 
+        name
+        nisn
+      }
     }
   }
 }
@@ -1737,4 +1742,61 @@ mutation createCheckoutPayment($data: CreateCheckoutInput!) {
     url
   }
 }
-### Checkout endregion
+
+
+### Broadcast region
+query GetBroadcast($data: String!) {
+  broadcast(id: $data) {
+    id
+    message
+    schoolId
+    tag
+    createdAt
+    updatedAt
+  }
+}
+
+query GetBroadcasts {
+  broadcasts {
+    id
+    message
+    schoolId
+    tag
+    createdAt
+    updatedAt
+  }
+}
+
+mutation CreateBroadcast($data: CreateBroadcastInput!) {
+  createBroadcast(data: $data) {
+    id
+    message
+    schoolId
+    tag
+    createdAt
+    updatedAt
+  }
+}
+
+mutation UpdateBroadcast($data: UpdateBroadcastInput!) {
+  updateBroadcast(data: $data) {
+    id
+    message
+    schoolId
+    tag
+    createdAt
+    updatedAt
+  }
+}
+
+mutation DeleteBroadcast($data: String!) {
+  deleteBroadcast(id: $data) {
+    id
+    message
+    schoolId
+    tag
+    createdAt
+    updatedAt
+  }
+}
+### Broadcast endregion

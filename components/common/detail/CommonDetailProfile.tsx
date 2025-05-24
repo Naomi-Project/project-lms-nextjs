@@ -47,10 +47,6 @@ export interface CommonDetailPageProps<T extends Record<any, any>> {
     sections: CommonDetailSection<T>[];
 }
 
-interface CheckoutItem {
-  classroomId: string;
-}
-
 export function CommonDetailPage<T extends Record<any, any>>(
     props: CommonDetailPageProps<T>
 ) {

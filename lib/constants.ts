@@ -12,6 +12,7 @@ import {
   HomeIcon,
   LayoutDashboard,
   Library,
+  MessageCircle,
   SchoolIcon,
   Settings,
   UserPen,
@@ -32,6 +33,12 @@ export const ManagerMenu = [
     href: "/managements/manager/class",
     icon: BookOpen,
     visibility: true,
+  },
+  {
+    title: "WA Blast",
+    href: "/managements/manager/wablast",
+    icon: MessageCircle,
+    visibility: false,
   },
   {
     title: "Mata Pelajaran",
@@ -74,6 +81,12 @@ export const ManagerMenu = [
         href: "/managements/manager/setting-admin",
         // icon: Settings,
         visibility: false,
+      },
+      {
+        title: "WA Blast",
+        href: "/managements/manager/wablast",
+        icon: MessageCircle,
+        visibility: true,
       },
       {
         title: "Penetapan SPP",

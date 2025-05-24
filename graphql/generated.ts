@@ -96,6 +96,28 @@ export type Authentication = {
   user: User;
 };
 
+export type Broadcast = {
+  __typename?: 'Broadcast';
+  createdAt?: Maybe<Scalars['Timestamp']['output']>;
+  id: Scalars['ID']['output'];
+  message: Scalars['String']['output'];
+  /** School ID for broadcast, schoolId is required */
+  schoolId: Scalars['String']['output'];
+  /** Accepted tag: REMINDER_PAYMENT, REMINDER, ANNOUNCEMENT, EVENT, PAYMENT, NOTIFICATION */
+  tag: BroadcastTag;
+  updatedAt?: Maybe<Scalars['Timestamp']['output']>;
+};
+
+/** Tag for broadcast */
+export enum BroadcastTag {
+  Announcement = 'ANNOUNCEMENT',
+  Event = 'EVENT',
+  Notification = 'NOTIFICATION',
+  Payment = 'PAYMENT',
+  Reminder = 'REMINDER',
+  ReminderPayment = 'REMINDER_PAYMENT'
+}
+
 export type Checkout = {
   __typename?: 'Checkout';
   amount: Scalars['Float']['output'];
@@ -141,6 +163,15 @@ export type CreateAttendanceInput = {
   date: Scalars['Timestamp']['input'];
   status: AttendanceStatus;
   studentId: Scalars['ID']['input'];
+};
+
+export type CreateBroadcastInput = {
+  /** Message for broadcast, message is required */
+  message: Scalars['String']['input'];
+  /** School ID for broadcast, schoolId is required */
+  schoolId: Scalars['String']['input'];
+  /** Accepted tag: REMINDER_PAYMENT, REMINDER, ANNOUNCEMENT, EVENT, PAYMENT, NOTIFICATION */
+  tag: BroadcastTag;
 };
 
 export type CreateCheckoutInput = {
@@ -346,6 +377,7 @@ export type Mutation = {
   createAnnouncement: Announcement;
   createAssignment: Assignment;
   createAttendance: Array<Attendance>;
+  createBroadcast: Broadcast;
   createCheckoutPayment: Checkout;
   createClassroom: Classroom;
   createCurriculum: Curriculum;
@@ -365,6 +397,7 @@ export type Mutation = {
   deleteAnnouncement: Announcement;
   deleteAssignment: Assignment;
   deleteAttendance: Attendance;
+  deleteBroadcast: Broadcast;
   deleteClassroom: Classroom;
   deleteCurriculum: Curriculum;
   deleteEnrollment: Enrollment;
@@ -385,6 +418,7 @@ export type Mutation = {
   updateAnnouncement: Announcement;
   updateAssignment: Assignment;
   updateAttendance: Array<Attendance>;
+  updateBroadcast: Broadcast;
   updateClassroom: Classroom;
   updateCurriculum: Curriculum;
   updateEnrollment: Enrollment;
@@ -416,6 +450,11 @@ export type MutationCreateAssignmentArgs = {
 
 export type MutationCreateAttendanceArgs = {
   data: Array<CreateAttendanceInput>;
+};
+
+
+export type MutationCreateBroadcastArgs = {
+  data: CreateBroadcastInput;
 };
 
 
@@ -510,6 +549,11 @@ export type MutationDeleteAssignmentArgs = {
 
 
 export type MutationDeleteAttendanceArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type MutationDeleteBroadcastArgs = {
   id: Scalars['String']['input'];
 };
 
@@ -611,6 +655,11 @@ export type MutationUpdateAssignmentArgs = {
 
 export type MutationUpdateAttendanceArgs = {
   data: Array<UpdateAttendanceInput>;
+};
+
+
+export type MutationUpdateBroadcastArgs = {
+  data: UpdateBroadcastInput;
 };
 
 
@@ -736,6 +785,8 @@ export type Query = {
   assignments: Array<Assignment>;
   attendance: Attendance;
   attendances: Array<Attendance>;
+  broadcast: Broadcast;
+  broadcasts: Array<Broadcast>;
   checkPayment: Array<Payment>;
   classroom: Classroom;
   classrooms: Array<Classroom>;
@@ -791,6 +842,16 @@ export type QueryAssignmentArgs = {
 
 export type QueryAttendanceArgs = {
   id: Scalars['String']['input'];
+};
+
+
+export type QueryBroadcastArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type QueryBroadcastsArgs = {
+  schoolId: Scalars['String']['input'];
 };
 
 
@@ -1033,6 +1094,17 @@ export type UpdateAttendanceInput = {
   id: Scalars['ID']['input'];
   status?: InputMaybe<AttendanceStatus>;
   studentId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+export type UpdateBroadcastInput = {
+  /** ID of the broadcast to update */
+  id: Scalars['ID']['input'];
+  /** Message for broadcast, message is required */
+  message?: InputMaybe<Scalars['String']['input']>;
+  /** School ID for broadcast, schoolId is required */
+  schoolId?: InputMaybe<Scalars['String']['input']>;
+  /** Accepted tag: REMINDER_PAYMENT, REMINDER, ANNOUNCEMENT, EVENT, PAYMENT, NOTIFICATION */
+  tag?: InputMaybe<BroadcastTag>;
 };
 
 export type UpdateClassroomInput = {
@@ -1790,7 +1862,7 @@ export type GetPaymentQuery = { __typename?: 'Query', payment: { __typename?: 'P
 export type GetPaymentsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetPaymentsQuery = { __typename?: 'Query', payments: Array<{ __typename?: 'Payment', id: string, status: PaymentStatus, invoice?: string | null, url?: string | null, amount?: number | null, createdAt: any, updatedAt: any, method: PaymentMethod, pricing?: { __typename?: 'Pricing', id: string, name: string, amount: number, createdAt?: any | null, updatedAt?: any | null } | null, enrollment?: { __typename?: 'Enrollment', id: string } | null }> };
+export type GetPaymentsQuery = { __typename?: 'Query', payments: Array<{ __typename?: 'Payment', id: string, status: PaymentStatus, invoice?: string | null, url?: string | null, amount?: number | null, createdAt: any, updatedAt: any, method: PaymentMethod, pricing?: { __typename?: 'Pricing', id: string, name: string, amount: number, createdAt?: any | null, updatedAt?: any | null } | null, enrollment?: { __typename?: 'Enrollment', id: string, student?: { __typename?: 'User', id: string, name?: string | null, nisn?: string | null } | null } | null }> };
 
 export type UpdatePaymentMutationVariables = Exact<{
   data: UpdatePaymentInput;
@@ -6054,6 +6126,11 @@ export const GetPaymentsDocument = gql`
     }
     enrollment {
       id
+      student {
+        id
+        name
+        nisn
+      }
     }
   }
 }

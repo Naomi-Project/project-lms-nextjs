@@ -50,6 +50,7 @@
     "cmdk": "1.0.0",
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.5.1",
+    "exceljs": "^4.4.0",
     "flowbite-react": "^0.10.2",
     "graphql": "^16.10.0",
     "input-otp": "^1.4.1",
