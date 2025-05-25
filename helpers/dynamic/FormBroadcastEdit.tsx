@@ -5,7 +5,10 @@ import {
 } from "@/components/common/form/CommonFormAdd";
 import { CommonFormEdit } from "@/components/common/form/CommonFormEdit";
 import {
+  useGetBroadcastsQuery,
+  useGetUserQuery,
   useUpdateSubjectMutation,
+  useUserPayloadQuery,
 } from "@/graphql/generated";
 import { useParams } from "next/navigation";
 import { z } from "zod";
@@ -28,6 +31,19 @@ interface dataSelectTypes {
 const FormHelpersEdit = () => {
   const params = useParams();
   const { id } = params;
+  const { data: user, loading } = useUserPayloadQuery(); 
+  const { data: findUser, loading: loadFindUser } = useGetUserQuery({
+    variables: {
+      data: user?.me.id ?? ''
+    }, 
+    skip: !user?.me.id
+  })
+  const { data: broadcast } = useGetBroadcastsQuery({
+    variables: {
+      schoolId: findUser?.user.school?.id ?? ''
+    }
+  })
+  console.log(broadcast)
 
   const sections: CommonFormAddSection<Form>[] = [
     {

@@ -1925,6 +1925,41 @@ export type CreateCheckoutPaymentMutationVariables = Exact<{
 
 export type CreateCheckoutPaymentMutation = { __typename?: 'Mutation', createCheckoutPayment: { __typename?: 'Checkout', invoiceNumber: string, amount: number, url: string } };
 
+export type GetBroadcastQueryVariables = Exact<{
+  data: Scalars['String']['input'];
+}>;
+
+
+export type GetBroadcastQuery = { __typename?: 'Query', broadcast: { __typename?: 'Broadcast', id: string, message: string, schoolId: string, tag: BroadcastTag, createdAt?: any | null, updatedAt?: any | null } };
+
+export type GetBroadcastsQueryVariables = Exact<{
+  schoolId: Scalars['String']['input'];
+}>;
+
+
+export type GetBroadcastsQuery = { __typename?: 'Query', broadcasts: Array<{ __typename?: 'Broadcast', id: string, message: string, schoolId: string, tag: BroadcastTag, createdAt?: any | null, updatedAt?: any | null }> };
+
+export type CreateBroadcastMutationVariables = Exact<{
+  data: CreateBroadcastInput;
+}>;
+
+
+export type CreateBroadcastMutation = { __typename?: 'Mutation', createBroadcast: { __typename?: 'Broadcast', id: string, message: string, schoolId: string, tag: BroadcastTag, createdAt?: any | null, updatedAt?: any | null } };
+
+export type UpdateBroadcastMutationVariables = Exact<{
+  data: UpdateBroadcastInput;
+}>;
+
+
+export type UpdateBroadcastMutation = { __typename?: 'Mutation', updateBroadcast: { __typename?: 'Broadcast', id: string, message: string, schoolId: string, tag: BroadcastTag, createdAt?: any | null, updatedAt?: any | null } };
+
+export type DeleteBroadcastMutationVariables = Exact<{
+  data: Scalars['String']['input'];
+}>;
+
+
+export type DeleteBroadcastMutation = { __typename?: 'Mutation', deleteBroadcast: { __typename?: 'Broadcast', id: string, message: string, schoolId: string, tag: BroadcastTag, createdAt?: any | null, updatedAt?: any | null } };
+
 
 export const LoginDocument = gql`
     mutation Login($data: LoginInput!) {
@@ -6533,3 +6568,207 @@ export function useCreateCheckoutPaymentMutation(baseOptions?: Apollo.MutationHo
 export type CreateCheckoutPaymentMutationHookResult = ReturnType<typeof useCreateCheckoutPaymentMutation>;
 export type CreateCheckoutPaymentMutationResult = Apollo.MutationResult<CreateCheckoutPaymentMutation>;
 export type CreateCheckoutPaymentMutationOptions = Apollo.BaseMutationOptions<CreateCheckoutPaymentMutation, CreateCheckoutPaymentMutationVariables>;
+export const GetBroadcastDocument = gql`
+    query GetBroadcast($data: String!) {
+  broadcast(id: $data) {
+    id
+    message
+    schoolId
+    tag
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+/**
+ * __useGetBroadcastQuery__
+ *
+ * To run a query within a React component, call `useGetBroadcastQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetBroadcastQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetBroadcastQuery({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useGetBroadcastQuery(baseOptions: Apollo.QueryHookOptions<GetBroadcastQuery, GetBroadcastQueryVariables> & ({ variables: GetBroadcastQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetBroadcastQuery, GetBroadcastQueryVariables>(GetBroadcastDocument, options);
+      }
+export function useGetBroadcastLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetBroadcastQuery, GetBroadcastQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetBroadcastQuery, GetBroadcastQueryVariables>(GetBroadcastDocument, options);
+        }
+export function useGetBroadcastSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetBroadcastQuery, GetBroadcastQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetBroadcastQuery, GetBroadcastQueryVariables>(GetBroadcastDocument, options);
+        }
+export type GetBroadcastQueryHookResult = ReturnType<typeof useGetBroadcastQuery>;
+export type GetBroadcastLazyQueryHookResult = ReturnType<typeof useGetBroadcastLazyQuery>;
+export type GetBroadcastSuspenseQueryHookResult = ReturnType<typeof useGetBroadcastSuspenseQuery>;
+export type GetBroadcastQueryResult = Apollo.QueryResult<GetBroadcastQuery, GetBroadcastQueryVariables>;
+export const GetBroadcastsDocument = gql`
+    query GetBroadcasts($schoolId: String!) {
+  broadcasts(schoolId: $schoolId) {
+    id
+    message
+    schoolId
+    tag
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+/**
+ * __useGetBroadcastsQuery__
+ *
+ * To run a query within a React component, call `useGetBroadcastsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetBroadcastsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetBroadcastsQuery({
+ *   variables: {
+ *      schoolId: // value for 'schoolId'
+ *   },
+ * });
+ */
+export function useGetBroadcastsQuery(baseOptions: Apollo.QueryHookOptions<GetBroadcastsQuery, GetBroadcastsQueryVariables> & ({ variables: GetBroadcastsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetBroadcastsQuery, GetBroadcastsQueryVariables>(GetBroadcastsDocument, options);
+      }
+export function useGetBroadcastsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetBroadcastsQuery, GetBroadcastsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetBroadcastsQuery, GetBroadcastsQueryVariables>(GetBroadcastsDocument, options);
+        }
+export function useGetBroadcastsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetBroadcastsQuery, GetBroadcastsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetBroadcastsQuery, GetBroadcastsQueryVariables>(GetBroadcastsDocument, options);
+        }
+export type GetBroadcastsQueryHookResult = ReturnType<typeof useGetBroadcastsQuery>;
+export type GetBroadcastsLazyQueryHookResult = ReturnType<typeof useGetBroadcastsLazyQuery>;
+export type GetBroadcastsSuspenseQueryHookResult = ReturnType<typeof useGetBroadcastsSuspenseQuery>;
+export type GetBroadcastsQueryResult = Apollo.QueryResult<GetBroadcastsQuery, GetBroadcastsQueryVariables>;
+export const CreateBroadcastDocument = gql`
+    mutation CreateBroadcast($data: CreateBroadcastInput!) {
+  createBroadcast(data: $data) {
+    id
+    message
+    schoolId
+    tag
+    createdAt
+    updatedAt
+  }
+}
+    `;
+export type CreateBroadcastMutationFn = Apollo.MutationFunction<CreateBroadcastMutation, CreateBroadcastMutationVariables>;
+
+/**
+ * __useCreateBroadcastMutation__
+ *
+ * To run a mutation, you first call `useCreateBroadcastMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateBroadcastMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createBroadcastMutation, { data, loading, error }] = useCreateBroadcastMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateBroadcastMutation(baseOptions?: Apollo.MutationHookOptions<CreateBroadcastMutation, CreateBroadcastMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateBroadcastMutation, CreateBroadcastMutationVariables>(CreateBroadcastDocument, options);
+      }
+export type CreateBroadcastMutationHookResult = ReturnType<typeof useCreateBroadcastMutation>;
+export type CreateBroadcastMutationResult = Apollo.MutationResult<CreateBroadcastMutation>;
+export type CreateBroadcastMutationOptions = Apollo.BaseMutationOptions<CreateBroadcastMutation, CreateBroadcastMutationVariables>;
+export const UpdateBroadcastDocument = gql`
+    mutation UpdateBroadcast($data: UpdateBroadcastInput!) {
+  updateBroadcast(data: $data) {
+    id
+    message
+    schoolId
+    tag
+    createdAt
+    updatedAt
+  }
+}
+    `;
+export type UpdateBroadcastMutationFn = Apollo.MutationFunction<UpdateBroadcastMutation, UpdateBroadcastMutationVariables>;
+
+/**
+ * __useUpdateBroadcastMutation__
+ *
+ * To run a mutation, you first call `useUpdateBroadcastMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateBroadcastMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateBroadcastMutation, { data, loading, error }] = useUpdateBroadcastMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateBroadcastMutation(baseOptions?: Apollo.MutationHookOptions<UpdateBroadcastMutation, UpdateBroadcastMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateBroadcastMutation, UpdateBroadcastMutationVariables>(UpdateBroadcastDocument, options);
+      }
+export type UpdateBroadcastMutationHookResult = ReturnType<typeof useUpdateBroadcastMutation>;
+export type UpdateBroadcastMutationResult = Apollo.MutationResult<UpdateBroadcastMutation>;
+export type UpdateBroadcastMutationOptions = Apollo.BaseMutationOptions<UpdateBroadcastMutation, UpdateBroadcastMutationVariables>;
+export const DeleteBroadcastDocument = gql`
+    mutation DeleteBroadcast($data: String!) {
+  deleteBroadcast(id: $data) {
+    id
+    message
+    schoolId
+    tag
+    createdAt
+    updatedAt
+  }
+}
+    `;
+export type DeleteBroadcastMutationFn = Apollo.MutationFunction<DeleteBroadcastMutation, DeleteBroadcastMutationVariables>;
+
+/**
+ * __useDeleteBroadcastMutation__
+ *
+ * To run a mutation, you first call `useDeleteBroadcastMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteBroadcastMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteBroadcastMutation, { data, loading, error }] = useDeleteBroadcastMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useDeleteBroadcastMutation(baseOptions?: Apollo.MutationHookOptions<DeleteBroadcastMutation, DeleteBroadcastMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteBroadcastMutation, DeleteBroadcastMutationVariables>(DeleteBroadcastDocument, options);
+      }
+export type DeleteBroadcastMutationHookResult = ReturnType<typeof useDeleteBroadcastMutation>;
+export type DeleteBroadcastMutationResult = Apollo.MutationResult<DeleteBroadcastMutation>;
+export type DeleteBroadcastMutationOptions = Apollo.BaseMutationOptions<DeleteBroadcastMutation, DeleteBroadcastMutationVariables>;

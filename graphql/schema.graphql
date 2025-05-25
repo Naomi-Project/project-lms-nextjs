@@ -1757,8 +1757,8 @@ query GetBroadcast($data: String!) {
   }
 }
 
-query GetBroadcasts {
-  broadcasts {
+query GetBroadcasts($schoolId: String!) {
+  broadcasts(schoolId: $schoolId) {
     id
     message
     schoolId
