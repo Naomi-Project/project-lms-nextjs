@@ -22,7 +22,6 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import TeacherTable from "./datatable";
 import ButtonAdd from "@/components/ui/buttonAdd";
 import BroadcastTable from "./datatable";
 
