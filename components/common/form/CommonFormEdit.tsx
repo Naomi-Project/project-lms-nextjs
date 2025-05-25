@@ -35,6 +35,7 @@ import CommonDateTimePicker from "./CommonDateTimePicker";
 import Swal from "sweetalert2";
 import CommonSelectMultiple from "./CommonSelectMultiple";
 import { useCreateEnrollmentMutation, useGetEnrollmentsQuery, useUpdateEnrollmentMutation } from "@/graphql/generated";
+import CommonDatePicker2 from "./CommonDatePicker2";
 
 export interface CommonFormEditField<T extends Record<any, any>> {
   key: keyof T & string;
@@ -315,10 +316,8 @@ export function CommonFormEdit<T extends Record<any, any>>(
                           ) : dataField.type === "select_multiple" ? (
                             <CommonSelectMultiple hidden={dataField.hidden} disabled={dataField.disabled} dataSelect={dataField.dataSelect ?? []} name={String(dataField.key)} label={dataField.label} placeholder={dataField.placeholder} />
                           ) : dataField.type === "date_picker" ? (
-                            <CommonDatePicker
-                              name={String(dataField.key)}
-                              label={dataField.label}
-                            />
+                            // <CommonDatePicker name={String(dataField.key)} label={dataField.label} />
+                            <CommonDatePicker2 name={String(dataField.key)} label={dataField.label} />
                           ) : dataField.type === "date_time" ? (
                             <CommonDateTimePicker
                               name={String(dataField.key)}

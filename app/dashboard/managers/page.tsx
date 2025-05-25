@@ -271,7 +271,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen overflow-x-hidden">
-      <div>
+      <div className={payload?.me.role !== "ADMIN" ? 'hidden' : ''}>
         <ButtonExport label="Export Ringkasan Data" endpoint="/api/export-sekolah" idSchool={schoolId?.schoolId ?? ''} className="bg-slate-200 text-blue-600 shadow-none hover:text-white w-full" />
       </div>
       <div className="md:grid grid-cols-2 gap-4 mt-6">

@@ -6,7 +6,9 @@ import ButtonEdit from "@/components/ui/buttonEdit";
 import {
   useDeleteUserMutation,
   useGetClassroomsQuery,
+  useGetUserQuery,
   useGetUsersQuery,
+  useUserPayloadQuery,
 } from "@/graphql/generated";
 
 type Student = {
@@ -27,6 +29,13 @@ export default function StudentTable() {
   const { data, error } = useGetUsersQuery();
   const { data: classrooms } = useGetClassroomsQuery();
   const [deleteUser, { loading }] = useDeleteUserMutation();
+  const { data: user } = useUserPayloadQuery(); 
+  const { data: findUser, loading: loadFindUser } = useGetUserQuery({
+    variables: {
+      data: user?.me.id ?? ''
+    }, 
+    skip: !user?.me.id
+  })
   const columns = [
     {
       accessorKey: "id",
@@ -90,7 +99,7 @@ export default function StudentTable() {
 
   let dataStudent: any[] =
     data?.users
-      .filter((user) => user.role === "STUDENT")
+      .filter((user) => user.role === "STUDENT" && user.schoolId === findUser?.user.school?.id)
       .map((student) => {
         const classFind = classroomsData.filter((sub) =>
           sub.students.some((t) => t.id === student.id)

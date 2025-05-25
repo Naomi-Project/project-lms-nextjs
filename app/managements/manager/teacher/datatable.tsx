@@ -3,7 +3,7 @@
 import { DataTable } from "@/components/common/list/CommonDataTable";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
-import { useDeleteUserMutation, useGetClassroomsQuery, useGetSubjectsQuery, useGetUsersQuery } from "@/graphql/generated";
+import { useDeleteUserMutation, useGetClassroomsQuery, useGetSubjectsQuery, useGetUserQuery, useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";
 
 type Teacher = {
     id: string;
@@ -24,6 +24,13 @@ export default function TeacherTable() {
     const { data: subject } = useGetSubjectsQuery();
     const { data: classrooms } = useGetClassroomsQuery();
     const [deleteUser, { loading }] = useDeleteUserMutation();
+    const { data: user } = useUserPayloadQuery(); 
+    const { data: findUser, loading: loadFindUser } = useGetUserQuery({
+      variables: {
+        data: user?.me.id ?? ''
+      }, 
+      skip: !user?.me.id
+    })
     const columns = [
       {
         accessorKey: "id",
@@ -73,7 +80,7 @@ const classroomsData = classrooms?.classrooms || [];
 
 // Proses data teachers dengan subjects
 const dataTeacher: any[] = data?.users
-  .filter(user => user.role === "TEACHER")
+  .filter(user => user.role === "TEACHER" && user.schoolId === findUser?.user.school?.id)
   .map(teacher => {
     // Cari subjects yang memiliki teacher.id yang sesuai
     const teacherSubjects = subjectsData.filter(sub =>

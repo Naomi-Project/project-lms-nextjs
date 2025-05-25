@@ -52,6 +52,7 @@ query GetUser($data: String!) {
     school {
       id
       name
+      address
       accreditation
     }
   }

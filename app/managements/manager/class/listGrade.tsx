@@ -27,6 +27,7 @@ function ListGrade<T extends Record<any, any>>(
   
     return numA - numB; // Urutkan berdasarkan angka saja  
   }) || [];
+
   if (loading) return "loading.."
   
   return (
@@ -41,9 +42,9 @@ function ListGrade<T extends Record<any, any>>(
               {dt.name} 
             </h1>
 
-            <div className="md:mt-0 mt-1 w-20 rounded-lg flex items-center justify-center bg-blue-100 p-1">
+            {/* <div className="md:mt-0 mt-1 w-20 rounded-lg flex items-center justify-center bg-blue-100 p-1">
               <p className="text-xs text-blue-500">Kelas Awal</p>
-            </div>
+            </div> */}
           </div>
 
           <div className="flex justify-between pt-5">

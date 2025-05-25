@@ -28,7 +28,7 @@ import ButtonLogout from "./ui/buttonLogout";
 import ProfileSidebar from "./ui/profileSidebar";
 import Splash from "./splash";
 import { useLoadingQueries } from "@/hooks/useLoadingQueries";
-import { useGetAnnouncementsQuery, useGetAssignmentsQuery, useGetClassroomsQuery, useGetMaterialsQuery, useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";
+import { useGetAnnouncementsQuery, useGetAssignmentsQuery, useGetClassroomsQuery, useGetMaterialsQuery, useGetUserQuery, useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";
 
 export function AppSidebar() { 
   const { data: userPayload, loading: userPayloadLoading } = useUserPayloadQuery()
@@ -37,6 +37,12 @@ export function AppSidebar() {
   const { loading: taskLoading } = useGetAssignmentsQuery()
   const { loading: materiLoading } = useGetMaterialsQuery()
   const { data: classRoom } = useGetClassroomsQuery();
+  const { data: findUser, loading: loadFindUser } = useGetUserQuery({
+    variables: {
+      data: userPayload?.me.id ?? ''
+    }, 
+    skip: !userPayload?.me.id
+  })
   const { data: classrooms, loading: classLoading } = useGetClassroomsQuery()
   const [openSubMenus, setOpenSubMenus] = useState<any>({});
   
@@ -67,8 +73,8 @@ export function AppSidebar() {
                 <a href="#">
                   <Image src={logo} alt="logo" />
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">Sekolah Yapendik</span>
-                    <span className="truncate text-xs">Semarang</span>
+                    <span className="truncate font-semibold">{findUser?.user.school?.name ?? "Sekolah Yapendik"}</span>
+                    <span className="truncate text-xs">{findUser?.user.school?.address ?? "Semarang"}</span>
                   </div>
                 </a>
               </SidebarMenuButton>

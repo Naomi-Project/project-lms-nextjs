@@ -3,7 +3,7 @@
 import { DataTable } from "@/components/common/list/CommonDataTable";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
-import { useDeleteUserMutation, useGetUsersQuery } from "@/graphql/generated";
+import { useDeleteUserMutation, useGetUserQuery, useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";
 
 type Staff = {
     id: string;
@@ -22,6 +22,13 @@ type Staff = {
   
 export default function StaffTable() {
     const { data } = useGetUsersQuery();
+    const { data: user } = useUserPayloadQuery(); 
+    const { data: findUser, loading: loadFindUser } = useGetUserQuery({
+      variables: {
+        data: user?.me.id ?? ''
+      }, 
+      skip: !user?.me.id
+    })
     const [deleteUser, { loading }] = useDeleteUserMutation();
     
     const columns = [
@@ -72,7 +79,7 @@ export default function StaffTable() {
       },
     ];
 
-  const dataStaff: Staff[] = data?.users.filter(user => user.role === "ADMIN" || user.role === "STAFF" || user.role === 'PRINCIPAL') || [];
+  const dataStaff: Staff[] = data?.users.filter(user => (user.role === "ADMIN" || user.role === "STAFF" || user.role === 'PRINCIPAL') && user.schoolId === findUser?.user.school?.id) || [];
 
   return (
     <DataTable

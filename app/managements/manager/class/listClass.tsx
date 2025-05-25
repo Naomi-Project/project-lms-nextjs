@@ -1,6 +1,6 @@
 "use client";
 /* eslint-disable */
-import { useDeleteClassroomMutation, useGetClassroomsQuery } from "@/graphql/generated";
+import { useDeleteClassroomMutation, useGetClassroomsQuery, useGetUserQuery, useUserPayloadQuery } from "@/graphql/generated";
 import { EllipsisVertical, GraduationCap, UserRound, UsersRound } from "lucide-react";
 import Link from "next/link";
 import ButtonDelete from "@/components/ui/buttonDelete";
@@ -21,7 +21,14 @@ function ListClass<T extends Record<any, any>>(
 ) {
   const [deleteClassroom] = useDeleteClassroomMutation();
   const { data, loading, error } = useGetClassroomsQuery();
-  const cleanData = data?.classrooms || [];
+  const { data: user } = useUserPayloadQuery(); 
+  const { data: findUser, loading: loadFindUser } = useGetUserQuery({
+    variables: {
+      data: user?.me.id ?? ''
+    }, 
+    skip: !user?.me.id
+  })
+  const cleanData = data?.classrooms.filter((item) => item.school.id === findUser?.user.school?.id) || [];
   
   if (loading) return "loading.."
   if (error) return <p>Error while fetch classroom: {error.message}</p>

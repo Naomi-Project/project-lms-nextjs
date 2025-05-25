@@ -488,8 +488,8 @@ export function CommonFormAdd<T extends Record<any, any>>(
                           ) : dataField.type === "select_multiple2" ? (
                             <SelectMultiple2 name={String(dataField.key)} label={dataField.label} options={dataField.dataSelect ?? []} />
                           ) : dataField.type === "date_picker" ? (
-                            <CommonDatePicker name={String(dataField.key)} label={dataField.label} />
-                            // <CommonDatePicker2 name={String(dataField.key)} label={dataField.label} />
+                            // <CommonDatePicker name={String(dataField.key)} label={dataField.label} />
+                            <CommonDatePicker2 name={String(dataField.key)} label={dataField.label} />
                           ) : dataField.type === "date_time" ? (
                             <CommonDateTimePicker name={String(dataField.key)} label={dataField.label} />
                           ) : dataField.type === "md" ? (
