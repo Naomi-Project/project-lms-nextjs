@@ -152,9 +152,9 @@ const FormHelpersEdit = ({ context }: HelpersProps) => {
         [
           {
             key: "phone",
-            label: "No. Telfon Orang Tua/Wali",
+            label: "No. Telfon",
             emptyValue: "-",
-            placeholder: "6287377333...",
+            placeholder: "087377333...",
           },
           {
             key: "gender",

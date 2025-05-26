@@ -10,7 +10,7 @@ const Page = () => {
   return (
     <div className='w-screen flex-col h-screen bg-blue-900 text-white items-center flex justify-center'>
         <h1 className='mb-5'>Upps, Kamu Tidak Ada Akses Ke Halaman Ini</h1>
-        <Link href={redirect}>
+        <Link href={redirect} onClick={() => window.location.href = redirect}>
             <Button>Kembali Ke Dashboard</Button>
         </Link>
     </div>

@@ -18,6 +18,7 @@ export const referenceSchema = z.object({
   tags: z.string().optional(),
   type: z.string().min(1, "Tipe Referensi wajib dipilih"),
   url: z.string().min(1, "Isi Referensi wajib diisi"),
+  file: z.any(),
   authorId: z.string().min(1, "Author Referensi wajib diisi"),
 });
 
@@ -27,12 +28,25 @@ export interface Form {
   tags?: string;
   type: string;
   url: string;
+  file?: any;
   authorId: string;
 }
 // 🔹 State untuk Quill Editor (WYSIWYG)
 
 const CreatePage = () => {
   const [desc, setDesc] = useState<string>("");
+
+  const { data, loading } = useUserPayloadQuery();
+  const [createReference] = useCreateReferenceMutation();
+  const [dataMutationDefault, setDataMutationDefault] = useState({
+    title: "",
+    description: "",
+    tags: '',
+    type: "",
+    url: "",
+    authorId: data?.me.id ?? "",
+  });
+
   const sections: CommonFormAddSection<Form>[] = [
     {
       fields: [
@@ -47,7 +61,7 @@ const CreatePage = () => {
             key: "tags",
             label: "Tags/Keyword referensi  (opsional)",
             emptyValue: "-",
-            placeholder: "Pisahkan tag dengan tanda koma ,..",
+            placeholder: "Pisahkan tag dengan tanda koma",
           },
         ],
         [
@@ -58,7 +72,7 @@ const CreatePage = () => {
             setMdValue: setDesc,
             label: "Deskripsi Referensi",
             emptyValue: "-",
-            class: "w-full md:w-full lg:w-full",
+            class: "w-full md:w-full mt-2 mb-3 lg:w-full",
             placeholder: "Masukkan deskripsi referensi..",
           },
         ],
@@ -75,8 +89,18 @@ const CreatePage = () => {
               { label: "ARTICLE", value: "ARTICLE" },
               { label: "OTHER", value: "OTHER" },
             ],
-            class: "w-full mt-2 md:w-full lg:w-full",
+            class: "w-full my-2 md:w-full lg:w-full",
             placeholder: "Pilih tipe referensi..",
+          },
+        ],
+        [
+          {
+            key: "file",
+            label: "File Referensi",
+            emptyValue: "-",
+            type: 'file_upload_ref',
+            class: "w-full mt-2 md:w-full lg:w-full",
+            placeholder: "Masukkan upload file referensi..",
           },
         ],
         [
@@ -102,17 +126,6 @@ const CreatePage = () => {
     },
   ];
 
-  const { data, loading } = useUserPayloadQuery();
-  const [createReference] = useCreateReferenceMutation();
-  const [dataMutationDefault, setDataMutationDefault] = useState({
-    title: "",
-    description: "",
-    tags: '',
-    type: "",
-    url: "",
-    authorId: data?.me.id ?? "",
-  });
-
   useEffect(() => {
     setDataMutationDefault({
       ...dataMutationDefault,
@@ -131,7 +144,7 @@ const CreatePage = () => {
       method="POST"
       mutation={createReference}
       isInputTags={true}
-      isUseDefaultMutation={true}
+      isCreateReference={true}
       dataMutation={dataMutationDefault}
       setDataMutation={setDataMutationDefault}
       schema={referenceSchema}

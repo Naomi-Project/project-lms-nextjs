@@ -25,7 +25,7 @@ import { Toggle } from "@/components/ui/toggle";
 import { MutationFunction } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { z, ZodSchema } from "zod";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
@@ -42,6 +42,7 @@ import { setTimeout } from "timers";
 import SelectMultiple2 from "./CommonSelectMultiple2";
 import { usePathname, useRouter } from "next/navigation";
 import CommonDatePicker2 from "./CommonDatePicker2";
+import CommonFileUpload from "./CommonFileUpload";
 
 export interface CommonFormAddField<T extends Record<any, any>> {
   key: keyof T & string;
@@ -68,6 +69,7 @@ export interface CommonFormAddProps<T extends Record<any, any>> {
   method: string;
   isCreateClass?: boolean | undefined;
   isCreateAssignment?: boolean | undefined;
+  isCreateReference?: boolean | undefined;
   isCreateAnnouncementDynamic?: boolean | undefined;
   isRelation?: boolean | undefined;
   relation1?: string | undefined;
@@ -107,6 +109,10 @@ export function CommonFormAdd<T extends Record<any, any>>(
   const form = useForm<z.infer<typeof props.schema>>({
     resolver: zodResolver(props.schema),
     defaultValues: props.dataMutation || {},
+  });
+  const formTypeValue = useWatch({
+    control: form.control,
+    name: 'type' as any,
   });
 
   useEffect(() => {
@@ -148,6 +154,30 @@ export function CommonFormAdd<T extends Record<any, any>>(
     if (props.isInputTags == true) {
       if (typeof (values as any).tags === "string") {
         (values as any).tags = (values as any).tags.split(",").map((tag: any) => tag.trim());
+      }
+
+      if (values.type === 'BOOK' && values.file) {
+         const fileToUpload = values.file?.[0];
+        const formData = new FormData();
+        formData.append('file', fileToUpload);
+        const saveFile = await fetch(`${process.env.NEXT_PUBLIC_BE}/upload`, {
+          method: "POST",
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+          },
+          body: formData,
+        })
+
+        if (!saveFile.ok) {
+          const errorData = await saveFile.json();
+          throw new Error(`Upload failed: ${errorData.message || saveFile.statusText}`);
+        }
+
+        const uploadResult = await saveFile.json();
+        console.log("File uploaded successfully:", uploadResult);
+        const newData = {...values, tags: (values as any).tags, url: uploadResult.filePath}
+        executeMutation(newData)
+        return
       }
     
       const newData = {...values, tags: (values as any).tags}
@@ -490,6 +520,8 @@ export function CommonFormAdd<T extends Record<any, any>>(
                           ) : dataField.type === "date_picker" ? (
                             // <CommonDatePicker name={String(dataField.key)} label={dataField.label} />
                             <CommonDatePicker2 name={String(dataField.key)} label={dataField.label} />
+                          ) : dataField.type === "file_upload_ref" ? (
+                            <CommonFileUpload className={formTypeValue !== 'BOOK' ? 'hidden' : ''} name={String(dataField.key)} label={dataField.label} />
                           ) : dataField.type === "date_time" ? (
                             <CommonDateTimePicker name={String(dataField.key)} label={dataField.label} />
                           ) : dataField.type === "md" ? (

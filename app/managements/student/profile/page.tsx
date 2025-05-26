@@ -22,7 +22,7 @@ interface Student {
   address: string
   role: string
   nisn: number
-  phone: number
+  phone: number | string
   nik: number
   gender: string
   dateOfBirth: string
@@ -87,7 +87,7 @@ export default function ManagerProfileStudent() {
       name: userFind.name ?? "",
       address: userFind.address ?? "",
       nisn: parseInt(userFind.nisn ?? ""),
-      phone: parseInt(userFind.phone ?? ""),
+      phone: userFind.phone,
       classrooms: classrooms?.classrooms ??[],
       nik: parseInt(userFind.nik ?? ""),
       dateOfBirth: format(userFind.dateOfBirth, 'yyyy-MM-dd') ?? "",

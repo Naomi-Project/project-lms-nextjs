@@ -6,10 +6,26 @@ import ButtonEdit from "@/components/ui/buttonEdit";
 import {
   useDeleteUserMutation,
   useGetClassroomsQuery,
+  useGetEnrollmentsQuery,
   useGetUserQuery,
   useGetUsersQuery,
+  useUpdateEnrollmentMutation,
   useUserPayloadQuery,
 } from "@/graphql/generated";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
+import { MoveLeft } from "lucide-react";
+import { useState } from "react";
+import Swal from "sweetalert2";
 
 type Student = {
   id: string;
@@ -27,7 +43,8 @@ type Student = {
 
 export default function StudentTable() {
   const { data, error } = useGetUsersQuery();
-  const { data: classrooms } = useGetClassroomsQuery();
+  const { data: classrooms, loading: classLoading } = useGetClassroomsQuery();
+  const { data: enrollments } = useGetEnrollmentsQuery();
   const [deleteUser, { loading }] = useDeleteUserMutation();
   const { data: user } = useUserPayloadQuery(); 
   const { data: findUser, loading: loadFindUser } = useGetUserQuery({
@@ -36,6 +53,8 @@ export default function StudentTable() {
     }, 
     skip: !user?.me.id
   })
+  const [isOpenDialog, setIsOpenDialog] = useState(false)
+  const [dataDialog, setDataDialog] = useState({})
   const columns = [
     {
       accessorKey: "id",
@@ -56,20 +75,9 @@ export default function StudentTable() {
       // cell: () => <span>7A</span>,
     },
     {
-      accessorKey: "class",
-      header: "KELAS",
-      cell: ({ row }: any) => <span>{row.getValue("class")}</span>,
-    },
-    {
       accessorKey: "phone",
       header: "PHONE",
       cell: ({ row }: any) => <span>{row.getValue("phone")}</span>,
-    },
-    {
-      accessorKey: "gender",
-      sortable: true,
-      header: "GENDER",
-      cell: ({ row }: any) => <span>{row.getValue("gender")}</span>,
     },
     {
       accessorKey: "school",
@@ -77,10 +85,24 @@ export default function StudentTable() {
       cell: ({ row }: any) => <span>{row.original.school ?? "-"}</span>,
     },
     {
+      accessorKey: "class",
+      sortable: true,
+      header: "KELAS",
+      cell: ({ row }: any) => <span>{row.getValue("class")}</span>,
+    },
+    {
       accessorKey: "action",
       header: "ACTION",
       cell: ({ row }: any) => (
         <div className="flex gap-3">
+          <Button className="bg-orange-500 hover:bg-orange-600 shadow-none text-white" onClick={() => {
+            setDataDialog({
+              enrollmentId: row.original.enrollment.id,
+              studentId: row.original.id,
+              termId: row.original.enrollment.termId
+            })
+            setIsOpenDialog(!isOpenDialog)
+          }}><MoveLeft /> Pindah Kelas</Button>
           <ButtonEdit
             endpoint="/managements/manager/student/edit/"
             id={row.original.id}
@@ -105,18 +127,27 @@ export default function StudentTable() {
           sub.students.some((t) => t.id === student.id)
         );
 
+        const enrolFind = enrollments?.enrollments.find((sub) =>
+          sub.studentId === student.id
+        );
+
         // Gabungkan data student dengan subjects yang ditemukan
         return {
           ...student,
           school: student?.school?.name || "-",
+          enrollment: enrolFind,
           class: classFind.map((sub) => sub.name).join(" | ") || "-",
         };
       }) || [];
-
   return (
     <DataTable
       columns={columns}
       data={dataStudent}
+      isMoveClass={true}
+      isOpenDialog={isOpenDialog}
+      setIsOpenDialog={setIsOpenDialog}
+      dataDialog={dataDialog}
+      classrooms={classrooms}
       filterName="name"
       filterPlaceholder="Cari Siswa.."
     />

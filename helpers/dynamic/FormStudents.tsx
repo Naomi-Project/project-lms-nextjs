@@ -141,7 +141,7 @@ const FormHelpersAdd = () => {
           [
             {
               key: "phone",
-              label: "No. Telfon Orang Tua/Wali",
+              label: "No. Telfon",
               emptyValue: "-",
               placeholder: "6287377333...",
             },

@@ -1,5 +1,5 @@
 "use client";
-
+/* eslint-disable */
 import * as React from "react";
 import {
   ColumnDef,
@@ -13,7 +13,17 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ChevronDown, EllipsisVertical } from "lucide-react";
+import { ChevronDown, EllipsisVertical, MoveLeft } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Checkbox } from "@/components/ui/checkbox";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -32,12 +42,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useUpdateEnrollmentMutation } from "@/graphql/generated";
+import Swal from "sweetalert2";
 
 type DataTableProps<TData> = {
   columns: ColumnDef<TData>[];
   filterName: string;
   data: TData[];
   isAttendance?: boolean;
+  isOpenDialog?: boolean;
+  setIsOpenDialog?: any;
+  dataDialog?: any;
+  isMoveClass?: boolean;
+  classrooms?: any;
   hideSearch?: boolean;
   isBulkAction?: boolean;
   filterPlaceholder?: string;
@@ -51,6 +68,11 @@ export function DataTable<TData>({
   isAttendance,
   hideSearch,
   isBulkAction,
+  isOpenDialog,
+  setIsOpenDialog,
+  dataDialog,
+  isMoveClass,
+  classrooms,
   setSelectedStudents,
   filterName = "id",
   filterPlaceholder = "Filter...",
@@ -144,11 +166,116 @@ export function DataTable<TData>({
   };
   // === END TAMBAHAN ===
 
+
+  // pindah kelas logic
+  const [updateEnrollment] = useUpdateEnrollmentMutation()
+  const [selectedClassroomId, setSelectedClassroomId] = React.useState<string>("");
+  const handleClassroomSelect = (clsId: string) => {
+      setSelectedClassroomId(clsId === selectedClassroomId ? "" : clsId);
+  };
+
+  const isChecked = (clsId: string) => {
+      return clsId === selectedClassroomId;
+  };
+  
+  const pindahKelas = async (enrolId: string, studentId: string, termId: string) => {
+      if (!selectedClassroomId) {
+          Swal.fire({
+          title: "Peringatan!",
+          text: "Silakan pilih kelas tujuan terlebih dahulu",
+          icon: "warning",
+          });
+          return;
+      }
+
+      try {
+          const res = await updateEnrollment({
+          variables: {
+              data: {
+              id: enrolId ?? '',
+              classroomId: selectedClassroomId, // Gunakan selectedClassroomId
+              studentId: studentId,
+              termId: termId
+              }
+          }
+          });
+
+          if (res) {
+          Swal.fire({
+              title: "Berhasil!",
+              text: "Murid Telah pindah ke kelas!",
+              icon: "success",
+              timer: 2000,
+              timerProgressBar: true,
+          }).then((result) => {
+              if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
+              location.reload()
+              }
+          });
+          }
+      } catch (e) {
+          console.error(e)
+          Swal.fire({
+          title: "Error!",
+          text: "Terjadi kesalahan saat memproses permintaan",
+          icon: "error",
+          });
+      }
+    }
+
   return (
     <div className="w-full">
       {/* Search Input */}
       <div className={`flex items-center py-4 ${isLoading ? "" : ""}`}>
         <div className="flex gap-2 items-center">
+          {
+            isMoveClass ? (
+              <Dialog open={isOpenDialog} onOpenChange={setIsOpenDialog}>
+                <DialogContent className="w-[320px] rounded-lg md:w-[425px] h-[400px] md:h-[500px] overflow-y-scroll">
+                <DialogHeader>
+                    <DialogTitle>Pindah Kelas</DialogTitle>
+                    <DialogDescription>
+                    Silakan Pilih kelas yang dituju
+                    </DialogDescription>
+                </DialogHeader>
+                <div className="flex flex-col gap-4 py-4">
+                    {classrooms?.classrooms && classrooms?.classrooms?.length > 0 ? classrooms?.classrooms?.map((sc: any, index: number) => (
+                        <div className=" border py-5 px-3 rounded-md border-gray-300 flex items-start space-x-2" key={index}>
+                            <Checkbox 
+                              id={`class-${sc.id}`}
+                              checked={isChecked(sc.id)}
+                              onCheckedChange={() => {
+                                console.log(sc.id)
+                                handleClassroomSelect(sc.id ?? '')
+                              }}
+                              // onClick={(e) => e.stopPropagation()}
+                            />
+                            <div className="flex flex-col gap-1">
+                            <label
+                                // htmlFor={`class-${sc.id}`}
+                                className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            >
+                                {sc.name}
+                            </label>
+                            <label className="text-sm text-gray-500">
+                                Terdapat {sc.students.length} Siswa/i
+                            </label>
+
+                            </div>
+                        </div>
+                    )) : (
+                        <div className="w-full text- py-5">
+                        Belum ada kelas.
+                        </div>
+                    )}
+                </div>
+                <DialogFooter>
+                    <Button type="button" onClick={() => pindahKelas(dataDialog.enrollmentId, dataDialog.studentId, dataDialog.termId)} className="w-full">Continue</Button>
+                </DialogFooter>
+                </DialogContent>
+            </Dialog>
+            ) : ''
+          }
           {
             isBulkAction ? (
               <DropdownMenu>
