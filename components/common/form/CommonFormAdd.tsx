@@ -175,8 +175,8 @@ export function CommonFormAdd<T extends Record<any, any>>(
 
         const uploadResult = await saveFile.json();
         console.log("File uploaded successfully:", uploadResult);
-        const newData = {...values, tags: (values as any).tags, url: uploadResult.filePath}
-        executeMutation(newData)
+        const newData1 = {...values, tags: (values as any).tags, url: "https://staging.zerobase.tech/" + uploadResult.filePath}
+        executeMutation(newData1)
         return
       }
     
