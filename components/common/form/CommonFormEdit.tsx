@@ -278,41 +278,43 @@ export function CommonFormEdit<T extends Record<any, any>>(
                           key={indexField}
                         >
                           {dataField.type === "select" ? (
+                            <div className={dataField.hidden ? 'hidden' : ''}>
                             <FormField
                               control={form.control}
                               name={dataField.key as any}
                               render={({ field }) => (
                                 <FormItem>
-                                  <FormLabel>{dataField.label}</FormLabel>
-                                  <Select
-                                    onValueChange={field.onChange}
-                                    defaultValue={field.value}
-                                    disabled={dataField.disabled || false}
-                                  >
-                                    <FormControl>
-                                      <SelectTrigger className="w-full">
-                                        <SelectValue
-                                          placeholder={dataField.placeholder}
-                                        />
-                                      </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                      {dataField.dataSelect?.map(
-                                        (dataS: any, indexSelect: number) => (
-                                          <SelectItem
-                                            value={dataS.value}
-                                            key={indexSelect}
-                                          >
-                                            {dataS.label}
-                                          </SelectItem>
-                                        )
-                                      )}
-                                    </SelectContent>
-                                  </Select>
+                                  <FormLabel className={dataField.hidden ? 'hidden' : ''}>{dataField.label}</FormLabel>
+                                    <Select
+                                      onValueChange={field.onChange}
+                                      defaultValue={field.value}
+                                      disabled={dataField.disabled || false}
+                                    >
+                                      <FormControl>
+                                        <SelectTrigger className={`${dataField.hidden ? 'hidden' : ''} w-full`}>
+                                          <SelectValue
+                                            placeholder={dataField.placeholder}
+                                          />
+                                        </SelectTrigger>
+                                      </FormControl>
+                                      <SelectContent>
+                                        {dataField.dataSelect?.map(
+                                          (dataS: any, indexSelect: number) => (
+                                            <SelectItem
+                                              value={dataS.value}
+                                              key={indexSelect}
+                                            >
+                                              {dataS.label}
+                                            </SelectItem>
+                                          )
+                                        )}
+                                      </SelectContent>
+                                    </Select>
                                   <FormMessage />
                                 </FormItem>
                               )}
-                            />
+                              />
+                              </div>
                           ) : dataField.type === "select_multiple" ? (
                             <CommonSelectMultiple hidden={dataField.hidden} disabled={dataField.disabled} dataSelect={dataField.dataSelect ?? []} name={String(dataField.key)} label={dataField.label} placeholder={dataField.placeholder} />
                           ) : dataField.type === "date_picker" ? (

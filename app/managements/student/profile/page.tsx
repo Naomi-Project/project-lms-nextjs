@@ -158,8 +158,8 @@ export default function ManagerProfileStudent() {
       <CommonDetailPage
         title="Student Profile"
         name={data.name}
-        epAddFamily="/managements/manager/profile-student/family-add/"
-        epEdit={"/managements/manager/profile-student/edit/" + data.id}
+        epAddFamily="/managements/student/profile/family-add/"
+        epEdit={"/managements/student/profile/edit/" + data.id}
         jobdesk={data.role}
         image={user.src}
         data={data}

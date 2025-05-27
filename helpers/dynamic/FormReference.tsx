@@ -106,8 +106,9 @@ const CreatePage = () => {
         [
           {
             key: "url",
-            label: "Isi referensi (dalam bentuk url)",
+            label: "Isi referensi URL",
             emptyValue: "-",
+            type: 'url_input_ref',
             class: "w-full mt-2 md:w-full lg:w-full",
             placeholder: "Masukkan isi referensi berupa url..",
           },

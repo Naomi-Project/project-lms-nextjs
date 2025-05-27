@@ -1,9 +1,9 @@
-import FormHelpersEdit from "@/helpers/dynamic/FormSchoolEdit";
+import FormHelpersEdit from "@/helpers/dynamic/FormManagerEdit";
 
 const EditPage = () => {
   return (
     // tipe form dinamis atau ada data dari database yang perlu di display di form
-    <FormHelpersEdit context="edit_profile_sekolah" />
+    <FormHelpersEdit context="" />
     // tipe form dinamis atau ada data dari database yang perlu di display di form
   );
 };

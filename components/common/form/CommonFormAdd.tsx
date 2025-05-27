@@ -176,7 +176,8 @@ export function CommonFormAdd<T extends Record<any, any>>(
         const uploadResult = await saveFile.json();
         console.log("File uploaded successfully:", uploadResult);
         const newData1 = {...values, tags: (values as any).tags, url: "https://staging.zerobase.tech/" + uploadResult.filePath}
-        executeMutation(newData1)
+        const { file, ...cleanData } = newData1
+        executeMutation(cleanData)
         return
       }
     
@@ -530,6 +531,27 @@ export function CommonFormAdd<T extends Record<any, any>>(
                             <CommonSoalBuilder name={String(dataField.key)} label={dataField.label} placeholder={dataField.placeholder} />
                           ) : dataField.type === "submission" ? (
                             <CommonSubmission dataDefault={props.dataDefault ?? ""} name={String(dataField.key)} key={String(dataField.key)} />
+                          ) : dataField.type === "url_input_ref" ? (
+                            <FormField
+                              control={form.control}
+                              name={dataField.key as any}
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel className={dataField.hidden && dataField.hidden == true ? "hidden" : ""}>{dataField.label}</FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      className={dataField.hidden && dataField.hidden == true ? "hidden" : ""}
+                                      type={dataField.type || "text"}
+                                      disabled={formTypeValue === 'BOOK' ? true : false}
+                                      placeholder={formTypeValue === 'BOOK' ? "Url otomatis terisi" : dataField.placeholder}
+                                      {...field}
+                                    />
+                                  </FormControl>
+                                  <FormDescription />
+                                  <FormMessage className={dataField.hidden && dataField.hidden == true ? "hidden" : ""} />
+                                </FormItem>
+                              )}
+                            />
                           ) : (
                             <FormField
                               control={form.control}

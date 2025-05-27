@@ -93,7 +93,7 @@ export function CommonDetailPage<T extends Record<any, any>>(
                                 <div key={index} className="mt-0">
                                     <div className=" border-dashed border-gray-200 pb-6">
                                         <h2 className="text-lg font-bold text-gray-900 mb-4">
-                                            Data {section.label}
+                                            {section.label}
                                         </h2>
                                         <div>
                                         {
@@ -125,7 +125,7 @@ export function CommonDetailPage<T extends Record<any, any>>(
                                 <div key={index} className="mt-0">
                                     <div className=" border-dashed border-gray-200 pb-6">
                                         <h2 className="text-lg font-bold text-gray-900 mb-4">
-                                            Data {section.label}
+                                            {section.label}
                                         </h2>
                                         <div>
                                         {
@@ -157,7 +157,7 @@ export function CommonDetailPage<T extends Record<any, any>>(
                             <div key={index} className="mt-0">
                                 <div className=" border-dashed border-gray-200 pb-6">
                                     <h2 className="text-lg font-bold text-gray-900 mb-4">
-                                        Data {section.label}
+                                        {section.label}
                                     </h2>
                                     <dl
                                         className={`grid gap-6 ${Object.keys(section.fields).length >= 4

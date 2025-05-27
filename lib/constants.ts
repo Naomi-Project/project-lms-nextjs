@@ -188,12 +188,12 @@ export const HeadofficeMenu = [
         icon: Settings,
         visibility: true,
       },
-      // {
-      //   title: "Profile Management",
-      //   href: "/managements/manager/profile",
-      //   icon: Settings,
-      //   visibility: false,
-      // },
+      {
+        title: "Profile Management",
+        href: "/managements/manager/profile",
+        icon: Settings,
+        visibility: false,
+      },
     ]
   },
 ]
