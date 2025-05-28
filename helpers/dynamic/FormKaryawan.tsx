@@ -113,6 +113,7 @@ const FormHelpersAdd = () => {
               emptyValue: "-",
               type: 'select',
               dataSelect: [
+                { label: 'TEACHER', value: Role.Teacher },
                 { label: 'ADMIN', value: Role.Admin },
                 { label: 'PRINCIPAL', value: Role.Principal },
                 { label: 'STAFF', value: Role.Staff }
@@ -169,7 +170,6 @@ const FormHelpersAdd = () => {
               label: "Sekolah (opsional)",
               emptyValue: "-",
               type: "select",
-              // disabled: true,
               dataSelect: dataSchool,
               placeholder: "Pilih Sekolah untuk pengguna ini..",
             },
@@ -190,6 +190,7 @@ const FormHelpersAdd = () => {
       title="Buat Data Karyawan"
       method="POST"
       mutation={createUser}
+      isUseDefaultMutation={true}
       dataMutation={fixData}
       setDataMutation={setDataMutationDefault}
       schema={karyawanSchema}

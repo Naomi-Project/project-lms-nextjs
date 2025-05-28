@@ -395,7 +395,7 @@ export function CommonFormAdd<T extends Record<any, any>>(
       Swal.fire({
         title: "Gagal!",
         text: "Data tidak berhasil dibuat, coba lagi nanti!",
-        icon: "success",
+        icon: "error",
       }).then((result) => {
         if (result.isConfirmed) {
           location.reload()
