@@ -61,7 +61,7 @@ export default function ManagerKeuangan() {
       
       return total + studentPendingPayments;
     }, 0) || 0;
-  }, [studentsNotPaid]);
+  }, [studentsNotPaid, enrollmentThisSchool]);
 
   
   if (loading) return 'loading..'

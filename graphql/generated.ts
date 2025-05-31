@@ -118,6 +118,13 @@ export enum BroadcastTag {
   ReminderPayment = 'REMINDER_PAYMENT'
 }
 
+export type BroadcastWhatsAppInput = {
+  /** Message for broadcast, message is required */
+  message: Scalars['String']['input'];
+  /** Phone numbers for broadcast, numbers is required start with 62 */
+  numbers: Array<Scalars['String']['input']>;
+};
+
 export type Checkout = {
   __typename?: 'Checkout';
   amount: Scalars['Float']['output'];
@@ -374,6 +381,7 @@ export type Material = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  broadcastByWhatsApp: Scalars['String']['output'];
   createAnnouncement: Announcement;
   createAssignment: Assignment;
   createAttendance: Array<Attendance>;
@@ -435,6 +443,11 @@ export type Mutation = {
   updateSubmission: Submission;
   updateTerm: Term;
   updateUser: User;
+};
+
+
+export type MutationBroadcastByWhatsAppArgs = {
+  data: BroadcastWhatsAppInput;
 };
 
 
@@ -807,6 +820,7 @@ export type Query = {
   pricings: Array<Pricing>;
   reference: Reference;
   references: Array<Reference>;
+  reminderPayment: Scalars['String']['output'];
   schedule: Schedule;
   schedules: Array<Schedule>;
   school: School;
@@ -1395,7 +1409,7 @@ export type GetEnrollmentQuery = { __typename?: 'Query', enrollment: { __typenam
 export type GetEnrollmentsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetEnrollmentsQuery = { __typename?: 'Query', enrollments: Array<{ __typename?: 'Enrollment', id: string, studentId: string, classroomId: string, termId: string, createdAt?: any | null, term?: { __typename?: 'Term', id: string, name: string, curriculum: { __typename?: 'Curriculum', id: string, name: string } } | null, classroom?: { __typename?: 'Classroom', id: string, name: string, students: Array<{ __typename?: 'User', id: string, name?: string | null, nisn?: string | null }>, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null } } | null, student?: { __typename?: 'User', id: string, name?: string | null, nisn?: string | null, schoolId?: string | null, school?: { __typename?: 'School', id: string, name: string, npsn: string } | null } | null, payments?: Array<{ __typename?: 'Payment', id: string, status: PaymentStatus, amount?: number | null, method: PaymentMethod, invoice?: string | null, url?: string | null, createdAt: any, updatedAt: any, enrollment?: { __typename?: 'Enrollment', id: string } | null, pricing?: { __typename?: 'Pricing', id: string, name: string, amount: number } | null }> | null }> };
+export type GetEnrollmentsQuery = { __typename?: 'Query', enrollments: Array<{ __typename?: 'Enrollment', id: string, studentId: string, classroomId: string, termId: string, createdAt?: any | null, term?: { __typename?: 'Term', id: string, name: string, curriculum: { __typename?: 'Curriculum', id: string, name: string } } | null, classroom?: { __typename?: 'Classroom', id: string, name: string, students: Array<{ __typename?: 'User', id: string, name?: string | null, nisn?: string | null }>, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null } } | null, student?: { __typename?: 'User', id: string, name?: string | null, nisn?: string | null, phone: string, schoolId?: string | null, school?: { __typename?: 'School', id: string, name: string, npsn: string } | null } | null, payments?: Array<{ __typename?: 'Payment', id: string, status: PaymentStatus, amount?: number | null, method: PaymentMethod, invoice?: string | null, url?: string | null, createdAt: any, updatedAt: any, enrollment?: { __typename?: 'Enrollment', id: string } | null, pricing?: { __typename?: 'Pricing', id: string, name: string, amount: number } | null }> | null }> };
 
 export type CreateEnrollmentMutationVariables = Exact<{
   data: CreateEnrollmentInput;
@@ -1959,6 +1973,18 @@ export type DeleteBroadcastMutationVariables = Exact<{
 
 
 export type DeleteBroadcastMutation = { __typename?: 'Mutation', deleteBroadcast: { __typename?: 'Broadcast', id: string, message: string, schoolId: string, tag: BroadcastTag, createdAt?: any | null, updatedAt?: any | null } };
+
+export type ReminderPaymentQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ReminderPaymentQuery = { __typename?: 'Query', reminderPayment: string };
+
+export type BroadcastByWhatsAppMutationVariables = Exact<{
+  data: BroadcastWhatsAppInput;
+}>;
+
+
+export type BroadcastByWhatsAppMutation = { __typename?: 'Mutation', broadcastByWhatsApp: string };
 
 
 export const LoginDocument = gql`
@@ -2884,6 +2910,7 @@ export const GetEnrollmentsDocument = gql`
       id
       name
       nisn
+      phone
       schoolId
       school {
         id
@@ -6772,3 +6799,71 @@ export function useDeleteBroadcastMutation(baseOptions?: Apollo.MutationHookOpti
 export type DeleteBroadcastMutationHookResult = ReturnType<typeof useDeleteBroadcastMutation>;
 export type DeleteBroadcastMutationResult = Apollo.MutationResult<DeleteBroadcastMutation>;
 export type DeleteBroadcastMutationOptions = Apollo.BaseMutationOptions<DeleteBroadcastMutation, DeleteBroadcastMutationVariables>;
+export const ReminderPaymentDocument = gql`
+    query reminderPayment {
+  reminderPayment
+}
+    `;
+
+/**
+ * __useReminderPaymentQuery__
+ *
+ * To run a query within a React component, call `useReminderPaymentQuery` and pass it any options that fit your needs.
+ * When your component renders, `useReminderPaymentQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useReminderPaymentQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useReminderPaymentQuery(baseOptions?: Apollo.QueryHookOptions<ReminderPaymentQuery, ReminderPaymentQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ReminderPaymentQuery, ReminderPaymentQueryVariables>(ReminderPaymentDocument, options);
+      }
+export function useReminderPaymentLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ReminderPaymentQuery, ReminderPaymentQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ReminderPaymentQuery, ReminderPaymentQueryVariables>(ReminderPaymentDocument, options);
+        }
+export function useReminderPaymentSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<ReminderPaymentQuery, ReminderPaymentQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ReminderPaymentQuery, ReminderPaymentQueryVariables>(ReminderPaymentDocument, options);
+        }
+export type ReminderPaymentQueryHookResult = ReturnType<typeof useReminderPaymentQuery>;
+export type ReminderPaymentLazyQueryHookResult = ReturnType<typeof useReminderPaymentLazyQuery>;
+export type ReminderPaymentSuspenseQueryHookResult = ReturnType<typeof useReminderPaymentSuspenseQuery>;
+export type ReminderPaymentQueryResult = Apollo.QueryResult<ReminderPaymentQuery, ReminderPaymentQueryVariables>;
+export const BroadcastByWhatsAppDocument = gql`
+    mutation BroadcastByWhatsApp($data: BroadcastWhatsAppInput!) {
+  broadcastByWhatsApp(data: $data)
+}
+    `;
+export type BroadcastByWhatsAppMutationFn = Apollo.MutationFunction<BroadcastByWhatsAppMutation, BroadcastByWhatsAppMutationVariables>;
+
+/**
+ * __useBroadcastByWhatsAppMutation__
+ *
+ * To run a mutation, you first call `useBroadcastByWhatsAppMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useBroadcastByWhatsAppMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [broadcastByWhatsAppMutation, { data, loading, error }] = useBroadcastByWhatsAppMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useBroadcastByWhatsAppMutation(baseOptions?: Apollo.MutationHookOptions<BroadcastByWhatsAppMutation, BroadcastByWhatsAppMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<BroadcastByWhatsAppMutation, BroadcastByWhatsAppMutationVariables>(BroadcastByWhatsAppDocument, options);
+      }
+export type BroadcastByWhatsAppMutationHookResult = ReturnType<typeof useBroadcastByWhatsAppMutation>;
+export type BroadcastByWhatsAppMutationResult = Apollo.MutationResult<BroadcastByWhatsAppMutation>;
+export type BroadcastByWhatsAppMutationOptions = Apollo.BaseMutationOptions<BroadcastByWhatsAppMutation, BroadcastByWhatsAppMutationVariables>;

@@ -1,4 +1,5 @@
 "use client";
+import CommonFormBroadcastWa from "@/components/common/form/CommonFormBroadcastWa";
 /* eslint-disable */
 import { DataTable } from "@/components/common/list/CommonDataTable";
 import ButtonDelete from "@/components/ui/buttonDelete";
@@ -44,16 +45,12 @@ export default function PaymentTablePending() {
       header: "JUMLAH TAGIHAN",
       cell: ({ row }: any) => <span>{row.getValue("amount")}</span>,
     },
-    // {
-    //   accessorKey: "status",
-    //   header: "STATUS TAGIHAN",
-    //   cell: ({ row }: any) => <span>{row.original.payment?.status ?? "Tidak Ada Status"}</span>
-    // },
     {
       accessorKey: "action",
       header: "ACTION",
       cell: ({ row }: any) => (
         <div className="flex gap-3">
+          <CommonFormBroadcastWa label="WA Blast reminder" nomor={row.original.phone} />
           <ButtonEdit
             label="Detail Tagihan"
             hideIcon
@@ -64,11 +61,10 @@ export default function PaymentTablePending() {
       ),
     },
   ];
-  // const paymenttThisMonth = enrollment?.enrollment?.payments?.find((item) => isThisMonth(new Date(parseInt(item.createdAt))))
   const dataPayment: unknown[] = data?.enrollments || [];
+  console.log(dataPayment)
   var fixData = dataPayment.map((item: any) => {
     // Calculate total amount for the current month
-    console.log(item)
     const totalAmount = item.payments.filter((item: any) => item.status === "PENDING").reduce((sum: number, payment: any) => {
       return sum + payment.pricing.amount;  
     }, 0);
@@ -76,6 +72,7 @@ export default function PaymentTablePending() {
     return {
       ...item,
       nisn: item.student.nisn,
+      phone: item.student.phone,
       name: item.student.name,
       amount: new Intl.NumberFormat("id-ID", {
         style: "currency",

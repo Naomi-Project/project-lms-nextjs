@@ -1,110 +1,19 @@
 /* eslint-disable */
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Input } from "@/components/ui/input";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import ButtonAdd from "@/components/ui/buttonAdd";
 import BroadcastTable from "./datatable";
+import CommonFormBroadcastWa from "@/components/common/form/CommonFormBroadcastWa";
 
-export default function ManagerTeacher() {
+export default function ManagerWablast() {
   return (
     <div className="min-h-screen">
       <div className="border-2 rounded-lg bg-white p-5 mt-10">
         <Tabs defaultValue="aktif" className="w-full">
           <TabsList className="w-full flex justify-between bg-white">
-            <div className="bg-slate-200 rounded-lg">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <ButtonAdd endpoint="/managements/manager/wablast/create" label="Tambah Pesan" />
-                </DialogTrigger>
-                <DialogContent className="md:w-4/12 w-96 rounded-lg">
-                  <ScrollArea className="h-96">
-                    <DialogHeader>
-                      <DialogTitle className="text-center">
-                        Tambah Guru
-                      </DialogTitle>
-                    </DialogHeader>
-                    <div className="">
-                      <Label htmlFor="name" className="text-right">
-                        Nama Lengkap
-                      </Label>
-                      <Input type="text" placeholder="Nama Lengkap Siswa" />
-                    </div>
-
-                    <div className="mt-3">
-                      <Label htmlFor="name" className="text-right">
-                        NIK
-                      </Label>
-                      <Input type="text" placeholder="NIK" />
-                    </div>
-
-                    <div className="mt-3">
-                      <Label htmlFor="name" className="text-right">
-                        Kompetensi
-                      </Label>
-                      <Input type="text" placeholder="Kompetensi" />
-                    </div>
-
-                    <div className="mt-3">
-                      <Label htmlFor="name" className="text-right">
-                        Status
-                      </Label>
-                      <Select>
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectItem value="pegawai">
-                              Pegawai Tetap
-                            </SelectItem>
-                            <SelectItem value="honorer">Honorer</SelectItem>
-                            <SelectItem value="magang">Magang</SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div className="mt-3">
-                      <Label htmlFor="name" className="text-right">
-                        Kontak
-                      </Label>
-                      <Input type="text" placeholder="+62xxxxxxxxx" />
-                    </div>
-
-                    <div className="mt-3">
-                      <Checkbox id="terms" />
-                      <label htmlFor="terms" className="ml-2 text-sm">
-                        Guru Pindahaan
-                      </label>
-                    </div>
-                  </ScrollArea>
-                  <DialogFooter className="mt-5">
-                    <Button type="submit" variant="default" className="w-full">
-                      Selesai
-                    </Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
+            <div className="flex gap-3 rounded-lg">
+              <ButtonAdd endpoint="/managements/manager/wablast/create" label="Tambah Pesan" />
+              <CommonFormBroadcastWa />
             </div>
 
             <div className="grid grid-cols-1 gap-4">

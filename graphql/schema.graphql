@@ -394,6 +394,7 @@ query GetEnrollments {
       id
       name
       nisn
+      phone
       schoolId
       school {
         id
@@ -1801,3 +1802,11 @@ mutation DeleteBroadcast($data: String!) {
   }
 }
 ### Broadcast endregion
+
+query reminderPayment{
+  reminderPayment
+}
+
+mutation BroadcastByWhatsApp($data: BroadcastWhatsAppInput!) {
+  broadcastByWhatsApp(data: $data)
+}
