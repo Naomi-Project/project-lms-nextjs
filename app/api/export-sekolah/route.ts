@@ -5,7 +5,7 @@ import { ApolloClient, InMemoryCache, gql, HttpLink } from '@apollo/client/core'
 import fetch from 'cross-fetch';
 import { id } from 'date-fns/locale';
 
-const GRAPHQL_ENDPOINT = process.env.NEXT_PUBLIC_GRAPHQL_API || 'https://staging.zerobase.tech/graphql';
+const GRAPHQL_ENDPOINT = process.env.NEXT_PUBLIC_GRAPHQL_API || 'https://api.lmsyapendik.com/graphql';
 
 export async function GET(request: Request) {
   try {
