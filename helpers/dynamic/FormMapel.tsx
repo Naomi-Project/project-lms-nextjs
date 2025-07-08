@@ -17,9 +17,9 @@ const mapelSchema = z.object({
   name: z.string().min(1, "Nama pelajaran wajib diisi"),
   code: z.string().min(1, "Kode pelajaran wajib diisi"),
   description: z.string().min(1, "Deskripsi pelajaran wajib diisi"),
-  gradeId: z.string().optional(),
+  gradeId: z.string().min(1, "Induk Kelas wajib dipilih"),
   curriculumId: z.string().min(1, "Kurikulum wajib dipilih"),
-  teacherId: z.string().optional(),
+  teacherId: z.string().min(1, "Guru Pelajaran wajib dipilih"),
 });
 
 interface Form {
