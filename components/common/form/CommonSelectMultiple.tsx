@@ -83,6 +83,7 @@ const CommonSelectMultiple: React.FC<CommonSelectMultipleProps> = ({
                       >
                         <Checkbox
                           id={option.value}
+                          disabled={option.disabled ?? false}
                           checked={selectedValues.includes(option.value)}
                           onCheckedChange={() => {
                             const newValue = selectedValues.includes(option.value)

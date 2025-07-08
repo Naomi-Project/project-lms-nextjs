@@ -28,7 +28,13 @@ function ListClass<T extends Record<any, any>>(
     }, 
     skip: !user?.me.id
   })
-  const cleanData = data?.classrooms.filter((item) => item.school.id === findUser?.user.school?.id) || [];
+  console.log(data?.classrooms)
+  const cleanData = (data?.classrooms.filter(item =>
+    item.school.id === findUser?.user.school?.id
+  ) || []).sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
+
   
   if (loading) return "loading.."
   if (error) return <p>Error while fetch classroom: {error.message}</p>

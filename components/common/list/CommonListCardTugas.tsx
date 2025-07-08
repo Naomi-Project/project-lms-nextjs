@@ -84,7 +84,6 @@ const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: L
   }, [search, filter, tugasDenganKelas]);
 
   const [deleteAssignments, { loading }] = useDeleteAssignmentMutation();
-  console.log(tugas)
   // const isDone = tugas.find((item => item.submissions))
 
   return (

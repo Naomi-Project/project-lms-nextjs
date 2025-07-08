@@ -26,6 +26,7 @@ const cabangKelasSchema = z.object({
   name: z.string().min(1, "Nama kelas wajib diisi"),
   gradeId: z.string().min(1, "Induk kelas wajib diisi"),
   guardianId: z.string().min(1, "Wali wajib diisi"),
+  termId: z.string().min(1, "Term wajib diisi"),
   students: z.array(z.string().optional()), 
   // schedules: z.string().min(1, "Nama wali wajib diisi"),
 });
@@ -34,7 +35,7 @@ interface Form {
   id: string;
   gradeId: string;
   guardianId: string;
-  // termId: string;
+  termId: string;
   // pricingId: string;
   students: string[];
   name: string;
@@ -66,7 +67,6 @@ const FormHelpersEdit = () => {
     label: grade.name,
     value: grade.id,
   })) || []
-  console.log(thirdData?.pricings)
   const dataPricings: dataSelectTypes[] = thirdData?.pricings.map((item) => ({
     label: item.name,
     value: item.id,
@@ -93,6 +93,7 @@ const FormHelpersEdit = () => {
   })) || []
   const dataStudents: dataSelectTypes[] = secondData?.users.filter((item) => item.role === "STUDENT").map((user) => ({
       label: user.name ?? "",
+      disabled: user?.classroom?.id === id,
       value: user.id,
   })) || []
   const dataTerms: dataSelectTypes[] = school?.schools
@@ -170,14 +171,14 @@ const FormHelpersEdit = () => {
           },
         ],
         [
-          // {
-          //   key: "termId",
-          //   label: "Semester untuk kelas",
-          //   type: "select",
-          //   dataSelect: dataTerms,
-          //   emptyValue: "-",
-          //   placeholder: "Pilih Semester..",
-          // },
+          {
+            key: "termId",
+            label: "Semester untuk kelas",
+            type: "select",
+            dataSelect: dataTerms,
+            emptyValue: "-",
+            placeholder: "Pilih Semester..",
+          },
           // {
           //   key: "pricingId",
           //   label: "Tagihan Untuk Semua Siswa Dikelas ini",
@@ -193,7 +194,7 @@ const FormHelpersEdit = () => {
   
   const fixData = data?.classroom
   ? {
-      id: data.classroom.id || "",
+      id: id || "",
       name: data.classroom.name || "", // Jika name tidak ada, beri default ""
       gradeId: findGrade ?? "", // Pastikan gradeId sesuai dengan ID yang ada
       guardianId: data.classroom.guardian?.id || "",

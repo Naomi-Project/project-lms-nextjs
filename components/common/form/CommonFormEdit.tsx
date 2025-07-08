@@ -134,73 +134,81 @@ export function CommonFormEdit<T extends Record<any, any>>(
   const [createEnrollment] = useCreateEnrollmentMutation()
   const [updateEnrollment] = useUpdateEnrollmentMutation()
   const updateClass = async (dataMut: any) => {
-    const cleanData = {
-      id: dataMut.id,
-      name: dataMut.name,
-      gradeId: dataMut.gradeId,
-      schoolId: dataMut.schoolId,
-      guardianId: dataMut.guardianId,
-    }
-    try {
-      const res = await props.mutation({
-        variables: {
-          data: cleanData,
-        },
-      })
+  const cleanData = {
+    id: dataMut.id,
+    name: dataMut.name,
+    gradeId: dataMut.gradeId,
+    schoolId: dataMut.schoolId,
+    guardianId: dataMut.guardianId,
+  };
 
-      const resClass = res?.data?.updateClassroom;
-      if (!resClass?.id) {
-        throw new Error("Gagal mendapatkan ID kelas.");
-      }
-      
-      // console.log(dataMut.students);
-      // return
-      // 3️⃣ Looping dan update setiap siswa ke kelas
-      for (const studentId of dataMut.students) {
-          const enrolId = resClass?.enrollments?.find((item: any) => item.studentId === studentId) || null
-          console.log(enrolId)
-          if (enrolId == null) {
-            console.log('woi buat woi')
-              await createEnrollment({
-              variables: {
-                data: {
-                  studentId: studentId,
-                  classroomId: dataMut.id,
-                  termId: dataMut.termId,
-                  pricingId: dataMut.pricingId
-                },
-              },
-            });
-          } else {
-            await updateEnrollment({
-              variables: {
-                data: {
-                  id: enrolId.id ?? '',
-                  studentId: studentId,
-                  pricingId: enrolId.pricing.id,
-                  termId: enrolId.termId,
-                  classroomId: resClass.id,
-                },
-              },
-            });
-          }
-      }
-      Swal.fire({
-        title: "Berhasil!",
-        text: "Data telah berhasil diedit!",
-        icon: "success",
-        timer: 2000,
-        timerProgressBar: true,
-      }).then((result) => {
-        if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
-          history.back(); 
-        }
-      });
-    } catch (er) {
-      console.log(er)
-      // alert(er)
+  try {
+    const res = await props.mutation({
+      variables: {
+        data: cleanData,
+      },
+    });
+
+    const resClass = res?.data?.updateClassroom;
+    if (!resClass?.id) {
+      throw new Error("Gagal mendapatkan ID kelas.");
     }
+
+    const classroomId = resClass.id;
+
+    // 🔁 Loop siswa
+    for (const studentId of dataMut.students) {
+      // 🧠 Cek apakah siswa ini sudah punya enrollment di term & kelas ini
+      const existingEnrollment = resClass?.enrollments?.find((item: any) =>
+        item.studentId == studentId &&
+        item.termId == dataMut.termId
+      );
+
+      if (!existingEnrollment) {
+        // 🆕 Create enrollment
+        await createEnrollment({
+          variables: {
+            data: {
+              studentId,
+              classroomId,
+              termId: dataMut.termId,
+              pricingId: dataMut.pricingId,
+            },
+          },
+        });
+      } else {
+        // 🛠️ Update enrollment
+        await updateEnrollment({
+          variables: {
+            data: {
+              id: existingEnrollment.id,
+              studentId,
+              pricingId: dataMut.pricingId, // atau existingEnrollment.pricing.id jika tidak berubah
+              termId: dataMut.termId,
+              classroomId,
+            },
+          },
+        });
+      }
+    }
+
+    Swal.fire({
+      title: "Berhasil!",
+      text: "Data telah berhasil diedit!",
+      icon: "success",
+      timer: 2000,
+      timerProgressBar: true,
+    }).then((result) => {
+      if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
+        history.back();
+      }
+    });
+  } catch (er) {
+    console.log(er);
+    alert(er);
   }
+};
+
   const executeMutation = async (dataMut: any) => {
     const {
       __typename,

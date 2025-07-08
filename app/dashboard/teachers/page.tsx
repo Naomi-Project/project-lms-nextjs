@@ -20,7 +20,7 @@ import {
   Search,
 } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 
 import ListCardTugas from "@/components/common/list/CommonListCardTugas";
@@ -36,9 +36,40 @@ export default function DashboardTeacher() {
   const { data: classrooms } = useGetClassroomsQuery();
   const { data: userPayload } = useUserPayloadQuery();
   const { data: materi } = useGetMaterialsQuery()
+  console.log(tugas)
   const assignmentNotFinishLength = tugas?.assignments.filter((item) => item.submissions?.length == 0).length ?? "loading.."
-  const assignmentLength = tugas?.assignments.length ?? "loading.."
   const materialLength = materi?.materials.length ?? "loading.."
+
+  const userId = userPayload?.me?.id;
+  const userRole = userPayload?.me?.role;
+  const rawData = useMemo(() => {
+      if  (userRole === "TEACHER") {
+        return tugas?.assignments.filter((assignment) =>
+          assignment.classrooms.some((cls) =>
+            cls.guardian.id === userId
+          )
+        ) || [];
+      }
+      return tugas?.assignments || [];
+    }, [tugas?.assignments, userId, userRole]);
+  
+    // Menambahkan informasi kelas dan nama wali kelas (guardian)
+    const tugasResult = rawData.map((assignment) => {
+      const kelasDitemukan = assignment.classrooms.find((cls) =>
+        cls.students.some((student) => student.id === userId) || cls.guardian.id === userId
+      );
+      
+  
+      return {
+        ...assignment,
+        kelasNama: kelasDitemukan?.name || "Tidak Diketahui",
+        waliKelas: kelasDitemukan?.guardian?.name || "Tidak Diketahui",
+      };
+    });
+  console.log(tugasResult)
+  const assignmentLength = tugasResult.length ?? "loading.."
+
+  
 
   const [search, setSearch] = useState<string>('')
   const [filter, setFilter] = useState<string>('')
@@ -85,7 +116,7 @@ export default function DashboardTeacher() {
                 </div>
 
                 <div className="row-span-1">
-                  <p className="text-base font-bold">{assignmentNotFinishLength ? assignmentNotFinishLength + " Tugas" : "0"}</p>
+                  <p className="text-base font-bold">{assignmentNotFinishLength ? assignmentNotFinishLength + " Soal" : "0"}</p>
                 </div>
               </div>
             </div>
@@ -105,7 +136,7 @@ export default function DashboardTeacher() {
                 </div>
 
                 <div className="row-span-1">
-                  <p className="text-base font-bold">{assignmentLength ? assignmentLength + " Materi" : "0"}</p>
+                  <p className="text-base font-bold">{assignmentLength ? assignmentLength + " Tugas" : "0"}</p>
                 </div>
               </div>
             </div>

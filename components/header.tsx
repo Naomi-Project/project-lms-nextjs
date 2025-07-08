@@ -86,9 +86,13 @@ export default function Header() {
                   <div className="col-span-1">
                     <Bell className="w-6 h-6 text-red-400 font-bold" />
                   </div>
-                  {finalData.length > 0 && (
+                  {finalData.length > 0 ? (
                     <div className="col-span-1 rounded-lg flex items-center justify-center">
-                      <p className="text-sm text-red-400 font-bold">{finalData.length}</p>
+                      <p className="text-sm text-red-400 font-bold">{finalData.length ?? 0}</p>
+                    </div>
+                  ) : (
+                    <div className="col-span-1 rounded-lg flex items-center justify-center">
+                      <p className="text-sm text-red-400 font-bold">0</p>
                     </div>
                   )}
                 </div>
