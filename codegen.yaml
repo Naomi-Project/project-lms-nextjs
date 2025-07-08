@@ -1,4 +1,4 @@
-schema: "https://staging.zerobase.tech/graphql" # Ganti dengan URL GraphQL API Anda
+schema: "https://api.lmsyapendik.com/graphql" # Ganti dengan URL GraphQL API Anda
 documents: "graphql/**/*.graphql" # Path ke file query/mutation GraphQL
 generates:
   # src/graphql/generated.ts:

@@ -41,7 +41,7 @@ export default function ManagerProfileStudent() {
   } else if (loadAllUser) {
     return
   }
-  if (userLogin?.me.role !== 'STAFF') {
+  if (userLogin?.me.role !== 'STAFF' && userLogin?.me.role !== 'ADMIN' && userLogin?.me.role !== 'PRINCIPAL') {
       Swal.fire({
         title: "Access Denied!",
         text: "Kamu tidak ada akses ke profile ini!",
@@ -58,7 +58,7 @@ export default function ManagerProfileStudent() {
       });
     return
   }
-  const userPayload = userLogin?.me.role !== 'STAFF' ? null : userLogin
+  const userPayload = userLogin?.me.role !== 'STAFF' && userLogin?.me.role !== 'ADMIN' && userLogin?.me.role !== 'PRINCIPAL' ? null : userLogin
   const userFind = allUser?.users.find((item) => item.id === userPayload?.me.id)
   const enrolId = enrollments?.enrollments.find((item) => item.studentId === userFind?.id)
 
@@ -81,7 +81,7 @@ export default function ManagerProfileStudent() {
   }
    const data: HeadOffice = {
       id: userFind.id ?? "",
-      role: 'Headoffice',
+      role: userLogin?.me.role,
       enrollment_id: enrolId?.id ?? "",
       term_id: enrolId?.termId ?? '',
       name: userFind.name ?? "",

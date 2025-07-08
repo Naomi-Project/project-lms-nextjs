@@ -1409,7 +1409,7 @@ export type GetEnrollmentQuery = { __typename?: 'Query', enrollment: { __typenam
 export type GetEnrollmentsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetEnrollmentsQuery = { __typename?: 'Query', enrollments: Array<{ __typename?: 'Enrollment', id: string, studentId: string, classroomId: string, termId: string, createdAt?: any | null, term?: { __typename?: 'Term', id: string, name: string, curriculum: { __typename?: 'Curriculum', id: string, name: string } } | null, classroom?: { __typename?: 'Classroom', id: string, name: string, students: Array<{ __typename?: 'User', id: string, name?: string | null, nisn?: string | null }>, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null } } | null, student?: { __typename?: 'User', id: string, name?: string | null, nisn?: string | null, phone: string, schoolId?: string | null, school?: { __typename?: 'School', id: string, name: string, npsn: string } | null } | null, payments?: Array<{ __typename?: 'Payment', id: string, status: PaymentStatus, amount?: number | null, method: PaymentMethod, invoice?: string | null, url?: string | null, createdAt: any, updatedAt: any, enrollment?: { __typename?: 'Enrollment', id: string } | null, pricing?: { __typename?: 'Pricing', id: string, name: string, amount: number } | null }> | null }> };
+export type GetEnrollmentsQuery = { __typename?: 'Query', enrollments: Array<{ __typename?: 'Enrollment', id: string, studentId: string, classroomId: string, termId: string, createdAt?: any | null, term?: { __typename?: 'Term', id: string, name: string, curriculum: { __typename?: 'Curriculum', id: string, name: string } } | null, pricing?: { __typename?: 'Pricing', id: string } | null, classroom?: { __typename?: 'Classroom', id: string, name: string, students: Array<{ __typename?: 'User', id: string, name?: string | null, nisn?: string | null }>, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null } } | null, student?: { __typename?: 'User', id: string, name?: string | null, nisn?: string | null, phone: string, schoolId?: string | null, school?: { __typename?: 'School', id: string, name: string, npsn: string } | null } | null, payments?: Array<{ __typename?: 'Payment', id: string, status: PaymentStatus, amount?: number | null, method: PaymentMethod, invoice?: string | null, url?: string | null, createdAt: any, updatedAt: any, enrollment?: { __typename?: 'Enrollment', id: string } | null, pricing?: { __typename?: 'Pricing', id: string, name: string, amount: number } | null }> | null }> };
 
 export type CreateEnrollmentMutationVariables = Exact<{
   data: CreateEnrollmentInput;
@@ -1772,7 +1772,7 @@ export type GetClassroomQueryVariables = Exact<{
 }>;
 
 
-export type GetClassroomQuery = { __typename?: 'Query', classroom: { __typename?: 'Classroom', id: string, name: string, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, classroomId: string, subjectId: string, subject?: { __typename?: 'Subject', id: string, name: string } | null }>, students: Array<{ __typename?: 'User', id: string, name?: string | null, nisn?: string | null, classroom?: { __typename?: 'Classroom', id: string, name: string, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, subjectId: string, subject?: { __typename?: 'Subject', id: string, name: string } | null }> } | null, school?: { __typename?: 'School', id: string, name: string, npsn: string } | null }> } };
+export type GetClassroomQuery = { __typename?: 'Query', classroom: { __typename?: 'Classroom', id: string, name: string, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, classroomId: string, subjectId: string, subject?: { __typename?: 'Subject', id: string, name: string } | null }>, school: { __typename?: 'School', id: string, name: string, npsn: string }, students: Array<{ __typename?: 'User', id: string, name?: string | null, nisn?: string | null, classroom?: { __typename?: 'Classroom', id: string, name: string, schedules: Array<{ __typename?: 'Schedule', id: string, day: Day, subjectId: string, subject?: { __typename?: 'Subject', id: string, name: string } | null }> } | null, school?: { __typename?: 'School', id: string, name: string, npsn: string } | null }> } };
 
 export type GetClassroomsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1791,7 +1791,7 @@ export type UpdateClassroomMutationVariables = Exact<{
 }>;
 
 
-export type UpdateClassroomMutation = { __typename?: 'Mutation', updateClassroom: { __typename?: 'Classroom', id: string, name: string, grade: { __typename?: 'Grade', id: string }, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, enrollments: Array<{ __typename?: 'Enrollment', id: string, studentId: string }> } };
+export type UpdateClassroomMutation = { __typename?: 'Mutation', updateClassroom: { __typename?: 'Classroom', id: string, name: string, grade: { __typename?: 'Grade', id: string }, guardian: { __typename?: 'User', id: string, name?: string | null, nuptk?: string | null }, enrollments: Array<{ __typename?: 'Enrollment', id: string, termId: string, studentId: string, pricing?: { __typename?: 'Pricing', id: string } | null }> } };
 
 export type DeleteClassroomMutationVariables = Exact<{
   data: Scalars['String']['input'];
@@ -2891,6 +2891,9 @@ export const GetEnrollmentsDocument = gql`
         id
         name
       }
+    }
+    pricing {
+      id
     }
     classroom {
       id
@@ -5420,6 +5423,11 @@ export const GetClassroomDocument = gql`
         name
       }
     }
+    school {
+      id
+      name
+      npsn
+    }
     students {
       id
       name
@@ -5615,7 +5623,11 @@ export const UpdateClassroomDocument = gql`
     }
     enrollments {
       id
+      termId
       studentId
+      pricing {
+        id
+      }
     }
   }
 }

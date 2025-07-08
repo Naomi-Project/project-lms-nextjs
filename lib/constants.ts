@@ -280,7 +280,7 @@ export const TeacherNotGuardianMenu = [
     title: "Dashboard Tugas",
     href: "/dashboard/teachers",
     icon: Book,
-    visibility: false,
+    visibility: true,
   },
   {
     title: "Nilai Tugas",
@@ -301,7 +301,7 @@ export const TeacherNotGuardianMenu = [
     visibility: false,
   },
   {
-    title: "Dashboard Materi",
+    title: "Materi",
     href: "/managements/teacher/material",
     icon: Book,
     visibility: true,

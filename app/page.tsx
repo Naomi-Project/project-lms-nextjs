@@ -20,7 +20,7 @@ import Swal from "sweetalert2";
 
 export default function LoginPage() {
   // const { login } = useAuthStore();
-  const [role, setRole] = useState<"manager" | "admin" | "teacher" | "student">(
+  const [role, setRole] = useState<"manager" | "admin" | "teacher" | "principal" | "student">(
     "manager"
   );
   const [username, setUsername] = useState("");
@@ -43,7 +43,7 @@ export default function LoginPage() {
       if (role === 'manager' && !username.includes('staff')) return setIsError(true)
       if (role === 'admin' && !username.includes('admin')) return setIsError(true)
   
-      if (role === "manager" || role === "admin") {
+      if (role === "manager" || role === "admin" || role === "principal") {
         response = await login({
           variables: {
             data: { username, password },
@@ -78,7 +78,7 @@ export default function LoginPage() {
         }).then((result) => {
           if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
 
-            if (role === 'admin' || role === 'manager') {
+            if (role === 'admin' || role === 'manager' || role === 'principal') {
               window.location.href = "/dashboard/managers";
             } else if (role === 'student' || role === 'teacher') {
               window.location.href = "/dashboard/" + role + "s";
@@ -147,6 +147,21 @@ export default function LoginPage() {
                 </TabsContent>
                 <TabsContent value="admin">
                   <div className="flex flex-col space-y-1.5">
+                    <Label htmlFor="role">Masuk sebagai</Label>
+                    <select
+                      id="role"
+                      value={role}
+                      onChange={(e) =>
+                        setRole(e.target.value as "admin" | "principal")
+                      }
+                      className="border rounded px-3 py-2"
+                    >
+                      <option value="admin">Admin Cabang</option>
+                      <option value="principal">Kepala Sekolah</option>
+                    </select>
+                  </div>
+
+                  <div className="flex flex-col space-y-1.5 mt-4">
                     <Label htmlFor="username">Username</Label>
                     <Input
                       id="username"
@@ -155,6 +170,50 @@ export default function LoginPage() {
                       onChange={(e) => setUsername(e.target.value)}
                     />
                   </div>
+
+                  <div className="flex flex-col space-y-1.5 mt-4">
+                    <Label htmlFor="password">Password</Label>
+                    <Input
+                      id="password"
+                      type="password"
+                      placeholder="Enter your password"
+                      value={password}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          handleLogin(e);
+                        }
+                      }}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  </div>
+                </TabsContent>
+                <TabsContent value="principal">
+                  <div className="flex flex-col space-y-1.5">
+                    <Label htmlFor="role">Masuk sebagai</Label>
+                    <select
+                      id="role"
+                      value={role}
+                      onChange={(e) =>
+                        setRole(e.target.value as "admin" | "principal")
+                      }
+                      className="border rounded px-3 py-2"
+                    >
+                      <option value="admin">Admin Cabang</option>
+                      <option value="principal">Kepala Sekolah</option>
+                    </select>
+                  </div>
+
+                  <div className="flex flex-col space-y-1.5 mt-4">
+                    <Label htmlFor="username">Username</Label>
+                    <Input
+                      id="username"
+                      placeholder="Enter your username"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                    />
+                  </div>
+
                   <div className="flex flex-col space-y-1.5 mt-4">
                     <Label htmlFor="password">Password</Label>
                     <Input

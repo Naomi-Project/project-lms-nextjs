@@ -17,6 +17,7 @@ import {
 } from "@/graphql/generated";
 import { z } from "zod";
 import { useState } from "react";
+import { format } from "date-fns";
 import { useParams } from "next/navigation";
 import { CommonFormEdit } from "@/components/common/form/CommonFormEdit";
 
@@ -25,9 +26,7 @@ const cabangKelasSchema = z.object({
   name: z.string().min(1, "Nama kelas wajib diisi"),
   gradeId: z.string().min(1, "Induk kelas wajib diisi"),
   guardianId: z.string().min(1, "Wali wajib diisi"),
-  // termId: z.string().min(1, "Wali wajib diisi"),
-  // pricingId: z.string().min(1, "Tagihan/SPP wajib dipilih"),
-  students: z.array(z.string()).min(1, "Minimal pilih satu siswa"), 
+  students: z.array(z.string().optional()), 
   // schedules: z.string().min(1, "Nama wali wajib diisi"),
 });
 
@@ -67,6 +66,7 @@ const FormHelpersEdit = () => {
     label: grade.name,
     value: grade.id,
   })) || []
+  console.log(thirdData?.pricings)
   const dataPricings: dataSelectTypes[] = thirdData?.pricings.map((item) => ({
     label: item.name,
     value: item.id,
@@ -87,7 +87,7 @@ const FormHelpersEdit = () => {
   const onlyOneGuardian = secondData?.users
   
   // return 
-  const dataTeachers: dataSelectTypes[] = onlyOneGuardian?.map((user) => ({
+  const dataTeachers: dataSelectTypes[] = onlyOneGuardian?.filter((item) => item.role === "TEACHER").map((user) => ({
       label: user.name ?? "",
       value: user.id,
   })) || []
@@ -107,6 +107,18 @@ const FormHelpersEdit = () => {
   if (loading || loadClass || !data?.classroom || !dataTeachers || !id) {
     return <div>Loading..</div>;
   }
+
+  const now = Date.now();
+
+  const currentTerm = school?.schools
+    .find(schoolItem =>
+      schoolItem.users.some(userItem => userItem.id === user?.me.id)
+    )?.terms.find(term =>
+      now >= new Date(term.startDate || 0).getTime() &&
+      now <= new Date(term.endDate || 0).getTime()
+    );
+
+
   let findGrade: any = grade?.grades?.find((item) => item?.classrooms?.some((cs) => cs.id === data?.classroom?.id)) || {}
   findGrade = findGrade.id ?? ''
   const sections: CommonFormAddSection<Form>[] = [
@@ -154,8 +166,6 @@ const FormHelpersEdit = () => {
             dataSelect: dataStudents,
             class: "md:w-full lg:w-full",
             emptyValue: "-",
-            disabled: true,
-            hidden: true,
             placeholder: "Pilih Siswa..",
           },
         ],
@@ -186,9 +196,10 @@ const FormHelpersEdit = () => {
       id: data.classroom.id || "",
       name: data.classroom.name || "", // Jika name tidak ada, beri default ""
       gradeId: findGrade ?? "", // Pastikan gradeId sesuai dengan ID yang ada
-      guardianId: data.classroom.guardian?.id || "", // Pastikan guardianId ada
-      // termId: "", // Jika term ada, ambil ID-nya
-      // pricingId: "", // Jika pricing ada, ambil ID-nya
+      guardianId: data.classroom.guardian?.id || "",
+      termId: currentTerm?.id || "", 
+      schoolId: data.classroom.school.id || '',
+      pricingId: thirdData?.pricings[0].id || '',
       students: data.classroom.students?.map((student) => student.id) || [], // Ambil hanya ID murid
     }
   : null; // Jika `data?.classroom` masih `undefined`, biarkan `fixData` tetap `null`

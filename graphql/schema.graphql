@@ -376,6 +376,9 @@ query GetEnrollments {
         name
       }
     }
+    pricing {
+      id
+    }
     classroom {
       id
       name
@@ -1334,6 +1337,11 @@ query GetClassroom($data: String!) {
         name
       }
     }
+    school {
+      id
+      name
+      npsn
+    }
     students {
       id
       name
@@ -1435,7 +1443,11 @@ mutation UpdateClassroom($data: UpdateClassroomInput!) {
     }
     enrollments {
       id
+      termId
       studentId
+      pricing {
+        id
+      }
     }
   }
 }

@@ -131,11 +131,14 @@ export function CommonFormEdit<T extends Record<any, any>>(
     });
   };
 
+  const [createEnrollment] = useCreateEnrollmentMutation()
+  const [updateEnrollment] = useUpdateEnrollmentMutation()
   const updateClass = async (dataMut: any) => {
     const cleanData = {
       id: dataMut.id,
       name: dataMut.name,
       gradeId: dataMut.gradeId,
+      schoolId: dataMut.schoolId,
       guardianId: dataMut.guardianId,
     }
     try {
@@ -150,35 +153,38 @@ export function CommonFormEdit<T extends Record<any, any>>(
         throw new Error("Gagal mendapatkan ID kelas.");
       }
       
-            
+      // console.log(dataMut.students);
+      // return
       // 3️⃣ Looping dan update setiap siswa ke kelas
-      // for (const studentId of dataMut.students) {
-      //     const enrolId = resClass?.enrollments?.find((item: any) => item.studentId === studentId) || {}
-      //     if (!enrolId) {
-      //       console.log('woi buat woi')
-      //         await createEnrollment({
-      //         variables: {
-      //           data: {
-      //             studentId: studentId,
-      //             classroomId: resClass.id,
-      //             termId: dataMut.termId,
-      //             pricingId: dataMut.pricingId
-      //           },
-      //         },
-      //       });
-      //       return
-      //     }
-      //     console.log('enrol id: ', enrolId)
-      //     await updateEnrollment({
-      //     variables: {
-      //       data: {
-      //         id: enrolId.id ?? '',
-      //         studentId: studentId,
-      //         classroomId: resClass.id,
-      //       },
-      //     },
-      //   });
-      // }
+      for (const studentId of dataMut.students) {
+          const enrolId = resClass?.enrollments?.find((item: any) => item.studentId === studentId) || null
+          console.log(enrolId)
+          if (enrolId == null) {
+            console.log('woi buat woi')
+              await createEnrollment({
+              variables: {
+                data: {
+                  studentId: studentId,
+                  classroomId: dataMut.id,
+                  termId: dataMut.termId,
+                  pricingId: dataMut.pricingId
+                },
+              },
+            });
+          } else {
+            await updateEnrollment({
+              variables: {
+                data: {
+                  id: enrolId.id ?? '',
+                  studentId: studentId,
+                  pricingId: enrolId.pricing.id,
+                  termId: enrolId.termId,
+                  classroomId: resClass.id,
+                },
+              },
+            });
+          }
+      }
       Swal.fire({
         title: "Berhasil!",
         text: "Data telah berhasil diedit!",
@@ -192,7 +198,7 @@ export function CommonFormEdit<T extends Record<any, any>>(
       });
     } catch (er) {
       console.log(er)
-      alert(er)
+      // alert(er)
     }
   }
   const executeMutation = async (dataMut: any) => {
