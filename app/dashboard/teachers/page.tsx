@@ -175,16 +175,17 @@ export default function DashboardTeacher() {
 
         <div className="flex gap-4 md:mt-0 mt-3">
           <div className="bg-white rounded-lg">
-            <Select defaultValue="" onValueChange={(value) => setFilter(value)}>
+          <Select defaultValue="all" onValueChange={(value) => setFilter(value === "all" ? "" : value)}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Pilih Mata Pelajaran" />
               </SelectTrigger>
               <SelectContent>
-                {
-                  dataSubject && dataSubject.map((item, index) => (
-                    <SelectItem key={index} value={item.value}>{item.label}</SelectItem>
-                  ))
-                }
+                <SelectItem value="all">Semua Tugas</SelectItem>
+                {dataSubject.map((item, index) => (
+                  <SelectItem key={index} value={item.value}>
+                    {item.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
