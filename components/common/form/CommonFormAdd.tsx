@@ -342,26 +342,27 @@ export function CommonFormAdd<T extends Record<any, any>>(
         },
       });
       if (response) {
-      const submissionId = response?.data?.createSubmission?.id;
-      if (!submissionId) {
-        setIsSubmit(false)
-        throw new Error("Submission ID tidak ditemukan!");
-      }
-      await executeMutation({
-          submissionId: submissionId,
-          value: score,
-          notes: 'bagus cek2'
-        })
-      }
-      Swal.fire({
-        title: "Berhasil Submit!",
-        text: "Berhasil Merekam Jawaban Tugas ini! silakan reload halaman.",
-        icon: "success",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          handleCreateSuccess()
+        const submissionId = response?.data?.createSubmission?.id;
+        if (!submissionId) {
+          setIsSubmit(false)
+          throw new Error("Submission ID tidak ditemukan!");
         }
-      });
+        await executeMutation({
+            submissionId: submissionId,
+            value: score,
+            notes: '-'
+          })
+        
+        Swal.fire({
+          title: "Berhasil Submit!",
+          text: "Berhasil Merekam Jawaban Tugas ini! silakan reload halaman.",
+          icon: "success",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            handleCreateSuccess()
+          }
+        });
+      }
     } catch (err) {
       console.error("Error creating data:", err);
       setIsSubmit(false)

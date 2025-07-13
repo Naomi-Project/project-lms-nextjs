@@ -21,6 +21,12 @@ import {
 } from "@/components/ui/select"; // Import komponen Select dari shadcn-ui
 import { useBroadcastByWhatsAppMutation, useGetBroadcastsQuery, useGetUserQuery, useUserPayloadQuery } from '@/graphql/generated';
 import Swal from 'sweetalert2';
+import { Checkbox } from "@/components/ui/checkbox";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
+import { FormControl, FormMessage } from '@/components/ui/form';
+import { Popover, PopoverTrigger, PopoverContent } from '@radix-ui/react-popover';
+import { Controller } from 'react-hook-form';
 
 const CommonFormBroadcastWa = ({ nomor = '', label = '' }: any) => {
   const [broadcastByWhatsApp] = useBroadcastByWhatsAppMutation();
@@ -85,11 +91,13 @@ const CommonFormBroadcastWa = ({ nomor = '', label = '' }: any) => {
   if (error) return <p>Error saat memuat pesan: {error.message}</p>;
 
   const broadcasts = data?.broadcasts || []; // Ambil data broadcast
+  
+  const [triggerWidth, setTriggerWidth] = useState<string>("auto");
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant={'secondary'} className='bg-green-600 text-white hover:bg-green-800' aria-label="Kirim Pesan Ke Siswa">{label !== '' ? label : 'Kirim pesan custom ke murid'}</Button>
+        <Button variant={'secondary'} className='bg-green-600 text-white hover:bg-green-800' aria-label="Kirim Pesan Ke Siswa">{label !== '' ? label : 'Kirim Pesan Ke Murid'}</Button>
       </DialogTrigger>
       <DialogContent className=" rounded-lg">
         <DialogHeader>
@@ -102,13 +110,48 @@ const CommonFormBroadcastWa = ({ nomor = '', label = '' }: any) => {
             <Label htmlFor="numbers" className="text-right">
               Nomor
             </Label>
-            <Input
+            {/* <Input
               id="numbers"
               type="text"
               placeholder="Pisahkan koma, untuk nomor lainnya"
               value={numbers}
               onChange={(e) => setNumbers(e.target.value)}
-            />
+            /> */}
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  // ref={buttonRef}
+                  variant="outline"
+                  className={`w-full justify-between`}
+                >
+                  Pilih Siswa
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent style={{ width: triggerWidth }} className="p-2">
+                <ScrollArea className="h-auto">
+                    <div
+                      // key={option.value}
+                      className="flex items-center space-x-2 p-1"
+                    >
+                      <Checkbox
+                        id={'1'}
+                        // checked={selectedValues.includes(option.value)}
+                        // onCheckedChange={() => {
+                        //   const newValue = selectedValues.includes(option.value)
+                        //     ? selectedValues.filter((v: string) => v !== option.value)
+                        //     : [...selectedValues, option.value];
+                        //   setValue(name, newValue);
+                        //   field.onChange(newValue);
+                        // }}
+                      />
+                      <label
+                      >
+                        {'option.label'}
+                      </label>
+                    </div>
+                </ScrollArea>
+              </PopoverContent>
+            </Popover>
           </div>
 
           <div className="mt-3">

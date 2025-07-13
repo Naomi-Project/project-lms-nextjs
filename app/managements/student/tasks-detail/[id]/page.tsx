@@ -39,5 +39,5 @@ export default function DetailPage() {
     return
   }
 
-  return <TasksDetail guru={data?.assignment.subject.teachers[0].name ?? ""} dataDefault={data?.assignment.extendedData ?? ""} role='student' idAssignment={String(id) ?? ""} title={data?.assignment.title ?? ""} typeTugas={data?.assignment.type} dueDate={data?.assignment.dueDate} description={data?.assignment.description} subject={data?.assignment.subject.name ?? "Mapel Tidak Diketahui"} />;
+  return <TasksDetail guru={data?.assignment?.subject?.teachers[0]?.name ?? "Pembuat Tidak diketahui"} dataDefault={data?.assignment?.extendedData ?? ""} role='student' idAssignment={String(id) ?? ""} title={data?.assignment?.title ?? ""} typeTugas={data?.assignment?.type ?? ''} dueDate={data?.assignment?.dueDate} description={data?.assignment?.description} subject={data?.assignment.subject.name ?? "Mapel Tidak Diketahui"} />;
 }

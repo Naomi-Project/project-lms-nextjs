@@ -82,7 +82,7 @@ export default function TasksDetail({ role = "teacher", dataDefault, idAssignmen
                     <div className="flex flex-wrap gap-2 items-end">
                       <Calendar className="text-primary" />
                       <div className="flex flex-col">
-                        <span>{dueDate}</span>
+                        <span>{format(new Date(dueDate), "yyyy-MM-dd HH:mm:ss")}</span>
                       </div>
                     </div>
                     <div className="flex flex-wrap gap-2 items-end">
