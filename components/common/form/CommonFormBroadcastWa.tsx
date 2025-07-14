@@ -18,14 +18,15 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"; // Import komponen Select dari shadcn-ui
-import { useBroadcastByWhatsAppMutation, useGetBroadcastsQuery, useGetUserQuery, useUserPayloadQuery } from '@/graphql/generated';
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox"; // ✅ Import Checkbox
+import { Role, useBroadcastByWhatsAppMutation, useGetBroadcastsQuery, useGetUserQuery, useUserPayloadQuery } from '@/graphql/generated';
 import Swal from 'sweetalert2';
 
 const CommonFormBroadcastWa = ({ nomor = '', label = '' }: any) => {
   const [broadcastByWhatsApp] = useBroadcastByWhatsAppMutation();
   const { data: user } = useUserPayloadQuery(); 
-  const { data: findUser, loading: loadFindUser } = useGetUserQuery({
+  const { data: findUser } = useGetUserQuery({
     variables: {
       data: user?.me.id ?? ''
     }, 
@@ -35,75 +36,77 @@ const CommonFormBroadcastWa = ({ nomor = '', label = '' }: any) => {
     variables: {
         schoolId: findUser?.user.school?.id ?? ''
     }
-  }); // Ambil loading dan error juga
+  });
+
   const [message, setMessage] = useState('');
   const [numbers, setNumbers] = useState(nomor !== '' ? nomor : '');
+  const [sendToAll, setSendToAll] = useState(false); // ✅ State untuk checkbox
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log('submited');
 
     const numbersArray = numbers.split(',').map((num: any) => num.trim());
 
     try {
       const { data } = await broadcastByWhatsApp({
         variables: {
-            data: {
-                message: message,
-                numbers: numbersArray,
-            }
+          data: {
+            message: message,
+            numbers: numbersArray,
+            target: sendToAll ? Role.Student : null
+          }
         },
       });
-      console.log('Data yang dikirim:', data);
-      
+
       Swal.fire({
         title: "Berhasil Mengirim!",
-        html: `Pesan telah berhasil dikirim ke siswa!<br><br><b>Pesan:</b> ${message}<br><b>Nomor Tujuan:</b> ${numbers}`,
+        html: `Pesan berhasil dikirim!<br><br><b>Pesan:</b> ${message}`,
         icon: "success",
       }).then((result) => {
         if (result.isConfirmed) {
-            location.reload()
+          location.reload();
         }
       });
     } catch (error) {
-        console.error('Terjadi kesalahan saat broadcast:', error);
-        Swal.fire({
-          title: "Gagal Mengirim!",
-          text: "error saat mengirim pesan, coba lagi nanti.",
-          icon: "error",
-          timer: 2000,
-          timerProgressBar: true,
-        }).then((result) => {
-          if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
-              location.reload()
-          }
-        });
+      console.error('Terjadi kesalahan saat broadcast:', error);
+      Swal.fire({
+        title: "Gagal Mengirim!",
+        text: "Terjadi error, coba lagi nanti.",
+        icon: "error",
+        timer: 2000,
+        timerProgressBar: true,
+      }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
+          location.reload();
+        }
+      });
     }
   };
 
   if (loading) return <p>Memuat pesan...</p>;
   if (error) return <p>Error saat memuat pesan: {error.message}</p>;
 
-  const broadcasts = data?.broadcasts || []; // Ambil data broadcast
+  const broadcasts = data?.broadcasts || [];
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant={'secondary'} className='bg-green-600 text-white hover:bg-green-800' aria-label="Kirim Pesan Ke Siswa">{label !== '' ? label : 'Kirim pesan custom ke murid'}</Button>
+        <Button variant={'secondary'} className='bg-green-600 text-white hover:bg-green-800'>
+          {label !== '' ? label : 'Kirim Pesan Ke Murid'}
+        </Button>
       </DialogTrigger>
-      <DialogContent className=" rounded-lg">
+      <DialogContent className="rounded-lg">
         <DialogHeader>
           <DialogTitle className="text-center">
             Kirim Pesan WA ke murid
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
-          <div className="">
-            <Label htmlFor="numbers" className="text-right">
-              Nomor
-            </Label>
+          <div>
+            <Label htmlFor="numbers" className="text-right">Nomor</Label>
             <Input
               id="numbers"
+              required={!sendToAll}
               type="text"
               placeholder="Pisahkan koma, untuk nomor lainnya"
               value={numbers}
@@ -112,9 +115,7 @@ const CommonFormBroadcastWa = ({ nomor = '', label = '' }: any) => {
           </div>
 
           <div className="mt-3">
-            <Label htmlFor="message" className="text-right">
-              Pesan
-            </Label>
+            <Label htmlFor="message" className="text-right">Pesan</Label>
             <Select onValueChange={setMessage} value={message}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Pilih pesan untuk semua murid tersebut" />
@@ -128,6 +129,15 @@ const CommonFormBroadcastWa = ({ nomor = '', label = '' }: any) => {
               </SelectContent>
             </Select>
           </div>
+
+          {/* ✅ Input checkbox */}
+          <div className="flex items-center space-x-2 mt-4">
+            <Checkbox id="sendToAll" checked={sendToAll} onCheckedChange={(checked) => setSendToAll(Boolean(checked))} />
+            <Label htmlFor="sendToAll" className="text-sm">
+              Kirim ke semua murid
+            </Label>
+          </div>
+
           <DialogFooter className="mt-5">
             <Button type="submit" variant="default" className="w-full">
               Selesai
