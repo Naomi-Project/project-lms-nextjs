@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -122,7 +123,11 @@ export type BroadcastWhatsAppInput = {
   /** Message for broadcast, message is required */
   message: Scalars['String']['input'];
   /** Phone numbers for broadcast, numbers is required start with 62 */
-  numbers: Array<Scalars['String']['input']>;
+  numbers?: InputMaybe<Array<Scalars['String']['input']>>;
+  /** School ID for broadcast, schoolId is required */
+  schoolId?: InputMaybe<Scalars['String']['input']>;
+  /** Accepted target: SCHOOL, STUDENT, TEACHER, PRINCIPAL, STAFF, ALL */
+  target?: InputMaybe<Role>;
 };
 
 export type Checkout = {
@@ -218,7 +223,7 @@ export type CreateGradeInput = {
 export type CreateMaterialInput = {
   content: Scalars['String']['input'];
   referenceIds?: InputMaybe<Array<Scalars['ID']['input']>>;
-  subjectId: Scalars['ID']['input'];
+  subjectId?: InputMaybe<Scalars['ID']['input']>;
   title: Scalars['String']['input'];
 };
 
@@ -262,11 +267,11 @@ export type CreateScoreInput = {
 
 export type CreateSubjectInput = {
   code: Scalars['String']['input'];
-  curriculumId: Scalars['ID']['input'];
+  curriculumId?: InputMaybe<Scalars['ID']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
-  gradeId: Scalars['ID']['input'];
+  gradeId?: InputMaybe<Scalars['ID']['input']>;
   name: Scalars['String']['input'];
-  teacherId: Scalars['ID']['input'];
+  teacherId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type CreateSubmissionInput = {
