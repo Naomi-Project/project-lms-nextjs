@@ -2,7 +2,7 @@
 /* eslint-disable */
 import { Button } from "@/components/ui/button";
 import ButtonDelete from "@/components/ui/buttonDelete";
-import { useDeleteGradeMutation, useGetGradesQuery } from "@/graphql/generated";
+import { useDeleteGradeMutation, useGetGradesQuery, useUserPayloadQuery } from "@/graphql/generated";
 import { Building2, EllipsisVertical } from "lucide-react";
 import {
   DropdownMenu,
@@ -19,15 +19,16 @@ export interface ListProps<T extends Record<any, any>> {
 function ListGrade<T extends Record<any, any>>(
   props: ListProps<T>
 ) {
+  const { data: user } = useUserPayloadQuery();
   const { data, loading } = useGetGradesQuery();
     const [deleteGrade] = useDeleteGradeMutation();
-  const cleanData = data?.grades.slice().sort((a: any, b: any) => {
+  const cleanData = data?.grades.filter((item) => item.school.id === user?.me.schoolId).slice().sort((a: any, b: any) => {
     const numA = parseInt(a.name.match(/\d+/)?.[0] || "0"); 
     const numB = parseInt(b.name.match(/\d+/)?.[0] || "0");
   
-    return numA - numB; // Urutkan berdasarkan angka saja  
+    return numA - numB;
   }) || [];
-
+  console.log(cleanData)
   if (loading) return "loading.."
   
   return (

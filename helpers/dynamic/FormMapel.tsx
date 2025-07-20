@@ -8,18 +8,21 @@ import {
   useCreateSubjectMutation,
   useGetCurriculumsQuery,
   useGetGradesQuery,
+  useGetSubjectsQuery,
   useGetUsersQuery,
+  useUserPayloadQuery,
 } from "@/graphql/generated";
 import { z } from "zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const mapelSchema = z.object({
   name: z.string().min(1, "Nama pelajaran wajib diisi"),
   code: z.string().min(1, "Kode pelajaran wajib diisi"),
   description: z.string().min(1, "Deskripsi pelajaran wajib diisi"),
   gradeId: z.string().min(1, "Induk Kelas wajib dipilih"),
+  schoolId: z.string().min(1, "School id wajib di isi"),
   curriculumId: z.string().min(1, "Kurikulum wajib dipilih"),
-  teacherId: z.string().min(1, "Guru Pelajaran wajib dipilih"),
+  teacherIds: z.array(z.string()).min(1, "Guru Pelajaran wajib dipilih"),
 });
 
 interface Form {
@@ -28,7 +31,8 @@ interface Form {
   description: string;
   gradeId: string;
   curriculumId: string;
-  teacherId: string;
+  schoolId: string;
+  teacherIds: string[];
 }
 
 interface dataSelectTypes {
@@ -37,6 +41,8 @@ interface dataSelectTypes {
 }
 
 const FormHelpersAdd = () => {
+  const { data: user } = useUserPayloadQuery()
+  const { data: subjects } = useGetSubjectsQuery()
   const { data: firstData } = useGetGradesQuery()
   const dataGrades: dataSelectTypes[] = firstData?.grades.map((data) => ({
     label: data.name,
@@ -52,7 +58,7 @@ const FormHelpersAdd = () => {
     label: data.name ?? "",
     value: data.id,
   })) || []
-  
+   
 
   const [createSubject] = useCreateSubjectMutation();
 
@@ -61,8 +67,9 @@ const FormHelpersAdd = () => {
     code: "",
     description: "",
     gradeId: "",
+    schoolId: user?.me.schoolId ?? '',
     curriculumId: "",
-    teacherId: "",
+    teacherIds: [],
   });
 
 
@@ -95,6 +102,16 @@ const FormHelpersAdd = () => {
         ],
         [
           {
+            key: "schoolId",
+            label: "School ID",
+            class: "md:w-full lg:w-full",
+            emptyValue: "-",
+            hidden: true,
+            placeholder: "Masukan id sekolah..",
+          },
+        ],
+        [
+          {
             key: "gradeId",
             label: "Induk Kelas",
             emptyValue: "-",
@@ -113,8 +130,8 @@ const FormHelpersAdd = () => {
         ],
         [
           {
-            key: "teacherId",
-            type: "select",
+            key: "teacherIds",
+            type: "select_multiple",
             dataSelect: dataTeacher,
             label: "Guru/Pemateri",
             emptyValue: "-",
@@ -125,6 +142,11 @@ const FormHelpersAdd = () => {
       ],
     },
   ];
+
+  useEffect(() => {
+    setDataMutationDefault({...dataMutationDefault, schoolId: user?.me?.schoolId ?? ''})
+  }, [user?.me.schoolId])
+
   return (
     <CommonFormAdd
       lable="Mata Pelajaran"

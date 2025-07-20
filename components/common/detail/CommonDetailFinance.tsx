@@ -103,58 +103,60 @@ export function CommonDetail<T extends Record<any, any>>(
   }
 
   const checkoutSpp = async () => {
-    try {
-      if (checkoutData.length == 0) {
-          Swal.fire({
-            title: "Perhatian!",
-            text: "Silakan pilih tagihan terlebih dahulu.",
-            icon: "warning",
-            showConfirmButton: false,
-            timer: 2000,
-            timerProgressBar: true,
-          });
-          return
-      }
-      const updatePromises = checkoutData.map(item => 
-        updatePayment({
-          variables: {
-            data: {
-              id: item.paymentId,
-              amount: item.amount,
-              status: PaymentStatus.Paid,
-              invoice: item.invoice,
-              url: "",
-              method: PaymentMethod.Cash,
-            }
-          }
-        })
-      );
-    
-      const results = await Promise.all(updatePromises);
-
-      if (results) {
-        Swal.fire({
-          title: "Berhasil!",
-          text: `Berhasil membayar ${checkoutData.length} spp siswa/i dengan metode CASH.`,
-          icon: "success",
-        }).then((result) => {
-          if (result.isConfirmed || result.dismiss) {
-            location.reload();
-          }
-        });
-        return
-      }
-    
-    
-    } catch (e: any) {
-      console.error(e)
+  try {
+    if (checkoutData.length == 0) {
       Swal.fire({
-        title: "Error!",
-        text: "Gagal membuat pembayaran. Silakan coba lagi. error: " + e?.message,
-        icon: "error",
+        title: "Perhatian!",
+        text: "Silakan pilih tagihan terlebih dahulu.",
+        icon: "warning",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
       });
+      return;
     }
+
+    const updatePromises = checkoutData.map(item =>
+      updatePayment({
+        variables: {
+          data: {
+            id: item.paymentId,
+            amount: item.amount,
+            status: PaymentStatus.Paid,
+            invoice: item.invoice,
+            url: "",
+            method: PaymentMethod.Cash,
+          }
+        }
+      })
+    );
+
+    await Promise.all(updatePromises);
+
+    Swal.fire({
+      title: "Berhasil!",
+      text: `Berhasil membayar ${checkoutData.length} spp siswa/i dengan metode CASH.`,
+      icon: "success",
+      showConfirmButton: false,
+      timer: 2000, // tampil selama 2 detik
+      timerProgressBar: true,
+    });
+
+    // reload setelah popup selesai
+    setTimeout(() => {
+      location.reload();
+    }, 2000);
+
+  } catch (e: any) {
+    console.error(e);
+    Swal.fire({
+      title: "Error!",
+      text: "Gagal membuat pembayaran. Silakan coba lagi. error: " + e?.message,
+      icon: "error",
+    });
   }
+}
+
   
   return (
     <>

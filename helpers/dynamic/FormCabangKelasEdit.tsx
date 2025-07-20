@@ -87,11 +87,11 @@ const FormHelpersEdit = () => {
   const onlyOneGuardian = secondData?.users
   
   // return 
-  const dataTeachers: dataSelectTypes[] = onlyOneGuardian?.filter((item) => item.role === "TEACHER").map((user) => ({
+  const dataTeachers: dataSelectTypes[] = onlyOneGuardian?.filter((item) => item.role === "TEACHER" && item.schoolId === user?.me.schoolId).map((user) => ({
       label: user.name ?? "",
       value: user.id,
   })) || []
-  const dataStudents: dataSelectTypes[] = secondData?.users.filter((item) => item.role === "STUDENT").map((user) => ({
+  const dataStudents: dataSelectTypes[] = secondData?.users.filter((item) => item.role === "STUDENT" && item.schoolId === user?.me.schoolId).map((user) => ({
       label: user.name ?? "",
       disabled: user?.classroom?.id === id,
       value: user.id,
