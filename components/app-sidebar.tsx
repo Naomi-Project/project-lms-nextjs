@@ -49,10 +49,10 @@ export function AppSidebar() {
   if (userPayloadLoading || classLoading || usersLoading || announcementLoading || taskLoading || materiLoading) return <Splash />
   
   // pengecekan role sesuai menu
-  const isAdmin = userPayload?.me.role === "ADMIN"
-  const isHeadOffice = userPayload?.me.role === "STAFF" || userPayload?.me.role === "PRINCIPAL"
+  const isAdmin = userPayload?.me.role === "STAFF" || userPayload?.me.role === "PRINCIPAL"
+  const isHeadOffice = userPayload?.me.role === "ADMIN"
   const isTeacher = userPayload?.me.role === "TEACHER"
-  const isGuardian = classRoom?.classrooms.find((item) => item.guardian.id === userPayload?.me.id) ? true : false
+  const isGuardian = classRoom?.classrooms.find((item) => item?.guardian?.id === userPayload?.me.id) ? true : false
   const isStudent = userPayload?.me.role === "STUDENT"
 
   // Fungsi untuk toggle dropdown pada sub-menu

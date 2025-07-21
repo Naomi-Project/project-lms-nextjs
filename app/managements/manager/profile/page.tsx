@@ -89,7 +89,7 @@ export default function ManagerProfileStudent() {
       nisn: userFind.nisn ?? '-',
       phone: userFind.phone,
       classrooms: classrooms?.classrooms ??[],
-      nik: parseInt(userFind.nik ?? ""),
+      nik: parseInt(userFind.nik ?? "") ?? "-",
       dateOfBirth: format(userFind.dateOfBirth, 'yyyy-MM-dd') ?? "",
       gender: userFind.gender === 'MALE' ? "Laki-laki" : "Perempuan",
       classroom_id: parseInt(userFind?.classroom?.id ?? '0') ?? 0,
@@ -97,7 +97,7 @@ export default function ManagerProfileStudent() {
   }
   const sections: CommonDetailSection<HeadOffice>[] = [
     {
-      label: "Data Head Office",
+      label: "Profile",
       fields: [
         {
           key: "name",
@@ -141,7 +141,7 @@ export default function ManagerProfileStudent() {
   return (
     <div className="min-h-screen">
       <CommonDetailPage
-        title="HeadOffice Profile"
+        title="Profile"
         name={data.name}
         hideAddFamily={true}
         epEdit={"/managements/manager/profile/edit/" + data.id}

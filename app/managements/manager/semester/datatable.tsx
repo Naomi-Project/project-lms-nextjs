@@ -3,13 +3,14 @@
 import { DataTable } from "@/components/common/list/CommonDataTable";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
-import { useDeleteTermMutation, useDeleteUserMutation, useGetSchoolsQuery, useGetTermsQuery, useGetUsersQuery } from "@/graphql/generated";
+import { useDeleteTermMutation, useDeleteUserMutation, useGetSchoolsQuery, useGetTermsQuery, useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";
 import { format } from "date-fns";
 
   
   
 export default function TermTable() {
     const { data } = useGetTermsQuery()
+    const { data: user } = useUserPayloadQuery()
     const { data: schools, loading: loadschools } = useGetSchoolsQuery()
     const [deleteTerm, { loading }] = useDeleteTermMutation();
     const columns = [
@@ -54,7 +55,7 @@ export default function TermTable() {
     // const findSchool = schools?.schools.find
     let dataTerm: any[] = data?.terms || [];
 
-    dataTerm = dataTerm.map((item) => ({
+    dataTerm = dataTerm.filter((item) => item.schoolId === user?.me?.schoolId).map((item) => ({
       ...item,
       schoolName: schools?.schools.find((sc) => sc.id === item.schoolId)?.name ?? ''
     }));

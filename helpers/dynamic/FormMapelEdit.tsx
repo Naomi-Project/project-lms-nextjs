@@ -144,7 +144,7 @@ const FormHelpersEdit = () => {
   }
   const teacherIds = data?.subject?.teachers?.map((teacher) => teacher.id) ?? [];
 
-  const fixData = {...data?.subject, teacherIds: teacherIds ?? [], gradeId: data?.subject?.grade?.id, curriculumId: data?.subject?.curriculum?.id}
+  const fixData = {...data?.subject, teacherIds: teacherIds  ?? [], gradeId: data?.subject?.grade?.id, curriculumId: data?.subject?.curriculum?.id}
   return (
       <CommonFormEdit
         lable="Mata Pelajaran"

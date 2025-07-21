@@ -57,7 +57,7 @@ export default function CurriculumTable() {
       columns={columns}
       data={dataCurriculum}
       filterName="name"
-      filterPlaceholder="Cari Siswa.."
+      filterPlaceholder="Cari Kurikulum.."
     />
   );
 }

@@ -54,7 +54,7 @@ const FormHelpersAdd = () => {
     }, 
     skip: !user?.me.id
   })
-  const dataGrades: dataSelectTypes[] = firstData?.grades.map((grade) => ({
+  const dataGrades: dataSelectTypes[] = firstData?.grades.filter((item) => item.school.id === user?.me.schoolId).map((grade) => ({
     label: grade.name,
     value: grade.id,
   })) || []

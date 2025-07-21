@@ -63,7 +63,7 @@ const FormHelpersEdit = () => {
   const { data: thirdData } = useGetPricingsQuery()
   const { data: user, loading } = useUserPayloadQuery(); 
   const [updateClassroom] = useUpdateClassroomMutation();
-  const dataGrades: dataSelectTypes[] = firstData?.grades.map((grade) => ({
+  const dataGrades: dataSelectTypes[] = firstData?.grades.filter((item) => item.school.id === user?.me.schoolId).map((grade) => ({
     label: grade.name,
     value: grade.id,
   })) || []
