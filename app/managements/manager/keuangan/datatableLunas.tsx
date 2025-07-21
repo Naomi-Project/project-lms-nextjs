@@ -10,10 +10,12 @@ import {
   useGetPaymentsQuery,
   useGetPricingsQuery,
   useGetUsersQuery,
+  useUserPayloadQuery,
 } from "@/graphql/generated";
 import { format, isThisMonth } from "date-fns";
 
 export default function PaymentTable() {
+  const { data: user } = useUserPayloadQuery();
   const { data } = useGetEnrollmentsQuery();
   const [deletePayment, { loading }] = useDeletePaymentMutation();
   const columns = [
@@ -89,7 +91,7 @@ export default function PaymentTable() {
     });
   
   // untuk data murid yang sudah lunas
-    fixData = fixData.filter((item) => item.payments.some((item: any) => item.createdAt && isThisMonth(new Date(item.createdAt)) && item.status === "PAID"))
+    fixData = fixData.filter((item) => item.student.schoolId === user?.me?.schoolId && item.payments.some((item: any) => item.createdAt && isThisMonth(new Date(item.createdAt)) && item.status === "PAID"))
 
   return (
     <DataTable

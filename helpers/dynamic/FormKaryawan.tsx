@@ -113,7 +113,7 @@ const FormHelpersAdd = () => {
               emptyValue: "-",
               type: 'select',
               dataSelect: [
-                { label: 'TEACHER', value: Role.Teacher },
+                // { label: 'TEACHER', value: Role.Teacher },
                 { label: 'ADMIN', value: Role.Admin },
                 { label: 'PRINCIPAL', value: Role.Principal },
                 { label: 'STAFF', value: Role.Staff }

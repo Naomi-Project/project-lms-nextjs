@@ -52,6 +52,7 @@ export default function AdminDashboard() {
   const { data: schools } = useGetSchoolsQuery();
   const { data, loading: enrolLoading } = useGetEnrollmentsQuery();
   const { data: payload, loading } = useUserPayloadQuery();
+  console.log(payload)
   const { data: userLoad, loading: userLoading } = useGetUsersQuery()
   const schoolId = userLoad?.users.find((item) => item.id === payload?.me?.id)
   const student = userLoad?.users.filter((item) => item.role === 'STUDENT' && item.schoolId === schoolId?.schoolId) || []

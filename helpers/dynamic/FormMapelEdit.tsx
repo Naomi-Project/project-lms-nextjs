@@ -19,17 +19,19 @@ const mapelSchema = z.object({
   code: z.string().min(1, "Kode pelajaran wajib diisi"),
   description: z.string().min(1, "Deskripsi pelajaran wajib diisi"),
   gradeId: z.string().min(1, "Induk Kelas wajib dipilih"),
+  schoolId: z.string().min(1, "School id wajib di isi"),
   curriculumId: z.string().min(1, "Kurikulum wajib dipilih"),
-  teacherId: z.string().min(1, "Guru Pelajaran wajib dipilih"),
+  teacherIds: z.array(z.string()).min(1, "Guru Pelajaran wajib dipilih"),
 });
 
 interface Form {
   name: string;
   code: string;
   description: string;
+  schoolId: string;
   gradeId: string;
   curriculumId: string;
-  teacherId: string;
+  teacherIds: string[];
 }
 
 interface dataSelectTypes {
@@ -110,8 +112,18 @@ const FormHelpersEdit = () => {
         ],
         [
           {
-            key: "teacherId",
-            type: "select",
+            key: "schoolId",
+            label: "School ID",
+            class: "md:w-full lg:w-full",
+            emptyValue: "-",
+            hidden: true,
+            placeholder: "Masukan id sekolah..",
+          },
+        ],
+        [
+          {
+            key: "teacherIds",
+            type: "select_multiple",
             dataSelect: dataTeacher,
             label: "Guru/Pemateri",
             emptyValue: "-",
@@ -130,8 +142,9 @@ const FormHelpersEdit = () => {
       <p>Loading..</p>
     );
   }
-  
-  const fixData = {...data?.subject, teacherId: data?.subject?.teachers[0]?.id, gradeId: data?.subject?.grade?.id, curriculumId: data?.subject?.curriculum?.id}
+  const teacherIds = data?.subject?.teachers?.map((teacher) => teacher.id) ?? [];
+
+  const fixData = {...data?.subject, teacherIds: teacherIds  ?? [], gradeId: data?.subject?.grade?.id, curriculumId: data?.subject?.curriculum?.id}
   return (
       <CommonFormEdit
         lable="Mata Pelajaran"

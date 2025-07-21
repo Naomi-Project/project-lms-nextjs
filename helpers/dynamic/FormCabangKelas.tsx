@@ -54,7 +54,7 @@ const FormHelpersAdd = () => {
     }, 
     skip: !user?.me.id
   })
-  const dataGrades: dataSelectTypes[] = firstData?.grades.map((grade) => ({
+  const dataGrades: dataSelectTypes[] = firstData?.grades.filter((item) => item.school.id === user?.me.schoolId).map((grade) => ({
     label: grade.name,
     value: grade.id,
   })) || []
@@ -72,17 +72,17 @@ const FormHelpersAdd = () => {
   // Ambil daftar wali kelas (guardian)
   const guardians = classroomData?.classrooms
     ?.filter((cls) => cls.guardian) // Pastikan kelas punya wali kelas
-    .map((cls) => cls.guardian.id); // Ambil ID wali kelas
+    .map((cls) => cls?.guardian?.id); // Ambil ID wali kelas
   // Ambil murid (murid)
   const studentsInClass = classroomData?.classrooms
   ?.flatMap((cls) => cls.students.map((student) => student.id)) || []; // Ambil semua student.id
   
   // Filter hanya guru yang BELUM menjadi wali kelas
   const onlyOneGuardian = secondData?.users.filter(
-    (user) => user.role === "TEACHER" && !guardians?.includes(user.id)
+    (usr) => usr.role === "TEACHER" && usr.schoolId === user?.me.schoolId && !guardians?.includes(usr.id)
   );
   const onlyOneStudent = secondData?.users.filter(
-    (user) => user.role === "STUDENT" && !studentsInClass?.includes(user.id)
+    (usr) => usr.role === "STUDENT" && usr.schoolId === user?.me.schoolId && !studentsInClass?.includes(usr.id)
   );
   
   // return 

@@ -8,6 +8,7 @@ mutation Login($data: LoginInput!) {
 query UserPayload {
   me {
     id
+    schoolId
     username
     name
     role
@@ -453,15 +454,6 @@ mutation UpdateEnrollment($data: UpdateEnrollmentInput!) {
   }
 }
 
-# 🗑️ Mutasi untuk menghapus Enrollment berdasarkan ID
-mutation DeleteEnrollment($id: String!) {
-  deleteEnrollment(id: $id) {
-    id
-    studentId
-    classroomId
-    termId
-  }
-}
 
 ### Enrollment endregion
 
@@ -732,6 +724,12 @@ query GetSubject($data: String!) {
   subject(id: $data) {
     id
     name
+    school {
+      id
+      name
+      npsn
+    }
+    schoolId
     code
     description
     grade {
@@ -1098,8 +1096,8 @@ mutation CreateAssignment($data: CreateAssignmentInput!) {
   }
 }
 
-mutation UpdateAssignment($data: UpdateAssignmentInput!) {
-  updateAssignment(data: $data) {
+mutation UpdateAssignment($id: String!, $data: UpdateAssignmentInput!) {
+  updateAssignment(id: $id, data: $data) {
     id
     title
     description
@@ -1259,6 +1257,11 @@ query GetGrade($data: String!) {
   grade(id: $data) {
     id
     name
+    school {
+      id
+      name
+      npsn
+    }
     classrooms {
       id
       name
@@ -1274,6 +1277,11 @@ query GetGrades {
   grades {
     id
     name
+    school {
+      id
+      name
+      npsn
+    }
     classrooms {
       id
       name

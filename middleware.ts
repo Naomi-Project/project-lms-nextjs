@@ -22,6 +22,10 @@ async function getUserRole(token: string | null): Promise<string | null> {
         query: `
           query {
             me {
+              id
+              name
+              schoolId
+              username
               role
             }
           }
@@ -90,22 +94,22 @@ const rolePermissions: Record<string, string[]> = {
   
   // menu for role headoffice or staff and pricincipal only
   "/dashboard/admins": ["STAFF", "ADMIN"], 
-  "/managements/admin": ["STAFF"], 
-  "/managements/admin/sekolah": ["STAFF"], 
-  "/managements/admin/sekolah/create": ["STAFF"], 
-  "/managements/admin/sekolah/edit": ["STAFF"], 
-  "/managements/admin/sekolah/detail": ["STAFF"], 
-  "/managements/admin/keuangan": ["STAFF"], 
-  "/managements/admin/student": ["STAFF"], 
-  "/managements/admin/teacher": ["STAFF"], 
-  "/managements/admin/pengumuman": ["STAFF"], 
-  "/managements/admin/pengumuman/create": ["STAFF"], 
-  "/managements/admin/library": ["STAFF"], 
-  "/managements/admin/library/create": ["STAFF"], 
-  "/managements/admin/library/edit": ["STAFF"], 
-  "/managements/admin/setting-admin": ["STAFF"], 
-  "/managements/admin/setting-admin/create": ["STAFF"], 
-  "/managements/admin/setting-admin/edit": ["STAFF"], 
+  "/managements/admin": ["ADMIN"], 
+  "/managements/admin/sekolah": ["ADMIN"], 
+  "/managements/admin/sekolah/create": ["ADMIN"], 
+  "/managements/admin/sekolah/edit": ["ADMIN"], 
+  "/managements/admin/sekolah/detail": ["ADMIN"], 
+  "/managements/admin/keuangan": ["ADMIN"], 
+  "/managements/admin/student": ["ADMIN"], 
+  "/managements/admin/teacher": ["ADMIN"], 
+  "/managements/admin/pengumuman": ["ADMIN"], 
+  "/managements/admin/pengumuman/create": ["ADMIN"], 
+  "/managements/admin/library": ["ADMIN"], 
+  "/managements/admin/library/create": ["ADMIN"], 
+  "/managements/admin/library/edit": ["ADMIN"], 
+  "/managements/admin/setting-admin": ["ADMIN"], 
+  "/managements/admin/setting-admin/create": ["ADMIN"], 
+  "/managements/admin/setting-admin/edit": ["ADMIN"], 
   
   // menu for role teacher only
   "/dashboard/teachers": ["TEACHER"],
