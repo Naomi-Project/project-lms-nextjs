@@ -42,7 +42,7 @@ const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: L
     } else if (userRole === "TEACHER" && role === 'teacher') {
       return data?.assignments.filter((assignment) =>
         assignment.classrooms.some((cls) =>
-          cls.guardian.id === userId
+          cls?.guardian?.id === userId
         )
       ) || [];
     }
@@ -52,7 +52,7 @@ const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: L
   // Menambahkan informasi kelas dan nama wali kelas (guardian)
   const tugasDenganKelas = rawData.map((assignment) => {
     const kelasDitemukan = assignment.classrooms.find((cls) =>
-      cls.students.some((student) => student.id === userId) || cls.guardian.id === userId
+      cls.students.some((student) => student.id === userId) || cls.guardian?.id === userId
     );
     
 

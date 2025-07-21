@@ -46,7 +46,7 @@ export default function DashboardTeacher() {
       if  (userRole === "TEACHER") {
         return tugas?.assignments.filter((assignment) =>
           assignment.classrooms.some((cls) =>
-            cls.guardian.id === userId
+            cls?.guardian?.id === userId
           )
         ) || [];
       }
@@ -56,7 +56,7 @@ export default function DashboardTeacher() {
     // Menambahkan informasi kelas dan nama wali kelas (guardian)
     const tugasResult = rawData.map((assignment) => {
       const kelasDitemukan = assignment.classrooms.find((cls) =>
-        cls.students.some((student) => student.id === userId) || cls.guardian.id === userId
+        cls.students.some((student) => student.id === userId) || cls?.guardian?.id === userId
       );
       
   

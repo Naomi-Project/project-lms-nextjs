@@ -84,10 +84,10 @@ const dataTeacher: any[] = data?.users
   .map(teacher => {
     // Cari subjects yang memiliki teacher.id yang sesuai
     const teacherSubjects = subjectsData.filter(sub =>
-      sub.teachers.some(t => t.id === teacher.id)
+      sub.teachers?.some(t => t.id === teacher.id)
     );
     const guardianFind = classroomsData.filter(sub =>
-      sub.guardian.id === teacher.id
+      sub.guardian?.id === teacher.id
     );
 
     // Gabungkan data teacher dengan subjects yang ditemukan

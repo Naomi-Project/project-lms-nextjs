@@ -52,7 +52,7 @@ export default function DashboardStudent() {
       // Menambahkan informasi kelas dan nama wali kelas (guardian)
       const tugasResult = rawData.map((assignment) => {
         const kelasDitemukan = assignment.classrooms.find((cls) =>
-          cls.students.some((student) => student.id === userId) || cls.guardian.id === userId
+          cls.students.some((student) => student.id === userId) || cls?.guardian?.id === userId
         );
         
     
