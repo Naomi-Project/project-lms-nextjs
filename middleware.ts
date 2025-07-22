@@ -96,6 +96,7 @@ const rolePermissions: Record<string, string[]> = {
   "/managements/admin": ["ADMIN"], 
   "/managements/admin/sekolah": ["ADMIN"], 
   "/managementjs/admin/sekolah/create": ["ADMIN"], 
+  "/managements/admin/sekolah/create": ["ADMIN"], 
   "/managements/admin/sekolah/edit": ["ADMIN"], 
   "/managements/admin/sekolah/detail": ["ADMIN"], 
   "/managements/admin/keuangan": ["ADMIN"], 

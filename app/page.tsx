@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useLoginMutation } from "@/graphql/generated";
+import { useLoginMutation, useUserPayloadQuery } from "@/graphql/generated";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Swal from "sweetalert2";
@@ -68,16 +68,32 @@ export default function LoginPage() {
           },
           body: JSON.stringify({ token: response?.data.login.authToken }),
         });
-  
+        
+        if (role === 'admin' || role === 'manager') {
+            const resUser = await fetch("/api/getuserpayload", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ token: response?.data.login.authToken }),
+            });
+            
+            const userData = await resUser.json();
+
+            if (userData.data.data.me.schoolId === null) {
+              window.location.href = '/managements/admin/sekolah'
+              return
+            }
+        }
         Swal.fire({
           title: "Berhasil Login!",
           text: "Anda telah berhasil login!",
           icon: "success",
           timer: 2000,
           timerProgressBar: true,
-        }).then((result) => {
+        }).then(async (result) => {
           if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
-
+            
             if (role === 'admin' || role === 'manager') {
               window.location.href = "/dashboard/managers";
             } else if (role === 'student' || role === 'teacher') {
