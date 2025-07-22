@@ -24,7 +24,6 @@ async function getUserRole(token: string | null): Promise<string | null> {
             me {
               id
               name
-              schoolId
               username
               role
             }
@@ -96,7 +95,7 @@ const rolePermissions: Record<string, string[]> = {
   "/dashboard/admins": ["STAFF", "ADMIN"], 
   "/managements/admin": ["ADMIN"], 
   "/managements/admin/sekolah": ["ADMIN"], 
-  "/managements/admin/sekolah/create": ["ADMIN"], 
+  "/managementjs/admin/sekolah/create": ["ADMIN"], 
   "/managements/admin/sekolah/edit": ["ADMIN"], 
   "/managements/admin/sekolah/detail": ["ADMIN"], 
   "/managements/admin/keuangan": ["ADMIN"], 
