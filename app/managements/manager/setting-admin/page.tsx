@@ -70,7 +70,7 @@ export default function ManagerSettingAdmin() {
 
               <p className="font-bold text-3xl mt-3">{findSchoolByUser.name}</p>
 
-              <p className="text-base mt-1">+{findSchoolByUser.phone}</p>
+              <p className="text-base mt-1">{findSchoolByUser.phone ? findSchoolByUser.phone :  '-'}</p>
             </div>
 
             <div className="">

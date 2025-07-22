@@ -26,8 +26,7 @@ export default function StaffTable() {
     const { data: findUser, loading: loadFindUser } = useGetUserQuery({
       variables: {
         data: user?.me.id ?? ''
-      }, 
-      skip: !user?.me.id
+      },
     })
     const [deleteUser, { loading }] = useDeleteUserMutation();
     
@@ -79,7 +78,7 @@ export default function StaffTable() {
       },
     ];
 
-  const dataStaff: Staff[] = data?.users.filter(user => (user.role === "ADMIN" || user.role === "STAFF" || user.role === 'PRINCIPAL') && user.schoolId === findUser?.user.school?.id) || [];
+  const dataStaff: Staff[] = data?.users.filter(user => (user.role === "ADMIN" || user.role === "STAFF" || user.role === 'PRINCIPAL') && (user.schoolId === findUser?.user.school?.id || user.schoolId === null)) || [];
 
   return (
     <DataTable
