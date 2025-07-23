@@ -85,6 +85,7 @@ const CreatePage = () => {
             dataSelect: [
               { label: "LINK", value: "LINK" },
               { label: "BOOK", value: "BOOK" },
+              { label: "IMAGE", value: "IMAGE" },
               { label: "VIDEO", value: "VIDEO" },
               { label: "ARTICLE", value: "ARTICLE" },
               { label: "OTHER", value: "OTHER" },
@@ -140,8 +141,8 @@ const CreatePage = () => {
   ;
   return (
     <CommonFormAdd
-      lable="Referensi/Libary"
-      title="Buat Referensi/Libary"
+      lable="Referensi"
+      title="Buat Referensi"
       method="POST"
       mutation={createReference}
       isInputTags={true}

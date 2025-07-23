@@ -98,7 +98,7 @@ const FormHelpersAdd = () => {
           {
             key: "referenceIds",
             type: "select_multiple",
-            label: "Referensi Materi",
+            label: "Referensi Perpustakaan",
             dataSelect: dataReferences,
             emptyValue: "-",
             class: "md:w-full lg:w-full",

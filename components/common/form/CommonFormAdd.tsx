@@ -523,7 +523,7 @@ export function CommonFormAdd<T extends Record<any, any>>(
                             // <CommonDatePicker name={String(dataField.key)} label={dataField.label} />
                             <CommonDatePicker2 name={String(dataField.key)} label={dataField.label} />
                           ) : dataField.type === "file_upload_ref" ? (
-                            <CommonFileUpload className={formTypeValue !== 'BOOK' ? 'hidden' : ''} name={String(dataField.key)} label={dataField.label} />
+                            <CommonFileUpload className={(formTypeValue !== 'BOOK' && formTypeValue !== 'IMAGE') ? 'hidden' : ''} name={String(dataField.key)} label={dataField.label} />
                           ) : dataField.type === "date_time" ? (
                             <CommonDateTimePicker name={String(dataField.key)} label={dataField.label} />
                           ) : dataField.type === "md" ? (
