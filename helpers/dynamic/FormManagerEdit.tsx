@@ -176,7 +176,8 @@ const FormHelpersEdit = ({ context }: HelpersProps) => {
             label: "Sekolah",
             emptyValue: "-",
             disabled: context && context === 'edit_profile_headoffice' ? true : false,
-            hidden: true,
+            // hidden: true,
+            class: "w-full",
             type: "select",
             dataSelect: dataSchool,
             placeholder: "Pilih Sekolah untuk pengguna ini..",
@@ -205,6 +206,7 @@ const FormHelpersEdit = ({ context }: HelpersProps) => {
   if (context && context === 'edit_profile_headoffice') {
     userFind = { ...userFind, dateOfBirth: format(new Date(userFind?.dateOfBirth), "yyyy-MM-dd"), schoolId: userFind?.school?.id ?? "" }
   }
+  console.log(fixData)
 
   return (
     <CommonFormEdit

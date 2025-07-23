@@ -179,27 +179,8 @@ export default function ManagerSettingAdmin() {
             <div className="bg-slate-200 rounded-lg">
               <ButtonAdd endpoint="/managements/manager/setting-admin/create" />
             </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div className="ml-1 col-span-1">
-                {/* <div className="w-[132px] bg-slate-200 rounded-lg">
-                  <TabsTrigger value="aktif">Aktif</TabsTrigger>
-                  <TabsTrigger value="nonAktif">Non Aktif</TabsTrigger>
-                </div> */}
-              </div>
-
-              {/* <div className="col-span-1 relative">
-                <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input placeholder="Cari Admin" className="pl-8 w-full" />
-              </div> */}
-            </div>
           </TabsList>
-          <TabsContent value="aktif" className=" rounded-lg mt-4">
-            <StaffTable />
-          </TabsContent>
-          <TabsContent value="nonAktif" className=" rounded-lg mt-4">
-            <StaffTable />
-          </TabsContent>
+          <StaffTable />
         </Tabs>
       </div>
     </div>

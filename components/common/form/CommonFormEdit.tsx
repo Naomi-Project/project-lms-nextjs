@@ -316,6 +316,7 @@ export function CommonFormEdit<T extends Record<any, any>>(
                                           (dataS: any, indexSelect: number) => (
                                             <SelectItem
                                               value={dataS.value}
+                                              disabled={dataS.disabled ?? false}
                                               key={indexSelect}
                                             >
                                               {dataS.label}

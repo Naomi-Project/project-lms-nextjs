@@ -95,14 +95,19 @@ export default function StudentTable() {
       header: "ACTION",
       cell: ({ row }: any) => (
         <div className="flex gap-3">
-          <Button className="bg-orange-500 hover:bg-orange-600 shadow-none text-white" onClick={() => {
-            setDataDialog({
-              enrollmentId: row.original.enrollment.id,
-              studentId: row.original.id,
-              termId: row.original.enrollment.termId
-            })
-            setIsOpenDialog(!isOpenDialog)
-          }}><MoveLeft /> Pindah Kelas</Button>
+          {
+            row.getValue('class') !== '-' ? (
+              <Button className="bg-orange-500 hover:bg-orange-600 shadow-none text-white" onClick={() => {
+                setDataDialog({
+                  enrollmentId: row.original.enrollment.id,
+                  studentId: row.original.id,
+                  termId: row.original.enrollment.termId
+                })
+                setIsOpenDialog(!isOpenDialog)
+              }}><MoveLeft /> Pindah Kelas</Button>
+            ) : ''
+          }
+
           <ButtonEdit
             endpoint="/managements/manager/student/edit/"
             id={row.original.id}

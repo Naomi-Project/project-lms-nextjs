@@ -21,7 +21,7 @@ type Staff = {
   
   
 export default function StaffTable() {
-    const { data } = useGetUsersQuery();
+    const { data, loading: loadUser, error } = useGetUsersQuery();
     const { data: user } = useUserPayloadQuery(); 
     const { data: findUser, loading: loadFindUser } = useGetUserQuery({
       variables: {
@@ -29,7 +29,7 @@ export default function StaffTable() {
       },
     })
     const [deleteUser, { loading }] = useDeleteUserMutation();
-    
+
     const columns = [
       {
         accessorKey: "id",
@@ -73,12 +73,30 @@ export default function StaffTable() {
         header: "ACTION",
         cell: ({ row }: any) => <div className="flex gap-3">
          <ButtonEdit endpoint="/managements/manager/setting-admin/edit/" id={row.original.id} />
-         <ButtonDelete mutation={deleteUser} loading={loading} id={row.original.id} />
+         {
+          row.getValue('username') === 'admin' ? "" : (
+            <ButtonDelete mutation={deleteUser} loading={loading} id={row.original.id} />
+          )
+        }
         </div>,
       },
     ];
+    
+  
+    
+    if (loadUser) {
+      return (
+        <p>oading..</p>
+      )
+    }
 
-  const dataStaff: Staff[] = data?.users.filter(user => (user.role === "ADMIN" || user.role === "STAFF" || user.role === 'PRINCIPAL') && (user.schoolId === findUser?.user.school?.id || user.schoolId === null)) || [];
+    if (error) {
+      return (
+        <p>Error: {error.message}</p>
+      )
+    }
+
+  const dataStaff: any[] = data?.users.filter(user => (user.role === "ADMIN" || user.role === "STAFF" || user.role === 'PRINCIPAL')) || [];
 
   return (
     <DataTable

@@ -75,25 +75,32 @@ const FormHelpersEdit = () => {
   // Query kedua: Ambil data users
   const { data: classroomData  } = useGetClassroomsQuery()
   const { data: secondData } = useGetUsersQuery()
-  // Pastikan data sudah tersedia sebelum melakukan filtering
-  // if (!classroomData || !secondData) return;
-  
-  // Ambil daftar wali kelas (guardian)
+
   const guardians = classroomData?.classrooms
-    // ?.filter((cls) => cls.guardian) // Pastikan kelas punya wali kelas
-    // .map((cls) => cls.guardian.id); // Ambil ID wali kelas
+    ?.filter((cls) => cls.guardian) // Pastikan kelas punya wali kelas
+    .map((cls) => cls?.guardian?.id); // Ambil ID wali kelas
+
+    
+  const studentsInClass = classroomData?.classrooms
+  ?.flatMap((cls) => cls.students.map((student) => student.id)) || []; // Ambil semua student.id
   
   // Filter hanya guru yang BELUM menjadi wali kelas
-  const onlyOneGuardian = secondData?.users
-  
+  const onlyOneGuardian = secondData?.users.filter(
+    (usr) => usr.role === "TEACHER" && usr.schoolId === user?.me.schoolId
+  );
+  const onlyOneStudent = secondData?.users.filter(
+    (usr) => usr.role === "STUDENT" && usr.schoolId === user?.me.schoolId
+  );
+
   // return 
   const dataTeachers: dataSelectTypes[] = onlyOneGuardian?.filter((item) => item.role === "TEACHER" && item.schoolId === user?.me.schoolId).map((user) => ({
       label: user.name ?? "",
+      disabled: data?.classroom?.guardian?.id === user.id ? false : guardians?.includes(user.id) ? true : false,
       value: user.id,
-  })) || []
-  const dataStudents: dataSelectTypes[] = secondData?.users.filter((item) => item.role === "STUDENT" && item.schoolId === user?.me.schoolId).map((user) => ({
+    })) || []
+    const dataStudents: dataSelectTypes[] = onlyOneStudent?.map((user) => ({
       label: user.name ?? "",
-      disabled: user?.classroom?.id === id,
+      disabled: data?.classroom?.guardian?.id === user.id ? false : studentsInClass?.includes(user.id) ? true : false,
       value: user.id,
   })) || []
   const dataTerms: dataSelectTypes[] = school?.schools
