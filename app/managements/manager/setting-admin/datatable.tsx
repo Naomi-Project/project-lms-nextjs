@@ -91,9 +91,7 @@ export default function StaffTable() {
     }
 
     if (error) {
-      return (
-        <p>Error: {error.message}</p>
-      )
+        console.log(error.message)
     }
 
   const dataStaff: any[] = data?.users.filter(user => (user.role === "ADMIN" || user.role === "STAFF" || user.role === 'PRINCIPAL')) || [];
