@@ -26,7 +26,7 @@ import { useGetSchoolsQuery, useUserPayloadQuery } from "@/graphql/generated";
 export default function ManagerSettingAdmin() {
   const { data: schools, loading: loadSchool } = useGetSchoolsQuery()
   const { data: userLogin, loading } = useUserPayloadQuery()
-  const findSchoolByUser: any = schools?.schools.find((item) => item.users.some((usr) => usr.id === userLogin?.me.id)) || {}
+  const findSchoolByUser: any = schools?.schools.find((item) => item?.users?.some((usr) => usr.id === userLogin?.me.id)) || {}
   
   return (
     <div className="min-h-screen">

@@ -37,15 +37,15 @@ export default function DashboardTeacher() {
   const { data: userPayload } = useUserPayloadQuery();
   const { data: materi } = useGetMaterialsQuery()
   console.log(tugas)
-  const assignmentNotFinishLength = tugas?.assignments.filter((item) => item.submissions?.length == 0).length ?? "loading.."
-  const materialLength = materi?.materials.length ?? "loading.."
+  const assignmentNotFinishLength = tugas?.assignments?.filter((item) => item.submissions?.length == 0).length ?? "loading.."
+  const materialLength = materi?.materials?.length ?? "loading.."
 
   const userId = userPayload?.me?.id;
   const userRole = userPayload?.me?.role;
   const rawData = useMemo(() => {
       if  (userRole === "TEACHER") {
-        return tugas?.assignments.filter((assignment) =>
-          assignment.classrooms.some((cls) =>
+        return tugas?.assignments?.filter((assignment) =>
+          assignment?.classrooms?.some((cls) =>
             cls?.guardian?.id === userId
           )
         ) || [];
@@ -55,8 +55,8 @@ export default function DashboardTeacher() {
   
     // Menambahkan informasi kelas dan nama wali kelas (guardian)
     const tugasResult = rawData.map((assignment) => {
-      const kelasDitemukan = assignment.classrooms.find((cls) =>
-        cls.students.some((student) => student.id === userId) || cls?.guardian?.id === userId
+      const kelasDitemukan = assignment?.classrooms?.find((cls) =>
+        cls?.students?.some((student) => student.id === userId) || cls?.guardian?.id === userId
       );
       
   
@@ -74,7 +74,7 @@ export default function DashboardTeacher() {
   const [search, setSearch] = useState<string>('')
   const [filter, setFilter] = useState<string>('')
   const { data: firstData } = useGetSubjectsQuery()
-  const dataSubject: dataSelectTypes[] = firstData?.subjects.map((data) => ({
+  const dataSubject: dataSelectTypes[] = firstData?.subjects?.map((data) => ({
     label: data.name,
     value: data.id,
   })) || []

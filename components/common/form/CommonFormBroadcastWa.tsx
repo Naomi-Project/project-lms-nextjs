@@ -20,7 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox"; // ✅ Import Checkbox
-import { Role, useBroadcastByWhatsAppMutation, useGetBroadcastsQuery, useGetUserQuery, useUserPayloadQuery } from '@/graphql/generated';
+import { Role, useBroadcastByWhatsAppMutation, useGetBroadcastsQuery, useGetSchoolsQuery, useGetUserQuery, useUserPayloadQuery } from '@/graphql/generated';
 import Swal from 'sweetalert2';
 
 const CommonFormBroadcastWa = ({ nomor = '', label = '' }: any) => {
@@ -32,15 +32,17 @@ const CommonFormBroadcastWa = ({ nomor = '', label = '' }: any) => {
     }, 
     skip: !user?.me.id
   })
+  const { data: schools } = useGetSchoolsQuery()
   const { data, loading, error } = useGetBroadcastsQuery({
     variables: {
-        schoolId: findUser?.user.school?.id ?? ''
+        schoolId: findUser?.user?.school?.id ?? ''
     }
   });
 
   const [message, setMessage] = useState('');
+  const [school, setSchool] = useState('');
   const [numbers, setNumbers] = useState(nomor !== '' ? nomor : '');
-  const [sendToAll, setSendToAll] = useState(false); // ✅ State untuk checkbox
+  const [sendToAll, setSendToAll] = useState(false);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -53,6 +55,7 @@ const CommonFormBroadcastWa = ({ nomor = '', label = '' }: any) => {
           data: {
             message: message,
             numbers: numbersArray,
+            schoolId: school,
             target: sendToAll ? Role.Student : null
           }
         },
@@ -62,8 +65,10 @@ const CommonFormBroadcastWa = ({ nomor = '', label = '' }: any) => {
         title: "Berhasil Mengirim!",
         html: `Pesan berhasil dikirim!<br><br><b>Pesan:</b> ${message}`,
         icon: "success",
+        timer: 2000,
+        timerProgressBar: true,
       }).then((result) => {
-        if (result.isConfirmed) {
+        if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
           location.reload();
         }
       });
@@ -112,6 +117,22 @@ const CommonFormBroadcastWa = ({ nomor = '', label = '' }: any) => {
               value={numbers}
               onChange={(e) => setNumbers(e.target.value)}
             />
+          </div>
+
+          <div className="mt-3">
+            <Label htmlFor="message" className="text-right">Sekolah</Label>
+            <Select onValueChange={setSchool} value={school}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Pilih sekolah untuk semua murid tersebut" />
+              </SelectTrigger>
+              <SelectContent>
+                {schools?.schools.map((sc: any) => (
+                  <SelectItem key={sc.id} value={sc.id}>
+                    {sc.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="mt-3">

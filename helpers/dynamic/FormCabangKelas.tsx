@@ -54,11 +54,11 @@ const FormHelpersAdd = () => {
     }, 
     skip: !user?.me.id
   })
-  const dataGrades: dataSelectTypes[] = firstData?.grades.filter((item) => item.school.id === user?.me.schoolId).map((grade) => ({
+  const dataGrades: dataSelectTypes[] = firstData?.grades?.filter((item) => item?.school?.id === user?.me.schoolId).map((grade) => ({
     label: grade.name,
     value: grade.id,
   })) || []
-  const dataPricings: dataSelectTypes[] = thirdData?.pricings.map((item) => ({
+  const dataPricings: dataSelectTypes[] = thirdData?.pricings?.map((item) => ({
     label: item.name,
     value: item.id,
   })) || []
@@ -75,13 +75,13 @@ const FormHelpersAdd = () => {
     .map((cls) => cls?.guardian?.id); // Ambil ID wali kelas
   // Ambil murid (murid)
   const studentsInClass = classroomData?.classrooms
-  ?.flatMap((cls) => cls.students.map((student) => student.id)) || []; // Ambil semua student.id
+  ?.flatMap((cls) => cls?.students?.map((student) => student.id)) || []; // Ambil semua student.id
   
   // Filter hanya guru yang BELUM menjadi wali kelas
-  const onlyOneGuardian = secondData?.users.filter(
+  const onlyOneGuardian = secondData?.users?.filter(
     (usr) => usr.role === "TEACHER" && usr.schoolId === user?.me.schoolId && !guardians?.includes(usr.id)
   );
-  const onlyOneStudent = secondData?.users.filter(
+  const onlyOneStudent = secondData?.users?.filter(
     (usr) => usr.role === "STUDENT" && usr.schoolId === user?.me.schoolId && !studentsInClass?.includes(usr.id)
   );
   
@@ -94,15 +94,15 @@ const FormHelpersAdd = () => {
       label: user.name ?? "",
       value: user.id,
   })) || []
-  const dataTerms: dataSelectTypes[] = school?.schools
-  .filter((item) => item.users.some(userItem => userItem.id === user?.me.id)) // Filter hanya sekolah yang memiliki user tertentu
+  const dataTerms: any[] = school?.schools
+  .filter((item) => item?.users?.some(userItem => userItem.id === user?.me.id)) // Filter hanya sekolah yang memiliki user tertentu
   .flatMap((schoolItem) => 
-    schoolItem.terms.map((termItem) => ({
+    schoolItem?.terms?.map((termItem) => ({
       label: termItem.name ?? "",  // Ambil nama dari term
       value: termItem.id,     // Ambil ID dari term
     }))
   ) || []
-  const thisSchool = school?.schools.find((item) => item.users.find((us) => us.id === user?.me.id))?.id ?? ''
+  const thisSchool = school?.schools.find((item) => item?.users?.find((us) => us.id === user?.me.id))?.id ?? ''
 
   const sections: CommonFormAddSection<Form>[] = [
     {

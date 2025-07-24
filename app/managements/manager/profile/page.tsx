@@ -59,13 +59,16 @@ export default function ManagerProfileStudent() {
     return
   }
   const userPayload = userLogin?.me.role !== 'STAFF' && userLogin?.me.role !== 'ADMIN' && userLogin?.me.role !== 'PRINCIPAL' ? null : userLogin
-  const userFind = allUser?.users.find((item) => item.id === userPayload?.me.id)
-  const enrolId = enrollments?.enrollments.find((item) => item.studentId === userFind?.id)
+  const userFind = allUser?.users?.find((item) => item.id === userPayload?.me.id)
+  const enrolId = enrollments?.enrollments?.find((item) => item.studentId === userFind?.id)
+
+  console.log(userPayload)
+  console.log(allUser?.users)
 
   if (userFind == null) {
     Swal.fire({
       title: "Error!",
-      text: "Data tidak ditemukan!",
+      text: "Data tidak ditemukan, Kamu belum meiliki sekolah!",
       icon: "info",
       timer: 2000,
       timerProgressBar: true,

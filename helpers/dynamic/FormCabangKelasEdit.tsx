@@ -63,11 +63,11 @@ const FormHelpersEdit = () => {
   const { data: thirdData } = useGetPricingsQuery()
   const { data: user, loading } = useUserPayloadQuery(); 
   const [updateClassroom] = useUpdateClassroomMutation();
-  const dataGrades: dataSelectTypes[] = firstData?.grades.filter((item) => item.school.id === user?.me.schoolId).map((grade) => ({
+  const dataGrades: dataSelectTypes[] = firstData?.grades?.filter((item) => item?.school?.id === user?.me.schoolId).map((grade) => ({
     label: grade.name,
     value: grade.id,
   })) || []
-  const dataPricings: dataSelectTypes[] = thirdData?.pricings.map((item) => ({
+  const dataPricings: dataSelectTypes[] = thirdData?.pricings?.map((item) => ({
     label: item.name,
     value: item.id,
   })) || []
@@ -82,13 +82,13 @@ const FormHelpersEdit = () => {
 
     
   const studentsInClass = classroomData?.classrooms
-  ?.flatMap((cls) => cls.students.map((student) => student.id)) || []; // Ambil semua student.id
+  ?.flatMap((cls) => cls?.students?.map((student) => student.id)) || []; // Ambil semua student.id
   
   // Filter hanya guru yang BELUM menjadi wali kelas
-  const onlyOneGuardian = secondData?.users.filter(
+  const onlyOneGuardian = secondData?.users?.filter(
     (usr) => usr.role === "TEACHER" && usr.schoolId === user?.me.schoolId
   );
-  const onlyOneStudent = secondData?.users.filter(
+  const onlyOneStudent = secondData?.users?.filter(
     (usr) => usr.role === "STUDENT" && usr.schoolId === user?.me.schoolId
   );
 
@@ -103,10 +103,10 @@ const FormHelpersEdit = () => {
       disabled: data?.classroom?.guardian?.id === user.id ? false : studentsInClass?.includes(user.id) ? true : false,
       value: user.id,
   })) || []
-  const dataTerms: dataSelectTypes[] = school?.schools
-  .filter((item) => item.users.some(userItem => userItem.id === user?.me.id)) // Filter hanya sekolah yang memiliki user tertentu
+  const dataTerms: any[] = school?.schools
+  .filter((item) => item?.users?.some(userItem => userItem.id === user?.me.id)) // Filter hanya sekolah yang memiliki user tertentu
   .flatMap((schoolItem) => 
-    schoolItem.terms.map((termItem) => ({
+    schoolItem?.terms?.map((termItem) => ({
       label: termItem.name ?? "",  // Ambil nama dari term
       value: termItem.id,     // Ambil ID dari term
     }))
@@ -118,10 +118,7 @@ const FormHelpersEdit = () => {
 
   const now = Date.now();
 
-  const currentTerm = school?.schools
-    .find(schoolItem =>
-      schoolItem.users.some(userItem => userItem.id === user?.me.id)
-    )?.terms.find(term =>
+  const currentTerm = school?.schools?.find(schoolItem => schoolItem?.users?.some(userItem => userItem.id === user?.me.id))?.terms?.find(term =>
       now >= new Date(term.startDate || 0).getTime() &&
       now <= new Date(term.endDate || 0).getTime()
     );
@@ -206,8 +203,8 @@ const FormHelpersEdit = () => {
       gradeId: findGrade ?? "", // Pastikan gradeId sesuai dengan ID yang ada
       guardianId: data.classroom.guardian?.id || "",
       termId: currentTerm?.id || "", 
-      schoolId: data.classroom.school.id || '',
-      pricingId: thirdData?.pricings[0].id || '',
+      schoolId: data?.classroom?.school?.id || '',
+      pricingId: thirdData?.pricings![0].id || '',
       students: data.classroom.students?.map((student) => student.id) || [], // Ambil hanya ID murid
     }
   : null; // Jika `data?.classroom` masih `undefined`, biarkan `fixData` tetap `null`

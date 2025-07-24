@@ -33,16 +33,16 @@ export default function DashboardStudent() {
   const { data: classrooms, loading: loadClass } = useGetClassroomsQuery()
   const { data: userPayload } = useUserPayloadQuery()
   const { data: absen, loading } = useGetAttendancesQuery()
-  const assignmentNotFinishLength = tugas?.assignments.filter((item) => item.submissions?.length == 0).length ?? "loading.."
+  const assignmentNotFinishLength = tugas?.assignments?.filter((item) => item.submissions?.length == 0).length ?? "loading.."
 
 
     const userId = userPayload?.me?.id;
     const userRole = userPayload?.me?.role;
     const rawData = useMemo(() => {
         if  (userRole === "STUDENT") {
-          return tugas?.assignments.filter((assignment) =>
-            assignment.classrooms.some((cls) =>
-              cls.students.some((item) => item.id === userId)
+          return tugas?.assignments?.filter((assignment) =>
+            assignment?.classrooms?.some((cls) =>
+              cls?.students?.some((item) => item.id === userId)
             )
           ) || [];
         }
@@ -51,8 +51,8 @@ export default function DashboardStudent() {
     
       // Menambahkan informasi kelas dan nama wali kelas (guardian)
       const tugasResult = rawData.map((assignment) => {
-        const kelasDitemukan = assignment.classrooms.find((cls) =>
-          cls.students.some((student) => student.id === userId) || cls?.guardian?.id === userId
+        const kelasDitemukan = assignment?.classrooms?.find((cls) =>
+          cls?.students?.some((student) => student.id === userId) || cls?.guardian?.id === userId
         );
         
     
@@ -63,19 +63,19 @@ export default function DashboardStudent() {
         };
       });
   const assignmentLength = tugasResult.length ?? "loading.."
-  const materialLength = materi?.materials.length ?? "loading.."
+  const materialLength = materi?.materials?.length ?? "loading.."
 
   const [search, setSearch] = useState<string>('')
   const [filter, setFilter] = useState<string>('')
   const { data: firstData } = useGetSubjectsQuery()
-  const dataSubject: dataSelectTypes[] = firstData?.subjects.map((data) => ({
+  const dataSubject: dataSelectTypes[] = firstData?.subjects?.map((data) => ({
     label: data.name,
     value: data.id,
   })) || []
 
   
-  const findClass: any = classrooms?.classrooms.find((item) => item.students.some((item) => item.id === userPayload?.me.id)) || []
-  const absensi: any[] = absen?.attendances.filter((item) => item.studentId === userPayload?.me.id) || []
+  const findClass: any = classrooms?.classrooms?.find((item) => item?.students?.some((item) => item.id === userPayload?.me.id)) || []
+  const absensi: any[] = absen?.attendances?.filter((item) => item.studentId === userPayload?.me.id) || []
   
   if (loadClass || loading) return 'loading..'
   

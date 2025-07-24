@@ -3,7 +3,10 @@
 import { DataTable } from "@/components/common/list/CommonDataTable";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
-import { useDeleteUserMutation, useGetUsersQuery } from "@/graphql/generated";
+import { 
+// useDeleteUserMutation,
+useGetUsersQuery
+} from "@/graphql/generated";
 
 type Staff = {
     id: string;
@@ -22,7 +25,7 @@ type Staff = {
   
 export default function StaffTable() {
     const { data } = useGetUsersQuery();
-    const [deleteUser, { loading }] = useDeleteUserMutation();
+    // const [deleteUser, { loading }] = useDeleteUserMutation();
     
     const columns = [
       {
@@ -68,12 +71,12 @@ export default function StaffTable() {
         header: "ACTION",
         cell: ({ row }: any) => <div className="flex gap-3">
          <ButtonEdit endpoint="/managements/manager/setting-admin/edit/" id={row.original.id} />
-         <ButtonDelete mutation={deleteUser} loading={loading} id={row.original.id} />
+         {/* <ButtonDelete mutation={deleteUser} loading={loading} id={row.original.id} /> */}
         </div>,
       },
     ];
 
-  const dataStaff: Staff[] = data?.users.filter(user => user.role === "ADMIN" || user.role === "STAFF" || user.role === 'PRINCIPAL') || [];
+  const dataStaff: Staff[] = data?.users?.filter(user => user.role === "ADMIN" || user.role === "STAFF" || user.role === 'PRINCIPAL') || [];
 
   return (
     <DataTable

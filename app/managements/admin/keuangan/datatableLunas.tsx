@@ -5,7 +5,7 @@ import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
 import {
   useDeletePaymentMutation,
-  useDeleteUserMutation,
+  // useDeleteUserMutation,
   useGetEnrollmentsQuery,
   useGetPaymentsQuery,
   useGetPricingsQuery,

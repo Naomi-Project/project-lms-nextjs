@@ -52,13 +52,13 @@ export default function AdminDashboard() {
   const { data, loading: enrolLoading } = useGetEnrollmentsQuery();
   const { data: payload, loading } = useUserPayloadQuery();
   const { data: userLoad, loading: userLoading } = useGetUsersQuery()
-  const schoolId = userLoad?.users.find((item) => item.id === payload?.me?.id)
-  const student = userLoad?.users.filter((item) => item.role === 'STUDENT' && item.schoolId === schoolId?.schoolId) || []
-  const teacher = userLoad?.users.filter((item) => item.role === 'TEACHER' && item.schoolId === schoolId?.schoolId) || []  
+  const schoolId = userLoad?.users?.find((item) => item.id === payload?.me?.id)
+  const student = userLoad?.users?.filter((item) => item.role === 'STUDENT' && item.schoolId === schoolId?.schoolId) || []
+  const teacher = userLoad?.users?.filter((item) => item.role === 'TEACHER' && item.schoolId === schoolId?.schoolId) || []  
 
 
   const enrollmentThisSchool = useMemo(() => {
-    return data?.enrollments.filter((item) => item?.student?.schoolId === (schoolId?.schoolId ?? ''))
+    return data?.enrollments?.filter((item) => item?.student?.schoolId === (schoolId?.schoolId ?? ''))
   }, [data?.enrollments, schoolId])
   
   const enrollmentsThisMonth = useMemo(() => {
@@ -258,11 +258,11 @@ export default function AdminDashboard() {
 
   // widget total angkatan dan kelas
   const { data: grade } = useGetGradesQuery()
-  const gradeThisSchool = grade?.grades.map((item) => item.classrooms.filter((cls) => cls.school.id === schoolId?.schoolId)).length
+  const gradeThisSchool = grade?.grades?.map((item) => item?.classrooms?.filter((cls) => cls?.school?.id === schoolId?.schoolId)).length
   const { data: classrooms } = useGetClassroomsQuery()
 
   //total kelas
-  const classroomLength = classrooms?.classrooms.filter((item) => item.school.id === schoolId?.schoolId).length ?? 0
+  const classroomLength = classrooms?.classrooms?.filter((item) => item?.school?.id === schoolId?.schoolId).length ?? 0
 
   if (loading) return 'loading..'
   if (userLoading) return 'loading..'

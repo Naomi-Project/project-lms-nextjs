@@ -35,11 +35,11 @@ const FormHelpersAdd = () => {
   // Query pertama: Ambil data grades
   const { data: firstData } = useGetSubjectsQuery()
   const { data: secondData, loading: loadSecdata } = useGetReferencesQuery()
-  const dataSubject: dataSelectTypes[] = firstData?.subjects.map((data) => ({
+  const dataSubject: dataSelectTypes[] = firstData?.subjects?.map((data) => ({
     label: data.name,
     value: data.id,
   })) || []
-  const dataReferences: dataSelectTypes[] = secondData?.references.map((data) => ({
+  const dataReferences: dataSelectTypes[] = secondData?.references?.map((data) => ({
     label: data.title,
     value: data.id,
   })) || [] 

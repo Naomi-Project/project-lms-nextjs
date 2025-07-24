@@ -1,10 +1,16 @@
+"use client"
 import ButtonAdd from "@/components/ui/buttonAdd";
 import { Tabs, TabsList } from "@/components/ui/tabs";
 import SchoolTable from "./datatable";
 import ButtonExport from "@/components/ui/buttonExport";
+import { useUserPayloadQuery, useGetUsersQuery } from "@/graphql/generated";
 
 
 export default function SekolahPage() {
+  const { data: userLogin, loading } = useUserPayloadQuery()
+  const { data: allUser, loading: loadAllUser } = useGetUsersQuery()
+  console.log(userLogin)
+  console.log(allUser)
   return (
     <div className="min-h-screen">
       <div className="border-2 rounded-lg bg-white p-5 mt-10">

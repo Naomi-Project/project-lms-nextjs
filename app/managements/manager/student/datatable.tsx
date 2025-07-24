@@ -4,7 +4,6 @@ import { DataTable } from "@/components/common/list/CommonDataTable";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
 import {
-  useDeleteUserMutation,
   useGetClassroomsQuery,
   useGetEnrollmentsQuery,
   useGetUserQuery,
@@ -45,7 +44,6 @@ export default function StudentTable() {
   const { data, error } = useGetUsersQuery();
   const { data: classrooms, loading: classLoading } = useGetClassroomsQuery();
   const { data: enrollments } = useGetEnrollmentsQuery();
-  const [deleteUser, { loading }] = useDeleteUserMutation();
   const { data: user } = useUserPayloadQuery(); 
   const { data: findUser, loading: loadFindUser } = useGetUserQuery({
     variables: {
@@ -112,11 +110,6 @@ export default function StudentTable() {
             endpoint="/managements/manager/student/edit/"
             id={row.original.id}
           />
-          <ButtonDelete
-            mutation={deleteUser}
-            loading={loading}
-            id={row.original.id}
-          />
         </div>
       ),
     },
@@ -125,14 +118,13 @@ export default function StudentTable() {
   const classroomsData = classrooms?.classrooms || [];
 
   let dataStudent: any[] =
-    data?.users
-      .filter((user) => user.role === "STUDENT" && user.schoolId === findUser?.user.school?.id)
+    data?.users?.filter((user) => user.role === "STUDENT" && user.schoolId === findUser?.user?.school?.id)
       .map((student) => {
         const classFind = classroomsData.filter((sub) =>
-          sub.students.some((t) => t.id === student.id)
+          sub?.students?.some((t) => t.id === student.id)
         );
 
-        const enrolFind = enrollments?.enrollments.find((sub) =>
+        const enrolFind = enrollments?.enrollments?.find((sub) =>
           sub.studentId === student.id
         );
 

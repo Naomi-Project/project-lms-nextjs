@@ -12,7 +12,7 @@ export default function Page() {
 
   return (
     <div className="space-y-6">
-      {role === "MANAGER" ? (
+      {role === "STAFF" ? (
         <DashboardManager />
       ) : role === "ADMIN" ? (
         <DashboardAdmin />

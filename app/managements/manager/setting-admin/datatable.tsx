@@ -3,7 +3,8 @@
 import { DataTable } from "@/components/common/list/CommonDataTable";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
-import { useDeleteUserMutation, useGetUserQuery, useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";
+import { useGetUserQuery, useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";
+import { useDeleteUserMutation } from "@/src/graphql/generated";
 
 type Staff = {
     id: string;
@@ -28,7 +29,6 @@ export default function StaffTable() {
         data: user?.me.id ?? ''
       },
     })
-    const [deleteUser, { loading }] = useDeleteUserMutation();
 
     const columns = [
       {
@@ -73,11 +73,6 @@ export default function StaffTable() {
         header: "ACTION",
         cell: ({ row }: any) => <div className="flex gap-3">
          <ButtonEdit endpoint="/managements/manager/setting-admin/edit/" id={row.original.id} />
-         {
-          row.getValue('username') === 'admin' ? "" : (
-            <ButtonDelete mutation={deleteUser} loading={loading} id={row.original.id} />
-          )
-        }
         </div>,
       },
     ];
@@ -94,12 +89,13 @@ export default function StaffTable() {
         console.log(error.message)
     }
 
-  const dataStaff: any[] = data?.users.filter(user => (user.role === "ADMIN" || user.role === "STAFF" || user.role === 'PRINCIPAL')) || [];
+  const dataStaffGlobe: any[] = data?.users?.filter(user => (user.role === "ADMIN" || user.role === "STAFF" || user.role === 'PRINCIPAL')) || [];
+  const dataStaff: any[] = data?.users?.filter(usr => (usr.role === "ADMIN" || usr.role === "STAFF" || usr.role === 'PRINCIPAL') && usr.schoolId === user?.me.schoolId) || [];
 
   return (
     <DataTable
       columns={columns}
-      data={dataStaff}
+      data={user?.me.role === "STAFF" ? dataStaff : dataStaffGlobe}
       filterName="name"
       filterPlaceholder="Cari Staff.."
     />

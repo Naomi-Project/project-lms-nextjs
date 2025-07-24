@@ -4,7 +4,7 @@ import { DataTable } from "@/components/common/list/CommonDataTable";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonDetail from "@/components/ui/buttonDetail";
 import ButtonEdit from "@/components/ui/buttonEdit";
-import { useDeleteSchoolMutation, useDeleteUserMutation, useGetSchoolsQuery, useGetUsersQuery } from "@/graphql/generated";
+import { useDeleteSchoolMutation, useGetSchoolsQuery, useGetUsersQuery } from "@/graphql/generated";
 import { format } from "date-fns";
 
   

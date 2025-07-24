@@ -140,20 +140,6 @@ mutation UpdateUser($data: UpdateUserInput!) {
   }
 }
 
-mutation DeleteUser($data: String!) {
-  deleteUser(id: $data) {
-    id
-    username
-    role
-    nik
-    nuptk
-    nisn
-    dateOfBirth
-    gender
-    address
-    phone
-  }
-}
 ### User endregion
 
 ### Family region
