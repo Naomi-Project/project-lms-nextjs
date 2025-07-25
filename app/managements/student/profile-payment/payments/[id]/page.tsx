@@ -38,7 +38,7 @@ import { id } from "date-fns/locale";
 export default function StudentProfilePayment() {
     const { data: userPayload } = useUserPayloadQuery();
     const { data: allUser } = useGetUsersQuery();
-    const userFind = allUser?.users.find((item) => item.id === userPayload?.me.id)
+    const userFind = allUser?.users?.find((item) => item.id === userPayload?.me.id)
     const { data } = useGetEnrollmentsQuery();
     const dataPayment: any[] = data?.enrollments || [];
     const [isPaid, setIsPaid] = useState(false)
@@ -58,7 +58,7 @@ export default function StudentProfilePayment() {
     }, 0); // Ditambahkan nilai awal 0
 
     useEffect(() => {
-      const timestamp = dataCheckPayment?.checkPayment[0].updatedAt;
+      const timestamp = dataCheckPayment?.checkPayment![0].updatedAt;
       const thisDate = new Date(timestamp);
 
       const day = thisDate.getDate();
@@ -77,10 +77,10 @@ export default function StudentProfilePayment() {
       const formattedDateTime = `${formattedDay}-${formattedMonth}-${year} ${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
 
       setPaymentDate(formattedDateTime.toString())
-      setUrl(dataCheckPayment?.checkPayment[0]?.url ?? "")
-      if (dataCheckPayment?.checkPayment[0].status === "PAID") {
+      setUrl(dataCheckPayment?.checkPayment![0]?.url ?? "")
+      if (dataCheckPayment?.checkPayment![0]?.status === "PAID") {
         setIsPaid(true)
-      } else if (dataCheckPayment?.checkPayment[0].status === "PENDING") {
+      } else if (dataCheckPayment?.checkPayment![0].status === "PENDING") {
         setIsPending(true)
       }
     }, [dataCheckPayment])
@@ -95,7 +95,7 @@ export default function StudentProfilePayment() {
             <h1 className="font-bold text-blue-500">Pembayaran SPP Berhasil</h1>
             <p className="text-sm text-gray-400 mt-1">Nomor Invoice #{id}</p>
             <CheckCircle size={50} className="text-blue-500 mt-5" />
-            <p className="text-sm text-gray-600 mt-5">Berhasil melakukan pembayaran SPP sebesar <b>Rp{amountAll?.toLocaleString('id-ID')}</b> ke siswa/i <b>{dataCheckPayment?.checkPayment[0].enrollment?.student?.name}</b> pada tanggal {paymentDate}. <a className="text-blue-600" href="/managements/student/profile-payment">kembali.</a></p>
+            <p className="text-sm text-gray-600 mt-5">Berhasil melakukan pembayaran SPP sebesar <b>Rp{amountAll?.toLocaleString('id-ID')}</b> ke siswa/i <b>{dataCheckPayment?.checkPayment![0].enrollment?.student?.name}</b> pada tanggal {paymentDate}. <a className="text-blue-600" href="/managements/student/profile-payment">kembali.</a></p>
             
           </div>
         )
@@ -106,7 +106,7 @@ export default function StudentProfilePayment() {
             <h1 className="font-bold text-red-500">Pembayaran SPP Gagal</h1>
             <p className="text-sm text-gray-400 mt-1">Nomor Invoice #{id}</p>
             <XCircle size={50} className="text-red-500 mt-5" />
-            <div className="text-sm text-gray-600 mt-5">Gagal melakukan pembayaran SPP sebesar <b>Rp{amountAll?.toLocaleString('id-ID')}</b> ke siswa/i <b>{dataCheckPayment?.checkPayment[0].enrollment?.student?.name}</b> pada tanggal {paymentDate}. <div className="text-blue-600 cursor-pointer" onClick={() => window.open(url)}>coba lagi atau refresh.</div></div>
+            <div className="text-sm text-gray-600 mt-5">Gagal melakukan pembayaran SPP sebesar <b>Rp{amountAll?.toLocaleString('id-ID')}</b> ke siswa/i <b>{dataCheckPayment?.checkPayment![0].enrollment?.student?.name}</b> pada tanggal {paymentDate}. <div className="text-blue-600 cursor-pointer" onClick={() => window.open(url)}>coba lagi atau refresh.</div></div>
             
           </div>
         )

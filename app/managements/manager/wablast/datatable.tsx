@@ -3,7 +3,7 @@
 import { DataTable } from "@/components/common/list/CommonDataTable";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
-import { useDeleteBroadcastMutation, useDeleteUserMutation, useGetBroadcastsQuery, useGetClassroomsQuery, useGetSubjectsQuery, useGetUserQuery, useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";
+import { useDeleteBroadcastMutation, useGetBroadcastsQuery, useGetClassroomsQuery, useGetSubjectsQuery, useGetUserQuery, useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";
 
 type Teacher = {
     id: string;
@@ -25,7 +25,7 @@ export default function BroadcastTable() {
     })
     const { data } = useGetBroadcastsQuery({
       variables: {
-        schoolId: findUser?.user.school?.id ?? ''
+        schoolId: findUser?.user?.school?.id ?? ''
       }
     });
     const columns = [

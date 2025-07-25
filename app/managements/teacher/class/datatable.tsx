@@ -3,7 +3,8 @@
 import { DataTable } from "@/components/common/list/CommonDataTable";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
-import { useDeleteUserMutation, useGetClassroomsQuery, useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";
+import { useGetClassroomsQuery, useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";
+import { useDeleteUserMutation } from "@/src/graphql/generated";
 
 type StudentInTeacher = {
     id: string;
@@ -22,7 +23,7 @@ type StudentInTeacher = {
 export default function StudentInTeacherTable() {
     const { data } = useGetClassroomsQuery();
     const { data: userPayload } = useUserPayloadQuery()
-    const [deleteUser, { loading }] = useDeleteUserMutation();
+    // const [deleteUser, { loading }] = useDeleteUserMutation();
     const columns = [
       {
         accessorKey: "id",
@@ -48,7 +49,7 @@ export default function StudentInTeacherTable() {
       },
     ];
 
-  const filteringDataGuardian: unknown[] = data?.classrooms.filter((item: any) => item.guardian.id === userPayload?.me.id) || [];
+  const filteringDataGuardian: unknown[] = data?.classrooms?.filter((item: any) => item.guardian.id === userPayload?.me.id) || [];
   const dataStudentInTeacher: any[] = (filteringDataGuardian[0] as { students: any[] })?.students || [];
 
   return (

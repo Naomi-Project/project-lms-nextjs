@@ -12,10 +12,10 @@ export default function ManagerKeuangan() {
   const { data } = useGetEnrollmentsQuery();
   const { data: payload, loading } = useUserPayloadQuery();
   const { data: userLoad, loading: userLoading } = useGetUsersQuery()
-  const schoolId = userLoad?.users.find((item) => item.id === payload?.me?.id)
+  const schoolId = userLoad?.users?.find((item) => item.id === payload?.me?.id)
 
   const enrollmentThisSchool = useMemo(() => {
-    return data?.enrollments.filter((item) => item?.student?.schoolId === schoolId?.schoolId)
+    return data?.enrollments?.filter((item) => item?.student?.schoolId === schoolId?.schoolId)
   }, [data?.enrollments, userLoad?.users])
 
   const enrollmentsThisMonth = useMemo(() => {

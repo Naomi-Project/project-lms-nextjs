@@ -29,8 +29,8 @@ function ListClass<T extends Record<any, any>>(
     skip: !user?.me.id
   })
   console.log(data?.classrooms)
-  const cleanData = (data?.classrooms.filter(item =>
-    item.school.id === findUser?.user.school?.id
+  const cleanData = (data?.classrooms?.filter(item =>
+    item?.school?.id === findUser?.user?.school?.id
   ) || []).sort((a, b) =>
     a.name.localeCompare(b.name)
   );

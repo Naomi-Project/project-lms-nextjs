@@ -16,7 +16,7 @@ const EditPage = () => {
     },
     skip: !id,
   }); 
-  const fixData = {...data?.announcement, targets: data?.announcement.targets[0]}
+  const fixData = {...data?.announcement, targets: data?.announcement?.targets[0]}
   console.log(fixData)
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;

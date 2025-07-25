@@ -56,7 +56,7 @@ export default function ManagerProfileStudent() {
     return
   }
   const userPayload = userLogin?.me.role !== 'STUDENT' ? null : userLogin
-  const userFind = allUser?.users.find((item) => item.id === userPayload?.me.id)
+  const userFind = allUser?.users?.find((item) => item.id === userPayload?.me.id)
   if (userFind == null) {
     Swal.fire({
       title: "Error!",

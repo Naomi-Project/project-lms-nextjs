@@ -82,7 +82,7 @@ export default function AnnouncementTable() {
     ];
 
   const dataSchools = schools?.schools || []
-  const dataPengumuman: any[] = data?.announcements.map((item) => {
+  const dataPengumuman: any[] = data?.announcements?.map((item) => {
     return {
       ...item,
       cabangs: item?.schoolIds && item?.schoolIds?.length > 0 ? item?.schoolIds?.map((itemSchool, i) => {

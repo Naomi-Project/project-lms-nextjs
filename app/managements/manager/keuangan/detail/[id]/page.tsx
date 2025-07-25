@@ -33,13 +33,13 @@ const DetailPage = () => {
   const paymenttThisMonth = enrollment?.enrollment?.payments?.find((item) => isThisMonth(new Date(parseInt(item.createdAt))))
 
   const akumulateTagihanSpp = useMemo(() => {
-    return enrollment?.enrollment.payments?.filter((item) => item.status === "PENDING" || item.status === "FAILED").reduce((total, item) => {
+    return enrollment?.enrollment?.payments?.filter((item) => item.status === "PENDING" || item.status === "FAILED").reduce((total, item) => {
       return total + (item.pricing?.amount ?? 0); // Jika tidak ada amount, gunakan 0 sebagai default
     }, 0);
   }, [enrollment]);
 
   const data: Finance = {
-    name: enrollment?.enrollment.student?.name ?? "",
+    name: enrollment?.enrollment?.student?.name ?? "",
     address: enrollment?.enrollment?.student?.name ?? "",
     nisn: parseInt(enrollment?.enrollment?.student?.nisn ?? "") ?? "",
     amount: new Intl.NumberFormat("id-ID", {
@@ -48,7 +48,7 @@ const DetailPage = () => {
       minimumFractionDigits: 0,
     }).format(akumulateTagihanSpp ?? 0),
     payMethod: "Manual",
-    class: enrollment?.enrollment.classroom?.name ?? "",
+    class: enrollment?.enrollment?.classroom?.name ?? "",
     phone: 123,
   };
   const sections: CommonDetailSection<Finance>[] = [
@@ -118,10 +118,10 @@ const DetailPage = () => {
         class={data.class}
         payStatus={paymenttThisMonth?.status ?? ''}
         paymentId={paymenttThisMonth?.id ?? ''}
-        enrollmentId={enrollment?.enrollment.id ?? ""}
-        studentId={enrollment?.enrollment.studentId ?? ''}
-        classroomId={enrollment?.enrollment.classroomId ?? ''}
-        termId={enrollment?.enrollment.termId ?? ''}
+        enrollmentId={enrollment?.enrollment?.id ?? ""}
+        studentId={enrollment?.enrollment?.studentId ?? ''}
+        classroomId={enrollment?.enrollment?.classroomId ?? ''}
+        termId={enrollment?.enrollment?.termId ?? ''}
         pricingId={paymenttThisMonth?.pricing?.id ?? ''}
         tagihan={data?.amount}
         // jatuhTempo={formattedDueDate ?? ''}

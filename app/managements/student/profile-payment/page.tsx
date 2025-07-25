@@ -36,7 +36,7 @@ import { Label } from "@/components/ui/label"
 export default function StudentProfilePayment() {
     const { data: userPayload } = useUserPayloadQuery();
     const { data: allUser } = useGetUsersQuery();
-    const userFind = allUser?.users.find((item) => item.id === userPayload?.me.id)
+    const userFind = allUser?.users?.find((item) => item.id === userPayload?.me.id)
     const { data } = useGetEnrollmentsQuery();
     const dataPayment: any[] = data?.enrollments || [];
     console.log(dataPayment)
@@ -140,8 +140,8 @@ export default function StudentProfilePayment() {
           const updatePromises = checkoutData.map(paymentId => 
             updateUrlAndInvoicePayment(
               paymentId, 
-              res?.data?.createCheckoutPayment.url ?? "", 
-              res?.data?.createCheckoutPayment.invoiceNumber ?? ''
+              res?.data?.createCheckoutPayment?.url ?? "", 
+              res?.data?.createCheckoutPayment?.invoiceNumber ?? ''
             )
           );
            
@@ -149,7 +149,7 @@ export default function StudentProfilePayment() {
 
           // disini saya mau buka dialog confirm pembayaran
           setTimeout(() => {
-              const urlDoku = res.data?.createCheckoutPayment.url
+              const urlDoku = res.data?.createCheckoutPayment?.url
               window.open(urlDoku)
           }, 800);
 
@@ -188,7 +188,7 @@ export default function StudentProfilePayment() {
       }
     }
 
-    const studentsNotPaid = data?.enrollments.find((item) => item.studentId === userPayload?.me?.id && item?.payments?.some((item) => item.status === 'PENDING'))
+    const studentsNotPaid = data?.enrollments?.find((item) => item.studentId === userPayload?.me?.id && item?.payments?.some((item) => item.status === 'PENDING'))
     
       const akumulateTagihanSpp = useMemo(() => {
         return studentsNotPaid?.payments?.filter((item) => item.status === "PENDING" || item.status === "FAILED").reduce((total, item) => {

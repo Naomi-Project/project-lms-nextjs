@@ -8,8 +8,8 @@ export default function AdminStudent() {
 
   // widget total guru dan murid
   const { data: userLoad } = useGetUsersQuery()
-  const student = userLoad?.users.filter((item) => item.role === 'STUDENT')
-  const teacher = userLoad?.users.filter((item) => item.role === 'TEACHER');
+  const student = userLoad?.users?.filter((item) => item.role === 'STUDENT')
+  const teacher = userLoad?.users?.filter((item) => item.role === 'TEACHER');
     
   // widget total siswa perempuan dan laki2
   const maleStudent = student?.filter((item) => item.gender === "MALE")

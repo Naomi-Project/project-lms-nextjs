@@ -3,7 +3,7 @@
 import { DataTable } from "@/components/common/list/CommonDataTable";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
-import { useDeleteUserMutation, useGetClassroomsQuery, useGetSubjectsQuery, useGetUserQuery, useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";
+import { useGetClassroomsQuery, useGetSubjectsQuery, useGetUserQuery, useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";
 
 type Teacher = {
     id: string;
@@ -23,7 +23,7 @@ export default function TeacherTable() {
     const { data } = useGetUsersQuery();
     const { data: subject } = useGetSubjectsQuery();
     const { data: classrooms } = useGetClassroomsQuery();
-    const [deleteUser, { loading }] = useDeleteUserMutation();
+    // const [deleteUser, { loading }] = useDeleteUserMutation();
     const { data: user } = useUserPayloadQuery(); 
     const { data: findUser, loading: loadFindUser } = useGetUserQuery({
       variables: {
@@ -70,7 +70,7 @@ export default function TeacherTable() {
         header: "ACTION",
         cell: ({ row }: any) => <div className="flex gap-3">
          <ButtonEdit endpoint="/managements/manager/teacher/edit/" id={row.original.id} />
-         <ButtonDelete mutation={deleteUser} loading={loading} id={row.original.id} />
+         {/* <ButtonDelete mutation={deleteUser} loading={loading} id={row.original.id} /> */}
         </div>,
       },
     ];
@@ -79,8 +79,7 @@ const subjectsData = subject?.subjects || [];
 const classroomsData = classrooms?.classrooms || [];
 
 // Proses data teachers dengan subjects
-const dataTeacher: any[] = data?.users
-  .filter(user => user.role === "TEACHER" && user.schoolId === findUser?.user.school?.id)
+const dataTeacher: any[] = data?.users?.filter(user => user.role === "TEACHER" && user.schoolId === findUser?.user?.school?.id)
   .map(teacher => {
     // Cari subjects yang memiliki teacher.id yang sesuai
     const teacherSubjects = subjectsData.filter(sub =>

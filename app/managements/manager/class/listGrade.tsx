@@ -22,7 +22,7 @@ function ListGrade<T extends Record<any, any>>(
   const { data: user } = useUserPayloadQuery();
   const { data, loading } = useGetGradesQuery();
     const [deleteGrade] = useDeleteGradeMutation();
-  const cleanData = data?.grades.filter((item) => item.school.id === user?.me.schoolId).slice().sort((a: any, b: any) => {
+  const cleanData = data?.grades?.filter((item) => item?.school?.id === user?.me.schoolId).slice().sort((a: any, b: any) => {
     const numA = parseInt(a.name.match(/\d+/)?.[0] || "0"); 
     const numB = parseInt(b.name.match(/\d+/)?.[0] || "0");
   

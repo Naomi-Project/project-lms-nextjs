@@ -39,7 +39,7 @@ export default function LibraryStudent() {
   const categories = ["global"];
 
   // ✅ Filter referensi berdasarkan kategori dan pencarian
-  const filteredReferences = data?.references.filter((item) => {
+  const filteredReferences = data?.references?.filter((item) => {
     // Cek filter kategori
     const categoryMatch = selectedCategory === "global" || item.tags?.includes(selectedCategory);
 
@@ -149,7 +149,7 @@ export default function LibraryStudent() {
                           <User2Icon className="h-4 w-4 text-slate-400" />
                         </div>
                         <div className="col-span-4">
-                          <p className="text-sm text-nowrap text-slate-400">{item.author.name}</p>
+                          <p className="text-sm text-nowrap text-slate-400">{item?.author?.name ?? 'unknown'}</p>
                         </div>
                       </div>
                     </div>

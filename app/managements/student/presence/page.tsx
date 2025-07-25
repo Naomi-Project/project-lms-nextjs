@@ -20,8 +20,8 @@ export default function PresenceStudent() {
     const { data: filterStudent } = useGetUsersQuery()
     const { data: absen, loading } = useGetAttendancesQuery()
     const { data: userPayload } = useUserPayloadQuery()
-    const filteringDataStudent: any[] = filterStudent?.users.filter((item: any) => item.id === userPayload?.me.id && item.role === "STUDENT") || [];
-    const studentsInClass: any[] = absen?.attendances.filter((item) => item.studentId === userPayload?.me.id) || []
+    const filteringDataStudent: any[] = filterStudent?.users?.filter((item: any) => item.id === userPayload?.me.id && item.role === "STUDENT") || [];
+    const studentsInClass: any[] = absen?.attendances?.filter((item) => item.studentId === userPayload?.me.id) || []
     if (loading) {
       return (
         <div>Loading..</div>
@@ -43,7 +43,7 @@ export default function PresenceStudent() {
       accessorKey: "action",
       header: "ABSENSI",
       cell: ({ row }: any) => {
-        const existingAttendance = absen?.attendances.find(
+        const existingAttendance = absen?.attendances?.find(
           (item) => item.studentId === userPayload?.me.id
         );
   

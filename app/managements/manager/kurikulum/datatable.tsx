@@ -3,7 +3,7 @@
 import { DataTable } from "@/components/common/list/CommonDataTable";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
-import { useDeleteCurriculumMutation, useDeleteUserMutation, useGetCurriculumsQuery, useGetUsersQuery } from "@/graphql/generated";
+import { useDeleteCurriculumMutation, useGetCurriculumsQuery, useGetUsersQuery } from "@/graphql/generated";
 import { format } from "date-fns";
 
   

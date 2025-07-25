@@ -5,7 +5,7 @@ import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
 import {
   useDeletePaymentMutation,
-  useDeleteUserMutation,
+  // useDeleteUserMutation,
   useGetEnrollmentsQuery,
   useGetPaymentsQuery,
   useGetPricingsQuery,
@@ -66,8 +66,8 @@ export default function PaymentTable() {
     // },
   ];
 
-  const schoolId = userLoad?.users.find((item) => item.id === payload?.me?.id)
-  const dataPayment: unknown[] = data?.enrollments.filter((item) => item?.student?.schoolId === id) || [];
+  const schoolId = userLoad?.users?.find((item) => item.id === payload?.me?.id)
+  const dataPayment: unknown[] = data?.enrollments?.filter((item) => item?.student?.schoolId === id) || [];
   var fixData = dataPayment.map((item: any) => {
       // Calculate total amount for the current month
       const totalAmount = item.payments.filter((item: any) => item.status === "PAID").reduce((sum: number, payment: any) => {

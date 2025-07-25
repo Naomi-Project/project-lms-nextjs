@@ -82,12 +82,12 @@ const DetailPage = () => {
   const { data } = useGetEnrollmentsQuery();
   const { data: payload, loading } = useUserPayloadQuery();
   const { data: userLoad, loading: userLoading } = useGetUsersQuery()
-  const student = userLoad?.users.filter((item) => item.role === 'STUDENT' && item.schoolId === id) || []
-  const teacher = userLoad?.users.filter((item) => item.role === 'TEACHER' && item.schoolId === id) || []  
-  const classroomLength = classrooms?.classrooms.filter((item) => item.school.id === id).length ?? 0
+  const student = userLoad?.users?.filter((item) => item.role === 'STUDENT' && item.schoolId === id) || []
+  const teacher = userLoad?.users?.filter((item) => item.role === 'TEACHER' && item.schoolId === id) || []  
+  const classroomLength = classrooms?.classrooms?.filter((item) => item?.school?.id === id).length ?? 0
 
   const enrollmentThisSchool = useMemo(() => {
-    return data?.enrollments.filter((item) => item?.student?.schoolId === (id ?? ''))
+    return data?.enrollments?.filter((item) => item?.student?.schoolId === (id ?? ''))
   }, [data?.enrollments, id])
   
   const enrollmentsThisMonth = useMemo(() => {
@@ -287,7 +287,7 @@ const DetailPage = () => {
 
   // widget total angkatan dan kelas
   const { data: grade } = useGetGradesQuery()
-  const gradeThisSchool = grade?.grades.map((item) => item.classrooms.filter((cls) => cls.school.id === id)).length
+  const gradeThisSchool = grade?.grades?.map((item) => item?.classrooms?.filter((cls) => cls?.school?.id === id)).length
   
   if (loading) return 'loading..'
   if (userLoading) return 'loading..'

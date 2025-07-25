@@ -17,5 +17,5 @@ export default function DetailPage() {
   if (error) return <p>Error loading assignment: {error.message}</p>;
   
 
-  return <TasksDetail guru={data?.assignment?.subject?.teachers?.[0]?.name ?? "Unknown"} role="teacher" title={data?.assignment.title ?? ""} dueDate={data?.assignment.dueDate} extendedData={JSON.parse(data?.assignment?.extendedData || "") ?? ""} description={data?.assignment.description} subject={data?.assignment.subject.name ?? "Mapel Tidak Diketahui"} />;
+  return <TasksDetail guru={data?.assignment?.subject?.teachers?.[0]?.name ?? "Unknown"} role="teacher" title={data?.assignment?.title ?? ""} dueDate={data?.assignment?.dueDate} extendedData={JSON.parse(data?.assignment?.extendedData || "") ?? ""} description={data?.assignment?.description} subject={data?.assignment?.subject?.name ?? "Mapel Tidak Diketahui"} />;
 }
