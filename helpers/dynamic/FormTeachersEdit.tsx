@@ -89,7 +89,7 @@ const FormHelpersEdit = ({ context }: HelpersProps) => {
       return
     }
     
-    userFind = allUser?.users.find((item) => item.id === userLogin?.me.id)
+    userFind = allUser?.users?.find((item) => item.id === userLogin?.me.id)
   }
 
   const sections: CommonFormAddSection<Form>[] = [
@@ -199,7 +199,7 @@ const FormHelpersEdit = ({ context }: HelpersProps) => {
     );
   }  
 
-  const fixData = { ...dataEdit?.user, dateOfBirth: format(new Date(dataEdit?.user.dateOfBirth), "yyyy-MM-dd"), schoolId: dataEdit?.user.school?.id ?? "" }
+  const fixData = { ...dataEdit?.user, dateOfBirth: format(new Date(dataEdit?.user?.dateOfBirth), "yyyy-MM-dd"), schoolId: dataEdit?.user?.school?.id ?? "" }
   if (context && context === 'edit_profile_teacher') {
     userFind = { ...userFind, dateOfBirth: format(new Date(userFind?.dateOfBirth), "yyyy-MM-dd"), schoolId: userFind?.school?.id ?? "" }
   }

@@ -40,11 +40,11 @@ interface dataSelectTypes {
 const FormHelpersAdd = () => {
   const { data: firstData } = useGetSubjectsQuery()
   const { data: secondData } = useGetClassroomsQuery()
-  const dataSubject: dataSelectTypes[] = firstData?.subjects.map((data) => ({
+  const dataSubject: dataSelectTypes[] = firstData?.subjects?.map((data) => ({
     label: data.name,
     value: data.id,
   })) || []
-  const dataClass: dataSelectTypes[] = secondData?.classrooms.map((data) => ({
+  const dataClass: dataSelectTypes[] = secondData?.classrooms?.map((data) => ({
     label: data.name,
     value: data.id,
   })) || []

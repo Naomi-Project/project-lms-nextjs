@@ -65,7 +65,7 @@ const CommonAddSubject = ({ day, classroomId }: Subject) => {
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup heading="Pilih mata pelajaran">
                 {
-                    data && data.subjects.map((item: any, index: number) => (
+                    data && data?.subjects?.map((item: any, index: number) => (
                         <CommandItem key={index} onSelect={() => handleAddSubject(item.id)}>{item.name}</CommandItem>
                     ))
                 }

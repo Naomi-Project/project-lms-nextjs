@@ -28,13 +28,13 @@ export default function Header() {
   const { data: users } = useGetUsersQuery();
   const { data: notif, loading } = useGetAnnouncementsQuery();
 
-  const currentUser = users?.users.find((item) => item.id === userData?.me.id);
+  const currentUser = users?.users?.find((item) => item.id === userData?.me.id);
   const userRole = userData?.me.role;
   const userSchoolId = currentUser?.schoolId;
 
   // Optimized filtering function
   const filterAnnouncements = (targetRole: string) => 
-    notif?.announcements.filter(item => 
+    notif?.announcements?.filter(item => 
       item.targets[0] === targetRole && 
       item?.schoolIds?.some(sc => sc === userSchoolId)
     ) || [];
@@ -52,7 +52,7 @@ export default function Header() {
   };
 
   // Global announcements (for all users)
-  const globalAnnouncements = notif?.announcements.filter(
+  const globalAnnouncements = notif?.announcements?.filter(
     item => item.targets[0] === "ALL" && item.schoolIds?.length === 0
   ) || [];
 

@@ -40,7 +40,7 @@ const FormHelpersEdit = () => {
   })
   const { data: broadcast } = useGetBroadcastsQuery({
     variables: {
-      schoolId: findUser?.user.school?.id ?? ''
+      schoolId: findUser?.user?.school?.id ?? ''
     }
   })
   console.log(broadcast)

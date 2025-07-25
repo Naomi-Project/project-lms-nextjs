@@ -44,17 +44,17 @@ const FormHelpersAdd = () => {
   const { data: user } = useUserPayloadQuery()
   const { data: subjects } = useGetSubjectsQuery()
   const { data: firstData } = useGetGradesQuery()
-  const dataGrades: dataSelectTypes[] = firstData?.grades.map((data) => ({
+  const dataGrades: dataSelectTypes[] = firstData?.grades?.map((data) => ({
     label: data.name,
     value: data.id,
   })) || []
   const { data: secondData } = useGetCurriculumsQuery()
-  const dataCurriculum: dataSelectTypes[] = secondData?.curriculums.map((data) => ({
+  const dataCurriculum: dataSelectTypes[] = secondData?.curriculums?.map((data) => ({
     label: data.name,
     value: data.id,
   })) || []
   const { data: thridData } = useGetUsersQuery()
-  const dataTeacher: dataSelectTypes[] = thridData?.users.filter((item) => item.role === "TEACHER").map((data) => ({
+  const dataTeacher: dataSelectTypes[] = thridData?.users?.filter((item) => item.role === "TEACHER").map((data) => ({
     label: data.name ?? "",
     value: data.id,
   })) || []

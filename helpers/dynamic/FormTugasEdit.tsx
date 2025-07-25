@@ -52,11 +52,11 @@ const FormHelpersEdit = () => {
   
   const { data: firstData } = useGetSubjectsQuery()
     const { data: secondData } = useGetClassroomsQuery()
-  const dataSubject: dataSelectTypes[] = firstData?.subjects.map((data) => ({
+  const dataSubject: dataSelectTypes[] = firstData?.subjects?.map((data) => ({
     label: data.name,
     value: data.id,
   })) || []
-  const dataClass: dataSelectTypes[] = secondData?.classrooms.map((data) => ({
+  const dataClass: dataSelectTypes[] = secondData?.classrooms?.map((data) => ({
     label: data.name,
     value: data.id,
   })) || []
@@ -144,7 +144,7 @@ const FormHelpersEdit = () => {
   ];
 
   const [updateAssignment] = useUpdateAssignmentMutation();
-  const fixData = { ...dataEdit?.assignment, classroomIds: dataEdit?.assignment.classrooms.map((cls: any) => cls.id), dueDate: format(new Date(dataEdit?.assignment.dueDate), "yyyy-MM-dd HH:mm:ss") }
+  const fixData = { ...dataEdit?.assignment, classroomIds: dataEdit?.assignment?.classrooms?.map((cls: any) => cls.id), dueDate: format(new Date(dataEdit?.assignment?.dueDate), "yyyy-MM-dd HH:mm:ss") }
   return (
     <CommonFormEdit
       lable="Tugas"

@@ -52,7 +52,7 @@ export function AppSidebar() {
   const isAdmin = userPayload?.me.role === "STAFF" || userPayload?.me.role === "PRINCIPAL"
   const isHeadOffice = userPayload?.me.role === "ADMIN"
   const isTeacher = userPayload?.me.role === "TEACHER"
-  const isGuardian = classRoom?.classrooms.find((item) => item?.guardian?.id === userPayload?.me.id) ? true : false
+  const isGuardian = classRoom?.classrooms?.find((item) => item?.guardian?.id === userPayload?.me.id) ? true : false
   const isStudent = userPayload?.me.role === "STUDENT"
 
   // Fungsi untuk toggle dropdown pada sub-menu
@@ -73,8 +73,8 @@ export function AppSidebar() {
                 <a href="#">
                   <Image src={logo} alt="logo" />
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">{findUser?.user.school?.name ?? "Sekolah Yapendik"}</span>
-                    <span className="truncate text-xs">{findUser?.user.school?.address ?? "Semarang"}</span>
+                    <span className="truncate font-semibold">{findUser?.user?.school?.name ?? "Sekolah Yapendik"}</span>
+                    <span className="truncate text-xs">{findUser?.user?.school?.address ?? "Semarang"}</span>
                   </div>
                 </a>
               </SidebarMenuButton>

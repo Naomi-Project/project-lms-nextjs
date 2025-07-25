@@ -11,7 +11,7 @@ import { useGetClassroomsQuery, useUserPayloadQuery } from "@/graphql/generated"
 export default function ClassTeacher() {
   const { data } = useGetClassroomsQuery();
   const { data: userPayload } = useUserPayloadQuery()
-  const filteringDataGuardian: any[] = data?.classrooms.filter((item: any) => item.guardian.id === userPayload?.me.id) || [];
+  const filteringDataGuardian: any[] = data?.classrooms?.filter((item: any) => item.guardian.id === userPayload?.me.id) || [];
   const dataStudentInTeacher: any[] = (filteringDataGuardian[0] as { students: any[] })?.students || [];
   return (
     <div className="min-h-screen">

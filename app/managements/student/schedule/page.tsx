@@ -15,7 +15,7 @@ export default function ScheduleStudent() {
 
   // cari data class yang menunjukan walikelas adalah user yang sedang login
   const { data: userPayload } = useUserPayloadQuery()
-  const filteringDataStudent: any[] = data?.users.filter((item: any) => item.id === userPayload?.me.id && item.role === "STUDENT") || [];
+  const filteringDataStudent: any[] = data?.users?.filter((item: any) => item.id === userPayload?.me.id && item.role === "STUDENT") || [];
   // 
 
   const monday = filteringDataStudent[0]?.classroom?.schedules.filter((item: any) => item?.day === "MONDAY") || []

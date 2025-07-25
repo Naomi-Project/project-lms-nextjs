@@ -50,11 +50,11 @@ const FormHelpersEdit = () => {
   // Query pertama: Ambil data grades
   const { data: firstData } = useGetSubjectsQuery()
   const { data: secondData, loading: loadSecdata } = useGetReferencesQuery()
-  const dataSubject: dataSelectTypes[] = firstData?.subjects.map((data) => ({
+  const dataSubject: dataSelectTypes[] = firstData?.subjects?.map((data) => ({
     label: data.name,
     value: data.id,
   })) || []
-  const dataReferences: dataSelectTypes[] = secondData?.references.map((data) => ({
+  const dataReferences: dataSelectTypes[] = secondData?.references?.map((data) => ({
     label: data.title,
     value: data.id,
   })) || []
@@ -122,7 +122,7 @@ const FormHelpersEdit = () => {
     },
   ];
 
-  const fixData = { ...dataEdit?.material, subjectId: dataEdit?.material.subject.id, referenceIds: dataEdit?.material.references.map((cls: any) => cls.id), }
+  const fixData = { ...dataEdit?.material, subjectId: dataEdit?.material?.subject?.id, referenceIds: dataEdit?.material?.references?.map((cls: any) => cls.id), }
   return (
       <CommonFormEdit
         lable="Tugas"

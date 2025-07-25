@@ -49,7 +49,7 @@ const FormHelpersAdd = () => {
     value: data.id,
   })) || []
   const { data: secondData } = useGetCurriculumsQuery()
-  const dataCurriculum: dataSelectTypes[] = secondData?.curriculums.map((data) => ({
+  const dataCurriculum: dataSelectTypes[] = secondData?.curriculums?.map((data) => ({
     label: data.name,
     value: data.id,
   })) || []

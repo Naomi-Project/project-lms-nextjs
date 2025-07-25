@@ -45,7 +45,7 @@ export default function ScheduleTeacher() {
   const [deleteSchedule] = useDeleteScheduleMutation()
   // cari data class yang menunjukan walikelas adalah user yang sedang login
   const { data: userPayload } = useUserPayloadQuery()
-  const filteringDataGuardian: any[] = data?.classrooms.filter((item: any) => item.guardian.id === userPayload?.me.id) || [];
+  const filteringDataGuardian: any[] = data?.classrooms?.filter((item: any) => item.guardian.id === userPayload?.me.id) || [];
 
   const monday = filteringDataGuardian[0]?.schedules.filter((item: any) => item?.day === "MONDAY") || []
   const tuesday = filteringDataGuardian[0]?.schedules.filter((item: any) => item?.day === "TUESDAY") || []

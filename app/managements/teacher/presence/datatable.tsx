@@ -52,7 +52,7 @@ export default function AttendancesTable() {
         accessorKey: "action",
         header: "ABSENSI",
         cell: ({ row }: any) => {
-          const existingAttendance = absen?.attendances.find(
+          const existingAttendance = absen?.attendances?.find(
             (item) => item.studentId === row.original.id && isSameDay(new Date(item.date), today)
           );
     
@@ -117,7 +117,7 @@ export default function AttendancesTable() {
   };
 
   // cari data class yang menunjukan walikelas adalah user yang sedang login
-  const filteringDataGuardian: any[] = data?.classrooms.filter((item: any) => item.guardian.id === userPayload?.me.id) || [];
+  const filteringDataGuardian: any[] = data?.classrooms?.filter((item: any) => item.guardian.id === userPayload?.me.id) || [];
   const studentsInClass: any[] = (filteringDataGuardian[0] as { students: any[] })?.students || [];
 
   React.useEffect(() => {
@@ -150,7 +150,7 @@ export default function AttendancesTable() {
       const startOfToday = startOfDay(new Date()).getTime(); // Awal hari ini dalam timestamp
       const endOfToday = endOfDay(new Date()).getTime(); // Akhir hari ini dalam timestamp
       const alreadyAbsentStudents = selectedStudents.filter((student) =>
-        absen?.attendances.some(
+        absen?.attendances?.some(
           (exItem) =>
             exItem.studentId === student.id &&
             exItem.date >= startOfToday && // Harus lebih besar dari awal hari ini
@@ -234,7 +234,7 @@ export default function AttendancesTable() {
   const resetAbsen = () => {
     // console.log(absen?.attendances.filter((item) => item.classroomId === filteringDataGuardian[0].id  && isSameDay(new Date(item.date), today)))
     // return
-    absen?.attendances.filter((item) => item.classroomId === filteringDataGuardian[0].id  && isSameDay(new Date(item.date), today)).map(async(item) => {
+    absen?.attendances?.filter((item) => item.classroomId === filteringDataGuardian[0].id  && isSameDay(new Date(item.date), today)).map(async(item) => {
       try {
         await deleteAttendance({
           variables: {

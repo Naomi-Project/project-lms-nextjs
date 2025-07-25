@@ -44,7 +44,7 @@ const ListCardMateri = ({ canDelete = true, role = "student", search, filter }: 
   useEffect(() => {
     setMateri(
       filter && filter.trim() !== ""
-        ? rawData.filter((item) => item.subject.id.includes(filter.toLowerCase()))
+        ? rawData.filter((item) => item?.subject?.id.includes(filter.toLowerCase()))
         : rawData
     );
   }, [filter, rawData]);
@@ -61,10 +61,10 @@ const ListCardMateri = ({ canDelete = true, role = "student", search, filter }: 
                 <div className="flex justify-between items-center">
                   <div className="w-full flex gap-3">
                     <CardTitle className="font-bold text-xs py-2 px-4 bg-orange-100 w-auto rounded-md text-center text-orange-400">
-                      {data.subject.name}
+                      {data?.subject?.name}
                     </CardTitle>
                     <CardTitle className="font-bold text-xs py-2 px-4 bg-blue-100 w-auto rounded-md text-center text-blue-400">
-                      Kurikulum {data.curriculum.name}
+                      Kurikulum {data?.curriculum?.name}
                     </CardTitle>
                   </div>
                   {canDelete && (

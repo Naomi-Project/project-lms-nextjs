@@ -174,7 +174,7 @@ const FormHelpersAdd = () => {
       <p>Loading..</p>
     );
   }  
-  const fixData = { ...dataEdit?.user, dateOfBirth: format(new Date(dataEdit?.user?.dateOfBirth), "yyyy-MM-dd"), schoolId: dataEdit?.user.school?.id ?? "" }
+  const fixData = { ...dataEdit?.user, dateOfBirth: format(new Date(dataEdit?.user?.dateOfBirth), "yyyy-MM-dd"), schoolId: dataEdit?.user?.school?.id ?? "" }
   console.log(fixData)
   return (
       <CommonFormEdit

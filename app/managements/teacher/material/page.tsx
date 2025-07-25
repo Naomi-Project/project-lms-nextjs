@@ -21,7 +21,7 @@ export default function MaterialTeacher() {
   const [search, setSearch] = useState<string>('')
   const [filter, setFilter] = useState<string>('')
   const { data: firstData } = useGetSubjectsQuery()
-  const dataSubject: dataSelectTypes[] = firstData?.subjects.map((data) => ({
+  const dataSubject: dataSelectTypes[] = firstData?.subjects?.map((data) => ({
     label: data.name,
     value: data.id,
   })) || []

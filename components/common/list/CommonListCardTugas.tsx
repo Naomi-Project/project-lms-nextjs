@@ -34,14 +34,14 @@ const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: L
   // Filter tugas berdasarkan kelas siswa yang login
   const rawData = useMemo(() => {
     if (userRole === "STUDENT" && role === 'student') {
-      return data?.assignments.filter((assignment) =>
-        assignment.classrooms.some((cls) =>
-          cls.students.some((student) => student.id === userId)
+      return data?.assignments?.filter((assignment) =>
+        assignment?.classrooms?.some((cls) =>
+          cls?.students?.some((student) => student.id === userId)
         )
       ) || [];
     } else if (userRole === "TEACHER" && role === 'teacher') {
-      return data?.assignments.filter((assignment) =>
-        assignment.classrooms.some((cls) =>
+      return data?.assignments?.filter((assignment) =>
+        assignment?.classrooms?.some((cls) =>
           cls?.guardian?.id === userId
         )
       ) || [];
@@ -51,8 +51,8 @@ const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: L
 
   // Menambahkan informasi kelas dan nama wali kelas (guardian)
   const tugasDenganKelas = rawData.map((assignment) => {
-    const kelasDitemukan = assignment.classrooms.find((cls) =>
-      cls.students.some((student) => student.id === userId) || cls.guardian?.id === userId
+    const kelasDitemukan = assignment?.classrooms?.find((cls) =>
+      cls?.students?.some((student) => student.id === userId) || cls.guardian?.id === userId
     );
     
 
@@ -76,7 +76,7 @@ const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: L
 
     if (filter && filter.trim() !== "") {
       filteredTugas = filteredTugas.filter((item) =>
-        item.subject.id.includes(filter.toLowerCase())
+        item?.subject?.id.includes(filter.toLowerCase())
       );
     }
 
@@ -100,14 +100,14 @@ const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: L
                         data?.submissions?.find((item) => item?.studentId === userId) ? "bg-blue-100 text-blue-400 hidden" : "bg-red-100 text-red-400"
                       }`}
                     >
-                      {data.submissions.find((item) => item.studentId === userId) ? "Sudah Dikerjakan" : "Belum Dikerjakan"}
+                      {data?.submissions?.find((item) => item.studentId === userId) ? "Sudah Dikerjakan" : "Belum Dikerjakan"}
                     </CardTitle>
                     <CardTitle
                       className={`fontligh text-xs py-1 w-auto px-3 rounded-full text-center font-bold ${
                         data?.submissions?.find((item) => item?.studentId === userId) ? "bg-blue-100 text-blue-400" : "hidden"
                       }`}
                     >
-                      {data.submissions.find((item) => item.studentId === userId) ? 'Nilai Mu ' + data.submissions.find((item) => item.studentId === userId)?.score?.value + '' : "Tidak ada Nilai"}
+                      {data?.submissions?.find((item) => item.studentId === userId) ? 'Nilai Mu ' + data?.submissions?.find((item) => item.studentId === userId)?.score?.value + '' : "Tidak ada Nilai"}
                     </CardTitle>
                   </div>
                   {canDelete && (
@@ -145,7 +145,7 @@ const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: L
                   <User className="text-primary w-5 h-5" /> <p>{data.waliKelas ?? "Tidak Diketahui"}</p>
                 </CardDescription>
                 <CardDescription className="flex text-xs gap-2">
-                  <Book className="text-primary w-5 h-5" /> <p>{data.subject.name}</p>
+                  <Book className="text-primary w-5 h-5" /> <p>{data?.subject?.name}</p>
                 </CardDescription>
               </CardFooter>
             </Card>

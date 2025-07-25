@@ -83,7 +83,7 @@ const FormHelpersEdit = ({ context }: HelpersProps) => {
       return
     }
     
-    userFindTemporary = allUser?.users.find((item) => item.id === userLogin?.me.id)
+    userFindTemporary = allUser?.users?.find((item) => item.id === userLogin?.me.id)
   }
 
   const sections: CommonFormAddSection<Form>[] = [
@@ -154,7 +154,7 @@ const FormHelpersEdit = ({ context }: HelpersProps) => {
   ];
 
   const userPayload = userLogin?.me.role !== 'ADMIN' ? null : userLogin
-  const userFind: any = allUser?.users.find((item) => item.id === userPayload?.me.id) || {}
+  const userFind: any = allUser?.users?.find((item) => item.id === userPayload?.me.id) || {}
   if (userFind == null) {
       Swal.fire({
         title: "Error!",
@@ -175,7 +175,7 @@ const FormHelpersEdit = ({ context }: HelpersProps) => {
   
   if (loadSchool) return
 
-  const findSchoolByUser: any = schools?.schools.find((item) => item.users.some((usr) => usr.id === userFind.id)) || {}
+  const findSchoolByUser: any = schools?.schools.find((item) => item?.users?.some((usr) => usr.id === userFind.id)) || {}
 
   const data: Form = {
     name: findSchoolByUser.name ?? "",
