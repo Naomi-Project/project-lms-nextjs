@@ -54,7 +54,7 @@ const FormHelpersAdd = () => {
     value: data.id,
   })) || []
   const { data: thridData } = useGetUsersQuery()
-  const dataTeacher: dataSelectTypes[] = thridData?.users?.filter((item) => item.role === "TEACHER").map((data) => ({
+  const dataTeacher: dataSelectTypes[] = thridData?.users?.filter((item) => item.schoolId === user?.me.schoolId && item.role === "TEACHER").map((data) => ({
     label: data.name ?? "",
     value: data.id,
   })) || []

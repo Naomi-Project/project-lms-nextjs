@@ -2,15 +2,28 @@
 import {
   CommonFormAdd
 } from "@/components/common/form/CommonFormAdd";
-import { useCreatePricingMutation } from "@/graphql/generated";
+import { useCreatePricingMutation, useUserPayloadQuery } from "@/graphql/generated";
 import { pricingSchema, sections } from "@/helpers/static/FormPricing";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const CreatePage = () => {
   const [dataMutationDefault, setDataMutationDefault] = useState({
     name: "",
-    amount: ""
+    amount: "",
+    schoolId: ""
   });
+
+  const { data: user } = useUserPayloadQuery()
+
+  useEffect(() => {
+    setDataMutationDefault(prev => ({
+      ...prev,
+      schoolId: user?.me.schoolId || ""
+    }));
+  }, [user?.me.schoolId]);
+
+
+
   const [createPricing] = useCreatePricingMutation();
   return (
     <CommonFormAdd

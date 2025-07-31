@@ -20,7 +20,10 @@ export default function SubmissionTable({
   const [deleteSubmission, { loading }] = useDeleteSubmissionMutation();
 
   // 🔹 Data asli dari query
-  const dataSubmission: any[] = data?.submissions || [];
+  if (error) {
+    console.log(error)
+  }
+  const dataSubmission: any[] = data?.submissions.filter((item) => item.student) || [];
   console.log(dataSubmission)
 
   // 🔹 Filter data berdasarkan state dari ExamTeacher.tsx

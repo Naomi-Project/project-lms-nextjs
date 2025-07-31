@@ -58,7 +58,7 @@ const FormHelpersAdd = () => {
     label: grade.name,
     value: grade.id,
   })) || []
-  const dataPricings: dataSelectTypes[] = thirdData?.pricings?.map((item) => ({
+  const dataPricings: dataSelectTypes[] = thirdData?.pricings?.filter((item) => item.schoolId === user?.me.schoolId).map((item) => ({
     label: item.name,
     value: item.id,
   })) || []

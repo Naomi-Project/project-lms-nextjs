@@ -1144,6 +1144,7 @@ query GetSubmissions {
     student {
       id
       name
+      schoolId
       username
       role
     }
@@ -1678,6 +1679,7 @@ query GetPricing($data: String!) {
     id
     name
     amount
+    schoolId
     createdAt
     updatedAt
   }
@@ -1688,6 +1690,7 @@ query GetPricings {
     id
     name
     amount
+    schoolId
     createdAt
     updatedAt
   }

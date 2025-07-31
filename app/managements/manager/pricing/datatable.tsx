@@ -3,14 +3,14 @@
 import { DataTable } from "@/components/common/list/CommonDataTable";
 import ButtonDelete from "@/components/ui/buttonDelete";
 import ButtonEdit from "@/components/ui/buttonEdit";
-import { useDeletePricingMutation, useGetPricingsQuery, useGetUsersQuery } from "@/graphql/generated";
+import { useDeletePricingMutation, useGetPricingsQuery, useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";
 import { format } from "date-fns";
 
   
   
 export default function PricingTable() {
+    const { data: user } = useUserPayloadQuery()
     const { data } = useGetPricingsQuery()
-    console.log(data)
     const [deletePricing, { loading }] = useDeletePricingMutation();
     const columns = [
       {
@@ -48,7 +48,7 @@ export default function PricingTable() {
       },
     ];
 
-  const dataPricing: any[] = data?.pricings || [];
+  const dataPricing: any[] = data?.pricings.filter((item) => item.schoolId === user?.me.schoolId) || [];
 
   return (
     <DataTable
