@@ -1681,7 +1681,7 @@ export type GetSubmissionQuery = { __typename?: 'Query', submission: { __typenam
 export type GetSubmissionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetSubmissionsQuery = { __typename?: 'Query', submissions: Array<{ __typename?: 'Submission', id: string, assignmentId: string, studentId: string, extendedData?: string | null, createdAt?: any | null, updatedAt?: any | null, score?: { __typename?: 'Score', id: string, value?: number | null, notes?: string | null } | null, student: { __typename?: 'User', id: string, name?: string | null, schoolId?: string | null, username: string, role: Role }, assignment: { __typename?: 'Assignment', title: string, dueDate: any, type: AssignmentType, description: string, extendedData?: string | null, subject: { __typename?: 'Subject', id: string, name: string, code: string, teachers?: Array<{ __typename?: 'User', id: string, username: string, role: Role }> | null } } }> };
+export type GetSubmissionsQuery = { __typename?: 'Query', submissions: Array<{ __typename?: 'Submission', id: string, assignmentId: string, studentId: string, extendedData?: string | null, createdAt?: any | null, updatedAt?: any | null, score?: { __typename?: 'Score', id: string, value?: number | null, notes?: string | null } | null, student: { __typename?: 'User', id: string, name?: string | null, schoolId?: string | null, username: string, role: Role, classroom?: { __typename?: 'Classroom', id: string, name: string } | null }, assignment: { __typename?: 'Assignment', title: string, dueDate: any, type: AssignmentType, description: string, extendedData?: string | null, subject: { __typename?: 'Subject', id: string, name: string, code: string, teachers?: Array<{ __typename?: 'User', id: string, username: string, role: Role }> | null } } }> };
 
 export type CreateSubmissionMutationVariables = Exact<{
   data: CreateSubmissionInput;
@@ -4779,6 +4779,10 @@ export const GetSubmissionsDocument = gql`
       schoolId
       username
       role
+      classroom {
+        id
+        name
+      }
     }
     assignment {
       title

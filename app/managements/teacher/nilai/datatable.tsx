@@ -2,7 +2,7 @@
 /* eslint-disable */
 import { DataTable } from "@/components/common/list/CommonDataTable";
 import ButtonDelete from "@/components/ui/buttonDelete";
-import { useDeleteSubmissionMutation, useGetSubmissionsQuery } from "@/graphql/generated";
+import { useDeleteSubmissionMutation, useGetClassroomQuery, useGetClassroomsQuery, useGetSubmissionsQuery, useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";
 
 
 interface SubmissionTableProps {
@@ -17,14 +17,18 @@ export default function SubmissionTable({
   selectedClassType,
 }: SubmissionTableProps) {
   const { data, error } = useGetSubmissionsQuery();
+  const { data: user } = useUserPayloadQuery();
+  const { data: classrooms } = useGetClassroomsQuery();
   const [deleteSubmission, { loading }] = useDeleteSubmissionMutation();
 
   // 🔹 Data asli dari query
   if (error) {
     console.log(error)
   }
-  const dataSubmission: any[] = data?.submissions.filter((item) => item.student) || [];
-  console.log(dataSubmission)
+
+  const findclass = classrooms?.classrooms.find((item) => item.guardian?.id === user?.me.id)
+
+  const dataSubmission: any[] = data?.submissions.filter((item) => item.student.schoolId === user?.me.schoolId && item.student.classroom?.id === findclass?.id) || [];
 
   // 🔹 Filter data berdasarkan state dari ExamTeacher.tsx
   const filteredData = dataSubmission.filter((submission) => {

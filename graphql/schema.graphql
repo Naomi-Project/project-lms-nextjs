@@ -1147,6 +1147,10 @@ query GetSubmissions {
       schoolId
       username
       role
+      classroom {
+        id
+        name
+      }
     }
     assignment {
       title
