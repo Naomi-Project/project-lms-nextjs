@@ -61,6 +61,8 @@ function ListGrade<T extends Record<any, any>>(
               </div>
             </div>
             <div>
+              {
+                dt.classrooms.length > 0 ? "" : (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button className="">
@@ -79,6 +81,8 @@ function ListGrade<T extends Record<any, any>>(
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
+                )
+              }
             </div>
           </div>
         </div>

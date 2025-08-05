@@ -23,7 +23,7 @@ const CommonSubmission: React.FC<CommonSubmissionProps> = ({ name, label, dataDe
   const { setValue, watch } = useFormContext();
   const value = watch(name);
   const [questionEco, setQuestionEco] = useState([
-    { question: "", optionA: "", optionB: "", optionC: "", optionD: "", userAnswer: "", correctAnswer: "" },
+    { question: "", optionA: "", optionB: "", optionC: "", optionD: "", optionE: "", userAnswer: "", correctAnswer: "" },
   ])
 
   useEffect(() => {
@@ -41,6 +41,7 @@ const CommonSubmission: React.FC<CommonSubmissionProps> = ({ name, label, dataDe
         optionB: "",
         optionC: "",
         optionD: "",
+        optionE: "",
         userAnswer: "",
         correctAnswer: "",
       },
@@ -92,10 +93,10 @@ const CommonSubmission: React.FC<CommonSubmissionProps> = ({ name, label, dataDe
            {/* Pilihan Jawaban */}
            <div className="mt-3 gap-3 flex flex-col">
               <RadioGroup value={item.userAnswer} onValueChange={(value) => handleSelectCorrectAnswer(index, value)}>
-                {["A", "B", "C", "D"].map((option) => (
+                {["A", "B", "C", "D", "E"].map((option) => (
                   <div key={option} className="flex items-center space-x-2">
                     <RadioGroupItem value={option} id={`r${index}-${option}`} />
-                    <Label>{item[`option${option}` as keyof typeof item]}</Label>
+                    <Label>{option}. {item[`option${option}` as keyof typeof item]}</Label>
                   </div>
                 ))}
               </RadioGroup>

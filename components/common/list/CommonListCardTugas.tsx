@@ -95,20 +95,26 @@ const ListCardTugas = ({ canDelete = true, role = "student", search, filter }: L
               <CardHeader className="flex gap-3">
                 <div className="flex flex-row gap-4 justify-between items-center">
                   <div className="flex flex-wrap gap-4">
-                    <CardTitle
-                      className={`fontligh text-xs py-1 w-auto px-3 rounded-full text-center font-bold ${
-                        data?.submissions?.find((item) => item?.studentId === userId) ? "bg-blue-100 text-blue-400 hidden" : "bg-red-100 text-red-400"
-                      }`}
-                    >
-                      {data?.submissions?.find((item) => item.studentId === userId) ? "Sudah Dikerjakan" : "Belum Dikerjakan"}
-                    </CardTitle>
-                    <CardTitle
-                      className={`fontligh text-xs py-1 w-auto px-3 rounded-full text-center font-bold ${
-                        data?.submissions?.find((item) => item?.studentId === userId) ? "bg-blue-100 text-blue-400" : "hidden"
-                      }`}
-                    >
-                      {data?.submissions?.find((item) => item.studentId === userId) ? 'Nilai Mu ' + data?.submissions?.find((item) => item.studentId === userId)?.score?.value + '' : "Tidak ada Nilai"}
-                    </CardTitle>
+                    {
+                      role !== 'teacher' ? (
+                        <>
+                        <CardTitle
+                          className={`fontligh text-xs py-1 w-auto px-3 rounded-full text-center font-bold ${
+                            data?.submissions?.find((item) => item?.studentId === userId) ? "bg-blue-100 text-blue-400 hidden" : "bg-red-100 text-red-400"
+                          }`}
+                        >
+                          {data?.submissions?.find((item) => item.studentId === userId) ? "Sudah Dikerjakan" : "Belum Dikerjakan"}
+                        </CardTitle>
+                        <CardTitle
+                          className={`fontligh text-xs py-1 w-auto px-3 rounded-full text-center font-bold ${
+                            data?.submissions?.find((item) => item?.studentId === userId) ? "bg-blue-100 text-blue-400" : "hidden"
+                          }`}
+                        >
+                          {data?.submissions?.find((item) => item.studentId === userId) ? 'Nilai Mu ' + data?.submissions?.find((item) => item.studentId === userId)?.score?.value + '' : "Tidak ada Nilai"}
+                        </CardTitle>
+                        </>
+                      ) : ''
+                    }
                   </div>
                   {canDelete && (
                     <DropdownMenu>

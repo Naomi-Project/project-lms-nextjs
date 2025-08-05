@@ -17,7 +17,7 @@ export const referenceSchema = z.object({
   description: z.string().min(1, "Deskripsi Referensi wajib diisi"),
   tags: z.string().optional(),
   type: z.string().min(1, "Tipe Referensi wajib dipilih"),
-  url: z.string().min(1, "Isi Referensi wajib diisi"),
+  url: z.optional(z.string()),
   file: z.any(),
   authorId: z.string().min(1, "Author Referensi wajib diisi"),
 });
@@ -27,7 +27,7 @@ export interface Form {
   description: string;
   tags?: string;
   type: string;
-  url: string;
+  url?: string;
   file?: any;
   authorId: string;
 }

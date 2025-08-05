@@ -156,7 +156,7 @@ export function CommonFormAdd<T extends Record<any, any>>(
         (values as any).tags = (values as any).tags.split(",").map((tag: any) => tag.trim());
       }
 
-      if (values.type === 'BOOK' && values.file) {
+      if ((values.type === 'BOOK' || values.type === 'IMAGE') && values.file) {
          const fileToUpload = values.file?.[0];
         const formData = new FormData();
         formData.append('file', fileToUpload);
@@ -175,7 +175,7 @@ export function CommonFormAdd<T extends Record<any, any>>(
 
         const uploadResult = await saveFile.json();
         console.log("File uploaded successfully:", uploadResult);
-        const newData1 = {...values, tags: (values as any).tags, url: "https://staging.zerobase.tech/" + uploadResult.filePath}
+        const newData1 = {...values, tags: (values as any).tags, url: "https://api.lmsyapendik.com/" + uploadResult.filePath}
         const { file, ...cleanData } = newData1
         executeMutation(cleanData)
         return
@@ -543,8 +543,8 @@ export function CommonFormAdd<T extends Record<any, any>>(
                                     <Input
                                       className={dataField.hidden && dataField.hidden == true ? "hidden" : ""}
                                       type={dataField.type || "text"}
-                                      disabled={formTypeValue === 'BOOK' ? true : false}
-                                      placeholder={formTypeValue === 'BOOK' ? "Url otomatis terisi" : dataField.placeholder}
+                                      disabled={(formTypeValue === 'BOOK' || formTypeValue === 'IMAGE') ? true : false}
+                                      placeholder={(formTypeValue === 'BOOK' || formTypeValue === 'IMAGE') ? "Url otomatis terisi" : dataField.placeholder}
                                       {...field}
                                     />
                                   </FormControl>

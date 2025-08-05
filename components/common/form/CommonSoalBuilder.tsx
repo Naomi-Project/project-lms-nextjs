@@ -34,7 +34,7 @@ const CommonSoalBuilder: React.FC<CommonSoalBuilderProps> = ({ name, label, data
   const { setValue, watch } = useFormContext();
   const value = watch(name);
   const [questionEco, setQuestionEco] = useState([
-    { question: "", optionA: "", optionB: "", optionC: "", optionD: "", correctAnswer: "" },
+    { question: "", optionA: "", optionB: "", optionC: "", optionD: "", optionE: "", correctAnswer: "" },
   ]);
 
   useEffect(() => {
@@ -66,7 +66,7 @@ const CommonSoalBuilder: React.FC<CommonSoalBuilderProps> = ({ name, label, data
     if (!validateQuestions()) return; // Cek validasi sebelum menambah soal baru
     setQuestionEco([
       ...questionEco,
-      { question: "", optionA: "", optionB: "", optionC: "", optionD: "", correctAnswer: "" },
+      { question: "", optionA: "", optionB: "", optionC: "", optionD: "", optionE: "", correctAnswer: "" },
     ]);
   };
 
@@ -131,7 +131,7 @@ const CommonSoalBuilder: React.FC<CommonSoalBuilderProps> = ({ name, label, data
               {/* Pilihan Jawaban */}
               <div className="mt-3 gap-3 flex flex-col">
                 <RadioGroup value={item.correctAnswer} onValueChange={(value) => handleSelectCorrectAnswer(index, value)}>
-                  {["A", "B", "C", "D"].map((option) => (
+                  {["A", "B", "C", "D", "E"].map((option) => (
                     <div key={option} className="flex items-center space-x-2">
                       <RadioGroupItem value={option} id={`r${index}-${option}`} />
                       <Input

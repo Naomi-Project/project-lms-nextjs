@@ -1,6 +1,6 @@
 'use client'
 /* eslint-disable */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input } from "@/components/ui/input";
 import {
   Dialog,
@@ -43,9 +43,28 @@ const CommonFormBroadcastWa = ({ nomor = '', label = '' }: any) => {
   const [school, setSchool] = useState('');
   const [numbers, setNumbers] = useState(nomor !== '' ? nomor : '');
   const [sendToAll, setSendToAll] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    if (user?.me.schoolId) {
+      setSchool(user?.me.schoolId)
+    }
+  }, [user?.me.schoolId])
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setIsLoading(true); 
+    
+    // ⛔ Validasi manual untuk message
+    if (!message) {
+      setIsLoading(false);
+      Swal.fire({
+        icon: "warning",
+        title: "Pilih pesan terlebih dahulu!",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+      return;
+    }
 
     const numbersArray = numbers.split(',').map((num: any) => num.trim());
 
@@ -78,6 +97,7 @@ const CommonFormBroadcastWa = ({ nomor = '', label = '' }: any) => {
         title: "Gagal Mengirim!",
         text: "Terjadi error, coba lagi nanti.",
         icon: "error",
+        showConfirmButton: false,
         timer: 2000,
         timerProgressBar: true,
       }).then((result) => {
@@ -85,6 +105,9 @@ const CommonFormBroadcastWa = ({ nomor = '', label = '' }: any) => {
           location.reload();
         }
       });
+    } finally {
+      
+    setIsLoading(false)
     }
   };
 
@@ -137,7 +160,7 @@ const CommonFormBroadcastWa = ({ nomor = '', label = '' }: any) => {
 
           <div className="mt-3">
             <Label htmlFor="message" className="text-right">Pesan</Label>
-            <Select onValueChange={setMessage} value={message}>
+            <Select onValueChange={setMessage} value={message} required>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Pilih pesan untuk semua murid tersebut" />
               </SelectTrigger>
@@ -160,9 +183,9 @@ const CommonFormBroadcastWa = ({ nomor = '', label = '' }: any) => {
           </div>
 
           <DialogFooter className="mt-5">
-            <Button type="submit" variant="default" className="w-full">
-              Selesai
-            </Button>
+           <Button type="submit" variant="default" className="w-full" disabled={isLoading}>
+            {isLoading ? 'Loading...' : 'Selesai'}
+          </Button>
           </DialogFooter>
         </form>
       </DialogContent>

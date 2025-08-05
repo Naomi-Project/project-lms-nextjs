@@ -44,11 +44,12 @@ function ListClass<T extends Record<any, any>>(
     <div className={`md:grid ${cleanData.length > 0 ? 'grid-cols-4' : "grid-cols-1"} mt-4 gap-4`}>
     {cleanData.length > 0 ? cleanData.map((dt: any, index: number) => (
     <div className="col-span-1 mt-4" key={index}>
-      <Link href={`/managements/manager/class/cabang/edit/${dt.id}`}>
         <div className="w-full h-full shadow rounded-md bg-white">
           <div className="w-full h-full p-4">
             <div className="flex justify-between">
-              <h1 className="text-base font-bold">{dt.name}</h1>
+              <Link href={`/managements/manager/class/cabang/edit/${dt.id}`}>
+                <h1 className="text-base font-bold">{dt.name}</h1>
+              </Link>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button className="">
@@ -98,7 +99,6 @@ function ListClass<T extends Record<any, any>>(
             </div>
           </div>
         </div>
-      </Link>
     </div>
     )) : (
       <CommonEmpptyData />

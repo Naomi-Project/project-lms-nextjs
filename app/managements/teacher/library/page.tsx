@@ -40,8 +40,8 @@ export default function LibraryTeacher() {
   // ✅ Data untuk kategori filter
   const categories = ["global"];
 
-  // ✅ Filter referensi berdasarkan kategori dan pencarian
   const filteredReferences = data?.references?.filter((item) => {
+    console.log(item)
     // Cek filter kategori
     const categoryMatch = selectedCategory === "global" || item.tags?.includes(selectedCategory);
 
@@ -52,7 +52,7 @@ export default function LibraryTeacher() {
       // item?.author?.name.toLowerCase().includes(searchTerm.toLowerCase());
 
     return categoryMatch && searchMatch;
-  });
+  })?.sort((a, b) => b.createdAt - a.createdAt);
 
   return (
     <div className="min-h-screen">

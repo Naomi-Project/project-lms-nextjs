@@ -91,11 +91,11 @@ export default function StaffTable() {
 
   const dataStaffGlobe: any[] = data?.users?.filter(user => (user.role === "ADMIN" || user.role === "STAFF" || user.role === 'PRINCIPAL')) || [];
   const dataStaff: any[] = data?.users?.filter(usr => (usr.role === "ADMIN" || usr.role === "STAFF" || usr.role === 'PRINCIPAL') && usr.schoolId === user?.me.schoolId) || [];
-
+  
   return (
     <DataTable
       columns={columns}
-      data={user?.me.role === "STAFF" ? dataStaff : dataStaffGlobe}
+      data={(user?.me.role === "STAFF" || user?.me.role === "PRINCIPAL") ? dataStaff : dataStaffGlobe}
       filterName="name"
       filterPlaceholder="Cari Staff.."
     />
