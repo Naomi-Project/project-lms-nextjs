@@ -304,7 +304,7 @@ const DetailPage = () => {
     <div>
       <div className="flex justify-between items-center">
         <h1 className="font-bold">Data Sekolah {fixData.name}</h1>
-        <ButtonExport label="Export Ringkasan Data" endpoint="https://api.lmsyapendik.com/exports/schools" idSchool={id.toString() ?? ''} className="bg-slate-200 text-blue-600 shadow-none hover:text-white" />
+        <ButtonExport label="Export Ringkasan Data" endpoint="/exports/schools" idSchool={id.toString() ?? ''} className="bg-slate-200 text-blue-600 shadow-none hover:text-white" />
       </div>
       {/* dashboard ui */}
       <div>

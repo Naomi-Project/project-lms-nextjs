@@ -26,7 +26,7 @@ const ButtonExport: React.FC<ButtonExportProps> = ({ endpoint, label = "Export",
 
       // Pastikan endpoint dimulai dengan '/' untuk API Route lokal
       // var url = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
-      var url = endpoint;
+      var url = process.env.NEXT_PUBLIC_BE + endpoint;
       if (idSchool) url = url + '?schoolId=' + idSchool
       
       const res = await fetch(url, {

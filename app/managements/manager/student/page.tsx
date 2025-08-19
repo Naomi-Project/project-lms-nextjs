@@ -5,8 +5,9 @@ import ButtonAdd from "@/components/ui/buttonAdd";
 
 
 import { Tabs, TabsContent } from "@/components/ui/tabs";
-import { useGetUsersQuery } from "@/graphql/generated";
+import { useGetUsersQuery, useUserPayloadQuery } from "@/graphql/generated";
 import StudentTable from "./datatable";
+import ButtonImport from "@/components/ui/buttonImport";
 
 
 export default function ManagerStudent() {
@@ -15,10 +16,13 @@ export default function ManagerStudent() {
   const { data: userLoad } = useGetUsersQuery()
   const student = userLoad?.users?.filter((item) => item.role === 'STUDENT')
   const teacher = userLoad?.users?.filter((item) => item.role === 'TEACHER');
-    
+  
   // widget total siswa perempuan dan laki2
   const maleStudent = student?.filter((item) => item.gender === "MALE")
   const femaleStudent = student?.filter((item) => item.gender === "FEMALE")
+  
+  const { data: payload } = useUserPayloadQuery()
+  const schoolid = payload?.me.schoolId ?? null
   return (
     <div className="min-h-screen">
       <div className="md:grid grid-cols-2 gap-4 mt-6">
@@ -99,7 +103,10 @@ export default function ManagerStudent() {
 
       <div className="border-2 rounded-lg bg-white p-5 mt-10">
         <Tabs defaultValue="aktif" className="w-full">
-          <ButtonAdd endpoint="/managements/manager/student/create" />
+          <div className="flex gap-4 flex-wrap">
+            <ButtonAdd endpoint="/managements/manager/student/create" />
+            <ButtonImport endpoint="/import/students" idSchool={schoolid ?? ''} />
+          </div>
           {/* <TabsList className="w-full flex justify-between bg-white">
             <div className="grid grid-cols-1 md:gap-4">
               <div className="col-span-1 ml-1">
