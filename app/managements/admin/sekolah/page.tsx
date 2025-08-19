@@ -19,7 +19,7 @@ export default function SekolahPage() {
             {/* direct to page */}
             <div className="flex gap-4">
               <ButtonAdd endpoint="/managements/admin/sekolah/create" />
-              <ButtonExport label="Export Data Sekolah" className="bg-orange-500 hover:bg-orange-600" endpoint="/api/export-sekolah-all" />
+              <ButtonExport label="Export Data Sekolah" className="bg-orange-500 hover:bg-orange-600" endpoint="https://api.lmsyapendik.com/exports/schools" />
             </div>
             {/* direct to page */}
             <div className="grid grid-cols-1 md:gap-4">
