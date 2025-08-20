@@ -100,7 +100,7 @@ const ButtonImport: React.FC<ButtonImportProps> = ({
     } catch (e: any) {
       setIsImporting(false);
       console.error("Error during import:", e);
-      alert(`Terjadi kesalahan: ${e.message || "Gagal mengimpor data"}`);
+      alert(`Gagal Menimport Data, data sudah ada atau file tidak valid`);
     }
   };
 
