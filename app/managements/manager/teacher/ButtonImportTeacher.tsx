@@ -7,7 +7,7 @@ const ButtonImportTeacher = () => {
   const { data: payload } = useUserPayloadQuery()
   const schoolid = payload?.me.schoolId ?? null
   return (
-    <ButtonImport endpoint="/import/teachers" idSchool={schoolid ?? ''} />
+    <ButtonImport endpoint="/imports/teachers" idSchool={schoolid ?? ''} />
   )
 }
 

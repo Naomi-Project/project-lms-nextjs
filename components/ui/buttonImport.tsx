@@ -87,20 +87,67 @@ const ButtonImport: React.FC<ButtonImportProps> = ({
 
       if (!res.ok) {
         const errorData = await res.json();
+        console.log(errorData)
         throw new Error(
-          `Gagal mengimpor data: ${errorData.error || res.statusText}`
+          `Gagal mengimpor data: ${errorData.message || res.statusText}`
         );
       }
 
       alert("Import berhasil!");
       setFile(null);
       setIsImporting(false);
+      location.reload()
     } catch (e: any) {
       setIsImporting(false);
       console.error("Error during import:", e);
       alert(`Terjadi kesalahan: ${e.message || "Gagal mengimpor data"}`);
     }
   };
+
+  const getSample = async () => {
+     try {
+      const token = localStorage.getItem("authToken");
+
+      if (!token) {
+        setIsImporting(false);
+        alert("Anda perlu login untuk mendapatkan data.");
+        return;
+      }
+
+      let url = process.env.NEXT_PUBLIC_BE + endpoint;
+
+      const res = await fetch(url, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(
+          `Gagal mengimpor data: ${errorData.error || res.statusText}`
+        );
+      }
+
+      
+      // Unduh file dari respons
+      const blob = await res.blob();
+      const filename = res.headers.get('Content-Disposition')?.split('filename=')[1] || 'example-data.csv';
+      const a = document.createElement('a');
+      a.href = window.URL.createObjectURL(blob);
+      a.download = filename.replace(/"/g, ''); // Hapus tanda kutip jika ada
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(a.href);
+
+    } catch (e: any) {
+      setIsImporting(false);
+      console.error("Error during get sample:", e);
+      alert(`Terjadi kesalahan: ${e.message || "Gagal ambil data"}`);
+    }
+  }
 
   return (
     <Dialog>
@@ -113,9 +160,12 @@ const ButtonImport: React.FC<ButtonImportProps> = ({
         <DialogHeader>
           <DialogTitle>Import File</DialogTitle>
         </DialogHeader>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1">
+          <div>
+            <div className="text-sm mb-1">Download Contoh File <span className="text-blue-500 cursor-pointer" onClick={() => getSample()}>Disini.</span></div>
+          </div>
           <Input type="file" accept=".xls,.xlsx,.csv" onChange={handleFileChange} />
-          <span className="text-sm text-gray-400">Hanya boleh file excel dan csv.</span>
+          <span className="text-sm text-gray-400">Hanya boleh file csv.</span>
         </div>
         <DialogFooter>
           <Button

@@ -105,7 +105,7 @@ export default function ManagerStudent() {
         <Tabs defaultValue="aktif" className="w-full">
           <div className="flex gap-4 flex-wrap">
             <ButtonAdd endpoint="/managements/manager/student/create" />
-            <ButtonImport endpoint="/import/students" idSchool={schoolid ?? ''} />
+            <ButtonImport endpoint="/imports/students" idSchool={schoolid ?? ''} />
           </div>
           {/* <TabsList className="w-full flex justify-between bg-white">
             <div className="grid grid-cols-1 md:gap-4">
