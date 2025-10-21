@@ -54,6 +54,7 @@ export default function AdminDashboard() {
   const { data: payload, loading } = useUserPayloadQuery();
   console.log(payload)
   const { data: userLoad, loading: userLoading } = useGetUsersQuery()
+  
   const schoolId = userLoad?.users?.find((item) => item.id === payload?.me?.id)
   const student = userLoad?.users?.filter((item) => item.role === 'STUDENT' && item.schoolId === schoolId?.schoolId) || []
   const teacher = userLoad?.users?.filter((item) => item.role === 'TEACHER' && item.schoolId === schoolId?.schoolId) || []  
@@ -266,10 +267,20 @@ export default function AdminDashboard() {
   //total kelas
   const classroomLength = classrooms?.classrooms?.filter((item) => item?.school?.id === schoolId?.schoolId).length ?? 0
 
+  const [isDataReady, setIsDataReady] = useState(false);
+ 
+  useEffect(() => {
+    if (!loading && !userLoading && !enrolLoading) {
+      setIsDataReady(true);
+    }
+  }, [loading, userLoading, enrolLoading]);
+
+  if (!isDataReady) {
+    return <div>Loading data...</div>;
+  }
   if (loading) return 'loading..'
   if (userLoading) return 'loading..'
   if (enrolLoading) return 'loading..'
-
   return (
     <div className="min-h-screen overflow-x-hidden">
       <div className={payload?.me.role !== "ADMIN" ? 'hidden' : ''}>
