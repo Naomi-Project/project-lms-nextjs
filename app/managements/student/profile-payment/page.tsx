@@ -39,10 +39,20 @@ export default function StudentProfilePayment() {
     const userFind = allUser?.users?.find((item) => item.id === userPayload?.me.id)
     const { data } = useGetEnrollmentsQuery();
     const dataPayment: any[] = data?.enrollments || [];
-    console.log(dataPayment)
     // const paymenttThisMonth = enrollment?.enrollment?.payments?.find((item) => isThisMonth(new Date(parseInt(item.createdAt)))) 
     
     const enrollmentThisUser = dataPayment.filter((item: any) => item.student.nisn === userFind?.nisn)
+    const findHasPayment = enrollmentThisUser[0]?.payments?.find((item: any) => item.invoice !== null && item.status === 'PENDING' && item.method === 'ONLINE' && item.url !== null);
+
+    console.log(enrollmentThisUser)
+    useEffect(() => {
+      if (findHasPayment) {
+        console.log("Found payment with invoice and URL:", findHasPayment);
+        console.log("User has made a payment this month.");
+      } else {
+        console.log("User has not made any payments this month.");
+      }
+    }, [enrollmentThisUser, dataPayment, findHasPayment]);
     
     const invoices = enrollmentThisUser[0]?.payments?.filter((item: any) => item.updatedAt && isThisMonth(new Date(parseInt(item.updatedAt))) && item.status === 'PAID').map((item: any) => ({
       ...item,
@@ -291,10 +301,20 @@ export default function StudentProfilePayment() {
                 </DialogDescription>
               </DialogHeader>
               <div className="flex flex-col gap-4 py-4">
+                {
+                  findHasPayment && (
+                    <div className="p-4 bg-blue-100 border-l-4 border-blue-500 text-blue-700" role="alert">
+                      <p className="font-bold">Perhatian!</p>
+                      <p className="text-sm">Ada pembayaran yang belum diselesaikan.</p>
+                      <Button type="button" className="mt-2" onClick={() => window.open(findHasPayment.url)}>Selesaikan Sekarang.</Button>
+                    </div>
+                  )
+                }
                 {invoicesNonPaid && invoicesNonPaid.length > 0 ? invoicesNonPaid.map((invoice: any, index: number) => (
-                      <div className=" border py-5 px-3 rounded-md border-gray-300 flex items-start space-x-2" key={index}>
+                      <div className={` border py-5 px-3 rounded-md ${findHasPayment ? "!text-gray-300" : ""} flex items-start space-x-2`} key={index}>
                         <Checkbox id="terms" className="" 
                           checked={isChecked(invoice.paymentId)}
+                          disabled={findHasPayment ? true : false}
                           onCheckedChange={(checked) => 
                             setCheckout(invoice.paymentId, checked as boolean)
                           }
@@ -306,7 +326,7 @@ export default function StudentProfilePayment() {
                           >
                             {invoice.name}
                           </label>
-                          <label className="text-sm text-gray-500">
+                          <label className={`text-sm ${findHasPayment ? "!text-gray-300" : "text-gray-500"}`}>
                             {invoice.amount}
                           </label>
 
@@ -319,7 +339,7 @@ export default function StudentProfilePayment() {
                   )}
               </div>
               <DialogFooter>
-                <Button type="button" onClick={() => checkoutSpp(dataPayment?.find((item: any) => item.student.nisn === userFind?.nisn).id)} className="w-full">Continue</Button>
+                <Button type="button" className={`w-full ${findHasPayment ? "!opacity-50 cursor-not-allowed" : ""}`} onClick={() => checkoutSpp(dataPayment?.find((item: any) => item.student.nisn === userFind?.nisn).id)} disabled={findHasPayment}>Selanjutnya</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
