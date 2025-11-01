@@ -52,59 +52,59 @@ export default function AdminDashboard() {
   const { data, loading: enrolLoading } = useGetEnrollmentsQuery();
   const { data: payload, loading } = useUserPayloadQuery();
   const { data: userLoad, loading: userLoading } = useGetUsersQuery()
+
   const schoolId = userLoad?.users?.find((item) => item.id === payload?.me?.id)
   const student = userLoad?.users?.filter((item) => item.role === 'STUDENT' && item.schoolId === schoolId?.schoolId) || []
-  const teacher = userLoad?.users?.filter((item) => item.role === 'TEACHER' && item.schoolId === schoolId?.schoolId) || []  
+  const teacher = userLoad?.users?.filter((item) => item.role === 'TEACHER' && item.schoolId === schoolId?.schoolId) || []
 
 
-  const enrollmentThisSchool = useMemo(() => {
-    return data?.enrollments?.filter((item) => item?.student?.schoolId === (schoolId?.schoolId ?? ''))
-  }, [data?.enrollments, schoolId])
-  
-  const enrollmentsThisMonth = useMemo(() => {
-    return enrollmentThisSchool?.map(enrollment => ({
-      ...enrollment,
-      payments: enrollment.payments || [],
-    })) || [];
-  }, [data?.enrollments]);
+  // ✅ tanpa useMemo
+  const enrollmentThisSchool = data?.enrollments?.filter(
+    (item) => item?.student?.schoolId === (schoolId?.schoolId ?? '')
+  ) || []
 
-  const studentsPaid = useMemo(() => {
-    return enrollmentsThisMonth.filter((item: any) =>
-      item?.payments?.some((payment: any) => payment?.status === 'PAID')
-    );
-  }, [enrollmentsThisMonth]);
 
-  const studentsNotPaid = useMemo(() => {
-    return enrollmentsThisMonth.filter((item: any) =>
-      item?.payments?.find((payment: any) => payment?.status === 'PENDING')
-    );
-  }, [enrollmentsThisMonth]);
+  // ✅ tanpa useMemo
+  const enrollmentsThisMonth = enrollmentThisSchool.map((enrollment) => ({
+    ...enrollment,
+    payments: enrollment.payments || [],
+  }));
 
-  const totalSppSudahTerbayar = useMemo(() => {
-    return studentsPaid?.reduce((total: any, student: any) => {
-      // Hitung semua pembayaran PAID untuk student ini
-      const paidAmount = student.payments?.reduce((studentTotal: any, payment: any) => {
-        return payment.status === 'PAID' 
-          ? studentTotal + (payment.amount || 0) 
-          : studentTotal;
-      }, 0) || 0;
-      
-      return total + paidAmount;
+
+  // ✅ tanpa useMemo
+  const studentsPaid = enrollmentsThisMonth.filter((item: any) =>
+    item?.payments?.some((payment: any) => payment?.status === 'PAID')
+  );
+
+
+  // ✅ tanpa useMemo
+  const studentsNotPaid = enrollmentsThisMonth.filter((item: any) =>
+    item?.payments?.some((payment: any) => payment?.status === 'PENDING')
+  );
+
+
+  // ✅ tanpa useMemo
+  const totalSppSudahTerbayar = studentsPaid.reduce((total: any, student: any) => {
+    const paidAmount = student.payments?.reduce((studentTotal: any, payment: any) => {
+      return payment.status === 'PAID'
+        ? studentTotal + (payment.amount || 0)
+        : studentTotal;
     }, 0) || 0;
-  }, [studentsPaid]);
 
-  const totalSppBelumTerbayar = useMemo(() => {
-    return studentsNotPaid?.reduce((total: any, student: any) => {
-      // Hitung total pembayaran pending untuk setiap student
-      const studentPendingPayments = student.payments?.reduce((studentTotal: any, payment: any) => {
-        return payment.status === 'PENDING' 
-          ? studentTotal + (payment.amount || 0) 
-          : studentTotal;
-      }, 0) || 0;
-      
-      return total + studentPendingPayments;
+    return total + paidAmount;
+  }, 0);
+
+
+  // ✅ tanpa useMemo
+  const totalSppBelumTerbayar = studentsNotPaid.reduce((total: any, student: any) => {
+    const studentPendingPayments = student.payments?.reduce((studentTotal: any, payment: any) => {
+      return payment.status === 'PENDING'
+        ? studentTotal + (payment.amount || 0)
+        : studentTotal;
     }, 0) || 0;
-  }, [studentsNotPaid]);
+
+    return total + studentPendingPayments;
+  }, 0);
 
   const [selectedSchool, setSelectedSchool] = useState<string | null>(null);
   const [selectedYear, setSelectedYear] = useState<string>("semua_tahun");
