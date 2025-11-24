@@ -11,18 +11,18 @@ import ButtonImport from "@/components/ui/buttonImport";
 
 
 export default function ManagerStudent() {
+  const { data: payload } = useUserPayloadQuery()
+  const schoolid = payload?.me.schoolId ?? null
 
   // widget total guru dan murid
   const { data: userLoad } = useGetUsersQuery()
-  const student = userLoad?.users?.filter((item) => item.role === 'STUDENT')
-  const teacher = userLoad?.users?.filter((item) => item.role === 'TEACHER');
+  const student = userLoad?.users?.filter((item) => item.role === 'STUDENT' && item.schoolId === schoolid)
+  const teacher = userLoad?.users?.filter((item) => item.role === 'TEACHER' && item.schoolId === schoolid);
   
   // widget total siswa perempuan dan laki2
   const maleStudent = student?.filter((item) => item.gender === "MALE")
   const femaleStudent = student?.filter((item) => item.gender === "FEMALE")
   
-  const { data: payload } = useUserPayloadQuery()
-  const schoolid = payload?.me.schoolId ?? null
   return (
     <div className="min-h-screen">
       <div className="md:grid grid-cols-2 gap-4 mt-6">

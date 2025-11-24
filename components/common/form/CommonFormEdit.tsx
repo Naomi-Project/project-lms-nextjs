@@ -73,8 +73,8 @@ export interface CommonFormEditProps<T extends Record<any, any>> {
 export function CommonFormEdit<T extends Record<any, any>>(
   props: CommonFormEditProps<T>
 ) {
-  // ambil data yang sudah terfilter sbelumnya dan masukan ke state
   const [dataGet, setDataGet] = useState(props.dataGet);
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const form = useForm<z.infer<typeof props.schema>>({
     resolver: zodResolver(props.schema),
@@ -94,9 +94,10 @@ export function CommonFormEdit<T extends Record<any, any>>(
         ...prevState,
         ...values,
       };
-
+      setIsSubmit(true)
       if (props.isEditCabangKelas == true) {
         updateClass(updatedData)
+        setIsSubmit(false)
         return
       }
 
@@ -151,6 +152,7 @@ export function CommonFormEdit<T extends Record<any, any>>(
 
     const resClass = res?.data?.updateClassroom;
     if (!resClass?.id) {
+    setIsSubmit(false)
       throw new Error("Gagal mendapatkan ID kelas.");
     }
 
@@ -206,6 +208,7 @@ export function CommonFormEdit<T extends Record<any, any>>(
   } catch (er) {
     console.log(er);
     alert(er);
+    setIsSubmit(false)
   }
 };
 
@@ -250,6 +253,7 @@ export function CommonFormEdit<T extends Record<any, any>>(
         });
       }
     } catch (err) {
+    setIsSubmit(false)
       console.error("Error updating data:", err);
     }
   };
@@ -432,7 +436,7 @@ export function CommonFormEdit<T extends Record<any, any>>(
                   ))}
                 </div>
               ))}
-              <Button type="submit">Save Changes</Button>
+              <Button type="submit" onClick={() => setIsSubmit(!isSubmit)}>{isSubmit ? 'Loading..' : 'Save Changes'}</Button>
             </form>
           </Form>
         </div>
